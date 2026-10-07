@@ -18,6 +18,9 @@ The board must stay readable at phone size. Keep cell boundaries, ports, directi
 | --- | --- | --- |
 | Enemy and boss illustrations | Image generation followed by art refinement | Separate transparent PNGs, with consistent scale and foot anchor |
 | Crypt environment | Painted/generated scene, refined into layers | Background, floor, and optional foreground PNG layers |
+| Home tower | Separate painted/generated illustration following approved Home composition | Source master and portrait runtime background; no baked controls; RC-015 |
+| Home logo and reusable menu states | Refined in-game wordmark and Godot theme | Separate logo layer plus live button labels and states; RC-013; distribution identity RC-051 |
+| Parchment route | Reusable parchment, node symbols and connection treatments | Separate art and live route overlays; RC-041; behavior RC-025 |
 | Rune and navigation symbols | Precise vector drawing | Editable SVG source and tested runtime imports |
 | Wire and circuit geometry | Godot drawing code or exact vector shapes | Consistent edge port coordinates |
 | Frames and buttons | Reusable painted or vector frames | PNG/SVG and Godot themes; scalable borders |
@@ -49,4 +52,6 @@ Do not crop the complete mockup into a single game background. Never bake health
 - Technique: #BA9BEF
 
 The inventory in asset-inventory.csv tracks what is reference material, a placeholder, or still needed. Final character animations, music, and production sound effects have not been generated.
+
+The [v1 specification](v1-design-spec.md) and [content roster](content-roster.md) bound production to five character packs, one layered crypt with simple lighting variants, separate Home art, reusable UI/map assets, core effects/SFX, two music loops and ambience. Shadeling is proposed as the introductory normal enemy; its reference label is not a guardian commitment. RC-010 owns the full manifest expansion and production contracts. Screen behavior belongs to RC-025/RC-028/RC-032, with complete art integration in RC-042.
 

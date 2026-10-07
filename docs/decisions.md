@@ -34,22 +34,38 @@
 - A single combined damage total is released at End.
 - Replacing an installed rune returns it to hand during preparation.
 - A directional wire can be flipped as well as rotated.
-- Reset the board between future encounters while retaining the player's collection; this is a planned rule, not implemented progression.
 
 These defaults allow playtesting. They are not claims that balance or the full game's rules are final.
 
-## Questions for later milestones
+## RC-002 proposed release defaults — October 8, 2026
 
-| Decision | Why it matters |
+The owner confirmed RC-001 complete; its checkpoint is `64930fc` (`Initial commit`). RC-002 defines a release proposal in [v1-design-spec.md](v1-design-spec.md) and [content-roster.md](content-roster.md). It does not implement gameplay or confer owner approval on new functional decisions.
+
+| Proposal | Reason and owning task |
 | --- | --- |
-| Permanent effects versus effects consumed after each cast | Determines the importance of new hands and how often circuits change |
-| Additional Split pieces and their limits | Determines whether repeated multiplication dominates builds |
-| Different port shapes on effect runes | May create more meaningful spatial choices |
-| Damage as one hit versus several copies | Affects armour, on-hit effects, and targeting |
-| Production application identifiers and studio name | Needed before distributable mobile builds |
-| iOS signing team and access to a Mac | Needed for device builds and distribution |
-| Mobile long-press inspection and safe areas | Needed before touch-device acceptance |
-| Reset versus retain a core circuit between encounters | Affects run pacing and ownership |
+| Retain the original content budget; default nine rooms inside 8–10 | One loadout/theme, five enemies, four boards, twelve permanent definitions plus Free Spark, six relics/four events/eight single-rank upgrades keeps production bounded. RC-009/RC-034–RC-036 author it; RC-045 measures the 15–25 minute target. |
+| Shadeling is an introductory normal enemy | Reuses the training encounter and first style pilot; simple telegraphed attacks teach circuits. The reference's BOSS label is illustrative. A separate guardian supplies the climax. Preserve `training_shadeling` and existing `shadeling` asset ID. RC-014/RC-034. |
+| One local active run; offline English; no persistent power progression | Start each run with the existing eight-card loadout, 30 health, three energy/draw, zero relics/Gold. Gold is run-only. No extra currency/account system. RC-024/RC-036. |
+| Interrupted combat replays the committed battle entry | Avoid partial-turn serialization while preserving completed-room progress and seeded offers. Save terminal outcomes and room transactions exactly once. RC-028/RC-047. |
+| Menu Quit returns Home and keeps progress | Confirm loss of current battle preparation/replay when relevant. Separate confirmed Abandon action belongs in Map run details. RC-032. |
+| Menu Shop is available only in the current unresolved shop room | Preserves route/economy choices and the four approved menu buttons. Elsewhere disabled with explanation; no global or real-money store. RC-029/RC-032. |
+| Shared Options and explicit Home save states | Same audio/reduced-motion preferences from Home/Menu; no-save, valid-save and invalid-save states; confirm New Run replacing progress. RC-020/RC-028/RC-032/RC-044. |
+| Separate Home tower illustration and in-game logo | RC-015 produces Home art alongside crypt layers, RC-013 produces logo/theme, RC-041 parchment/map art; RC-032/RC-042 integrate. RC-051 handles final distribution identity. Detailed manifest remains RC-010. |
+
+The [external prerequisite register](v1-design-spec.md#external-prerequisites-and-owner-inputs) records unknown Android devices, Mac/Xcode/iOS devices, distribution/signing access, production identity/IDs and human participants with task owners. Unknown access does not block RC-002. Exact OS/device support is selected during RC-021/RC-022, not inferred from the desktop preview. Trailer, translation, extra music/biomes/characters and other expansion features are deferred as specified.
+
+## Questions reserved for RC-005/RC-006
+
+| Decision | Current prototype / outstanding choice |
+| --- | --- |
+| Persistent versus consumed effect runes | Ordinary effects currently persist; compare cast consumption and its destination without deleting run ownership. |
+| Additional Split limits and costs | One Split/Join, Split costs 1 per cast today; extra inventory and costs are undecided. |
+| Alternate effect ports and board constraints | Fixed endpoints and straight effect ports, no obstacles today; compare variants and known valid solutions. |
+| Single-hit versus multi-hit | One aggregate hit today; no hit-count/targeting/status system is authorized by the roster. |
+| Temporary-rune expiry geometry | Installed temporaries become straight wire with current rotation today; alternate-port cleanup needs evidence. |
+| Reset versus retain circuit between encounters | No progression today. Reset board/retain collection is an earlier **planned default**, still undecided; compare paired encounters before implementation. |
+
+The [experiment matrix](v1-design-spec.md#experiments-deliberately-left-open) records affected content, evidence and ownership for all six. RC-005 builds controlled scenarios, RC-006 records human evidence and decides, RC-007 implements. Stable roster IDs describe useful roles under either outcome; new effect types and relic hooks require explicit implementation, not JSON alone. Inspection and safe areas are assigned to RC-008/RC-044 and device tasks.
 
 ## Changes that need playtesting
 

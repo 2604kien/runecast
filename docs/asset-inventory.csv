@@ -4,7 +4,7 @@ reference_home,reference,Final approved Home screen,approved reference,output/im
 reference_map,reference,Final approved Map without legend,approved reference,output/imagegen/approved/map.png
 reference_menu,reference,Final approved Menu with navy Quit,approved reference,output/imagegen/approved/menu.png
 app_icon,ui,Prototype circuit app icon,vector placeholder,assets/ui/app_icon.svg
-shadeling,enemies,Centered full body boss with transparent background,needed,assets/enemies/
+shadeling,enemies,Centered full body Shadeling proposed introductory normal enemy per RC-002,needed,assets/enemies/
 crypt,environments,Layered cartoon crypt and floor,needed,assets/environments/
 arena_placeholder,environment,Code drawn training arena and enemy,implemented placeholder,scripts/ui/arena.gd
 board_cells,ui,Sockets and selection styling,implemented placeholder,scripts/ui/board_cell.gd

@@ -47,6 +47,8 @@ The screenshot is saved to `output/qa/foundation-screen.png`. Logs also go to `o
 
 ## Project documentation
 
+- [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
+- [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Game description](docs/game-design.md)
 - [Gameplay rules](docs/gameplay-rules.md)
 - [Decisions and open questions](docs/decisions.md)

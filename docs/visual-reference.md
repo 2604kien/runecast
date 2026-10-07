@@ -9,7 +9,7 @@ The user approved the following four attached images as the final visual referen
 | Map | [map.png](../output/imagegen/approved/map.png) | Parchment branching route, turquoise current node, gold next choices, completed checks; no encounter legend strip |
 | Menu | [menu.png](../output/imagegen/approved/menu.png) | Centered overlay over dimmed gameplay; Resume, Options, Shop, Quit; turquoise Resume; matching navy Options, Shop and Quit |
 
-Approval establishes the visual target. These flattened references do not implement screen behaviour, finalise balance values, or replace production assets. The Godot foundation still uses placeholders. Continue represents an available saved run; the first-launch state without a save still needs implementation. The Shop button's destination and availability need gameplay definition.
+Approval establishes the visual target. These flattened references do not implement screen behaviour, finalise balance values, or replace production assets. The Godot foundation still uses placeholders. RC-002's [screen behavior contract](v1-design-spec.md#approved-screen-composition-and-proposed-behavior) proposes no-save/valid-save/invalid-save Home states, confirmation flows, inspection and Pass turn, map node states, shared Options, and Menu Quit/Shop behavior. These functional defaults remain proposals requiring later implementation; the image approval covers visual requirements only.
 
 ![Approved Rune Cast gameplay composition](../output/imagegen/approved/combat.png)
 
@@ -24,7 +24,7 @@ Approval establishes the visual target. These flattened references do not implem
 ## Layout to preserve
 
 1. Slim title and floor header.
-2. Enemy-only side-view arena; intent above the centered boss, name and health below.
+2. Enemy-only side-view arena; intent above the centered enemy, name and health below. The reference's BOSS label does not fix Shadeling's roster role; RC-002 recommends an introductory normal enemy and separate final guardian.
 3. Player health, energy, and turn.
 4. Circuit status and a square 4 by 4 board.
 5. Reusable wiring tools.
