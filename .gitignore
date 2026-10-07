@@ -1,0 +1,20 @@
+.godot/
+.tools/
+.local/
+builds/
+# Keep the two reviewed baseline captures; other QA output is local.
+/output/qa/*
+!/output/qa/foundation-screen.png
+!/output/qa/foundation-screen-2026-10-07.png
+*.log
+*.tmp
+.DS_Store
+export_credentials.cfg
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.p8
+*.mobileprovision
+*.provisionprofile
+

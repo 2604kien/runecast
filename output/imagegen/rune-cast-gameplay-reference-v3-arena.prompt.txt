@@ -1,0 +1,35 @@
+Use case: precise-object-edit / ui-mockup.
+Create an updated portrait Rune Cast mobile gameplay screen from the two supplied references.
+IMAGE 1 is the existing cartoon Rune Cast screen to redesign.
+IMAGE 2 is a Slay the Spire battle screenshot, used ONLY as the reference for side-view battle staging, full-body enemy scale, ground plane, and enemy intent/health placement. Do not copy its player character, cards, enemy character, logo, or numerical UI.
+
+THREE REQUIRED CHANGES:
+1. Replace the close-up enemy portrait with a proper SIDE-VIEW BATTLE ARENA. Show only ONE original full-body cartoon boss, the masked lantern-bearing Shadeling from image 1, standing on the ground in the center-right of a spacious crypt scene. Entire body and feet visible, facing left toward the unseen player. Leave atmospheric arena space to its left. Absolutely NO player character, hero silhouette, hands, companion or second enemy. Stage it like a Slay the Spire encounter: enemy intent floats above the boss; name and health bar sit beneath its feet. It must read as a character standing inside a game environment, not a portrait or splash art.
+2. Give this boss arena substantially MORE VERTICAL SPACE: approximately 34-36 percent of the entire tall screen beneath a slim title bar. Include a clearly visible floor, tall crypt pillars, arches, painted candles and depth. Full-body boss should occupy roughly two-thirds of the arena height. Move the board down and tighten surrounding UI to make this generous encounter space possible.
+3. REPLACE the tall card hand with a compact "RUNES" section containing THREE square engraved rune tiles. Each tile contains ONLY THREE THINGS: rune NAME, rune SYMBOL, and one effect VALUE. Exactly:
+   Spark — amber sunburst symbol — 6
+   Shield — green shield symbol — 5
+   Focus — violet open-book symbol — 2
+Place the name at the top, large symbol in the middle and bold value below. No energy badges, no descriptive sentences, no RUNE or TECHNIQUE type labels, no card-like proportions, no extra labels on these three tiles. Remove the old tall cards, draw/discard card stacks and the Conjure Spark battle-log line. This is a visual simplification of the available rune selection.
+
+OVERALL DESIGN:
+Keep the established hand-painted cartoon style from image 1: strong dark outlines, angular expressive shapes, broad matte painted shadows, simplified indigo/violet crypt stone, warm gold accents, orange lantern light, turquoise magic, readable cream lettering. Similar in illustrative feel to Slay the Spire. Original Rune Cast art and interface. No realism, no intricate photographic textures, no glossy 3D materials. One finished full-bleed tall mobile screen, same approximate 9:20 portrait aspect ratio, no physical phone frame or external annotations.
+Make the fight scene feel much more spacious. Slim the heading, player stat strip, wiring toolbar and bottom controls. The square 4x4 board may be slightly narrower than before but remains easily readable and centered. Approximate vertical allocation: title 3%, boss arena 35%, player stats/circuit status 5%, square board 32%, wiring toolbar 6%, compact rune tiles 10%, forecast/Cast controls 9%. Do not cut off content.
+
+PRESERVE THESE GAMEPLAY DETAILS:
+Title "RUNE CAST"; floor "Floor 3 · Ashen Crypt"; pause icon.
+Boss named "Shadeling", small "BOSS" label, health "32/32" beneath boss, sword intent "8" above boss. Player health "24/30", energy "3/3", "Turn 2" in compact status strip below the arena.
+Small green check "CIRCUIT COMPLETE" immediately above the board.
+Exactly FOUR ROWS AND FOUR COLUMNS, sixteen distinct square sockets, with this same exact circuit:
+r1c1 BEGIN, output east.
+r1c2 SPARK, damage6, small cost0 badge, TEMP tag, input west output east.
+r1c3 SPLIT, small cost1 badge, input west, outputs east AND south.
+r1c4 corner wire, west to south.
+r2c1 and r2c2 empty; r2c3 and r2c4 vertical wires pointing south, each branch displays6.
+r3c1 and r3c2 empty; r3c3 JOIN with inputs north and east, output south; r3c4 corner wire north to west into Join.
+r4c1 and r4c2 empty; r4c3 END with input north, total12; r4c4 empty.
+Nine occupied cells and seven empty cells. Both branches merge into Join and then End. No diagonal connections, no crossed wires, no new paths, no added runes. Gold directional flow arrows must clearly communicate this topology. The compact rune-selection tiles at the bottom have only names/symbols/values, but the BOARD's existing cost badges and TEMP tag remain.
+Below board keep a compact WIRING tray: Straight infinity, Corner infinity, Split0/1, Join0/1, undo icon, rotate icon. Basic wires and special pieces stay visually distinct.
+Below wiring put the new RUNES section described above.
+Bottom forecast reads "12 DAMAGE", "0 SHIELD", "COST 1", and "Incoming: 8". Wide teal CAST button with gem1, small footer "Cast ends turn".
+Use concise readable exact text, clear hierarchy and large touch targets. All changes should feel intentional and production-quality. The most noticeable changes versus image 1 must be the generous full-body enemy-only battle arena and the simple square rune tiles.

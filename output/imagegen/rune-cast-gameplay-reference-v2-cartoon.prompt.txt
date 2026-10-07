@@ -1,0 +1,22 @@
+Use case: style-transfer / ui-mockup.
+Image 1 is the edit target: an existing Rune Cast portrait mobile gameplay reference. Restyle the ENTIRE screen into a cohesive hand-painted 2D cartoon game aesthetic similar to Slay the Spire. This is a significant art-direction change, not a subtle filter. Preserve the gameplay layout, all displayed information, the 4x4 grid, every placed piece, every connection, card identities, and numerical values exactly.
+
+ART DIRECTION:
+Bold, slightly irregular dark outlines; exaggerated readable silhouettes; broad matte color shapes; simple two- or three-tone painted shading; restrained brush texture; expressive storybook dark fantasy. Charming and eerie rather than realistic horror. Give the Shadeling a memorable stylized mask, elongated angular limbs, oversized cloak shapes, and a warm simplified lantern. Keep its skeletal masked identity and lantern but redraw it as original cartoon enemy art. The crypt should use broad desaturated violet and blue stone shapes and simple orange candlelight. Use the readable, illustrative feel of Slay the Spire without importing its characters, logos, card frames, or interface assets.
+
+Redesign all decorative UI surfaces to match: simplified chunky dark outlines, muted indigo/blue stone tiles, warm parchment labels, hand-painted brass or wood accents, saturated amber spell paths, turquoise source/end sockets, and a clear teal Cast button. Remove the photorealistic carved-stone detail, shiny metal bevels, excessive grunge, and cinematic 3D rendering of the current target. Color and silhouette should carry the hierarchy. Card illustrations and energy gems should also become flat hand-painted cartoon symbols. The whole screen should look like one coherent, professionally illustrated 2D indie game, not cartoon artwork inserted into a realistic interface.
+
+HARD INVARIANTS:
+Maintain the same tall portrait aspect ratio and entire visible screen, without cropping. Keep the title "RUNE CAST", "Floor 3 · Ashen Crypt", the Shadeling 32/32 health and ATTACK 8 intent, player health 24/30, energy 3/3, Turn 2, and "CIRCUIT COMPLETE".
+Exactly 4 rows x 4 columns. Preserve this exact circuit:
+r1c1 BEGIN -> r1c2 SPARK with damage 6, cost 0 and TEMP -> r1c3 SPLIT cost 1.
+Split has outputs EAST to r1c4 corner and SOUTH to r2c3 vertical wire.
+The first branch goes r1c3 -> r2c3 -> r3c3 JOIN.
+The other branch goes r1c3 -> r1c4 corner -> r2c4 vertical -> r3c4 corner -> r3c3 JOIN.
+JOIN then goes SOUTH to r4c3 END, result 12. Each branch shows 6. All other seven cells are empty. Keep all directional arrows and connections readable. No added paths or runes.
+Keep the WIRING tray with Straight infinity, Corner infinity, Split 0/1, Join 0/1, Undo and Rotate.
+Keep battle log "Conjure Spark created a free Spark".
+Keep three hand cards: Spark, RUNE, cost 2, "Add 6 damage."; Shield, RUNE, cost 1, "Add 5 shield."; Focus, TECHNIQUE, cost 1, "Draw 2 cards." Keep the draw pile 8 and discard pile 5.
+Keep forecast "12 DAMAGE", "0 SHIELD", "COST 1", "Incoming: 8", and large "CAST" button with energy cost 1, footer "Cast ends turn".
+
+Use crisp readable lettering, generous touch targets, and the same practical layout. This is a finished mobile game visual reference. Change the art style thoroughly while preserving the playable state precisely.

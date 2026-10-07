@@ -1,0 +1,49 @@
+{
+  "spark": {
+    "name": "Spark",
+    "symbol": "*",
+    "value": 6,
+    "cost": 2,
+    "type": "rune",
+    "effect": "damage",
+    "color": "#efb553"
+  },
+  "shield": {
+    "name": "Shield",
+    "symbol": "<>",
+    "value": 5,
+    "cost": 1,
+    "type": "rune",
+    "effect": "shield",
+    "color": "#82d6a0"
+  },
+  "focus": {
+    "name": "Focus",
+    "symbol": "?",
+    "value": 2,
+    "cost": 1,
+    "type": "technique",
+    "effect": "draw",
+    "color": "#ba9bef"
+  },
+  "conjure": {
+    "name": "Conjure Spark",
+    "symbol": "+",
+    "value": 1,
+    "cost": 0,
+    "type": "technique",
+    "effect": "conjure",
+    "color": "#ba9bef"
+  },
+  "free_spark": {
+    "name": "Free Spark",
+    "symbol": "*",
+    "value": 6,
+    "cost": 0,
+    "type": "rune",
+    "effect": "damage",
+    "temporary": true,
+    "color": "#efb553"
+  }
+}
+

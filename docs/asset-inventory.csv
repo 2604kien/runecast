@@ -1,0 +1,18 @@
+id,category,description,status,source_or_destination
+reference_combat,reference,Final approved combat composition,approved reference,output/imagegen/approved/combat.png
+reference_home,reference,Final approved Home screen,approved reference,output/imagegen/approved/home.png
+reference_map,reference,Final approved Map without legend,approved reference,output/imagegen/approved/map.png
+reference_menu,reference,Final approved Menu with navy Quit,approved reference,output/imagegen/approved/menu.png
+app_icon,ui,Prototype circuit app icon,vector placeholder,assets/ui/app_icon.svg
+shadeling,enemies,Centered full body boss with transparent background,needed,assets/enemies/
+crypt,environments,Layered cartoon crypt and floor,needed,assets/environments/
+arena_placeholder,environment,Code drawn training arena and enemy,implemented placeholder,scripts/ui/arena.gd
+board_cells,ui,Sockets and selection styling,implemented placeholder,scripts/ui/board_cell.gd
+circuit_geometry,ui,Ports wires arrows split and join,implemented placeholder,scripts/ui/board_cell.gd
+rune_symbols,ui,Spark Shield Focus and Conjure symbols,placeholder text,data/runes.json
+navigation_icons,ui,Menu Map Guide Sound icons,needed,assets/ui/
+ui_frames,ui,Reusable painted frames and button states,needed,assets/ui/
+cast_audio,audio,Short cast sound,generated placeholder tone,scripts/ui/main.gd
+music,audio,Combat and exploration music,needed,assets/audio/
+enemy_animation,animation,Idle hit attack and defeat,needed,assets/enemies/
+

@@ -1,0 +1,73 @@
+Use case: ui-mockup.
+Create one polished portrait mobile gameplay visual reference showing the MAP SCREEN of RUNE CAST.
+Image 1 is the existing Rune Cast gameplay screenshot: use its original cartoon art direction, indigo stone and warm gold UI frames, cream lettering, title style, and bottom navigation.
+Image 2 is a Slay the Spire map screenshot: use it as a reference for the readable branching route structure, hand-drawn encounter symbols, dashed paths, and parchment surface. Do not copy its interface, exact map, characters, symbols or numerical values.
+
+This is the screen after the player taps Map. Make a complete game interface, not an explanatory poster, and not a browser/phone mockup. Tall portrait approximately 9:20 aspect ratio, matching Image 1. No combat arena, player character, rune board, rune hand or Cast button on this screen.
+
+VISUAL STYLE:
+Original hand-painted cartoon fantasy. Bold irregular outlines, restrained brush texture, matte surfaces, chunky dark blue stone border with modest warm gold trim. Large warm ivory parchment map with subtly ragged edges, faint tower sketches near the margins, generous uncluttered negative space. Dark indigo ink node icons and gently curving dotted/dashed connections. High contrast and phone-scale legibility. Keep decoration away from paths and nodes. Avoid realistic aged paper, tiny dense text or 3D materials.
+
+TOP INTERFACE:
+Slim title bar with "RUNE CAST" on the left and a close X button on the right.
+Below, a compact status strip with red heart "24/30", gold coin pouch "120", and stairs symbol "Depth 3".
+Centered heading "TOWER MAP" and smaller "Ashen Crypt".
+The parchment branching map occupies most of the screen, approximately 70 percent of its height.
+
+MAP CONTENT AND STATES:
+This is a route-planning diagram progressing from its bottom toward a final boss at the top, not a literal cross-section of the descending tower.
+Use original, easily distinguished hand-drawn symbols:
+Battle = crossed swords.
+Elite = horned skull.
+Rest = small campfire.
+Shop = coin pouch.
+Event = question mark.
+Treasure = closed chest.
+Boss = large angular hooded guardian mask inside a bold ink circle.
+
+Make a coherent directed progression with no isolated encounters. Arrange the following nine tiers from bottom to top, with staggered positions and plenty of space between icons. The map should feel organic rather than an obvious rigid grid.
+Tier 1, bottom center: completed Battle.
+Tier 2: completed Rest at left and a muted unvisited Battle at right.
+Tier 3, center: current Event. This node is surrounded by a distinctive TURQUOISE ring with a small turquoise diamond marker and label "YOU ARE HERE".
+Tier 4: Battle at left and Shop at right. These are the ONLY TWO available next encounters. Both have bright GOLD outlines and subtle gold glow.
+Tier 5: Event at left, Elite at center, Rest at right.
+Tier 6: Treasure at left and Treasure at right.
+Tier 7: Battle at left, Event at center, Elite at right.
+Tier 8: Rest at left and Rest at right.
+Tier 9, top center: large boss mask medallion with the label "CRYPT GUARDIAN".
+
+EXACT CONNECTION LOGIC:
+Tier1 Battle connects to both Tier2 nodes.
+Both Tier2 nodes connect to the Tier3 current Event.
+Tier3 current Event branches into BOTH Tier4 available nodes.
+Tier4 left Battle connects to Tier5 left Event and center Elite.
+Tier4 right Shop connects to Tier5 center Elite and right Rest.
+Tier5 left Event connects to Tier6 left Treasure.
+Tier5 center Elite connects to BOTH Tier6 Treasures.
+Tier5 right Rest connects to Tier6 right Treasure.
+Tier6 left Treasure connects to Tier7 left Battle and center Event.
+Tier6 right Treasure connects to Tier7 center Event and right Elite.
+Tier7 left Battle connects to Tier8 left Rest.
+Tier7 center Event connects to BOTH Tier8 Rests.
+Tier7 right Elite connects to Tier8 right Rest.
+Both Tier8 Rests connect to the Tier9 boss.
+
+STATE COLOUR RULES:
+The visited path is Tier1 -> Tier2 LEFT -> Tier3 current. Show these two travelled edges as solid warm gold strokes and completed nodes with small check marks.
+The two routes from the current Tier3 node to Tier4 options use luminous gold dashed strokes.
+All later connections use subdued indigo-gray dashed lines and clear dark ink encounter symbols. Later nodes have no gold outline or turquoise ring.
+The unchosen Tier2 right Battle and its past edges are faint gray.
+Keep all paths physically attached to their nodes and avoid lines running through unrelated symbols. Do not highlight a complete future route as already chosen.
+
+BOTTOM INTERFACE:
+Below the map, a compact readable legend in two rows: "Battle", "Elite", "Rest", "Shop", "Event", "Treasure", each next to its matching icon.
+One short instruction: "Choose your next encounter".
+Retain the exact four-button bottom navigation style from Image1: "Menu", "Map", "Guide", "Sound", with gold icons above labels. Map is the active tab, shown with a tasteful turquoise highlight. Sound has a speaker with sound waves. Leave a small bottom safe margin.
+
+Text must be accurate and readable. Give encounter nodes comfortable touch target spacing. Do not add explanatory callouts outside the game screen or any unrelated UI. This should look like a finished original Rune Cast map screen, visually consistent with the approved combat screen and clearly inspired by the structure of the supplied map reference.
+
+Refinement 1
+Edit this Rune Cast map screenshot with ONE tiny correction only. Add the missing dark indigo DASHED ROUTE connecting the left Event question-mark node at approximately 28% image width and 47% image height to the Treasure chest node immediately above and slightly right of it at approximately 32% width and 39.5% height. This is the unhighlighted question-mark circle directly above the glowing gold Battle choice, and the left of the two middle treasure chests. Draw a clean gently curved dashed path between the TOP edge of that question-mark circle and the BOTTOM edge of that chest circle, matching the weight, colour, spacing and style of all other future route lines. The Event must have an onward connection to that treasure so it is not a dead end. Preserve every existing node, path, highlight, label, illustration, HUD value, navigation button, border, legend, colour and the exact image dimensions. Do not move, resize, restyle or add anything else.
+
+Refinement 2
+Make ONE precise correction to this map image, keeping everything else unchanged. The right-side Rest CAMPFIRE node (approximately x72%, y47.4% of the whole image), directly above the glowing gold Shop choice, is missing its onward path. Add one dark indigo DASHED LINE from the TOP edge of this campfire icon to the BOTTOM edge of the Treasure CHEST node immediately above and slightly LEFT (approximately x67%, y39.5%). There must be a visible dashed route in the currently blank gap between that campfire's upper flame and the right chest's lower border. Match the existing line weight, ink colour and dash spacing. Keep the already corrected left question-mark-to-chest connection. Preserve ALL nodes, every other connection, typography, highlights, exact positions, artwork, frame, dimensions, and bottom UI. Do not change anything besides adding this single right campfire-to-right treasure connection.

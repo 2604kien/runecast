@@ -1,0 +1,57 @@
+extends Button
+const Circuit = preload("res://scripts/core/circuit.gd")
+var piece: Dictionary = {}
+var catalog: Dictionary = {}
+var active := false
+var chosen := false
+var end_value := 0
+
+func _draw() -> void:
+	var center := size * 0.5
+	if piece.is_empty():
+		return
+	var port := Circuit.ports(piece)
+	var line_color := Color("#ffc76b") if active else Color("#657993")
+	for direction in port.input:
+		var edge := center + Vector2(Circuit.STEP[direction]) * (size * 0.5 - Vector2(3, 3))
+		draw_line(edge, center, line_color, 5, true)
+	for direction in port.output:
+		var vector := Vector2(Circuit.STEP[direction])
+		var edge := center + vector * (size * 0.5 - Vector2(4, 4))
+		draw_line(center, edge, line_color, 5, true)
+		var normal := Vector2(-vector.y, vector.x)
+		draw_colored_polygon(PackedVector2Array([edge, edge - vector * 12 + normal * 6, edge - vector * 12 - normal * 6]), line_color)
+	var name_text: String = piece.kind.to_upper()
+	var symbol := ""
+	var amount := ""
+	var tint := Color("#5be5d2")
+	match piece.kind:
+		"begin": symbol = ">"
+		"end":
+			symbol = "O"
+			amount = str(end_value)
+		"split": symbol = "x2"
+		"join": symbol = "+"
+		"rune":
+			var rune: Dictionary = catalog[piece.rune_id]
+			name_text = "SPARK" if rune.get("temporary", false) else rune.name.to_upper()
+			symbol = rune.symbol
+			amount = str(int(rune.value))
+			tint = Color(rune.color)
+		_: name_text = ""
+	if name_text != "":
+		draw_circle(center, size.x * 0.24, Color("#142535"))
+		var font := get_theme_default_font()
+		_center_text(font, name_text, 19, 14, Color("#eee0bf"))
+		_center_text(font, symbol, center.y + 10, 30, tint)
+		_center_text(font, amount, size.y - 10, 21, tint)
+		if piece.kind in ["split", "rune"]:
+			var cost := 1 if piece.kind == "split" else int(catalog[piece.rune_id].cost)
+			draw_circle(Vector2(size.x - 17, 18), 13, Color("#196090"))
+			draw_string(font, Vector2(size.x - 22, 24), str(cost), HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color.WHITE)
+	if chosen:
+		draw_rect(Rect2(Vector2(2, 2), size - Vector2(4, 4)), Color("#fff0b5"), false, 3)
+
+func _center_text(font: Font, value: String, y: float, font_size: int, color: Color) -> void:
+	draw_string(font, Vector2((size.x - font.get_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x) * 0.5, y), value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
+

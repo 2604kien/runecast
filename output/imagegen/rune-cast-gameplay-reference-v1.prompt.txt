@@ -1,0 +1,38 @@
+Use case: ui-mockup.
+Create one high-fidelity portrait mobile gameplay reference image for the dark-fantasy turn-based roguelike RUNE CAST. This is a new polished illustrated game screen, inspired by the supplied discussion's gothic stone, brass, candles, masked undead enemy, luminous rune board and large touch controls. Make the new Begin-to-End circuit-building mechanic unmistakable. Tall portrait approximately 9:20 aspect ratio, high resolution, full-bleed interface, no physical phone, no surrounding presentation slide, no external annotations. Beautiful hand-painted 2D enemy art, clean highly readable UI, restrained ornate brass framing, charcoal stone, warm candlelight, glowing amber spell paths, teal primary controls. The board must be visually dominant and empty cells must remain empty.
+
+LAYOUT, TOP TO BOTTOM:
+1. Compact title bar: "RUNE CAST", pause icon, "Floor 3 · Ashen Crypt".
+2. Enemy portrait across the upper portion: a sinister skeletal masked Shadeling, ragged dark robe, holding a candle lantern in a crypt. Name "Shadeling", red health bar "32/32", clear sword intent badge "ATTACK 8" and small "Next turn". Keep enemy art compact enough to give the board plenty of space.
+3. Player status strip: heart "24/30", blue energy gem "3/3", "Turn 2". Enemy HP and player HP clearly distinguishable.
+4. Board heading with a green check and the exact phrase "CIRCUIT COMPLETE".
+5. Exactly FOUR columns by FOUR rows of distinct square sockets in one square board. Display the EXACT layout below, with straight orthogonal cell-to-cell glowing paths and arrowheads. Coordinates in this specification are not printed on the image. Nine occupied cells and seven empty recessed stone cells. No other pieces or connections.
+
+EXACT 4x4 BOARD:
+Row 1, column 1: teal source socket labelled "BEGIN", one output pointing EAST.
+Row 1, column 2: amber Spark effect rune labelled "SPARK", sunburst icon, small damage value "6", visible blue cost badge "0", tiny "TEMP" tag. Input WEST, output EAST. This is a generated temporary Spark mounted on a straight connector.
+Row 1, column 3: cyan fork piece labelled "SPLIT", visible cost badge "1". One input WEST, two outgoing arrows EAST and SOUTH. Clearly two outputs, no north port.
+Row 1, column 4: corner wire, input WEST, output SOUTH.
+Row 2, columns 1 and 2: EMPTY.
+Row 2, column 3: straight vertical wire carrying the first copy downward, small floating value "6".
+Row 2, column 4: straight vertical wire carrying the second copy downward, small floating value "6".
+Row 3, columns 1 and 2: EMPTY.
+Row 3, column 3: join piece labelled "JOIN". Inputs from NORTH and EAST. One output SOUTH. Arrows flow inward from both upper and right paths, then downward to End.
+Row 3, column 4: corner wire with input NORTH, output WEST into Join.
+Row 4, columns 1 and 2: EMPTY.
+Row 4, column 3: teal terminal socket labelled "END", input from NORTH and no outputs. Small combined value "12".
+Row 4, column 4: EMPTY.
+
+All neighboring ports align precisely across socket borders. Thus the only network is Begin -> Spark -> Split; Split's first branch goes down one straight to Join; the second branch goes right, down through its own straight, then left to Join; Join goes down to End. Both branches are complete. No diagonal wires, no crossings, no cycles, no ghost connections through empty cells. Spark contributes 6 damage to each branch and the finished spell delivers 12 total. The graph is the centerpiece, not a decorative pattern. Keep internal piece symbols, short labels and arrowheads very clear.
+
+6. Immediately below board, a compact reusable component tray labelled "WIRING". Four tool chips: straight wire icon with "∞"; corner wire icon with "∞"; Split icon with "0/1"; Join icon with "0/1". Here 0/1 means zero pieces remaining in the tray out of one owned, because both special pieces are already installed. Add a small undo icon and a rotate icon. Unlimited basic wires are visually distinct from the finite special pieces.
+7. Hand area. Above cards, small battle-log text: "Conjure Spark created a free Spark". Three readable touch-sized cards:
+   - "Spark", amber sunburst icon, type "RUNE", blue cost badge "2", text "Add 6 damage."
+   - "Shield", green shield icon, type "RUNE", blue cost badge "1", text "Add 5 shield."
+   - "Focus", violet open-book/card icon, type "TECHNIQUE", blue cost badge "1", text "Draw 2 cards."
+Clearly distinguish the purple immediate hand technique from runes that go onto the board. Conjure Spark has already been played; it is not one of the three hand cards. Tiny draw-pile and discard-pile icons can flank the hand if space permits.
+8. A clean forecast strip above the bottom control: "12 DAMAGE" | "0 SHIELD" | "COST 1". A subordinate red line "Incoming: 8". This is the pre-cast preview: Shadeling survives at 20 HP and will attack, so no victory or lethal badge.
+9. One wide, premium-looking teal "CAST" button with a blue energy gem and "1". Small footer "Cast ends turn". No competing End Turn button.
+
+TYPOGRAPHY AND QUALITY:
+Readable high-contrast text at actual phone scale. Elegant restrained serif title, clear modern text for statistics and card descriptions. Render all requested labels accurately; avoid extra invented text. Maintain generous touch target sizes and uncluttered spacing. Show the entire screen without cropped controls. Fantasy atmosphere is concentrated in enemy art and peripheral frames; rune ports, circuit paths, energy numbers, health, card types, supply counts and cast preview have excellent clarity. The result should look like a professional mobile game gameplay screenshot that communicates an actual playable state.
