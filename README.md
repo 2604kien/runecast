@@ -51,6 +51,7 @@ The screenshot is saved to `output/qa/foundation-screen.png`. Logs also go to `o
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Game description](docs/game-design.md)
 - [Gameplay rules](docs/gameplay-rules.md)
+- [Combat/presentation architecture and animation contract](docs/combat-presentation.md)
 - [Decisions and open questions](docs/decisions.md)
 - [Art direction and asset production](docs/art-direction.md)
 - [Final approved visuals — Home, Combat, Map, Menu](docs/visual-reference.md)
@@ -69,7 +70,7 @@ data/             Rune definitions and the training encounter
 docs/             Design, decisions, setup, and production planning
 scenes/           Godot scene entry points
 scripts/core/     Circuit evaluation and combat state
-scripts/ui/       Screen construction and placeholder drawing
+scripts/ui/       Guarded combat controller, presentation adapter and view controls
 tests/            Headless rule checks and UI smoke checks
 tools/            Portable engine setup and launch commands
 output/imagegen/  Visual reference history and generation prompts

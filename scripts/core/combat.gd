@@ -17,6 +17,10 @@ var state := "playing"
 var log_text := "A free Spark is loaded. Cast it or edit the circuit."
 var next_uid := 1
 var rng := RandomNumberGenerator.new()
+var _encounter_id := 0
+var _action_id := 0
+var _events: Array = []
+var _last_result: Dictionary = {}
 
 func _init(seed_value: int = 42) -> void:
 	catalog = JSON.parse_string(FileAccess.get_file_as_string("res://data/runes.json"))
@@ -25,6 +29,9 @@ func _init(seed_value: int = 42) -> void:
 	reset()
 
 func reset() -> void:
+	_encounter_id += 1
+	_events = []
+	_last_result = {}
 	board = Circuit.demo_board()
 	hand.clear()
 	draw_pile.clear()
@@ -42,6 +49,78 @@ func reset() -> void:
 	for id in ["spark", "shield", "focus", "focus", "conjure"]:
 		draw_pile.append(_card(id))
 	_shuffle(draw_pile)
+
+# The UI receives values, never references to authoritative collections.
+func snapshot() -> Dictionary:
+	return {
+		"encounter_id": _encounter_id, "board": board, "hand": hand,
+		"draw_pile": draw_pile, "discard_pile": discard_pile,
+		"catalog": catalog, "encounter": encounter, "player_hp": player_hp,
+		"enemy_hp": enemy_hp, "energy": energy, "turn": turn, "state": state,
+		"log_text": log_text, "intent": intent(), "forecast": forecast(),
+		"stock": {"split": stock("split"), "join": stock("join")},
+		"undo_count": history.size()
+	}.duplicate(true)
+
+func last_result() -> Dictionary:
+	return _last_result.duplicate(true)
+
+# Commands resolve synchronously exactly once. Events only describe that work.
+func execute(command: String, arguments: Dictionary = {}) -> Dictionary:
+	var before := snapshot()
+	_events = []
+	_last_result = {}
+	var accepted := false
+	match command:
+		"cast": accepted = _cast()
+		"pass": accepted = _pass_turn()
+		"technique": accepted = _play_technique(int(arguments.get("uid", -1)))
+		"place_wire": accepted = _place_wire(int(arguments.get("index", -1)), str(arguments.get("kind", "")))
+		"place_rune": accepted = _place_rune(int(arguments.get("index", -1)), int(arguments.get("uid", -1)))
+		"rotate": accepted = _rotate(int(arguments.get("index", -1)))
+		"flip": accepted = _flip(int(arguments.get("index", -1)))
+		"undo": accepted = _undo()
+	if accepted:
+		_action_id += 1
+	_last_result = {
+		"accepted": accepted, "command": command, "action_id": _action_id if accepted else 0,
+		"encounter_id": _encounter_id, "turn": before.turn,
+		"before": before, "after": snapshot(), "events": _events if accepted else []
+	}.duplicate(true)
+	return last_result()
+
+func _record(type: String, values: Dictionary = {}) -> void:
+	var event := values.duplicate(true)
+	event.type = type
+	event.sequence = _events.size()
+	event.action_id = _action_id + 1
+	event.encounter_id = _encounter_id
+	_events.append(event)
+
+# Compatibility entry points preserve the foundation's bool/void returns.
+func place_wire(index: int, kind: String) -> bool:
+	return execute("place_wire", {"index": index, "kind": kind}).accepted
+
+func place_rune(index: int, uid: int) -> bool:
+	return execute("place_rune", {"index": index, "uid": uid}).accepted
+
+func rotate(index: int) -> bool:
+	return execute("rotate", {"index": index}).accepted
+
+func flip(index: int) -> void:
+	execute("flip", {"index": index})
+
+func undo() -> void:
+	execute("undo")
+
+func play_technique(uid: int) -> bool:
+	return execute("technique", {"uid": uid}).accepted
+
+func cast() -> bool:
+	return execute("cast").accepted
+
+func pass_turn() -> void:
+	execute("pass")
 
 func _card(id: String) -> Dictionary:
 	var card := {"id": id, "uid": next_uid}
@@ -81,7 +160,7 @@ func _return_rune(index: int) -> void:
 	if piece.get("kind") == "rune":
 		hand.append({"id": piece.rune_id, "uid": piece.uid})
 
-func place_wire(index: int, kind: String) -> bool:
+func _place_wire(index: int, kind: String) -> bool:
 	if not _editable(index) or not ["straight", "corner", "split", "join", "erase"].has(kind):
 		return false
 	if kind in ["split", "join"] and stock(kind) == 0 and board[index].get("kind") != kind:
@@ -92,7 +171,7 @@ func place_wire(index: int, kind: String) -> bool:
 	board[index] = {} if kind == "erase" else {"kind": kind, "rotation": 0}
 	return true
 
-func place_rune(index: int, uid: int) -> bool:
+func _place_rune(index: int, uid: int) -> bool:
 	if not _editable(index):
 		return false
 	var hand_index := -1
@@ -112,27 +191,29 @@ func place_rune(index: int, uid: int) -> bool:
 	board[index] = {"kind": "rune", "rotation": rotation, "rune_id": card.id, "uid": card.uid}
 	return true
 
-func rotate(index: int) -> bool:
+func _rotate(index: int) -> bool:
 	if not _editable(index) or board[index].is_empty():
 		return false
 	_remember()
 	board[index].rotation = (int(board[index].rotation) + 1) % 4
 	return true
 
-func undo() -> void:
+func _undo() -> bool:
 	if history.is_empty() or state != "playing":
-		return
+		return false
 	var previous: Dictionary = history.pop_back()
 	board = previous.board
 	hand = previous.hand
+	return true
 
-func flip(index: int) -> void:
+func _flip(index: int) -> bool:
 	if not _editable(index) or not board[index].get("kind") in ["straight", "corner"]:
-		return
+		return false
 	_remember()
 	board[index].reversed = not board[index].get("reversed", false)
+	return true
 
-func play_technique(uid: int) -> bool:
+func _play_technique(uid: int) -> bool:
 	if state != "playing":
 		return false
 	for i in range(hand.size()):
@@ -143,16 +224,22 @@ func play_technique(uid: int) -> bool:
 		if energy < int(rune.cost):
 			log_text = "Not enough energy for %s." % rune.name
 			return false
+		var energy_before := energy
+		var undo_before := history.size()
 		energy -= int(rune.cost)
 		hand.remove_at(i)
 		discard_pile.append(card)
 		# Drawing reveals information, so utility actions commit earlier edits.
 		history.clear()
+		_record("technique", {"card": card, "cost": int(rune.cost),
+			"energy_before": energy_before, "energy_after": energy,
+			"from": "hand", "to": "discard", "undo_cleared": undo_before})
 		if rune.effect == "draw":
 			_draw(int(rune.value))
 			log_text = "Focus drew up to two cards."
 		else:
 			hand.append(_card("free_spark"))
+			_record("card_created", {"card": hand.back(), "to": "hand"})
 			log_text = "Conjure Spark created a temporary free Spark."
 		return true
 	return false
@@ -163,11 +250,14 @@ func _draw(amount: int) -> void:
 			draw_pile = discard_pile.duplicate(true)
 			discard_pile.clear()
 			_shuffle(draw_pile)
+			_record("reshuffled", {"cards": draw_pile, "from": "discard", "to": "draw"})
 		if draw_pile.is_empty():
 			break
 		hand.append(draw_pile.pop_back())
+		_record("card_drawn", {"card": hand.back(), "from": "draw", "to": "hand",
+			"draw_remaining": draw_pile.size(), "hand_size": hand.size()})
 
-func cast() -> bool:
+func _cast() -> bool:
 	if state != "playing":
 		return false
 	var spell := forecast()
@@ -177,41 +267,73 @@ func cast() -> bool:
 	if spell.cost > energy:
 		log_text = "Need %d energy; you have %d." % [spell.cost, energy]
 		return false
+	var energy_before := energy
 	energy -= spell.cost
+	_record("cast", {"source": "player", "spell": spell,
+		"energy_before": energy_before, "energy_after": energy})
+	var health_before := enemy_hp
 	enemy_hp = maxi(0, enemy_hp - int(spell.damage))
+	_record("damage", {"source": "player", "target": "enemy", "amount": int(spell.damage),
+		"applied": health_before - enemy_hp, "health_before": health_before, "health_after": enemy_hp})
 	var damage_taken := 0
 	if enemy_hp > 0:
-		damage_taken = maxi(0, intent() - int(spell.shield))
-		player_hp = maxi(0, player_hp - damage_taken)
+		_record("shield", {"target": "player", "amount": int(spell.shield)})
+		damage_taken = _retaliate(int(spell.shield))
 	log_text = "Cast %d damage, %d shield. Received %d damage." % [spell.damage, spell.shield, damage_taken]
 	_end_turn()
 	return true
 
-func pass_turn() -> void:
+func _pass_turn() -> bool:
 	if state != "playing":
-		return
-	player_hp = maxi(0, player_hp - intent())
+		return false
+	_record("passed", {"source": "player"})
+	_retaliate(0)
 	log_text = "Passed. Received %d damage." % intent()
 	_end_turn()
+	return true
+
+func _retaliate(shield: int) -> int:
+	var incoming := intent()
+	var damage_taken := maxi(0, incoming - shield)
+	var health_before := player_hp
+	player_hp = maxi(0, player_hp - damage_taken)
+	_record("retaliation", {"source": "enemy", "target": "player", "incoming": incoming,
+		"blocked": mini(incoming, shield), "amount": damage_taken, "applied": health_before - player_hp,
+		"health_before": health_before, "health_after": player_hp})
+	return damage_taken
 
 func _end_turn() -> void:
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
 		if piece.get("kind") == "rune" and catalog[piece.rune_id].get("temporary", false):
 			board[index] = {"kind": "straight", "rotation": piece.rotation}
+			_record("temporary_expired", {"cell": index, "before": piece, "after": board[index]})
+	var discarded: Array = []
+	var expired: Array = []
+	var undo_before := history.size()
 	for card in hand:
 		if not catalog[card.id].get("temporary", false):
 			discard_pile.append(card)
+			discarded.append(card)
+		else:
+			expired.append(card)
 	hand.clear()
 	history.clear()
+	_record("turn_cleanup", {"discarded": discarded, "expired": expired,
+		"hand_after": [], "undo_cleared": undo_before})
 	if enemy_hp <= 0:
 		state = "victory"
 		log_text += " Victory! Use Menu to restart."
+		_record("battle_ended", {"state": state, "player_hp": player_hp, "enemy_hp": enemy_hp})
 	elif player_hp <= 0:
 		state = "defeat"
 		log_text += " Defeat. Use Menu to restart."
+		_record("battle_ended", {"state": state, "player_hp": player_hp, "enemy_hp": enemy_hp})
 	else:
+		var energy_before := energy
 		turn += 1
 		energy = int(encounter.energy_per_turn)
+		_record("turn_started", {"turn_before": turn - 1, "turn_after": turn,
+			"energy_before": energy_before, "energy_after": energy, "intent": intent()})
 		_draw(int(encounter.draw_per_turn))
 

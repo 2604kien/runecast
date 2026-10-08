@@ -1,10 +1,15 @@
 extends Control
 
 const Combat = preload("res://scripts/core/combat.gd")
+const Controller = preload("res://scripts/ui/combat_controller.gd")
+const Presentation = preload("res://scripts/ui/combat_presentation.gd")
 const Cell = preload("res://scripts/ui/board_cell.gd")
 const Arena = preload("res://scripts/ui/arena.gd")
 
-var game := Combat.new()
+var controller := Controller.new(Combat.new(), Presentation.new())
+# View-local snapshot and help text; neither is authoritative combat state.
+var game: Dictionary = {}
+var help_text := ""
 var cells: Array = []
 var selected_tool := ""
 var selected_uid := -1
@@ -16,16 +21,21 @@ var status: Label
 var hand_box: HBoxContainer
 var cast_button: Button
 var stock_buttons := {}
+var edit_buttons: Array = []
 var sound_button: Button
 var sound_enabled := true
 var player: AudioStreamPlayer
 var dialog: AcceptDialog
 var menu: ConfirmationDialog
+var pass_button: Button
 
 func _ready() -> void:
+	game = controller.snapshot()
 	_build_theme()
 	_build_ui()
 	_load_settings()
+	controller.changed.connect(_refresh)
+	controller.presentation_started.connect(_presentation_started)
 	_refresh()
 	if "--capture" in OS.get_cmdline_user_args():
 		await get_tree().process_frame
@@ -34,6 +44,13 @@ func _ready() -> void:
 		var error := get_viewport().get_texture().get_image().save_png("res://output/qa/foundation-screen.png")
 		print("Screenshot saved: ", error_string(error))
 		get_tree().quit(0 if error == OK else 1)
+
+func _exit_tree() -> void:
+	controller.dispose()
+
+func _presentation_started(result: Dictionary) -> void:
+	if result.command == "cast" and sound_enabled:
+		player.play()
 
 func _build_theme() -> void:
 	theme = Theme.new()
@@ -117,9 +134,11 @@ func _build_ui() -> void:
 		var button := _button(kind.capitalize(), _select_tool.bind(kind), wiring)
 		button.add_theme_font_size_override("font_size", 15)
 		stock_buttons[kind] = button
+		edit_buttons.append(button)
 	for entry in [["Rotate", _rotate], ["Flip", _flip], ["Undo", _undo], ["Erase", _select_tool.bind("erase")]]:
 		var button := _button(entry[0], entry[1], wiring)
 		button.add_theme_font_size_override("font_size", 15)
+		edit_buttons.append(button)
 	column.add_child(_label("RUNES   /   tap an effect, then a socket", 17))
 	var hand_scroll := ScrollContainer.new()
 	hand_scroll.custom_minimum_size.y = 104
@@ -151,14 +170,12 @@ func _build_ui() -> void:
 	menu.dialog_text = "Restart the training encounter?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast."
 	menu.ok_button_text = "Restart"
 	menu.cancel_button_text = "Resume"
-	menu.add_button("Pass turn", false, "pass")
+	pass_button = menu.add_button("Pass turn", false, "pass")
 	menu.confirmed.connect(_restart)
 	menu.custom_action.connect(func(action):
 		if action == "pass":
-			game.pass_turn()
+			_pass()
 			menu.hide()
-			_clear_selection()
-			_refresh()
 	)
 	add_child(menu)
 	player = AudioStreamPlayer.new()
@@ -174,10 +191,12 @@ func _build_ui() -> void:
 	add_child(player)
 
 func _refresh() -> void:
-	var spell := game.forecast()
+	game = controller.snapshot()
+	var spell: Dictionary = game.forecast
+	var editable := controller.can_edit()
 	arena.enemy_hp = game.enemy_hp
 	arena.enemy_max_hp = int(game.encounter.max_health)
-	arena.attack = game.intent()
+	arena.attack = game.intent
 	arena.battle_state = game.state
 	arena.queue_redraw()
 	stats.text = "HEALTH %d / 30       ENERGY %d / 3       TURN %d" % [game.player_hp, game.energy, game.turn]
@@ -187,13 +206,16 @@ func _refresh() -> void:
 	for index in range(cells.size()):
 		var cell: Button = cells[index]
 		cell.piece = game.board[index]
+		cell.disabled = not editable
 		cell.active = spell.active.has(index)
 		cell.chosen = index == selected_cell
 		cell.end_value = int(spell.damage) if spell.valid else 0
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
 		cell.queue_redraw()
 	for kind in stock_buttons:
-		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / 1" % game.stock(kind))
+		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / 1" % game.stock[kind])
+	for button in edit_buttons:
+		button.disabled = not editable
 	for child in hand_box.get_children():
 		hand_box.remove_child(child)
 		child.queue_free()
@@ -202,76 +224,98 @@ func _refresh() -> void:
 		var button := _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
 		button.custom_minimum_size = Vector2(142, 92)
 		button.modulate = Color(rune.color)
+		button.disabled = not editable
 		button.tooltip_text = "%s | %d energy%s" % [rune.type.capitalize(), rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
 		if card.uid == selected_uid:
 			button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
-	cast_button.disabled = not spell.valid or spell.cost > game.energy or game.state != "playing"
-	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, maxi(0, game.intent() - spell.shield)] if spell.valid else spell.message
-	status.text = game.log_text
+	cast_button.disabled = not spell.valid or spell.cost > game.energy or not editable
+	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, maxi(0, game.intent - spell.shield)] if spell.valid else spell.message
+	status.text = help_text if help_text != "" else game.log_text
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
 		status.text = "Need %d energy; %d available. Edit the circuit or pass in Menu." % [spell.cost, game.energy]
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
+	pass_button.disabled = not editable
 
 func _clear_selection() -> void:
 	selected_tool = ""
 	selected_uid = -1
 	selected_cell = -1
+	help_text = ""
 
 func _select_tool(kind: String) -> void:
+	if not controller.can_edit():
+		return
 	selected_tool = kind
 	selected_uid = -1
-	game.log_text = "Tap a socket to place %s. Then Rotate or Flip if needed." % kind
+	help_text = "Tap a socket to place %s. Then Rotate or Flip if needed." % kind
 	_refresh()
 
 func _select_card(uid: int) -> void:
+	if not controller.can_edit():
+		return
 	for card in game.hand:
 		if card.uid != uid:
 			continue
 		if game.catalog[card.id].type == "technique":
-			game.play_technique(uid)
 			_clear_selection()
+			controller.command("technique", {"uid": uid})
 		else:
 			selected_uid = uid
 			selected_tool = ""
-			game.log_text = "Tap a socket to install %s. Cost is paid when casting." % game.catalog[card.id].name
+			help_text = "Tap a socket to install %s. Cost is paid when casting." % game.catalog[card.id].name
 		break
 	_refresh()
 
 func _cell_pressed(index: int) -> void:
+	if not controller.can_edit():
+		return
 	selected_cell = index
 	if selected_uid != -1:
-		if game.place_rune(index, selected_uid):
+		if controller.command("place_rune", {"index": index, "uid": selected_uid}):
 			selected_uid = -1
+		else:
+			help_text = ""
 	elif selected_tool != "":
-		game.place_wire(index, selected_tool)
+		if not controller.command("place_wire", {"index": index, "kind": selected_tool}):
+			help_text = ""
 	_refresh()
 
 func _rotate() -> void:
+	if not controller.can_edit():
+		return
 	if selected_cell >= 0:
-		game.rotate(selected_cell)
+		controller.command("rotate", {"index": selected_cell})
 	_refresh()
 
 func _flip() -> void:
+	if not controller.can_edit():
+		return
 	if selected_cell >= 0:
-		game.flip(selected_cell)
+		controller.command("flip", {"index": selected_cell})
 	_refresh()
 
 func _undo() -> void:
-	game.undo()
+	if not controller.can_edit():
+		return
 	_clear_selection()
-	_refresh()
+	controller.command("undo")
 
 func _cast() -> void:
-	if game.cast() and sound_enabled:
-		player.play()
+	if not controller.can_edit():
+		return
 	_clear_selection()
-	_refresh()
+	controller.command("cast")
+
+func _pass() -> void:
+	if not controller.can_edit():
+		return
+	_clear_selection()
+	controller.command("pass")
 
 func _restart() -> void:
-	game.reset()
 	_clear_selection()
-	_refresh()
+	controller.restart()
 
 func _open_menu() -> void:
 	menu.popup_centered(Vector2i(540, 220))

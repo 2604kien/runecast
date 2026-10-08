@@ -108,3 +108,57 @@ Starting revision: `64930fcb05fb54e1711e084e59214eb33a2d53c0`. Task branch: `cod
 
 No Godot command, gameplay implementation, production asset generation, mobile setup, account configuration, push or PR was performed. RC-002 is a documentation-only task; the earlier runtime evidence and its configuration limitation remain as recorded above. Detailed production specifications/manifest expansion remain RC-010, experiments RC-005/RC-006, and device/human acceptance remain their later tasks.
 
+## October 8, 2026 — RC-003 combat/presentation separation
+
+Starting revision: `b373a8c` (`docs: define Rune Cast v1 scope and content roster`), clean `codex/rc-002-v1-design-roster`. Created `codex/rc-003-combat-presentation` from that revision, preserving RC-002. No applicable `AGENTS.md` was found in the repository or ancestor directories. The branch write needed normal local access because `.git` is read-only in the sandbox. The authorized checkpoint subject is `refactor: separate combat resolution from presentation`; its resulting hash is reported in the chat handoff.
+
+### Fresh baseline before editing
+
+The actual committed `project.godot`, including the editor rewrite discussed in RC-001/RC-002, was verified afresh. The pinned engine was already installed; no engine upgrade/download or mobile prerequisite installation occurred.
+
+| Command / attempt | Exit | Observed result |
+| --- | --- | --- |
+| `.\tools\godot.ps1 -Action version` | 0 | `4.7.2.stable.official.ed1daf0bf` |
+| `.\tools\godot.ps1 -Action import` — sandbox | 0 | `Could not open 'user://' directory` from the object database profiler; not accepted as clean despite exit 0. Existing Android build-tools warning also present. |
+| `.\tools\godot.ps1 -Action import` — normal local access | 0 | Import completed without script/user-data errors; only existing Android warning remained. |
+| `.\tools\godot.ps1 -Action test` | 0 | **23 checks, 0 failures** |
+| `.\tools\godot.ps1 -Action smoke` — normal local access | 0 | **11 UI checks, 0 failures**; sound preference restored |
+| `.\tools\godot.ps1 -Action capture` — normal local access | 0 | `Screenshot saved: OK`; inspected before refactoring |
+
+Baseline logs are retained locally as `output/qa/rc-003-before-*.log`, including `rc-003-before-import-sandbox.log`. The sandbox directory error is an environment restriction, not a game regression. The successful import/test/smoke/capture resolves the prior configuration-verification gap for desktop behavior.
+
+### Final verification after implementation
+
+All five required commands were executed separately and their exit codes and output inspected. No runtime source changed after this accepted sequence; subsequent edits record documentation/evidence.
+
+| Command | Exit | Observed result |
+| --- | --- | --- |
+| `.\tools\godot.ps1 -Action version` | 0 | `4.7.2.stable.official.ed1daf0bf` |
+| `.\tools\godot.ps1 -Action import` — normal local access | 0 | Scripts imported successfully, including new `.gd.uid` companions; existing Android warning only |
+| `.\tools\godot.ps1 -Action test` | 0 | **75 checks, 0 failures**: original 23 plus 52 event/controller/ownership/RNG checks |
+| `.\tools\godot.ps1 -Action smoke` — normal local access | 0 | **32 UI checks, 0 failures**: original 11 plus 21 presentation/view checks; sound preference restored |
+| `.\tools\godot.ps1 -Action capture` — normal local access | 0 | `Screenshot saved: OK`; fresh image inspected and compared |
+
+Final logs are retained locally as `output/qa/rc-003-after-*.log` and the standard command logs. The initial expanded test compile attempt exposed a test-only inferred-Variant warning treated as an error; it was stopped, explicitly typed and rerun successfully. Independent read-only review also found selection help hiding inventory errors and cancellation reentering teardown; both were corrected and have focused regression coverage. Final outputs contain no script errors or leaked-object reports.
+
+Additional preservation evidence: a local differential harness loaded `combat.gd` from `b373a8c` beside the refactored model and ran **720 deterministic command steps across seeds 0, 42 and 1234, 0 mismatches**, exit 0. It compared return values, board, hand, piles, history, health, energy, turn/state/log, next UID and RNG state after every step, including resets and invalid commands. An initial relative log-path attempt reported a user-directory error; rerunning with the absolute workspace log path produced clean output. The harness/baseline copy and `rc-003-differential.log` are ignored local evidence, not shipped runtime or a second maintained rules implementation. Four golden draw-order checks from that baseline are integrated into the regular core suite, including Reset continuing the RNG stream.
+
+New checks cover ordered nonlethal/lethal/shielded/defeat/Pass outcomes, actual versus clamped damage, board/hand temporary expiry, cleanup/refresh/draw ordering, Conjure and Focus (including recycling Focus itself), invalid/unaffordable/missing/terminal actions, prior-result stability, consumer mutations and replay. Controlled completion tests cover every gameplay mutation during a pending action, signal reentry, duplicate/stale callbacks, Restart, cancellation, disposal during cancellation, callback owner lifetime and actual scene teardown. UI checks retain editing/navigation/audio behavior and verify local selection help, inventory errors, disabled controls and direct handler guards. Delayed-presentation assertions do not depend on timers or sleeps.
+
+### Visual evidence
+
+Both 450 by 1000 captures are intentionally checkpointed. Rendering used OpenGL 3.3 Compatibility on NVIDIA GeForce RTX 5070 Ti, driver 610.88.
+
+| Capture | Fresh write time, Sydney (AEDT) | UTC | Size |
+| --- | --- | --- | --- |
+| [Before refactor](../output/qa/rc-003-before.png) | October 8, 2026, **22:20:20** | October 8, 11:20:20 | 72,418 bytes |
+| [After refactor](../output/qa/rc-003-after.png) | October 8, 2026, **22:33:14** | October 8, 11:33:14 | 72,418 bytes |
+
+Both SHA-256 hashes are `17f12203709ab5df2d6dc39900f5464ddac96369b3d328c5d6bd563176f13de2`, identical to the refreshed [foundation screen](../output/qa/foundation-screen.png). Fresh capture output and modification times establish that both were newly rendered despite identical bytes. Visual inspection confirmed the title, full enemy/intent/health, player stats, complete 4 by 4 board, wiring/editing controls, three rune cards, status text, Cast/cost and Menu/Map/Guide/Sound remain visible and consistent, with no observed clipping or missing controls at this desktop size.
+
+### Review, scope and limitations
+
+The [architecture contract](combat-presentation.md) documents responsibilities, command/result/event data, detached ownership, exact resolution order, completion/cancellation and RC-017 integration. Source changes are confined to combat outcomes, the controller/adapter boundary, view command routing and focused tests. Scene structure, circuit rules, JSON content, `project.godot`, export presets, audio implementation and approved artwork remain unchanged. README links the contract; the workflow and ignore exceptions preserve both comparison PNGs. Reviewed all **22 staged files**, names/stat/full diffs, generated UIDs and intentional PNG sizes; `git diff --cached --check` passed. All **79 local documentation links** in the edited Markdown files resolve. Preservation diffs against `b373a8c` are empty for scene/configuration/circuit/content/artwork, existing rules/design/roster/decisions and tooling. No unrelated files are staged; final commit/status are reported in the handoff.
+
+The existing import message `Unable to open Android 'build-tools' directory.` is an Android export-configuration warning, separate from desktop success. No SDK/JDK/templates were installed, no mobile package was produced, and no physical-device or production-animation acceptance is claimed. Current UI, Menu and Map remain placeholders; future schemas, experiments, touch changes, production animation and run/save/reward systems remain outside RC-003. No push, remote change, PR or history rewrite occurred.
+

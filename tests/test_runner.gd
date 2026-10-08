@@ -78,6 +78,7 @@ func _initialize() -> void:
 	check(game.state == "defeat" and not game.cast(), "Defeat prevents further casts.")
 	var corner := {"kind": "corner", "rotation": 0, "reversed": true}
 	check(Circuit.ports(corner).input == [2] and Circuit.ports(corner).output == [3], "Wire reversal permits both elbow directions.")
+	preload("res://tests/combat_presentation_tests.gd").new().run(check)
 	print("%d checks, %d failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)
 

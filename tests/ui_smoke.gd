@@ -44,6 +44,7 @@ func _run() -> void:
 	check(scene.sound_enabled == original_sound, "Sound preference is restored after the smoke check.")
 	scene._restart()
 	check(scene.game.turn == 1 and scene.game.enemy_hp == 32 and scene.game.player_hp == 30, "Restart returns to the opening encounter.")
+	await preload("res://tests/ui_presentation_tests.gd").new().run(scene, check, self)
 	await process_frame
 	print("%d UI checks, %d failures" % [checks, failures])
 	scene.player.stop()
