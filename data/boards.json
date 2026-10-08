@@ -1,0 +1,29 @@
+[
+  {
+    "id": "board_training", "width": 4, "height": 4,
+    "placements": [
+      {"cell": 0, "kind": "begin"},
+      {"cell": 1, "kind": "rune", "rune_id": "free_spark"},
+      {"cell": 2, "kind": "split"},
+      {"cell": 3, "kind": "corner"},
+      {"cell": 6, "kind": "straight", "rotation": 1},
+      {"cell": 7, "kind": "straight", "rotation": 1},
+      {"cell": 10, "kind": "join"},
+      {"cell": 11, "kind": "corner", "rotation": 1},
+      {"cell": 14, "kind": "end"}
+    ]
+  },
+  {
+    "id": "dev_simple_path", "width": 4, "height": 4,
+    "placements": [
+      {"cell": 0, "kind": "begin"},
+      {"cell": 1, "kind": "rune", "rune_id": "spark"},
+      {"cell": 2, "kind": "straight"},
+      {"cell": 3, "kind": "corner"},
+      {"cell": 7, "kind": "straight", "rotation": 1},
+      {"cell": 10, "kind": "corner", "rotation": 3, "reversed": true},
+      {"cell": 11, "kind": "corner", "rotation": 1},
+      {"cell": 14, "kind": "end"}
+    ]
+  }
+]

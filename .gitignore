@@ -2,12 +2,15 @@
 .tools/
 .local/
 builds/
-# Keep reviewed baseline and RC-003 comparison captures; other QA output is local.
+# Keep reviewed baseline, RC-003 and RC-004 captures; other QA output is local.
 /output/qa/*
 !/output/qa/foundation-screen.png
 !/output/qa/foundation-screen-2026-10-07.png
 !/output/qa/rc-003-before.png
 !/output/qa/rc-003-after.png
+!/output/qa/rc-004-training.png
+!/output/qa/rc-004-development.png
+!/output/qa/rc-004-invalid.png
 *.log
 *.tmp
 .DS_Store

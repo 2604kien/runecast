@@ -1,0 +1,4 @@
+[
+  {"id": "shadeling", "name": "Shadeling", "max_health": 32, "intents": [8, 12, 6]},
+  {"id": "dev_calibration_wisp", "name": "Calibration Wisp", "max_health": 45, "intents": [3, 7, 5]}
+]

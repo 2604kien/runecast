@@ -5,8 +5,13 @@ const Controller = preload("res://scripts/ui/combat_controller.gd")
 const Presentation = preload("res://scripts/ui/combat_presentation.gd")
 const Cell = preload("res://scripts/ui/board_cell.gd")
 const Arena = preload("res://scripts/ui/arena.gd")
+const ContentLoader = preload("res://scripts/core/content_loader.gd")
 
-var controller := Controller.new(Combat.new(), Presentation.new())
+# Set before adding the scene to the tree to select a fixture in integration tests.
+# An explicit injected path takes precedence over the development command line.
+var setup_path := ""
+var startup_error := ""
+var controller: Controller
 # View-local snapshot and help text; neither is authoritative combat state.
 var game: Dictionary = {}
 var help_text := ""
@@ -16,6 +21,7 @@ var selected_uid := -1
 var selected_cell := -1
 var arena: Control
 var stats: Label
+var encounter_title: Label
 var banner: Label
 var status: Label
 var hand_box: HBoxContainer
@@ -30,23 +36,43 @@ var menu: ConfirmationDialog
 var pass_button: Button
 
 func _ready() -> void:
-	game = controller.snapshot()
+	if setup_path == "":
+		setup_path = _argument_value("--encounter=", "res://data/encounter.json")
+	var loaded: Dictionary = ContentLoader.load_setup(setup_path)
+	if loaded.ok:
+		controller = Controller.new(Combat.new(loaded.setup), Presentation.new())
+		game = controller.snapshot()
+	else:
+		startup_error = "Cannot start encounter.\n" + "\n".join(loaded.errors)
+		printerr(startup_error)
 	_build_theme()
 	_build_ui()
 	_load_settings()
-	controller.changed.connect(_refresh)
-	controller.presentation_started.connect(_presentation_started)
+	if controller != null:
+		controller.changed.connect(_refresh)
+		controller.presentation_started.connect(_presentation_started)
 	_refresh()
 	if "--capture" in OS.get_cmdline_user_args():
 		await get_tree().process_frame
 		await RenderingServer.frame_post_draw
-		DirAccess.make_dir_recursive_absolute("res://output/qa")
-		var error := get_viewport().get_texture().get_image().save_png("res://output/qa/foundation-screen.png")
+		var capture_path := _argument_value("--capture-path=", "res://output/qa/foundation-screen.png")
+		DirAccess.make_dir_recursive_absolute(capture_path.get_base_dir())
+		var error := get_viewport().get_texture().get_image().save_png(capture_path)
 		print("Screenshot saved: ", error_string(error))
-		get_tree().quit(0 if error == OK else 1)
+		get_tree().quit(0 if error == OK and startup_error == "" else 1)
+
+func _argument_value(prefix: String, fallback: String) -> String:
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with(prefix):
+			return argument.trim_prefix(prefix)
+	return fallback
+
+func _can_edit() -> bool:
+	return controller != null and controller.can_edit()
 
 func _exit_tree() -> void:
-	controller.dispose()
+	if controller != null:
+		controller.dispose()
 
 func _presentation_started(result: Dictionary) -> void:
 	if result.command == "cast" and sound_enabled:
@@ -104,7 +130,8 @@ func _build_ui() -> void:
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation", 8)
 	margin.add_child(column)
-	column.add_child(_label("RUNE CAST   /   TRAINING CRYPT", 28))
+	encounter_title = _label("", 28)
+	column.add_child(encounter_title)
 	arena = Control.new()
 	arena.set_script(Arena)
 	arena.custom_minimum_size.y = 310
@@ -124,7 +151,7 @@ func _build_ui() -> void:
 		var cell := Button.new()
 		cell.set_script(Cell)
 		cell.custom_minimum_size = Vector2(137, 137)
-		cell.catalog = game.catalog
+		cell.catalog = game.get("catalog", {})
 		cell.pressed.connect(_cell_pressed.bind(index))
 		grid.add_child(cell)
 		cells.append(cell)
@@ -167,7 +194,6 @@ func _build_ui() -> void:
 	add_child(dialog)
 	menu = ConfirmationDialog.new()
 	menu.title = "Rune Cast"
-	menu.dialog_text = "Restart the training encounter?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast."
 	menu.ok_button_text = "Restart"
 	menu.cancel_button_text = "Resume"
 	pass_button = menu.add_button("Pass turn", false, "pass")
@@ -191,15 +217,25 @@ func _build_ui() -> void:
 	add_child(player)
 
 func _refresh() -> void:
+	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
+	if controller == null:
+		_refresh_startup_error()
+		return
 	game = controller.snapshot()
 	var spell: Dictionary = game.forecast
-	var editable := controller.can_edit()
+	var editable := _can_edit()
+	encounter_title.text = "RUNE CAST   /   " + game.encounter.title.to_upper()
+	encounter_title.tooltip_text = game.encounter.help_text
+	arena.enemy_name = game.enemy_name
 	arena.enemy_hp = game.enemy_hp
-	arena.enemy_max_hp = int(game.encounter.max_health)
+	arena.enemy_max_hp = game.enemy_max_hp
 	arena.attack = game.intent
 	arena.battle_state = game.state
+	arena.tooltip_text = "%s: %d / %d health. Incoming attack: %d." % [game.enemy_name, game.enemy_hp, game.enemy_max_hp, game.intent]
 	arena.queue_redraw()
-	stats.text = "HEALTH %d / 30       ENERGY %d / 3       TURN %d" % [game.player_hp, game.energy, game.turn]
+	stats.text = "HEALTH %d / %d       ENERGY %d / %d       TURN %d" % [game.player_hp, game.player_max_hp, game.energy, game.energy_per_turn, game.turn]
+	stats.tooltip_text = "Refreshes to %d energy and draws %d cards each turn." % [game.energy_per_turn, game.draw_per_turn]
+	menu.dialog_text = "Restart %s?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast." % game.encounter.title
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
 	banner.modulate = Color("#7addba") if spell.valid else Color("#edb26b")
 	banner.tooltip_text = spell.message
@@ -213,7 +249,8 @@ func _refresh() -> void:
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
 		cell.queue_redraw()
 	for kind in stock_buttons:
-		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / 1" % game.stock[kind])
+		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / %d" % [game.stock[kind], game.stock_totals[kind]])
+		stock_buttons[kind].tooltip_text = "Unlimited supply" if kind in ["straight", "corner"] else "%d available, %d owned (%d installed)." % [game.stock[kind], game.stock_totals[kind], game.stock_totals[kind] - game.stock[kind]]
 	for button in edit_buttons:
 		button.disabled = not editable
 	for child in hand_box.get_children():
@@ -225,7 +262,7 @@ func _refresh() -> void:
 		button.custom_minimum_size = Vector2(142, 92)
 		button.modulate = Color(rune.color)
 		button.disabled = not editable
-		button.tooltip_text = "%s | %d energy%s" % [rune.type.capitalize(), rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
+		button.tooltip_text = _rune_description(rune) + " | %d energy%s" % [rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
 		if card.uid == selected_uid:
 			button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
@@ -234,8 +271,40 @@ func _refresh() -> void:
 	status.text = help_text if help_text != "" else game.log_text
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
 		status.text = "Need %d energy; %d available. Edit the circuit or pass in Menu." % [spell.cost, game.energy]
-	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
 	pass_button.disabled = not editable
+
+func _rune_description(rune: Dictionary) -> String:
+	match rune.effect:
+		"damage": return "Adds %d damage" % rune.value
+		"shield": return "Adds %d shield" % rune.value
+		"draw": return "Draw up to %d cards" % rune.value
+		"conjure": return "Create %d temporary %s" % [rune.value, game.catalog[rune.generated_rune_id].name]
+	return ""
+
+func _refresh_startup_error() -> void:
+	encounter_title.text = "RUNE CAST   /   CONTENT ERROR"
+	encounter_title.tooltip_text = setup_path
+	arena.enemy_name = "ENCOUNTER UNAVAILABLE"
+	arena.enemy_hp = 0
+	arena.enemy_max_hp = 1
+	arena.battle_state = "configuration error"
+	arena.tooltip_text = startup_error
+	arena.queue_redraw()
+	stats.text = "Battle setup unavailable"
+	banner.text = "CHECK CONTENT CONFIGURATION"
+	banner.modulate = Color("#edb26b")
+	banner.tooltip_text = startup_error
+	status.text = startup_error
+	status.tooltip_text = startup_error
+	for cell in cells:
+		cell.disabled = true
+	for button in edit_buttons:
+		button.disabled = true
+	cast_button.disabled = true
+	cast_button.tooltip_text = startup_error
+	pass_button.disabled = true
+	menu.get_ok_button().disabled = true
+	menu.dialog_text = startup_error
 
 func _clear_selection() -> void:
 	selected_tool = ""
@@ -244,7 +313,7 @@ func _clear_selection() -> void:
 	help_text = ""
 
 func _select_tool(kind: String) -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	selected_tool = kind
 	selected_uid = -1
@@ -252,7 +321,7 @@ func _select_tool(kind: String) -> void:
 	_refresh()
 
 func _select_card(uid: int) -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	for card in game.hand:
 		if card.uid != uid:
@@ -268,7 +337,7 @@ func _select_card(uid: int) -> void:
 	_refresh()
 
 func _cell_pressed(index: int) -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	selected_cell = index
 	if selected_uid != -1:
@@ -282,38 +351,40 @@ func _cell_pressed(index: int) -> void:
 	_refresh()
 
 func _rotate() -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	if selected_cell >= 0:
 		controller.command("rotate", {"index": selected_cell})
 	_refresh()
 
 func _flip() -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	if selected_cell >= 0:
 		controller.command("flip", {"index": selected_cell})
 	_refresh()
 
 func _undo() -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	_clear_selection()
 	controller.command("undo")
 
 func _cast() -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	_clear_selection()
 	controller.command("cast")
 
 func _pass() -> void:
-	if not controller.can_edit():
+	if not _can_edit():
 		return
 	_clear_selection()
 	controller.command("pass")
 
 func _restart() -> void:
+	if controller == null:
+		return
 	_clear_selection()
 	controller.restart()
 
@@ -322,12 +393,13 @@ func _open_menu() -> void:
 
 func _show_map() -> void:
 	dialog.title = "Tower map"
-	dialog.dialog_text = "Training Crypt\n\nOne encounter is implemented in this foundation.\n\nPlanned route: encounters, events, shops, recovery rooms and a final guardian. Branching routes and encounter saves are the next milestone."
+	dialog.dialog_text = startup_error if controller == null else "%s\n%s\n\nOne encounter at a time is available in this prototype.\n\n%s\n\nPlanned route: encounters, events, shops, recovery rooms and a final guardian. Branching routes and encounter saves are not implemented." % [game.encounter.title, game.enemy_name, game.encounter.help_text]
 	dialog.popup_centered(Vector2i(550, 360))
 
 func _show_guide() -> void:
 	dialog.title = "Circuit guide"
-	dialog.dialog_text = "Connect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary Sparks expire into straight wires.\n\nFocus and Conjure Spark are techniques: tapping them resolves immediately. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
+	var context: String = startup_error if controller == null else game.encounter.help_text
+	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
 	dialog.popup_centered(Vector2i(620, 620))
 
 func _toggle_sound() -> void:

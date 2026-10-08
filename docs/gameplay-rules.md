@@ -8,7 +8,7 @@ The board has sixteen cells arranged in four rows and four columns. Begin and En
 
 Every piece has input and output ports. Rotation turns them clockwise. Straight and corner wires can also be reversed with Flip. Each cell holds one piece. Connections are orthogonal; paths cannot cross in one cell.
 
-Basic straight and corner wires have unlimited supply and cost no energy. The player owns one Split and one Join. Both remain reusable, but their installed instances are no longer available in the tray.
+Basic straight and corner wires have unlimited supply and cost no energy. The training loadout owns one Split and one Join. Both remain reusable, but their installed instances are no longer available in the tray. RC-004 permits other validated starting totals; this does not settle the production limits reserved for RC-005/RC-006.
 
 Placing, rotating, reversing, replacing, and removing pieces are free during preparation. Replacing or erasing an effect rune returns it to the hand. Undo restores board and hand changes. Playing a technique commits previous edits and clears undo because it can reveal new cards.
 
@@ -65,14 +65,14 @@ The opening training board includes one temporary free Spark as an explicit tuto
 
 ## Turn resolution
 
-1. Begin with 3 energy and the opening hand.
+1. Begin with the configured energy and opening hand (3 energy in training).
 2. Inspect the enemy's intent and prepare freely.
 3. Use techniques as desired; they spend from the same energy pool.
 4. Cast a valid affordable circuit once.
 5. Pay its cost and apply damage to the enemy.
 6. If the enemy survives, gain the cast's shield and take the remaining incoming damage.
 7. Expire temporary runes and discard unplayed normal cards.
-8. If both combatants live, advance the turn, refresh to 3 energy, and draw 3 cards.
+8. If both combatants live, advance the turn, refresh energy and draw the configured number of cards (3 energy and 3 cards in training).
 
 Shield does not persist into the next turn. Lethal damage prevents retaliation. A defeat or victory stops further editing/casting until Restart. Pass turn resolves the enemy attack without a spell or shield, then performs the same cleanup.
 
@@ -83,4 +83,6 @@ The player begins at 30 health. Shadeling begins at 32 health and cycles through
 The opening reference circuit delivers 12 damage for 1 energy. Its first cast leaves Shadeling at 20 health and the player at 22 health. The next turn starts with the temporary Spark replaced by wire.
 
 The visual reference uses illustrative health values and Turn 2. Those are not the training encounter's starting state.
+
+RC-004's [content definitions](content-definitions.md) configure current stats, ownership, initial placement and scalar intents within these rules. The alternate development fixture is not a production roster addition or a balance decision. Endpoint geometry, effect lifetime, Split cost and other experiment questions remain unchanged.
 

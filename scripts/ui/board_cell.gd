@@ -34,7 +34,7 @@ func _draw() -> void:
 		"join": symbol = "+"
 		"rune":
 			var rune: Dictionary = catalog[piece.rune_id]
-			name_text = "SPARK" if rune.get("temporary", false) else rune.name.to_upper()
+			name_text = rune.get("board_label", rune.name).to_upper()
 			symbol = rune.symbol
 			amount = str(int(rune.value))
 			tint = Color(rune.color)

@@ -1,0 +1,10 @@
+{
+  "id": "dev_calibration",
+  "enemy_id": "dev_calibration_wisp",
+  "board_id": "dev_simple_path",
+  "loadout_id": "dev_calibration",
+  "title": "DEVELOPMENT FIXTURE",
+  "help_text": "Calibration fixture: an owned Spark is installed. Two Splits and no Joins are available. This is test content, not a balanced encounter.",
+  "opening_log": "Calibration fixture: an owned Spark is installed. Edit the path or cast.",
+  "seed": 137
+}

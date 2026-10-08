@@ -11,7 +11,7 @@ func run(scene: Control, check: Callable, tree: SceneTree) -> void:
 	for attempt in range(2):
 		scene._select_tool("split")
 		scene._cell_pressed(4)
-		check.call(scene.status.text.contains("You own one split"), "Rejected inventory edits replace selection help, including repeated attempts.")
+		check.call(scene.status.text.contains("You own 1 split"), "Rejected inventory edits replace selection help, including repeated attempts.")
 	scene._restart()
 	scene._select_tool("straight")
 	scene._cell_pressed(12)
@@ -82,6 +82,7 @@ func run(scene: Control, check: Callable, tree: SceneTree) -> void:
 	scene._restart()
 	# A separate real scene demonstrates _exit_tree, not just controller.dispose().
 	var removed: Control = load("res://scenes/main.tscn").instantiate()
+	removed.setup_path = "res://data/encounter.json"
 	tree.root.add_child(removed)
 	var delayed_teardown := Delayed.new()
 	removed.controller.set_presenter(delayed_teardown)

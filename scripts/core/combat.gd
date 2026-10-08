@@ -9,46 +9,71 @@ var hand: Array = []
 var draw_pile: Array = []
 var discard_pile: Array = []
 var history: Array = []
-var player_hp := 30
-var enemy_hp := 32
-var energy := 3
+var owned_cards: Array = []
+var stock_totals: Dictionary = {}
+var player_hp := 0
+var enemy_hp := 0
+var energy := 0
 var turn := 1
 var state := "playing"
-var log_text := "A free Spark is loaded. Cast it or edit the circuit."
-var next_uid := 1
+var log_text := ""
+var next_uid := 0
 var rng := RandomNumberGenerator.new()
+var _setup: Dictionary
 var _encounter_id := 0
 var _action_id := 0
 var _events: Array = []
 var _last_result: Dictionary = {}
 
-func _init(seed_value: int = 42) -> void:
-	catalog = JSON.parse_string(FileAccess.get_file_as_string("res://data/runes.json"))
-	encounter = JSON.parse_string(FileAccess.get_file_as_string("res://data/encounter.json"))
-	rng.seed = seed_value
+func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
+	# Loading/validation belong to the caller. Keep a private restart template and
+	# separate active copies, so input edits and gameplay cannot rewrite setup.
+	_setup = validated_setup.duplicate(true)
+	assert(seed_override == null or (seed_override is int and seed_override >= 0 and seed_override <= 2147483647), "A seed override must be an integer in [0, 2147483647].")
+	if seed_override != null:
+		_setup.encounter.seed = seed_override
+	rng.seed = int(_setup.encounter.seed)
 	reset()
 
 func reset() -> void:
 	_encounter_id += 1
 	_events = []
 	_last_result = {}
-	board = Circuit.demo_board()
+	catalog = _setup.catalog.duplicate(true)
+	encounter = _setup.encounter.duplicate(true)
+	board = _setup.board.duplicate(true)
+	owned_cards = _setup.owned_cards.duplicate()
+	stock_totals = _setup.inventory.duplicate(true)
 	hand.clear()
 	draw_pile.clear()
 	discard_pile.clear()
 	history.clear()
-	next_uid = 1
+	next_uid = 0
 	player_hp = int(encounter.player_health)
 	enemy_hp = int(encounter.max_health)
 	energy = int(encounter.energy_per_turn)
 	turn = 1
 	state = "playing"
-	log_text = "A free Spark is loaded. Cast it or edit the circuit."
-	for id in ["spark", "shield", "conjure"]:
+	log_text = encounter.opening_log
+	var remaining := owned_cards.duplicate()
+	# Tutorial/generated setup runes are outside permanent ownership. Allocate
+	# these first to retain training's Free Spark UID 0 and hand UIDs 1, 2, 3.
+	for piece in board:
+		if piece.get("kind") == "rune" and catalog[piece.rune_id].get("temporary", false):
+			piece.uid = _card(piece.rune_id).uid
+	for id in _setup.opening_hand:
+		remaining.erase(id)
 		hand.append(_card(id))
-	for id in ["spark", "shield", "focus", "focus", "conjure"]:
+	for piece in board:
+		if piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
+			remaining.erase(piece.rune_id)
+			piece.uid = _card(piece.rune_id).uid
+	for id in remaining:
 		draw_pile.append(_card(id))
 	_shuffle(draw_pile)
+	_draw(int(_setup.opening_draw))
+	# Initial dealing is setup, not an action or a presentation batch.
+	_events.clear()
 
 # The UI receives values, never references to authoritative collections.
 func snapshot() -> Dictionary:
@@ -57,6 +82,11 @@ func snapshot() -> Dictionary:
 		"draw_pile": draw_pile, "discard_pile": discard_pile,
 		"catalog": catalog, "encounter": encounter, "player_hp": player_hp,
 		"enemy_hp": enemy_hp, "energy": energy, "turn": turn, "state": state,
+		"player_max_hp": encounter.player_max_health, "enemy_max_hp": encounter.max_health,
+		"enemy_name": encounter.name, "energy_per_turn": encounter.energy_per_turn,
+		"draw_per_turn": encounter.draw_per_turn, "stock_totals": stock_totals,
+		"owned_cards": owned_cards, "encounter_content_id": encounter.id,
+		"encounter_title": encounter.title, "encounter_help_text": encounter.help_text,
 		"log_text": log_text, "intent": intent(), "forecast": forecast(),
 		"stock": {"split": stock("split"), "join": stock("join")},
 		"undo_count": history.size()
@@ -145,7 +175,7 @@ func stock(kind: String) -> int:
 	for piece in board:
 		if piece.get("kind") == kind:
 			count += 1
-	return maxi(0, 1 - count)
+	return maxi(0, int(stock_totals.get(kind, 0)) - count)
 
 func _remember() -> void:
 	history.append({"board": board.duplicate(true), "hand": hand.duplicate(true)})
@@ -164,7 +194,9 @@ func _place_wire(index: int, kind: String) -> bool:
 	if not _editable(index) or not ["straight", "corner", "split", "join", "erase"].has(kind):
 		return false
 	if kind in ["split", "join"] and stock(kind) == 0 and board[index].get("kind") != kind:
-		log_text = "You own one %s. Move the installed piece first." % kind
+		log_text = "You own %d %s." % [stock_totals[kind], kind]
+		if stock_totals[kind] > 0:
+			log_text += " Move an installed piece first."
 		return false
 	_remember()
 	_return_rune(index)
@@ -219,8 +251,16 @@ func _play_technique(uid: int) -> bool:
 	for i in range(hand.size()):
 		var card: Dictionary = hand[i]
 		var rune: Dictionary = catalog[card.id]
-		if card.uid != uid or rune.type != "technique":
+		if card.uid != uid:
 			continue
+		if rune.type != "technique" or not rune.effect in ["draw", "conjure"]:
+			log_text = "Unsupported technique type/effect for %s." % card.id
+			return false
+		if rune.effect == "conjure":
+			var target: Dictionary = catalog.get(rune.get("generated_rune_id", ""), {})
+			if target.get("type") != "rune" or not target.get("temporary", false) or target.get("cost") != 0:
+				log_text = "Invalid generated rune for %s." % card.id
+				return false
 		if energy < int(rune.cost):
 			log_text = "Not enough energy for %s." % rune.name
 			return false
@@ -234,13 +274,15 @@ func _play_technique(uid: int) -> bool:
 		_record("technique", {"card": card, "cost": int(rune.cost),
 			"energy_before": energy_before, "energy_after": energy,
 			"from": "hand", "to": "discard", "undo_cleared": undo_before})
-		if rune.effect == "draw":
-			_draw(int(rune.value))
-			log_text = "Focus drew up to two cards."
-		else:
-			hand.append(_card("free_spark"))
-			_record("card_created", {"card": hand.back(), "to": "hand"})
-			log_text = "Conjure Spark created a temporary free Spark."
+		match rune.effect:
+			"draw":
+				_draw(int(rune.value))
+				log_text = "%s drew up to %d cards." % [rune.name, rune.value]
+			"conjure":
+				for count in range(int(rune.value)):
+					hand.append(_card(rune.generated_rune_id))
+					_record("card_created", {"card": hand.back(), "to": "hand"})
+				log_text = "%s created %d temporary %s." % [rune.name, rune.value, catalog[rune.generated_rune_id].name]
 		return true
 	return false
 

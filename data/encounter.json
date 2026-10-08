@@ -1,14 +1,11 @@
 {
   "id": "training_shadeling",
-  "name": "Shadeling",
-  "max_health": 32,
-  "intents": [
-    8,
-    12,
-    6
-  ],
-  "player_health": 30,
-  "energy_per_turn": 3,
-  "draw_per_turn": 3
+  "enemy_id": "shadeling",
+  "board_id": "board_training",
+  "loadout_id": "starter",
+  "title": "TRAINING CRYPT",
+  "help_text": "A free Spark is loaded. Cast it or edit the circuit.",
+  "opening_log": "A free Spark is loaded. Cast it or edit the circuit.",
+  "seed": 42
 }
 

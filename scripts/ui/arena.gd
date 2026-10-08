@@ -1,8 +1,9 @@
 extends Control
-var enemy_hp := 32
-var enemy_max_hp := 32
-var attack := 8
-var battle_state := "playing"
+var enemy_name := ""
+var enemy_hp := 0
+var enemy_max_hp := 1
+var attack := 0
+var battle_state := "unavailable"
 
 func _draw() -> void:
 	draw_set_transform(Vector2.ZERO, 0, Vector2(size.x / 680.0, size.y / 300.0))
@@ -29,7 +30,7 @@ func _draw() -> void:
 	draw_rect(Rect2(256, 188, 16, 23), Color("#ffcf68"))
 	var font := get_theme_default_font()
 	_text(font, "ATTACK %d" % attack if battle_state == "playing" else battle_state.to_upper(), 48, 24, Color("#ff9d89"))
-	_text(font, "SHADELING", 260, 19, Color("#f1dfb6"))
+	_text(font, enemy_name.to_upper(), 260, 19, Color("#f1dfb6"))
 	draw_rect(Rect2(239, 273, 202, 18), Color("#522438"))
 	draw_rect(Rect2(240, 274, 200.0 * float(enemy_hp) / enemy_max_hp, 16), Color("#c95563"))
 	_text(font, "%d / %d" % [enemy_hp, enemy_max_hp], 288, 15, Color.WHITE)

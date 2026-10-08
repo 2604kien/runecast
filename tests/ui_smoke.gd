@@ -13,6 +13,7 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var scene: Control = load("res://scenes/main.tscn").instantiate()
+	scene.setup_path = "res://data/encounter.json"
 	root.add_child(scene)
 	await process_frame
 	await process_frame
@@ -45,6 +46,7 @@ func _run() -> void:
 	scene._restart()
 	check(scene.game.turn == 1 and scene.game.enemy_hp == 32 and scene.game.player_hp == 30, "Restart returns to the opening encounter.")
 	await preload("res://tests/ui_presentation_tests.gd").new().run(scene, check, self)
+	await preload("res://tests/ui_configuration_tests.gd").new().run(scene, check, self)
 	await process_frame
 	print("%d UI checks, %d failures" % [checks, failures])
 	scene.player.stop()

@@ -162,3 +162,62 @@ The [architecture contract](combat-presentation.md) documents responsibilities, 
 
 The existing import message `Unable to open Android 'build-tools' directory.` is an Android export-configuration warning, separate from desktop success. No SDK/JDK/templates were installed, no mobile package was produced, and no physical-device or production-animation acceptance is claimed. Current UI, Menu and Map remain placeholders; future schemas, experiments, touch changes, production animation and run/save/reward systems remain outside RC-003. No push, remote change, PR or history rewrite occurred.
 
+
+## October 8, 2026 — RC-004 validated content and configurable setup
+
+RC-004 is complete. The owner explicitly prohibited **all Git operations**, including read-only inspection. None were performed; no revision, branch or checkpoint is asserted for this task. A commit is not an acceptance requirement under that instruction. No applicable `AGENTS.md` was found in the repository or ancestor directories. Required design, workflow, rules, RC-003 handoff and runtime/test files were reviewed before implementation.
+
+### Fresh baseline and environment
+
+The existing pinned `4.7.2.stable.official.ed1daf0bf` installation was used without downloads or upgrades. Before changing behavior, import, core and UI checks ran separately:
+
+| Command / attempt | Exit | Actual result |
+| --- | --- | --- |
+| `-Action import`, sandbox | 0 | `Could not open 'user://' directory` in the object database profiler; not accepted as clean. Existing Android build-tools warning also present. |
+| `-Action import`, normal local access | 0 | Import completed; existing Android build-tools warning only. |
+| `-Action test` | 0 | **75 checks, 0 failures**. |
+| `-Action smoke`, normal local access | 0 | **32 UI checks, 0 failures**; sound preference restored. |
+
+Baseline logs remain locally as `output/qa/rc-004-before-{import-sandbox,import,test,smoke}.log`. The sandbox directory failure matches the prior environmental limitation and was resolved by normal local access, without changing project behavior.
+
+### Final verification
+
+The required actions were executed separately and their output and exit status inspected. The version/import/test/smoke/default-capture sequence was followed by the documented alternate-scene capture. No runtime edits followed the accepted sequence; later edits record documentation and evidence.
+
+| Command | Exit | Actual result |
+| --- | --- | --- |
+| `.\tools\godot.ps1 -Action version` | 0 | `4.7.2.stable.official.ed1daf0bf`. |
+| `.\tools\godot.ps1 -Action import` | 0 | Clean desktop script import; existing Android build-tools warning only. |
+| `.\tools\godot.ps1 -Action test` | 0 | **204 checks, 0 failures**: 75 retained core/controller checks, 90 loader checks, 39 configured-combat checks. |
+| `.\tools\godot.ps1 -Action smoke` | 0 | **62 UI checks, 0 failures**: 32 retained checks plus 30 configuration checks. |
+| `.\tools\godot.ps1 -Action capture` | 0 | `Screenshot saved: OK`; default screen inspected. |
+| `.\tools\godot.ps1 -Action capture -Encounter 'res://data/dev_encounter.json' -CapturePath 'res://output/qa/rc-004-development.png'` | 0 | `Screenshot saved: OK`; actual alternate scene inspected. |
+| `.\tools\godot.ps1 -Action capture -Encounter 'res://data/missing.json' -CapturePath 'res://output/qa/rc-004-invalid.png'` | **1, expected** | Missing-file diagnostic, `Screenshot saved: OK`, visibly disabled configuration-error screen. Negative capture completed before final sequence; failure handling was unchanged afterward. |
+
+UI smoke intentionally prints two `Cannot start encounter` diagnostics: the absent fixture file and the targeted `invalid_ui.enemy_id` reference. They are asserted negative-test outcomes, not script failures. Final accepted runs report no script errors or leaked objects. Standard logs and `rc-004-after-{import,test,smoke}.log`, `rc-004-{training,development,invalid}-capture.log` are retained locally, not as shipped artifacts.
+
+Focused development runs exposed incompatible-Variant comparisons while validating deliberately wrong types; validation now checks types before comparisons and includes six extra wrong-type regressions. The first loader-only probe omitted an absolute log path and reported the known `user://logs` environment restriction; subsequent probes used an explicit workspace log and passed cleanly. An earlier integrated run passed 198 checks before those six cases were added; **204** is the final count. Review also corrected the training title and adopted the roster's `board_training` ID before final acceptance.
+
+Coverage includes required/optional fields, root/field types, numeric fractions/strings/booleans/nonfinite values, bounded health/energy/draw/inventory, unique IDs and references, unsupported effects and generated targets, malformed board geometry versus valid incomplete circuits, opening ownership and installed stock. Combat checks cover both configurations, unique UIDs, conservation through edits/undo/turns, generated-card exclusion, configured effect values/targets, fresh seed reproducibility, existing golden training shuffle/reset continuation, selected-setup Restart and detached input/state/snapshots/results. Retained RC-003 checks continue to prove ordered events, duplicate-input guards, cancellation reentry, stale callbacks and teardown. Actual scene tests cover alternate labels, tooltips, help, cast/undo/restart and every direct gameplay callback after invalid startup.
+
+### Visual evidence
+
+All three 450 by 1000 images were visually inspected. Rendering used OpenGL 3.3 Compatibility on NVIDIA GeForce RTX 5070 Ti, driver 610.88. These PNGs have explicit retention exceptions in the capture policy; other local QA output remains ignored.
+
+| Capture | Fresh write time, Sydney (AEDT) | UTC | Bytes |
+| --- | --- | --- | --- |
+| [Training](../output/qa/rc-004-training.png) | October 8, 23:16:51 | October 8, 12:16:51 | 72,418 |
+| [Development fixture](../output/qa/rc-004-development.png) | October 8, 23:17:14 | October 8, 12:17:14 | 71,458 |
+| [Invalid configuration](../output/qa/rc-004-invalid.png) | October 8, 23:13:28 | October 8, 12:13:28 | 62,547 |
+
+Training SHA-256 is `17f12203709ab5df2d6dc39900f5464ddac96369b3d328c5d6bd563176f13de2`, identical to RC-003 and the refreshed `foundation-screen.png`. Its title, Shadeling/32 HP/attack 8, player 30/30 and energy 3/3, original board, three cards, stock, Cast and navigation remain visible without clipping. The first cast is still 12 damage for one energy, leaving enemy 20 HP and player 22 HP.
+
+The alternate image visibly shows DEVELOPMENT FIXTURE, CALIBRATION WISP, 45/45 HP and attack 3, player 24/40, energy 4/4, Split 2/2 and Join 0/0, Focus/Shield hand, installed Spark, different path and a two-energy Cast. Labels and all controls fit the preserved layout. Its SHA-256 is `b97e5d49114f5d057db080b527c9883a5fdcf05429a8bc6a23366948165ea4be`. UI tests additionally verify draw-two help, the selected enemy's tooltip and contextual Menu/Map/Guide text.
+
+The invalid capture shows CONTENT ERROR, the missing path/reason and visibly disabled board/edit/Cast controls. No hand or playable fallback is created; UI tests also verify disabled Pass/Restart and safe direct callbacks. Its SHA-256 is `558ca43cb1aef9b172e7572cf513f27de30d9fe27e9367b02e49e57f3faad0b1`.
+
+The four approved-reference hashes still match the RC-001 table. No approved reference or production asset was changed or generated. Existing scene geometry, renderer/project settings and circuit rules remain in place; the gameplay-rules text only clarifies configurable training defaults, leaving future mechanics undecided. Documentation file-link validation checked **142 local links, zero broken targets**. All runtime/test GDScript files have their `.gd.uid` companions.
+
+### Limits and handoff
+
+The existing `Unable to open Android 'build-tools' directory.` warning concerns Android export configuration and is separate from desktop success. No engine upgrade, mobile SDK installation, mobile packaging or physical-device acceptance is claimed. The alternate fixture is deliberately development/test content using the shared placeholder artwork, not balanced production roster expansion. Alternate endpoints, obstacles, ports, mixed effects, relics, statuses, guardian phases, run/save/reward systems and production animation/audio remain outside this task. See [content definitions](content-definitions.md), [combat presentation](combat-presentation.md) and the [RC-004 handoff](project-plan.md). **RC-005** is next ready; **RC-010** remains independently available.

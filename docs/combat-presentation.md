@@ -1,15 +1,18 @@
 # Combat and presentation contract
 
-Implemented by RC-003 on October 8, 2026. This contract preserves the single training encounter and [current gameplay rules](gameplay-rules.md). It prepares RC-017's animation integration; it does not implement production animation, configurable encounters, content schemas or run/save systems.
+Implemented by RC-003 and extended by RC-004 on October 8, 2026. This contract preserves the training encounter and [current gameplay rules](gameplay-rules.md), with [validated configurable setup](content-definitions.md). It prepares RC-017's animation integration; production animation and run/save systems remain unimplemented.
 
 ## Responsibilities and command flow
 
-- `scripts/core/combat.gd` is a `RefCounted` model. It owns rules, authoritative state, RNG, editing/undo, payment, damage, cleanup and draws. It loads the existing JSON definitions and runs without scene nodes, audio, timers or animation. `circuit.gd` remains the pure circuit evaluator.
+- `scripts/core/content_loader.gd` reads and validates definitions before battle construction. Failed validation returns diagnostics and no setup. It does not partially initialize combat or substitute training content.
+- `scripts/core/combat.gd` is a `RefCounted` model. It receives validated setup and owns rules, authoritative state, RNG, editing/undo, payment, damage, cleanup and draws. It performs no file access and runs without scene nodes, audio, timers or animation. `circuit.gd` remains the pure circuit evaluator.
 - `scripts/ui/combat_controller.gd` owns the model and a presentation adapter. It accepts commands, guards input, exposes detached snapshots, and coordinates presentation completion/cancellation. Its `is_busy()` is independent of the model's `playing`, `victory` and `defeat` state.
 - `scripts/ui/combat_presentation.gd` supplies the immediate adapter: `present(result, completed)` immediately calls the completion callback. `cancel()` is currently a no-op. The controllable adapter in `tests/delayed_presentation.gd` retains batches/callbacks until explicitly completed; production has no artificial delay.
 - `scripts/ui/main.gd`, attached to `scenes/main.tscn`, composes these objects and builds the existing controls. It owns selection/help, navigation and the existing sound preference/tone. `board_cell.gd` and `arena.gd` draw view data. The screen's `game` dictionary is a detached snapshot, not the combat model.
 
 Player intent → guarded screen handler → `controller.command(name, arguments)` → `model.execute(name, arguments)` → final model state and detached result → presentation → completion → unlocked controls. The model has already finished before presentation starts. A consumer never pays, damages, expires or draws anything.
+
+Construction is `ContentLoader.load_setup(path)` → check `ok` → `Combat.new(result.setup)` → `Controller.new(combat, presenter)`. An optional integer second argument to `Combat.new` overrides the configured seed for headless callers. The constructor copies the setup, and Reset rebuilds active collections from a separate retained copy. It preserves the selected configuration and continues the existing RNG stream. The scene handles a failed load with visible diagnostics and disabled gameplay before constructing any model/controller.
 
 | Command | Arguments | Presentation |
 | --- | --- | --- |
@@ -26,7 +29,9 @@ The controller returns an acceptance boolean. All edits are guarded in controlle
 
 `snapshot()`, `execute()` and `last_result()` return deep copies of nested dictionaries/arrays. Recording an event also copies its payload immediately, before later cleanup/draws can change it. Mutating a view snapshot, a presenter batch, a prior result, or a copy from `last_result()` cannot change authoritative board/hand/catalog/piles or the model's retained outcome. Results remain unchanged after later commands and Reset. These values are detached, not language-enforced immutable objects: a consumer can edit its own copy.
 
-A snapshot includes `encounter_id`, board, hand, draw/discard piles, catalog, encounter definition, health, energy, turn, battle state, `log_text`, intent, forecast, Split/Join stock and undo count. Board cells are zero-based indices 0–15. Cards have definition `id` and instance `uid`; installed runes use `rune_id` and `uid`. The opening Free Spark has UID 0. `player` and `enemy` identify the only two combatants; the encounter definition in the snapshots identifies the training fixture. There is no speculative multi-target schema.
+A snapshot includes `encounter_id`, board, hand, draw/discard piles, catalog, encounter definition, health, energy, turn, battle state, `log_text`, intent, forecast, Split/Join stock and undo count. RC-004 adds `encounter_content_id`, `encounter_title`, `encounter_help_text`, `player_max_hp`, `enemy_max_hp`, `enemy_name`, `energy_per_turn`, `draw_per_turn`, `owned_cards` and `stock_totals` for presentation. `stock` means available quantities; `stock_totals` includes installed pieces. The view binds labels, tooltips and help to these values.
+
+Board cells are zero-based indices 0–15. Cards have definition `id` and instance `uid`; installed runes use `rune_id` and `uid`. The training opening Free Spark retains UID 0. `player` and `enemy` identify the only two combatants. `encounter_content_id` (also `encounter.id`) is the stable content identity, such as `training_shadeling` or `dev_calibration`; `encounter_id` remains the reset generation counter. There is no speculative multi-target schema.
 
 | Result field | Meaning |
 | --- | --- |
@@ -64,7 +69,7 @@ The following records describe operations at their actual resolution point. Snap
 
 Cast order: Cast/payment → enemy damage → shield/retaliation **only if enemy survives** → board expiry → hand/history cleanup → battle end **or** next-turn refresh and actual draws. Pass uses `passed` → retaliation → the same cleanup/terminal/next-turn sequence. A terminal turn retains its turn number and remaining energy.
 
-Focus uses technique/payment/discard/undo commit → any required reshuffle → up to two actual draws. Its own card is already in discard and can be recycled by that draw. Conjure uses technique → card creation, with no turn advancement. No presentation code invokes RNG; the existing descending Fisher–Yates shuffle and end-of-pile draw order are preserved.
+Draw techniques use technique/payment/discard/undo commit → any required reshuffle → up to `value` actual draws (two for Focus). Their own card is already in discard and can be recycled by that draw. Conjure uses technique → `value` card creations of `generated_rune_id`, with no turn advancement. Only explicit `draw` and `conjure` dispatch is supported; an unknown effect cannot fall through to creation. No presentation code invokes RNG; the existing descending Fisher–Yates shuffle and end-of-pile draw order are preserved.
 
 ### Concrete opening Cast
 
@@ -101,6 +106,6 @@ Subclass the immediate adapter and override `present(result, completed)` and `ca
 
 ## Verification entry points
 
-Run the existing `tools/godot.ps1 -Action test` for original rules plus `tests/combat_presentation_tests.gd`, and `-Action smoke` for original UI coverage plus `tests/ui_presentation_tests.gd`. Tests explicitly release the delayed adapter; they do not sleep to simulate animation. They exercise event/state agreement, terminal/Pass/technique/expiry order, detached ownership, rejection, replay, baseline draw order, every guarded mutation, duplicate/stale callbacks, cancellation reentry and actual scene teardown. The smoke runner retains its existing short audio teardown wait; it is not used to prove locking.
+Run the existing `tools/godot.ps1 -Action test` for original rules plus `tests/combat_presentation_tests.gd`, `content_loading_tests.gd` and `combat_configuration_tests.gd`; `-Action smoke` runs original UI coverage plus `tests/ui_presentation_tests.gd` and `ui_configuration_tests.gd`. Tests explicitly release the delayed adapter; they do not sleep to simulate animation. They exercise event/state agreement, terminal/Pass/technique/expiry order, detached ownership, rejection, replay, baseline draw order, every guarded mutation, duplicate/stale callbacks, cancellation reentry and actual scene teardown. Configuration tests add both setups, validation failures, input isolation, ownership, configured effects and invalid-screen guards. The smoke runner retains its existing short audio teardown wait; it is not used to prove locking.
 
 See the dated [verification record](verification.md) and [project handoff](project-plan.md) for actual commands, counts, comparison captures and limitations.

@@ -2,7 +2,7 @@
 
 Rune Cast is a portrait mobile roguelike about constructing spells on a 4 by 4 circuit board. Connect Begin to End, prepare effects, split a spell into branches, and rejoin them before casting. The project targets **Android and iOS**, with a Windows desktop development preview.
 
-This repository contains the project foundation and a playable **single encounter sandbox**, not a complete tower run. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
+This repository contains a playable **single encounter sandbox** with validated, configurable setup, not a complete tower run. Normal launch uses the original training encounter; an alternate development fixture exercises configuration. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
 
 ## Start the project
 
@@ -45,10 +45,20 @@ The bootstrap downloads the official Windows x64 portable editor and verifies it
 
 The screenshot is saved to `output/qa/foundation-screen.png`. Logs also go to `output/qa/`.
 
+To exercise the RC-004 development fixture in the actual scene:
+
+```powershell
+.\tools\godot.ps1 -Action run -Encounter 'res://data/dev_encounter.json'
+.\tools\godot.ps1 -Action capture -Encounter 'res://data/dev_encounter.json' -CapturePath 'res://output/qa/rc-004-development.png'
+```
+
+This is an unbalanced configuration fixture, identified as a development encounter in the screen. Normal launch remains Training Crypt. Restart restores the selected setup while continuing its RNG stream; a fresh scene uses its configured seed. Missing or invalid content displays diagnostics and disables gameplay. Both configurations and invalid startup are covered by the existing test/smoke commands. See [content definitions](docs/content-definitions.md) to author supported setups.
+
 ## Project documentation
 
 - [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
+- [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)
 - [Game description](docs/game-design.md)
 - [Gameplay rules](docs/gameplay-rules.md)
 - [Combat/presentation architecture and animation contract](docs/combat-presentation.md)
@@ -66,10 +76,10 @@ The screenshot is saved to `output/qa/foundation-screen.png`. Logs also go to `o
 
 ```text
 assets/           Runtime art, UI, audio, and future enemy/environment assets
-data/             Rune definitions and the training encounter
+data/             Validated rune, enemy, board, loadout and encounter definitions
 docs/             Design, decisions, setup, and production planning
 scenes/           Godot scene entry points
-scripts/core/     Circuit evaluation and combat state
+scripts/core/     Content validation, circuit evaluation and combat state
 scripts/ui/       Guarded combat controller, presentation adapter and view controls
 tests/            Headless rule checks and UI smoke checks
 tools/            Portable engine setup and launch commands

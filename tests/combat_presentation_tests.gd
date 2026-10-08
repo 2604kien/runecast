@@ -4,6 +4,10 @@ const Combat = preload("res://scripts/core/combat.gd")
 const Controller = preload("res://scripts/ui/combat_controller.gd")
 const Immediate = preload("res://scripts/ui/combat_presentation.gd")
 const Delayed = preload("res://tests/delayed_presentation.gd")
+const ContentLoader = preload("res://scripts/core/content_loader.gd")
+
+func training_combat() -> Combat:
+	return Combat.new(ContentLoader.load_setup().setup)
 
 func types(result: Dictionary) -> Array:
 	return result.events.map(func(event): return event.type)
@@ -17,7 +21,7 @@ func gameplay(game: Combat) -> Dictionary:
 	return value
 
 func run(check: Callable) -> void:
-	var game := Combat.new()
+	var game := training_combat()
 	# Golden draw order from b373a8c under the pinned engine (including reset RNG continuation).
 	check.call(game.draw_pile.map(func(card): return card.uid) == [7, 5, 8, 4, 6], "The seeded opening shuffle is unchanged from the RC-002 baseline.")
 	game.cast()
@@ -26,7 +30,7 @@ func run(check: Callable) -> void:
 	check.call(game.hand.map(func(card): return card.uid) == [5, 7, 4], "Cross-pile draws and reshuffling preserve baseline RNG consumption.")
 	game.reset()
 	check.call(game.draw_pile.map(func(card): return card.uid) == [6, 8, 4, 7, 5], "Restart continues the RNG stream instead of reseeding it.")
-	game = Combat.new()
+	game = training_combat()
 	var before := game.snapshot()
 	var result := game.execute("cast")
 	check.call(types(result) == ["cast", "damage", "shield", "retaliation", "temporary_expired", "turn_cleanup", "turn_started", "card_drawn", "card_drawn", "card_drawn"], "Opening cast exposes resolution, cleanup, refresh and draws in order.")
@@ -133,7 +137,7 @@ func assert_rejected(check: Callable, game: Combat, command: String, arguments: 
 	check.call(not result.accepted and result.action_id == 0 and result.events.is_empty() and game.last_result().events.is_empty() and gameplay(game) == before, label + " preserves all gameplay/RNG/history and exposes no stale events.")
 
 func _controller_checks(check: Callable) -> void:
-	var game := Combat.new()
+	var game := training_combat()
 	var presenter := Delayed.new()
 	var controller := Controller.new(game, presenter)
 	var weak_controller: WeakRef = weakref(controller)
@@ -189,13 +193,13 @@ func _controller_checks(check: Callable) -> void:
 	controller = null
 	check.call(weak_controller.get_ref() == null, "Retained presentation completions do not keep their controller alive.")
 	presenter.complete()
-	controller = Controller.new()
+	controller = Controller.new(training_combat())
 	controller.command("place_wire", {"index": 3, "kind": "erase"})
 	check.call(not controller.command("cast") and not controller.is_busy() and controller.can_edit(), "Rejected actions never strand input.")
 	controller.restart()
 	check.call(controller.command("cast") and not controller.is_busy() and controller.snapshot().player_hp == 22, "Immediate presenter completes synchronously with preserved opening gameplay.")
 	for operation in ["restart", "cancel_presentation"]:
-		game = Combat.new()
+		game = training_combat()
 		presenter = Delayed.new()
 		controller = Controller.new(game, presenter)
 		var disposal_target: WeakRef = weakref(controller)

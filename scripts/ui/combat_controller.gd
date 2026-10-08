@@ -13,8 +13,8 @@ var _closed := false
 var _transitioning := false
 var _token := 0
 
-func _init(combat: Combat = null, presenter: Presentation = null) -> void:
-	_combat = combat if combat != null else Combat.new()
+func _init(combat: Combat, presenter: Presentation = null) -> void:
+	_combat = combat
 	_presenter = presenter if presenter != null else Presentation.new()
 
 func snapshot() -> Dictionary:
