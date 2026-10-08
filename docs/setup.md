@@ -55,3 +55,7 @@ No installable Android or iOS build has been produced. The export presets prepar
 - [Godot iOS export requirements](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html)
 - [Godot scalable UI textures](https://docs.godotengine.org/en/stable/classes/class_styleboxtexture.html)
 
+
+## RC-005 desktop experiments
+
+Use `.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant control -Seed 42` for the development panel. Omit `-Experiment` for unchanged normal gameplay. [Circuit experiments](circuit-experiments.md) documents all scenario/variant IDs, replay versus Restart, local output and RC-006 protocol. `-Action test` and `-Action smoke` include automated experiment checks. `-CaptureStep cast|inspect` is optional with `-Action capture -Experiment` for post-cast/record-inspector evidence; the default is `opening`.

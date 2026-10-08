@@ -221,3 +221,78 @@ The four approved-reference hashes still match the RC-001 table. No approved ref
 ### Limits and handoff
 
 The existing `Unable to open Android 'build-tools' directory.` warning concerns Android export configuration and is separate from desktop success. No engine upgrade, mobile SDK installation, mobile packaging or physical-device acceptance is claimed. The alternate fixture is deliberately development/test content using the shared placeholder artwork, not balanced production roster expansion. Alternate endpoints, obstacles, ports, mixed effects, relics, statuses, guardian phases, run/save/reward systems and production animation/audio remain outside this task. See [content definitions](content-definitions.md), [combat presentation](combat-presentation.md) and the [RC-004 handoff](project-plan.md). **RC-005** is next ready; **RC-010** remains independently available.
+
+## October 9, 2026 — RC-005 controlled circuit experiments
+
+**RC-005 complete.** This is executable experiment/protocol readiness, not human-playtest acceptance or production-rule selection. The original training encounter and Calibration Wisp remain unchanged. The [experiment matrix and RC-006 handoff](circuit-experiments.md) records exact provisional rules, matched setups, known solutions, controls, metrics, confounds and a blank observation/decision template.
+
+### Baseline and scope
+
+No applicable `AGENTS.md` was found in the repository or ancestor directories. Required design, content, gameplay, workflow (excluding Git work), setup, verification and RC-003/RC-004 handoffs were read. The pinned local Godot installation was used without upgrades or downloads.
+
+The owner's request prohibited all Git operations. One initial `git status --short` was mistakenly included in the first inspection command before the pasted prohibition had been read; this was disclosed immediately. No further Git operations were performed. No branch/revision/checkpoint is asserted or required, and the owner retains Git handling.
+
+Fresh pre-behavior baseline:
+
+| Command / context | Exit | Observed result |
+| --- | --- | --- |
+| `-Action import`, sandbox | 0 | Existing `Could not open user:// directory` profiler error; not accepted as clean. Android build-tools warning also present. |
+| `-Action import`, normal local access | 0 | Desktop import succeeded; Android build-tools warning only. |
+| `-Action test` | 0 | **204 checks, 0 failures**. |
+| `-Action smoke`, sandbox | 1 | **56 UI checks, 1 failure**, plus null-file script error in the existing user-directory fixture test; sound persistence could not write. |
+| `-Action smoke`, normal local access | 0 | **62 UI checks, 0 failures**. First approval-review attempt timed out; the permitted retry succeeded. |
+
+Baseline logs: `output/qa/rc-005-before-{import-sandbox,import,test,smoke-sandbox,smoke}.log`. These failures reproduce the earlier environment restriction; they preceded behavior edits and disappear with normal local user-directory access. They are distinct from runtime regressions.
+
+### Final separate commands
+
+Each action below was run separately; output and exit status were inspected after the final runtime changes:
+
+| Exact command | Exit | Actual result |
+| --- | --- | --- |
+| `.\tools\godot.ps1 -Action version` | 0 | `4.7.2.stable.official.ed1daf0bf`. |
+| `.\tools\godot.ps1 -Action import` | 0 | Script import and new UID companions succeeded; existing Android build-tools warning only. |
+| `.\tools\godot.ps1 -Action test` | 0 | **478 checks, 0 failures**: retained204 + experimental core116 + experimental content122 + records/controller36. |
+| `.\tools\godot.ps1 -Action smoke` | 0 | **179 UI checks, 0 failures**: retained62 + experiment117. |
+| `.\tools\godot.ps1 -Action capture` | 0 | `Screenshot saved: OK`; default capture inspected and copied to `rc-005-training.png`. |
+
+Final logs are `output/qa/rc-005-final-{import,test,smoke}.log` and `rc-005-training-capture.log`. Smoke intentionally prints three asserted startup diagnostics (missing normal fixture, invalid enemy reference, unknown experiment scenario); no script errors or leaked-object reports remain. Intermediate focused validation exposed and fixed a test-only inferred-Variant compile error. An early focused probe with a relative log path had the known user-directory path warning; clean absolute-path reruns passed. Integrated intermediate UI count150 preceded the expanded179-check final suite.
+
+Coverage retains default opening damage/health, configured Wisp behavior, loading diagnostics, ordered events, detached snapshots and all RC-003 input/cancellation protections. New checks cover all19 variant semantics/known openings, the real extra-pair witness, strict options and geometry validation, endpoint/block protection, port rotation/connectivity, consumed/disconnected effects, temporary hand/board cleanup, all expiry replacements, multi-hit totals/order/lethal/zero damage, ownership/UID conservation, same-seed replay and reset/retain transfers, duplicate/incompatible transitions, controlled timing, metrics deduplication/classification, RNG independence, serialization and write failure. UI smoke selects and launches all variants, performs witness edits and casts through actual controls, compares exact-replay snapshots, completes both encounters under both transfer modes, checks stale callbacks across replay, exercises notes/export/write errors and malformed startup.
+
+### Visual evidence
+
+All seven fresh 450×1000 PNGs were inspected. Rendering: OpenGL3.3 Compatibility, NVIDIA GeForce RTX5070Ti, driver610.88. The experiment screen uses a compact enemy summary to keep controls/readouts legible; normal artwork/layout is untouched.
+
+| Capture | Sydney AEDT, October9 | Bytes | What was inspected |
+| --- | --- | --- | --- |
+| [Normal training](../output/qa/rc-005-training.png) | 00:56:45 | 72,418 | Original complete board, hand, stats, arena, tools and navigation. |
+| [Blocked cell and controls](../output/qa/rc-005-blocked.png) | 00:57:02 | 109,823 | Scenario/variant/seed, launch/replay/next/export, explicit blocked6 and valid route. |
+| [Alternate endpoints](../output/qa/rc-005-endpoints.png) | 00:57:19 | 115,945 | Begin15/End1, reversed spatial direction, protected endpoint ports and unchanged forecast. |
+| [Corner effect](../output/qa/rc-005-ports.png) | 00:57:29 | 107,879 | Spark3 west-to-south ports agree with the actual powered path. |
+| [Multi-hit after Cast](../output/qa/rc-005-hits.png) | 00:57:38 | 106,446 | Two visible6-damage hits; enemy24/36, player37/40, turn2. |
+| [Retained expiry after Cast](../output/qa/rc-005-expiry.png) | 00:57:48 | 108,796 | Powered3 and disconnected8 become corner wires at the original orientations. |
+| [Record inspector](../output/qa/rc-005-record-inspector.png) | 00:58:13 | 137,366 | Scrollable JSON, resolved local path, optional note field and export button. |
+
+Training SHA-256: `17f12203709ab5df2d6dc39900f5464ddac96369b3d328c5d6bd563176f13de2`, identical to RC-003/RC-004. Its fresh timestamp and capture output establish a new render. Experiment capture commands use `-Action capture -Experiment -Scenario <id> -Variant <variant> -Seed 42 -CapturePath res://output/qa/<name>.png`; use `-CaptureStep cast` for hits/expiry and `-CaptureStep inspect` for the inspector. Other captures use the opening state. Captures produce only QA observation files.
+
+### Actual exported records and reproducibility
+
+Inspected JSON files under `output/qa/experiment-records/`:
+
+- `capture-hits-treatment.json`: one accepted Cast, two hits of6, applied damage12, cost3, retaliation3; version `rc005_v1`, seed42, fingerprint `092168db73a29803cadb18666b48ad289e7f95792d39f77ffe1f67b2a40bc4ff`.
+- `ui-split_inventory-treatment.json`: three accepted edits (two placements/one rotation), one Cast, damage18/cost4, confirming the extra pair is exercised.
+- `ui-encounters-control-complete.json`: four Casts, one rune install, one transition, one rejected duplicate transition, two victories, applied damage48/cost12.
+- `ui-encounters-treatment-complete.json`: four Casts, no required edit, one transition, one rejected duplicate transition, two victories, applied damage48/cost12. These scripted counts are **not human behavior findings**.
+
+A separate local audit, `output/qa/rc005_replay_audit.gd`, read these four actual disk exports, rebuilt each validated scenario/variant/seed, checked its configuration fingerprint, replayed command arguments and compared every serialized after-state. **18 command outcomes reproduced, zero mismatches**, exit0; log `output/qa/rc-005-replay-audit.log`. The maintained UI suite also proves exact starting snapshot equality after every variant's Replay button. Preparation timings/notes are not claimed deterministic.
+
+Human records default to `user://experiments/`; the inspector shows the absolute path. Test/capture files are explicitly separated and labelled automated. Ordinary gameplay constructs no recorder. Writes/exports never consume gameplay RNG; failed writes retain gameplay and show a visible error. Replay/Launch preserve an unsaved session rather than discarding its record.
+
+### Limits and handoff
+
+The Android `Unable to open Android build-tools directory` warning remains an export-configuration issue, separate from desktop success. No mobile SDKs were installed, no package was built, and no physical-device acceptance is claimed. No production rules/assets/animations/audio, on-hit/status system, full tower route, shops/rewards/relics or game saves were added. Approved artwork was not modified.
+
+Equal-total multi-hit cannot establish future armor/on-hit balance. Endpoint rotation tests orientation rather than asymmetric board difficulty; the blocked cell initially lies off the path; the corner Spark changes starting cell to hold a valid path constant. The transfer harness supports two identical-geometry encounters only. All these limits are explicit in the protocol. **RC-006 requires actual human playtesting and decisions; RC-010 remains independently available.**
+
+Documentation validation checked **128 local links, zero broken targets** across the updated handoff/reference files. Every runtime/test `.gd` has its generated `.gd.uid` companion. Read-only cross-reviews found no remaining blocking runtime issues; two protocol wording issues (installed Shield count and executable Focus setup) were corrected before handoff.

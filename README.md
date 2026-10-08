@@ -2,7 +2,7 @@
 
 Rune Cast is a portrait mobile roguelike about constructing spells on a 4 by 4 circuit board. Connect Begin to End, prepare effects, split a spell into branches, and rejoin them before casting. The project targets **Android and iOS**, with a Windows desktop development preview.
 
-This repository contains a playable **single encounter sandbox** with validated, configurable setup, not a complete tower run. Normal launch uses the original training encounter; an alternate development fixture exercises configuration. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
+This repository contains a playable **single encounter sandbox** with validated, configurable setup and an opt-in RC-005 circuit experiment harness, not a complete tower run. Normal launch uses the original training encounter; an alternate development fixture exercises configuration. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
 
 ## Start the project
 
@@ -56,6 +56,16 @@ This is an unbalanced configuration fixture, identified as a development encount
 
 ## Project documentation
 
+RC-005 offers six experiment families through nine bounded scenarios and 19 variants. Launch a matched pair with:
+
+```powershell
+.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant control -Seed 42
+.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant treatment -Seed 42
+```
+
+The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Exact replay restores the cached starting setup and seed; Menu Restart retains its existing RNG continuation. Records stay in `user://experiments/` (absolute path shown in Inspect); automated evidence stays in `output/qa/experiment-records/`. All candidate rules are provisional. See the [matrix, known solutions and RC-006 human protocol](docs/circuit-experiments.md). Existing test/smoke commands include the harness. RC-006 requires human playtesting; RC-010 remains independently available.
+
+- [Circuit experiments — opt-in matrix, replay, records and human protocol](docs/circuit-experiments.md)
 - [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)
@@ -91,5 +101,5 @@ output/qa/        Local verification screenshots and logs
 
 Android and iOS export presets are included with **development placeholder identifiers**. No APK, IPA, or App Store build is claimed. Android SDK/JDK and matching export templates must be configured for packaging; iOS export requires macOS, Xcode, and signing details. See [setup](docs/setup.md).
 
-The intended product includes 15–25 minute runs and saving between encounters. Those systems are on the roadmap; current persistence covers the sound preference only.
+The intended product includes 15–25 minute runs and saving between encounters. Those systems remain on the roadmap; current local persistence covers the sound preference and opt-in experiment observation records.
 

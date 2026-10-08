@@ -4,8 +4,18 @@ var enemy_hp := 0
 var enemy_max_hp := 1
 var attack := 0
 var battle_state := "unavailable"
+var compact := false
 
 func _draw() -> void:
+	if compact:
+		draw_set_transform(Vector2.ZERO, 0, Vector2(size.x / 680.0, 1))
+		draw_rect(Rect2(0, 0, 680, 90), Color("#111c32"))
+		var compact_font := get_theme_default_font()
+		_text(compact_font, "%s  /  %d of %d HP" % [enemy_name.to_upper(), enemy_hp, enemy_max_hp], 29, 22, Color("#f1dfb6"))
+		_text(compact_font, "ATTACK %d" % attack if battle_state == "playing" else battle_state.to_upper(), 58, 21, Color("#ff9d89"))
+		draw_rect(Rect2(140, 71, 400, 8), Color("#522438"))
+		draw_rect(Rect2(140, 71, 400.0 * float(enemy_hp) / enemy_max_hp, 8), Color("#c95563"))
+		return
 	draw_set_transform(Vector2.ZERO, 0, Vector2(size.x / 680.0, size.y / 300.0))
 	draw_rect(Rect2(0, 0, 680, 300), Color("#111c32"))
 	for i in range(8):

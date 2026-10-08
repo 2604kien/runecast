@@ -86,3 +86,7 @@ The visual reference uses illustrative health values and Turn 2. Those are not t
 
 RC-004's [content definitions](content-definitions.md) configure current stats, ownership, initial placement and scalar intents within these rules. The alternate development fixture is not a production roster addition or a balance decision. Endpoint geometry, effect lifetime, Split cost and other experiment questions remain unchanged.
 
+
+## Experiment-only development mode
+
+RC-005 provides explicitly opt-in alternatives through `-Experiment`; they do not change the normal rules above. See [circuit experiments](circuit-experiments.md) for provisional semantics, seeds, controls and limitations. No winning production rules or human-playtest results have been declared.

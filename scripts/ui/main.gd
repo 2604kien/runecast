@@ -6,6 +6,8 @@ const Presentation = preload("res://scripts/ui/combat_presentation.gd")
 const Cell = preload("res://scripts/ui/board_cell.gd")
 const Arena = preload("res://scripts/ui/arena.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
+const Experiments = preload("res://scripts/core/experiments.gd")
+const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -34,13 +36,44 @@ var player: AudioStreamPlayer
 var dialog: AcceptDialog
 var menu: ConfirmationDialog
 var pass_button: Button
+var experiment_mode := false
+var experiment_scenario := "effects"
+var experiment_variant := "control"
+var experiment_seed := 42
+# Tests explicitly use output/qa; human sessions default to user://experiments.
+var experiment_record_path := ""
+var experiment_setup: Dictionary = {}
+var scenario_select: OptionButton
+var variant_select: OptionButton
+var seed_input: LineEdit
+var experiment_label: Label
+var experiment_feedback: Label
+var experiment_events: Label
+var next_button: Button
+var replay_button: Button
+var record_dialog: AcceptDialog
+var record_text: TextEdit
+var note_input: LineEdit
+var last_record_path := ""
+var record_error := ""
 
 func _ready() -> void:
 	if setup_path == "":
+		experiment_mode = experiment_mode or "--experiment" in OS.get_cmdline_user_args()
+		experiment_scenario = _argument_value("--scenario=", experiment_scenario)
+		experiment_variant = _argument_value("--variant=", experiment_variant)
+		var seed_text := _argument_value("--seed=", str(experiment_seed))
+		experiment_seed = int(seed_text) if seed_text.is_valid_int() else -1
 		setup_path = _argument_value("--encounter=", "res://data/encounter.json")
-	var loaded: Dictionary = ContentLoader.load_setup(setup_path)
+	var loaded: Dictionary = Experiments.load_setup(experiment_scenario, experiment_variant, experiment_seed) if experiment_mode else ContentLoader.load_setup(setup_path)
 	if loaded.ok:
-		controller = Controller.new(Combat.new(loaded.setup), Presentation.new())
+		var model := Combat.new(loaded.setup)
+		if experiment_mode:
+			experiment_setup = loaded.setup.duplicate(true)
+		controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(loaded.setup, model.snapshot()) if experiment_mode else null)
+		if experiment_mode and "--capture" in OS.get_cmdline_user_args():
+			experiment_record_path = "res://output/qa/experiment-records/capture-%s-%s.json" % [experiment_scenario, experiment_variant]
+			controller.add_note("AUTOMATED CAPTURE: no human observation")
 		game = controller.snapshot()
 	else:
 		startup_error = "Cannot start encounter.\n" + "\n".join(loaded.errors)
@@ -51,8 +84,17 @@ func _ready() -> void:
 	if controller != null:
 		controller.changed.connect(_refresh)
 		controller.presentation_started.connect(_presentation_started)
+		if experiment_mode:
+			controller.changed.connect(_save_experiment_record)
+			_save_experiment_record()
 	_refresh()
 	if "--capture" in OS.get_cmdline_user_args():
+		if experiment_mode and controller != null:
+			var capture_step := _argument_value("--capture-step=", "opening")
+			if capture_step == "cast":
+				_cast()
+			elif capture_step == "inspect":
+				_inspect_experiment_record()
 		await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		var capture_path := _argument_value("--capture-path=", "res://output/qa/foundation-screen.png")
@@ -72,6 +114,8 @@ func _can_edit() -> bool:
 
 func _exit_tree() -> void:
 	if controller != null:
+		if experiment_mode:
+			_save_experiment_record()
 		controller.dispose()
 
 func _presentation_started(result: Dictionary) -> void:
@@ -132,9 +176,12 @@ func _build_ui() -> void:
 	margin.add_child(column)
 	encounter_title = _label("", 28)
 	column.add_child(encounter_title)
+	if experiment_mode:
+		_build_experiment_controls(column)
 	arena = Control.new()
 	arena.set_script(Arena)
-	arena.custom_minimum_size.y = 310
+	arena.compact = experiment_mode
+	arena.custom_minimum_size.y = 90 if experiment_mode else 310
 	column.add_child(arena)
 	stats = _label("")
 	column.add_child(stats)
@@ -215,6 +262,8 @@ func _build_ui() -> void:
 	player.stream = sound
 	player.volume_db = -12
 	add_child(player)
+	if experiment_mode:
+		_build_record_dialog()
 
 func _refresh() -> void:
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
@@ -222,6 +271,8 @@ func _refresh() -> void:
 		_refresh_startup_error()
 		return
 	game = controller.snapshot()
+	if experiment_mode:
+		_refresh_experiment()
 	var spell: Dictionary = game.forecast
 	var editable := _can_edit()
 	encounter_title.text = "RUNE CAST   /   " + game.encounter.title.to_upper()
@@ -236,13 +287,17 @@ func _refresh() -> void:
 	stats.text = "HEALTH %d / %d       ENERGY %d / %d       TURN %d" % [game.player_hp, game.player_max_hp, game.energy, game.energy_per_turn, game.turn]
 	stats.tooltip_text = "Refreshes to %d energy and draws %d cards each turn." % [game.energy_per_turn, game.draw_per_turn]
 	menu.dialog_text = "Restart %s?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast." % game.encounter.title
+	if experiment_mode:
+		menu.dialog_text = "Restart this experiment with continuing RNG.\nUse Exact replay above the board to restore the original seed.\n" + game.encounter.help_text
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
 	banner.modulate = Color("#7addba") if spell.valid else Color("#edb26b")
 	banner.tooltip_text = spell.message
 	for index in range(cells.size()):
 		var cell: Button = cells[index]
 		cell.piece = game.board[index]
-		cell.disabled = not editable
+		cell.catalog = game.catalog
+		cell.split_cost = int(game.get("experiment", {}).get("split_cost", 1))
+		cell.disabled = not editable or (experiment_mode and cell.piece.get("kind") == "blocked")
 		cell.active = spell.active.has(index)
 		cell.chosen = index == selected_cell
 		cell.end_value = int(spell.damage) if spell.valid else 0
@@ -282,6 +337,10 @@ func _rune_description(rune: Dictionary) -> String:
 	return ""
 
 func _refresh_startup_error() -> void:
+	if experiment_mode:
+		experiment_label.text = "%s / %s | seed %d | unavailable" % [experiment_scenario, experiment_variant, experiment_seed]
+		next_button.disabled = true
+		replay_button.disabled = true
 	encounter_title.text = "RUNE CAST   /   CONTENT ERROR"
 	encounter_title.tooltip_text = setup_path
 	arena.enemy_name = "ENCOUNTER UNAVAILABLE"
@@ -400,6 +459,8 @@ func _show_guide() -> void:
 	dialog.title = "Circuit guide"
 	var context: String = startup_error if controller == null else game.encounter.help_text
 	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
+	if experiment_mode:
+		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. Protected endpoints and blocked cells cannot be edited. Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
 	dialog.popup_centered(Vector2i(620, 620))
 
 func _toggle_sound() -> void:
@@ -415,4 +476,156 @@ func _load_settings() -> void:
 	var config := ConfigFile.new()
 	if config.load("user://settings.cfg") == OK:
 		sound_enabled = bool(config.get_value("audio", "enabled", true))
+
+func _build_experiment_controls(column: VBoxContainer) -> void:
+	column.add_child(_label("RC-005 LAB / provisional rules", 19))
+	var choices := HBoxContainer.new()
+	column.add_child(choices)
+	scenario_select = OptionButton.new()
+	scenario_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for entry in Experiments.list_scenarios():
+		scenario_select.add_item(entry.title)
+		scenario_select.set_item_metadata(scenario_select.item_count - 1, entry.id)
+		if entry.id == experiment_scenario:
+			scenario_select.select(scenario_select.item_count - 1)
+	choices.add_child(scenario_select)
+	variant_select = OptionButton.new()
+	choices.add_child(variant_select)
+	seed_input = LineEdit.new()
+	seed_input.text = str(experiment_seed)
+	seed_input.placeholder_text = "Seed"
+	seed_input.tooltip_text = "Integer seed, 0 to 2147483647"
+	seed_input.custom_minimum_size.x = 100
+	choices.add_child(seed_input)
+	scenario_select.item_selected.connect(_experiment_scenario_selected)
+	_experiment_scenario_selected(scenario_select.selected)
+	for index in range(variant_select.item_count):
+		if variant_select.get_item_text(index) == experiment_variant:
+			variant_select.select(index)
+	var actions := HBoxContainer.new()
+	column.add_child(actions)
+	_button("Launch", _launch_selected_experiment, actions)
+	replay_button = _button("Exact replay", _replay_experiment, actions)
+	next_button = _button("Next encounter", _next_experiment_encounter, actions)
+	_button("Inspect / export", _inspect_experiment_record, actions)
+	for button in actions.get_children():
+		button.add_theme_font_size_override("font_size", 16)
+	experiment_label = _label("", 16)
+	experiment_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(experiment_label)
+	experiment_events = _label("", 15)
+	experiment_events.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(experiment_events)
+	experiment_feedback = _label("", 14)
+	experiment_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(experiment_feedback)
+
+func _experiment_scenario_selected(index: int) -> void:
+	variant_select.clear()
+	var id: String = scenario_select.get_item_metadata(index)
+	for entry in Experiments.list_scenarios():
+		if entry.id == id:
+			for variant in entry.variants:
+				variant_select.add_item(variant)
+
+func _launch_selected_experiment() -> void:
+	var seed_text := seed_input.text.strip_edges()
+	var chosen_seed := int(seed_text) if seed_text.is_valid_int() else -1
+	_launch_experiment(str(scenario_select.get_selected_metadata()), variant_select.get_item_text(variant_select.selected), chosen_seed)
+
+func _launch_experiment(scenario: String, variant: String, seed_value: int, cached_setup: Dictionary = {}) -> bool:
+	var loaded: Dictionary = Experiments.load_setup(scenario, variant, seed_value) if cached_setup.is_empty() else {"ok": true, "setup": cached_setup.duplicate(true)}
+	if not loaded.ok:
+		experiment_feedback.text = "Launch rejected: " + " / ".join(loaded.errors)
+		return false
+	# Preserve a session if its local record cannot be saved; gameplay can continue.
+	if controller != null:
+		_save_experiment_record()
+		if record_error != "":
+			experiment_feedback.text = "Session kept. " + record_error
+			return false
+		controller.dispose()
+	experiment_scenario = scenario
+	experiment_variant = variant
+	experiment_seed = seed_value
+	experiment_setup = loaded.setup.duplicate(true)
+	startup_error = ""
+	var model := Combat.new(experiment_setup)
+	controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(experiment_setup, model.snapshot()))
+	controller.changed.connect(_refresh)
+	controller.changed.connect(_save_experiment_record)
+	controller.presentation_started.connect(_presentation_started)
+	_clear_selection()
+	menu.get_ok_button().disabled = false
+	_refresh()
+	_save_experiment_record()
+	return true
+
+func _replay_experiment() -> void:
+	_launch_experiment(experiment_scenario, experiment_variant, experiment_seed, experiment_setup)
+
+func _next_experiment_encounter() -> void:
+	if controller != null:
+		_clear_selection()
+		controller.command("next_encounter")
+
+func _refresh_experiment() -> void:
+	var options: Dictionary = game.get("experiment", {})
+	experiment_label.text = "%s / %s | seed %d | encounter %d/ %d\n%s" % [experiment_scenario, experiment_variant, experiment_seed, game.get("encounter_number", 1), 2 if options.get("transfer", "none") != "none" else 1, game.encounter.help_text]
+	experiment_label.tooltip_text = JSON.stringify(options, "  ")
+	next_button.disabled = not game.get("can_advance", false) or controller.is_busy()
+	replay_button.disabled = false
+	var details: Array[String] = []
+	# Raw ordered outcomes remain inspectable even when immediate playback completes.
+	var latest: Dictionary = controller.get_record().latest_result() if controller.get_record() != null else {}
+	for event in latest.get("events", []):
+		if event.type == "damage":
+			details.append("hit %d (%d applied)" % [event.amount, event.applied])
+		elif event.type in ["effect_consumed", "temporary_expired", "battle_ended", "encounter_transition"]:
+			details.append(event.type)
+	experiment_events.text = "Latest: " + (", ".join(details) if not details.is_empty() else "No damage / cleanup events yet")
+	experiment_events.tooltip_text = JSON.stringify(latest, "  ")
+
+func _save_experiment_record() -> void:
+	if not experiment_mode or controller == null:
+		return
+	var result: Dictionary = controller.export_record(experiment_record_path)
+	record_error = "" if result.ok else "Record write failed: " + result.error
+	if result.ok:
+		last_record_path = result.path
+	if experiment_feedback != null:
+		experiment_feedback.text = "Saved locally. Inspect / export for path and notes." if result.ok else record_error
+		experiment_feedback.tooltip_text = result.path
+
+func _build_record_dialog() -> void:
+	record_dialog = AcceptDialog.new()
+	record_dialog.title = "Local experiment observation"
+	record_dialog.min_size = Vector2i(660, 720)
+	add_child(record_dialog)
+	var body := VBoxContainer.new()
+	record_dialog.add_child(body)
+	note_input = LineEdit.new()
+	note_input.placeholder_text = "Optional tester note (avoid personal information)"
+	body.add_child(note_input)
+	_button("Add note and export", _add_experiment_note, body)
+	record_text = TextEdit.new()
+	record_text.editable = false
+	record_text.custom_minimum_size = Vector2(620, 550)
+	record_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_child(record_text)
+
+func _inspect_experiment_record() -> void:
+	if controller == null:
+		return
+	_save_experiment_record()
+	record_text.text = (last_record_path if record_error == "" else record_error) + "\n\n" + JSON.stringify(controller.record_document(), "  ")
+	record_dialog.popup_centered(Vector2i(660, 720))
+
+func _add_experiment_note() -> void:
+	if controller == null:
+		return
+	if not note_input.text.strip_edges().is_empty():
+		controller.add_note(note_input.text.strip_edges())
+		note_input.clear()
+	_inspect_experiment_record()
 

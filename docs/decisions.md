@@ -71,3 +71,7 @@ The [experiment matrix](v1-design-spec.md#experiments-deliberately-left-open) re
 
 The biggest remaining design risk is a standard layout that puts every effect before Split. A split limit controls scaling but does not solve layout repetition. Test varying board obstacles, endpoints, effect ports, and enemy demands before adding more currencies or arbitrary restrictions.
 
+
+## RC-005 candidates available — October 9, 2026
+
+The [controlled experiment harness](circuit-experiments.md) implements provisional alternatives for all six reserved questions: effect lifetime, extra Split allowance/cost, alternate endpoints/blocked cells/effect ports, damage-hit representation, temporary expiry geometry, and reset/retain transfer. It provides matched seeds, known solutions, local records and a human protocol. These are executable candidates, not owner-approved production rules. All six decisions remain **pending RC-006 human evidence**; automated checks establish behavior and reproducibility only. RC-007 implements subsequent selected rules. Existing normal gameplay defaults remain unchanged.

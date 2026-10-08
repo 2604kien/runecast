@@ -82,6 +82,9 @@ func _initialize() -> void:
 	preload("res://tests/combat_presentation_tests.gd").new().run(check)
 	preload("res://tests/content_loading_tests.gd").new().run(check)
 	preload("res://tests/combat_configuration_tests.gd").new().run(check)
+	preload("res://tests/experiment_combat_tests.gd").new().run(check)
+	preload("res://tests/experiment_content_tests.gd").new().run(check)
+	preload("res://tests/experiment_record_tests.gd").new().run(check)
 	print("%d checks, %d failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)
 

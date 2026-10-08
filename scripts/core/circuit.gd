@@ -31,9 +31,12 @@ static func ports(piece: Dictionary) -> Dictionary:
 	match piece.get("kind", ""):
 		"begin": output = [1]
 		"end": input = [0]
-		"straight", "rune":
+		"straight":
 			input = [3]
 			output = [1]
+		"rune":
+			input = [3]
+			output = [2] if piece.get("port_shape", "straight") == "corner" else [1]
 		"corner":
 			input = [3]
 			output = [2]
@@ -59,21 +62,36 @@ static func neighbor(index: int, direction: int) -> int:
 		return -1
 	return position.y * WIDTH + position.x
 
-static func evaluate(board: Array, catalog: Dictionary) -> Dictionary:
+static func evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}) -> Dictionary:
 	var result := {"valid": false, "damage": 0, "shield": 0, "cost": 0, "message": "", "active": []}
-	if board.size() != 16 or board[BEGIN].get("kind") != "begin" or board[END].get("kind") != "end":
+	var begin := BEGIN
+	var end := END
+	if not options.is_empty() and board.size() == 16:
+		var begins: Array = []
+		var ends: Array = []
+		for index in range(board.size()):
+			if board[index].get("kind") == "begin":
+				begins.append(index)
+			if board[index].get("kind") == "end":
+				ends.append(index)
+		if begins.size() != 1 or ends.size() != 1:
+			result.message = "An experimental board requires exactly one Begin and End."
+			return result
+		begin = begins[0]
+		end = ends[0]
+	if board.size() != 16 or board[begin].get("kind") != "begin" or board[end].get("kind") != "end":
 		result.message = "Begin and End must remain in their sockets."
 		return result
 	var context := {"visiting": {}, "visited": {}, "order": [], "parents": {}, "error": ""}
-	_visit(BEGIN, board, context)
+	_visit(begin, board, context)
 	if context.error != "":
 		result.message = context.error
 		return result
-	if not context.visited.has(END):
+	if not context.visited.has(end):
 		result.message = "Connect Begin to End."
 		return result
 	for index in context.order:
-		if index == BEGIN:
+		if index == begin:
 			continue
 		var expected: int = ports(board[index]).input.size()
 		if context.parents.get(index, []).size() != expected:
@@ -83,10 +101,13 @@ static func evaluate(board: Array, catalog: Dictionary) -> Dictionary:
 	order.reverse()
 	var signals := {}
 	for index in order:
-		var signal_value := {"damage": 0, "shield": 0}
+		var signal_value := {"damage": 0, "shield": 0, "hits": []}
 		for parent in context.parents.get(index, []):
 			signal_value.damage += signals[parent].damage
 			signal_value.shield += signals[parent].shield
+			# Parent arrival follows Begin's output-port DFS order. Each branch
+			# gets the entire contribution list; Join concatenates without merging.
+			signal_value.hits.append_array(signals[parent].hits)
 		var piece: Dictionary = board[index]
 		if piece.kind == "rune":
 			var rune: Dictionary = catalog.get(piece.rune_id, {})
@@ -94,13 +115,17 @@ static func evaluate(board: Array, catalog: Dictionary) -> Dictionary:
 				result.message = "Unknown effect rune."
 				return result
 			signal_value[rune.effect] += int(rune.value)
+			if rune.effect == "damage" and int(rune.value) > 0:
+				signal_value.hits.append(int(rune.value))
 			result.cost += int(rune.cost)
 		elif piece.kind == "split":
-			result.cost += 1
+			result.cost += int(options.get("split_cost", 1))
 		signals[index] = signal_value
 	result.valid = true
-	result.damage = signals[END].damage
-	result.shield = signals[END].shield
+	result.damage = signals[end].damage
+	result.shield = signals[end].shield
+	if options.get("damage_mode") == "multi_hit":
+		result.hits = signals[end].hits.duplicate()
 	result.active = order
 	result.message = "Circuit complete"
 	return result

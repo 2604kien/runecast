@@ -5,10 +5,17 @@ var catalog: Dictionary = {}
 var active := false
 var chosen := false
 var end_value := 0
+var split_cost := 1
 
 func _draw() -> void:
 	var center := size * 0.5
 	if piece.is_empty():
+		return
+	if piece.get("kind") == "blocked":
+		draw_rect(Rect2(Vector2(7, 7), size - Vector2(14, 14)), Color("#343844"))
+		draw_line(Vector2(18, 18), size - Vector2(18, 18), Color("#ad8390"), 5)
+		draw_line(Vector2(size.x - 18, 18), Vector2(18, size.y - 18), Color("#ad8390"), 5)
+		_center_text(get_theme_default_font(), "BLOCKED", center.y + 6, 17, Color("#eee0bf"))
 		return
 	var port := Circuit.ports(piece)
 	var line_color := Color("#ffc76b") if active else Color("#657993")
@@ -46,7 +53,7 @@ func _draw() -> void:
 		_center_text(font, symbol, center.y + 10, 30, tint)
 		_center_text(font, amount, size.y - 10, 21, tint)
 		if piece.kind in ["split", "rune"]:
-			var cost := 1 if piece.kind == "split" else int(catalog[piece.rune_id].cost)
+			var cost := split_cost if piece.kind == "split" else int(catalog[piece.rune_id].cost)
 			draw_circle(Vector2(size.x - 17, 18), 13, Color("#196090"))
 			draw_string(font, Vector2(size.x - 22, 24), str(cost), HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color.WHITE)
 	if chosen:

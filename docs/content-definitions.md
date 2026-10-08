@@ -1,6 +1,6 @@
 # Validated content definitions
 
-RC-004 adds a small loader for the current combat rules. Definitions describe existing scalar damage/shield runes, draw/conjure techniques, fixed-geometry boards, attack sequences and player setups. They do not implement the future roster, relics, statuses, combined effects, obstacles, alternate ports or guardian phases.
+RC-004 adds a small loader for the current combat rules. Normal definitions describe existing scalar damage/shield runes, draw/conjure techniques, fixed-geometry boards, attack sequences and player setups. RC-005 adds narrowly gated experimental geometry described below. The future roster, relics, statuses, combined effects and guardian phases remain unimplemented.
 
 ## Files and entry points
 
@@ -55,7 +55,7 @@ Required fields are `id`, `width`, `height` and `placements`. Width and height m
 
 `rotation` is an optional integer 0–3, default 0, representing clockwise quarter turns. `reversed` is optional boolean, default false, and may be explicitly supplied only for straight/corner wires. A `rune` placement requires a known `rune_id` whose definition type is `rune`; other pieces cannot carry this field. Board data never provides card UIDs.
 
-Begin must be explicitly installed at cell 0, End at cell 14, both rotation 0. No other endpoint locations are supported. Explicit custom ports, endpoint geometry, blocked cells and obstacle kinds fail validation. The roster's stable introductory board ID is `board_training`.
+In normal loading, Begin must be explicitly installed at cell 0, End at cell 14, both rotation 0. Explicit custom ports, endpoint geometry, blocked cells and obstacle kinds fail validation outside the opt-in experimental contexts below. The roster's stable introductory board ID is `board_training`.
 
 A structurally valid board does **not** need to be currently castable. Open connections, disconnected pieces and incomplete paths remain editable starting positions; `RuneCircuit.evaluate` supplies the ordinary circuit forecast and cast rejection. Schema errors concern malformed/unsupported data, not whether the current circuit can cast.
 
@@ -113,3 +113,17 @@ The alternate **Calibration Wisp** is explicitly a development fixture, not bala
 Missing/unreadable files, malformed JSON and schema failures return diagnostics such as `res://data/runes.json [spark].cost: expected an integer in [0, 20]`. JSON syntax errors include a parser line. The screen shows startup errors and disables gameplay with no silently playable training fallback. Tests inject malformed/invalid fixtures under `tests/fixtures/` and mutate detached source documents; production data is not corrupted.
 
 The existing `-Action test` includes loader and configured-combat tests; `-Action smoke` exercises alternate bindings and safe invalid startup alongside RC-003 interaction/cancellation coverage. See [combat presentation](combat-presentation.md) for snapshot construction and [verification](verification.md) for dated actual counts, captures and environment limits.
+
+## RC-005 opt-in extensions
+
+Normal `load_setup` has no experimental flag: JSON cannot enable candidate rules by adding an encounter field. `RuneExperiments.load_setup(scenario_id, variant_id, seed=42)` builds bounded fixture documents and calls `validate_documents(documents, source_names={}, experiment_context=null)` with an explicit context. `experiment_options` creates the exact `rc005_v1` mapping, and `validate_experiment` rejects unknown/missing keys, incorrect types, unknown IDs, mismatched seed/version or rules inconsistent with that scenario/variant. There is no general scripting or arbitrary option cross-product.
+
+Normalized experimental setup gains a detached `experiment` dictionary: `scenario_id`, `variant_id`, `version`, `seed`, `effects`, `split_cost`, `damage_mode`, `expiry`, `transfer`. See the [matrix and exact semantics](circuit-experiments.md). The same core model implements these strategies; normal snapshots and events retain their existing shape.
+
+Geometry capabilities are limited to their comparison context:
+
+- `endpoints/treatment`: exactly one Begin and End at unique cells, rotations 0–3, each endpoint port facing an in-bounds neighbor. Both are protected in model editing. Other scenarios retain the normal endpoint rules.
+- `blocked/treatment`: `kind: blocked`, rotation0, no rune ID or explicit reversal. It has zero ports, cannot be edited, and blocks traversal as well as rendering a marked cell.
+- `ports` and `expiry`: effect definitions may specify `port_shape: straight|corner`; techniques may not. Placement metadata is derived from the catalog, never independently supplied. `RuneCircuit.ports`, evaluation, installed-card placement, rotation and rendering share this geometry. No arbitrary port arrays or new effect families are accepted.
+
+Experiment fixtures use existing scalar rune definitions without modifying normal content files. Unknown document fields, second-board/transfer overrides and unsupported combinations are rejected. The two-encounter harness repeats identical geometry; it never silently relocates pieces. It conserves existing permanent UIDs across its one transition and excludes temporary ownership. A fresh exact replay reconstructs the cached normalized setup/seed; normal Restart still continues RNG. The setup fingerprint and full setup are recorded locally for reproduction.

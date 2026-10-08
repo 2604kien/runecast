@@ -10,6 +10,53 @@ const DEFINITION_PATHS := {
 const MAX_CARDS := 100
 const MAX_TURN_AMOUNT := 20
 const MAX_HEALTH := 100000
+const EXPERIMENT_VERSION := "rc005_v1"
+const EXPERIMENT_VARIANTS := {
+	"effects": ["control", "treatment"], "split_inventory": ["control", "treatment"],
+	"split_cost": ["control", "treatment"], "endpoints": ["control", "treatment"],
+	"blocked": ["control", "treatment"], "ports": ["control", "treatment"],
+	"hits": ["control", "treatment"], "expiry": ["control", "retained", "empty"],
+	"encounters": ["control", "treatment"]
+}
+
+# Explicit context is separate from normal JSON loading: content cannot opt
+# itself into experimental capabilities by adding an encounter field.
+static func experiment_options(scenario_id: Variant, variant_id: Variant, seed: Variant = 42) -> Dictionary:
+	var errors: Array = []
+	if not scenario_id is String or not EXPERIMENT_VARIANTS.has(scenario_id):
+		_error(errors, "experiment.scenario_id", "unknown scenario")
+	elif not variant_id is String or not variant_id in EXPERIMENT_VARIANTS[scenario_id]:
+		_error(errors, "experiment.variant_id", "unknown variant for '%s'" % scenario_id)
+	_number(seed, 0, 2147483647, "experiment.seed", errors)
+	if not errors.is_empty():
+		return _result(errors)
+	var options := {"scenario_id": scenario_id, "variant_id": variant_id,
+		"version": EXPERIMENT_VERSION, "seed": int(seed), "effects": "persistent",
+		"split_cost": 1, "damage_mode": "aggregate", "expiry": "straight", "transfer": "none"}
+	if scenario_id == "effects" and variant_id == "treatment":
+		options.effects = "consumed"
+	if scenario_id == "split_cost" and variant_id == "treatment":
+		options.split_cost = 2
+	if scenario_id == "hits" and variant_id == "treatment":
+		options.damage_mode = "multi_hit"
+	if scenario_id == "expiry" and variant_id != "control":
+		options.expiry = variant_id
+	if scenario_id == "encounters":
+		options.transfer = "reset" if variant_id == "control" else "retain"
+	return _result([], options)
+
+static func validate_experiment(context: Variant) -> Dictionary:
+	if not context is Dictionary:
+		return _result(["experiment: expected an explicit options object"])
+	var expected := experiment_options(context.get("scenario_id"), context.get("variant_id"), context.get("seed"))
+	if not expected.ok:
+		return expected
+	var errors: Array = []
+	_fields(context, expected.setup.keys(), "experiment", errors)
+	for key in expected.setup:
+		if not _matches(context.get(key), expected.setup[key]):
+			_error(errors, "experiment." + key, "expected %s for this version/scenario/variant" % str(expected.setup[key]))
+	return _result(errors, expected.setup)
 
 static func load_setup(encounter_path: String = DEFAULT_ENCOUNTER, definition_paths: Dictionary = {}) -> Dictionary:
 	var paths := DEFINITION_PATHS.duplicate()
@@ -48,14 +95,21 @@ static func read_document(path: String) -> Dictionary:
 		return {"ok": false, "errors": ["%s: JSON line %d: %s" % [path, parser.get_error_line(), parser.get_error_message()]]}
 	return {"ok": true, "errors": [], "document": parser.data}
 
-static func validate_documents(documents: Dictionary, source_names: Dictionary = {}) -> Dictionary:
+static func validate_documents(documents: Dictionary, source_names: Dictionary = {}, experiment_context: Variant = null) -> Dictionary:
 	var errors: Array = []
+	var experiment := {}
+	if experiment_context != null:
+		var validated_experiment := validate_experiment(experiment_context)
+		if not validated_experiment.ok:
+			return validated_experiment
+		experiment = validated_experiment.setup
+	_fields(documents, ["runes", "boards", "enemies", "loadouts", "encounter"], "documents", errors)
 	var definitions := {}
 	for kind in ["runes", "boards", "enemies", "loadouts"]:
 		definitions[kind] = _index(documents.get(kind), str(source_names.get(kind, kind)), errors)
 	var catalog: Dictionary = definitions.runes
 	for id in catalog:
-		_validate_rune(catalog[id], _context(source_names, "runes", id), errors)
+		_validate_rune(catalog[id], _context(source_names, "runes", id), errors, experiment)
 	for id in catalog:
 		var rune: Dictionary = catalog[id]
 		if _matches(rune.get("effect"), "conjure") and rune.get("generated_rune_id") is String:
@@ -69,7 +123,7 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 					_error(errors, field, "generated target must be a temporary effect rune with zero cost")
 	var boards := {}
 	for id in definitions.boards:
-		boards[id] = _validate_board(definitions.boards[id], catalog, _context(source_names, "boards", id), errors)
+		boards[id] = _validate_board(definitions.boards[id], catalog, _context(source_names, "boards", id), errors, experiment)
 	for id in definitions.enemies:
 		_validate_enemy(definitions.enemies[id], _context(source_names, "enemies", id), errors)
 	for id in definitions.loadouts:
@@ -89,6 +143,8 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 		encounter.opening_log = encounter.get("help_text", "")
 	_string(encounter.get("opening_log"), context + ".opening_log", errors)
 	_integer(encounter, "seed", 0, 2147483647, context, errors, 42)
+	if not experiment.is_empty() and not _matches(encounter.get("seed"), experiment.seed):
+		_error(errors, context + ".seed", "must match explicit experiment.seed")
 	for reference in [["enemy_id", "enemies"], ["board_id", "boards"], ["loadout_id", "loadouts"]]:
 		var id: Variant = encounter.get(reference[0])
 		if _id(id, context + "." + reference[0], errors) and not definitions[reference[1]].has(id):
@@ -123,12 +179,21 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 	encounter.player_max_health = loadout.max_health
 	encounter.energy_per_turn = loadout.energy_per_turn
 	encounter.draw_per_turn = loadout.draw_per_turn
-	return _result([], {"catalog": catalog, "encounter": encounter, "board": board,
+	var setup := {"catalog": catalog, "encounter": encounter, "board": board,
 		"owned_cards": loadout.owned_cards, "opening_hand": loadout.opening_hand,
-		"opening_draw": loadout.opening_draw, "inventory": loadout.inventory})
+		"opening_draw": loadout.opening_draw, "inventory": loadout.inventory}
+	if not experiment.is_empty():
+		setup.experiment = experiment
+	return _result([], setup)
 
-static func _validate_rune(rune: Dictionary, context: String, errors: Array) -> void:
-	_fields(rune, ["id", "name", "board_label", "symbol", "type", "effect", "value", "cost", "color", "temporary", "generated_rune_id"], context, errors)
+static func _validate_rune(rune: Dictionary, context: String, errors: Array, experiment: Dictionary = {}) -> void:
+	var allowed := ["id", "name", "board_label", "symbol", "type", "effect", "value", "cost", "color", "temporary", "generated_rune_id"]
+	if experiment.get("scenario_id") in ["ports", "expiry"]:
+		allowed.append("port_shape")
+	_fields(rune, allowed, context, errors)
+	if rune.has("port_shape"):
+		if not rune.get("port_shape") in ["straight", "corner"] or not _matches(rune.get("type"), "rune"):
+			_error(errors, context + ".port_shape", "only effect runes support straight or corner port shapes")
 	for field in ["name", "symbol", "type", "effect", "color"]:
 		_string(rune.get(field), context + "." + field, errors)
 	if not rune.has("board_label"):
@@ -200,7 +265,7 @@ static func _validate_loadout(loadout: Dictionary, catalog: Dictionary, context:
 	for kind in ["split", "join"]:
 		_integer(loadout.inventory, kind, 0, 14, context + ".inventory", errors)
 
-static func _validate_board(definition: Dictionary, catalog: Dictionary, context: String, errors: Array) -> Array:
+static func _validate_board(definition: Dictionary, catalog: Dictionary, context: String, errors: Array, experiment: Dictionary = {}) -> Array:
 	_fields(definition, ["id", "width", "height", "placements"], context, errors)
 	_integer(definition, "width", 4, 4, context, errors)
 	_integer(definition, "height", 4, 4, context, errors)
@@ -211,6 +276,9 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 		_error(errors, context + ".placements", "expected an array")
 		return board
 	var seen := {}
+	var endpoint_count := {"begin": 0, "end": 0}
+	var alternate_endpoints: bool = experiment.get("scenario_id") == "endpoints" and experiment.get("variant_id") == "treatment"
+	var blocked_allowed: bool = experiment.get("scenario_id") == "blocked" and experiment.get("variant_id") == "treatment"
 	for index in range(definition.placements.size()):
 		var field := context + ".placements[%d]" % index
 		var entry: Variant = definition.placements[index]
@@ -222,8 +290,13 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 		var valid_cell := _integer(piece, "cell", 0, 15, field, errors)
 		_integer(piece, "rotation", 0, 3, field, errors, 0)
 		_boolean(piece, "reversed", field, errors, false)
-		if not piece.get("kind") in ["begin", "end", "straight", "corner", "split", "join", "rune"]:
+		var kinds := ["begin", "end", "straight", "corner", "split", "join", "rune"]
+		if blocked_allowed:
+			kinds.append("blocked")
+		if not piece.get("kind") in kinds:
 			_error(errors, field + ".kind", "unsupported piece kind")
+		if _matches(piece.get("kind"), "blocked") and not _matches(piece.get("rotation"), 0):
+			_error(errors, field + ".rotation", "blocked cells require rotation 0")
 		if entry.has("reversed") and not piece.get("kind") in ["straight", "corner"]:
 			_error(errors, field + ".reversed", "only straight and corner wires support reversal")
 		if _matches(piece.get("kind"), "rune"):
@@ -232,6 +305,8 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 					_error(errors, field + ".rune_id", "unknown rune ID '%s'" % piece.rune_id)
 				elif not _matches(catalog[piece.rune_id].get("type"), "rune"):
 					_error(errors, field + ".rune_id", "only effect runes can be installed")
+				elif catalog[piece.rune_id].has("port_shape"):
+					piece.port_shape = catalog[piece.rune_id].port_shape
 		elif piece.has("rune_id"):
 			_error(errors, field + ".rune_id", "only rune pieces accept a rune ID")
 		if not valid_cell:
@@ -240,16 +315,23 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 		if seen.has(cell):
 			_error(errors, field + ".cell", "duplicate cell %d" % cell)
 		seen[cell] = true
-		if (cell == 0 and not _matches(piece.get("kind"), "begin")) or (cell == 14 and not _matches(piece.get("kind"), "end")):
+		if not alternate_endpoints and ((cell == 0 and not _matches(piece.get("kind"), "begin")) or (cell == 14 and not _matches(piece.get("kind"), "end"))):
 			_error(errors, field + ".kind", "fixed cells 0 and 14 require Begin and End respectively")
 		if piece.get("kind") in ["begin", "end"]:
-			if (piece.kind == "begin" and cell != 0) or (piece.kind == "end" and cell != 14) or not _matches(piece.get("rotation"), 0):
+			endpoint_count[piece.kind] += 1
+			if not alternate_endpoints and ((piece.kind == "begin" and cell != 0) or (piece.kind == "end" and cell != 14) or not _matches(piece.get("rotation"), 0)):
 				_error(errors, field, "endpoints require Begin at cell 0 and End at cell 14, both rotation 0")
+			if alternate_endpoints and _is_integer(piece.get("rotation")):
+				var direction: int = (1 + int(piece.rotation)) % 4 if piece.kind == "begin" else int(piece.rotation)
+				if (direction == 0 and cell < 4) or (direction == 1 and cell % 4 == 3) or (direction == 2 and cell >= 12) or (direction == 3 and cell % 4 == 0):
+					_error(errors, field + ".rotation", "endpoint port must face an in-bounds neighbor")
 		piece.erase("cell")
 		if _matches(piece.reversed, false):
 			piece.erase("reversed")
 		board[cell] = piece
-	if not _matches(board[0].get("kind"), "begin") or not _matches(board[14].get("kind"), "end"):
+	if alternate_endpoints and (endpoint_count.begin != 1 or endpoint_count.end != 1):
+		_error(errors, context + ".placements", "exactly one Begin and one End are required")
+	if not alternate_endpoints and (not _matches(board[0].get("kind"), "begin") or not _matches(board[14].get("kind"), "end")):
 		_error(errors, context + ".placements", "explicit Begin at cell 0 and End at cell 14 are required")
 	return board
 

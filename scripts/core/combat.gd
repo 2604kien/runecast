@@ -24,6 +24,8 @@ var _encounter_id := 0
 var _action_id := 0
 var _events: Array = []
 var _last_result: Dictionary = {}
+var _experiment: Dictionary = {}
+var _encounter_number := 1
 
 func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 	# Loading/validation belong to the caller. Keep a private restart template and
@@ -32,6 +34,8 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 	assert(seed_override == null or (seed_override is int and seed_override >= 0 and seed_override <= 2147483647), "A seed override must be an integer in [0, 2147483647].")
 	if seed_override != null:
 		_setup.encounter.seed = seed_override
+		if _setup.has("experiment"):
+			_setup.experiment.seed = seed_override
 	rng.seed = int(_setup.encounter.seed)
 	reset()
 
@@ -41,6 +45,8 @@ func reset() -> void:
 	_last_result = {}
 	catalog = _setup.catalog.duplicate(true)
 	encounter = _setup.encounter.duplicate(true)
+	_experiment = _setup.get("experiment", {}).duplicate(true)
+	_encounter_number = 1
 	board = _setup.board.duplicate(true)
 	owned_cards = _setup.owned_cards.duplicate()
 	stock_totals = _setup.inventory.duplicate(true)
@@ -77,7 +83,7 @@ func reset() -> void:
 
 # The UI receives values, never references to authoritative collections.
 func snapshot() -> Dictionary:
-	return {
+	var value := {
 		"encounter_id": _encounter_id, "board": board, "hand": hand,
 		"draw_pile": draw_pile, "discard_pile": discard_pile,
 		"catalog": catalog, "encounter": encounter, "player_hp": player_hp,
@@ -90,7 +96,12 @@ func snapshot() -> Dictionary:
 		"log_text": log_text, "intent": intent(), "forecast": forecast(),
 		"stock": {"split": stock("split"), "join": stock("join")},
 		"undo_count": history.size()
-	}.duplicate(true)
+	}
+	if not _experiment.is_empty():
+		value.experiment = _experiment
+		value.encounter_number = _encounter_number
+		value.can_advance = _can_advance()
+	return value.duplicate(true)
 
 func last_result() -> Dictionary:
 	return _last_result.duplicate(true)
@@ -110,6 +121,11 @@ func execute(command: String, arguments: Dictionary = {}) -> Dictionary:
 		"rotate": accepted = _rotate(int(arguments.get("index", -1)))
 		"flip": accepted = _flip(int(arguments.get("index", -1)))
 		"undo": accepted = _undo()
+		"next_encounter":
+			if arguments.is_empty():
+				accepted = _next_encounter()
+			else:
+				log_text = "Paired experiments use the same fixed board geometry; next_encounter accepts no override arguments."
 	if accepted:
 		_action_id += 1
 	_last_result = {
@@ -168,7 +184,7 @@ func intent() -> int:
 	return int(encounter.intents[(turn - 1) % encounter.intents.size()])
 
 func forecast() -> Dictionary:
-	return Circuit.evaluate(board, catalog)
+	return Circuit.evaluate(board, catalog, _experiment)
 
 func stock(kind: String) -> int:
 	var count := 0
@@ -183,7 +199,11 @@ func _remember() -> void:
 		history.pop_front()
 
 func _editable(index: int) -> bool:
-	return state == "playing" and index >= 0 and index < 16 and index != Circuit.BEGIN and index != Circuit.END
+	if state != "playing" or index < 0 or index >= 16:
+		return false
+	if board[index].get("kind") in ["begin", "end", "blocked"]:
+		return false
+	return not _experiment.is_empty() or (index != Circuit.BEGIN and index != Circuit.END)
 
 func _return_rune(index: int) -> void:
 	var piece: Dictionary = board[index]
@@ -221,6 +241,8 @@ func _place_rune(index: int, uid: int) -> bool:
 	_return_rune(index)
 	var rotation: int = board[index].get("rotation", 0)
 	board[index] = {"kind": "rune", "rotation": rotation, "rune_id": card.id, "uid": card.uid}
+	if catalog[card.id].has("port_shape"):
+		board[index].port_shape = catalog[card.id].port_shape
 	return true
 
 func _rotate(index: int) -> bool:
@@ -313,17 +335,47 @@ func _cast() -> bool:
 	energy -= spell.cost
 	_record("cast", {"source": "player", "spell": spell,
 		"energy_before": energy_before, "energy_after": energy})
-	var health_before := enemy_hp
-	enemy_hp = maxi(0, enemy_hp - int(spell.damage))
-	_record("damage", {"source": "player", "target": "enemy", "amount": int(spell.damage),
-		"applied": health_before - enemy_hp, "health_before": health_before, "health_after": enemy_hp})
+	if _experiment.get("damage_mode", "aggregate") == "multi_hit":
+		for hit_index in range(spell.hits.size()):
+			if enemy_hp <= 0:
+				break
+			_damage_enemy(int(spell.hits[hit_index]), {"hit_index": hit_index, "hit_count": spell.hits.size()})
+	else:
+		_damage_enemy(int(spell.damage))
 	var damage_taken := 0
 	if enemy_hp > 0:
 		_record("shield", {"target": "player", "amount": int(spell.shield)})
 		damage_taken = _retaliate(int(spell.shield))
 	log_text = "Cast %d damage, %d shield. Received %d damage." % [spell.damage, spell.shield, damage_taken]
+	if _experiment.get("effects", "persistent") == "consumed":
+		_consume_effects(spell.active)
 	_end_turn()
 	return true
+
+func _damage_enemy(amount: int, hit: Dictionary = {}) -> void:
+	var health_before := enemy_hp
+	enemy_hp = maxi(0, enemy_hp - amount)
+	var values := {"source": "player", "target": "enemy", "amount": amount,
+		"applied": health_before - enemy_hp, "health_before": health_before, "health_after": enemy_hp}
+	values.merge(hit)
+	_record("damage", values)
+
+func _connector(piece: Dictionary, mode: String) -> Dictionary:
+	if mode == "empty":
+		return {}
+	var shape: String = piece.get("port_shape", "straight") if mode == "retained" else "straight"
+	return {"kind": shape, "rotation": piece.get("rotation", 0)}
+
+func _consume_effects(active: Array) -> void:
+	# Socket order is stable and independent of branch contribution order.
+	for index in range(board.size()):
+		var piece: Dictionary = board[index]
+		if active.has(index) and piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
+			var card := {"id": piece.rune_id, "uid": piece.uid}
+			discard_pile.append(card)
+			board[index] = _connector(piece, "retained")
+			_record("effect_consumed", {"cell": index, "card": card, "before": piece,
+				"after": board[index], "from": "board", "to": "discard"})
 
 func _pass_turn() -> bool:
 	if state != "playing":
@@ -348,7 +400,7 @@ func _end_turn() -> void:
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
 		if piece.get("kind") == "rune" and catalog[piece.rune_id].get("temporary", false):
-			board[index] = {"kind": "straight", "rotation": piece.rotation}
+			board[index] = _connector(piece, _experiment.get("expiry", "straight"))
 			_record("temporary_expired", {"cell": index, "before": piece, "after": board[index]})
 	var discarded: Array = []
 	var expired: Array = []
@@ -378,4 +430,60 @@ func _end_turn() -> void:
 		_record("turn_started", {"turn_before": turn - 1, "turn_after": turn,
 			"energy_before": energy_before, "energy_after": energy, "intent": intent()})
 		_draw(int(encounter.draw_per_turn))
+
+func _can_advance() -> bool:
+	return state == "victory" and _encounter_number == 1 and _experiment.get("transfer", "none") in ["reset", "retain"]
+
+func _next_encounter() -> bool:
+	if not _can_advance():
+		return false
+	# Reconcile the existing permanent instances; never allocate a replacement UID
+	# or construct a temporary from the opening fixture at the encounter boundary.
+	var cards: Array = []
+	for card in hand + draw_pile + discard_pile:
+		if not catalog[card.id].get("temporary", false):
+			cards.append(card.duplicate(true))
+	for piece in board:
+		if piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
+			cards.append({"id": piece.rune_id, "uid": piece.uid})
+	cards.sort_custom(func(first, second): return first.uid < second.uid)
+	var previous_board := board.duplicate(true)
+	var mode: String = _experiment.transfer
+	if mode == "reset":
+		board = _setup.board.duplicate(true)
+		for index in range(board.size()):
+			if board[index].get("kind") == "rune":
+				board[index] = _connector(board[index], "retained")
+	else:
+		for index in range(board.size()):
+			var piece: Dictionary = board[index]
+			if piece.get("kind") != "rune":
+				continue
+			if catalog[piece.rune_id].get("temporary", false):
+				board[index] = _connector(piece, _experiment.get("expiry", "straight"))
+			else:
+				cards = cards.filter(func(card): return card.uid != piece.uid)
+	hand.clear()
+	draw_pile.clear()
+	discard_pile.clear()
+	history.clear()
+	for id in _setup.opening_hand:
+		for index in range(cards.size()):
+			if cards[index].id == id:
+				hand.append(cards[index])
+				cards.remove_at(index)
+				break
+	draw_pile = cards
+	_shuffle(draw_pile)
+	_encounter_id += 1
+	_encounter_number = 2
+	enemy_hp = int(encounter.max_health)
+	energy = int(encounter.energy_per_turn)
+	turn = 1
+	state = "playing"
+	log_text = "Experiment encounter 2 of 2: %s topology. Health and permanent instances carried." % mode
+	_record("encounter_transition", {"mode": mode, "encounter_before": 1, "encounter_after": 2,
+		"player_hp": player_hp, "board_before": previous_board, "board_after": board})
+	_draw(int(_setup.opening_draw))
+	return true
 
