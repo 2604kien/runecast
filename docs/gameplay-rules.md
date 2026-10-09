@@ -52,7 +52,9 @@ Begin carries zero damage/shield. Effects add their values. Split sends a copy o
 
 If the enemy survives, the spell's shield blocks that attack and remaining damage reduces player HP. A lethal Cast suppresses retaliation. Shield never persists. Techniques resolve explicitly from hand, enter discard if permanent, and do not occupy board cells. Playing to discard is not a new discard-trigger mechanic.
 
-Rune cards keep compact name/symbol/value presentation. Costs and behavior appear in Guide and tooltips; RC-008 still owns the full touch-inspection interaction.
+Rune cards keep compact name/symbol/value presentation. Hold a hand card, installed piece or connector button to inspect its live cost, behavior, ports, stock and cleanup without using it. Alternatively, enable **Inspect: ON**, then tap any item safely. Close retains Inspect mode; **Cancel selection** turns it off and clears the selected card/tool/cell. Normal short taps on techniques still activate them immediately; holds and Inspect-mode taps never do. Details appear in a dismissible scrolling panel; tooltips are supplementary.
+
+Tap an effect rune or tool, then an eligible **+** cell to place it. **x** cells indicate protected or unavailable targets and rejected actions show a reason. A legal intermediate circuit may remain incomplete. Horizontal hand scrolling and vertical page scrolling cancel pending taps/holds. **Details / Pass** explains the current circuit and offers a confirmed Pass even when the board is incomplete or the hand is empty. See [touch interactions](touch-interactions.md) for exact controls, thresholds, lifecycle and device-testing limits.
 
 ## Cast, Pass and cleanup
 

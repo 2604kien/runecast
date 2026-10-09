@@ -8,6 +8,8 @@ const Arena = preload("res://scripts/ui/arena.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
 const Experiments = preload("res://scripts/core/experiments.gd")
 const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
+const InspectionData = preload("res://scripts/ui/inspection_data.gd")
+const TouchRouter = preload("res://scripts/ui/touch_router.gd")
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -61,6 +63,22 @@ var record_text: TextEdit
 var note_input: LineEdit
 var last_record_path := ""
 var record_error := ""
+var gestures: Node
+var page_scroll: ScrollContainer
+var hand_scroll: ScrollContainer
+var inspect_mode := false
+var inspect_button: Button
+var cancel_button: Button
+var action_buttons := {}
+var inspector: Control
+var inspector_title: Label
+var inspector_text: Label
+var inspector_scroll: ScrollContainer
+var inspector_close: Button
+var inspector_pass: Button
+var inspector_confirm_pass: Button
+var inspector_panel: PanelContainer
+var guide_text: Label
 
 func _ready() -> void:
 	if setup_path == "":
@@ -95,6 +113,8 @@ func _ready() -> void:
 			controller.changed.connect(_save_experiment_record)
 			_save_experiment_record()
 	_refresh()
+	resized.connect(_fit_layout)
+	_fit_layout()
 	if "--capture" in OS.get_cmdline_user_args():
 		if experiment_mode and controller != null:
 			var capture_step := _argument_value("--capture-step=", "opening")
@@ -117,10 +137,12 @@ func _argument_value(prefix: String, fallback: String) -> String:
 	return fallback
 
 func _can_edit() -> bool:
-	return not _closing and not _replacing_controller and controller != null and controller.can_edit()
+	return not _closing and not _replacing_controller and controller != null and controller.can_edit() and (inspector == null or not inspector.visible)
 
 func _exit_tree() -> void:
 	_closing = true
+	if gestures != null:
+		gestures.cancel_pending()
 	if controller != null:
 		if experiment_mode:
 			_save_experiment_record()
@@ -162,17 +184,23 @@ func _button(value: String, action: Callable, parent: Node) -> Button:
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(action)
 	parent.add_child(button)
+	if gestures != null:
+		gestures.register_target(button, action)
 	return button
 
 func _build_ui() -> void:
+	gestures = TouchRouter.new()
+	add_child(gestures)
 	var background := ColorRect.new()
 	background.color = Color("#0c1525")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 	var scroll := ScrollContainer.new()
+	page_scroll = scroll
 	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
+	gestures.register_scroll(scroll)
 	var margin := MarginContainer.new()
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for side in ["left", "right", "top", "bottom"]:
@@ -180,9 +208,10 @@ func _build_ui() -> void:
 	scroll.add_child(margin)
 	var column := VBoxContainer.new()
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	column.add_theme_constant_override("separation", 8)
+	column.add_theme_constant_override("separation", 6)
 	margin.add_child(column)
 	encounter_title = _label("", 28)
+	encounter_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(encounter_title)
 	if experiment_mode:
 		_build_experiment_controls(column)
@@ -192,6 +221,7 @@ func _build_ui() -> void:
 	arena.custom_minimum_size.y = 90 if experiment_mode else 310
 	column.add_child(arena)
 	stats = _label("")
+	stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(stats)
 	banner = _label("", 22)
 	column.add_child(banner)
@@ -209,6 +239,7 @@ func _build_ui() -> void:
 		cell.catalog = game.get("catalog", {})
 		cell.pressed.connect(_cell_pressed.bind(index))
 		grid.add_child(cell)
+		gestures.register_target(cell, _cell_pressed.bind(index), _inspect_cell.bind(index))
 		cells.append(cell)
 	var wiring := HBoxContainer.new()
 	column.add_child(wiring)
@@ -216,16 +247,34 @@ func _build_ui() -> void:
 		var button := _button(kind.capitalize(), _select_tool.bind(kind), wiring)
 		button.add_theme_font_size_override("font_size", 15)
 		stock_buttons[kind] = button
+		button.toggle_mode = true
+		gestures.register_target(button, _select_tool.bind(kind), _inspect_tool.bind(kind))
 		edit_buttons.append(button)
+	var editing := HBoxContainer.new()
+	column.add_child(editing)
 	for entry in [["Rotate", _rotate], ["Flip", _flip], ["Undo", _undo], ["Erase", _select_tool.bind("erase")]]:
-		var button := _button(entry[0], entry[1], wiring)
+		var button := _button(entry[0], entry[1], editing)
 		button.add_theme_font_size_override("font_size", 15)
+		button.custom_minimum_size.y = 58
+		action_buttons[str(entry[0]).to_lower()] = button
+		if entry[0] == "Erase": button.toggle_mode = true
 		edit_buttons.append(button)
-	column.add_child(_label("RUNES   /   tap an effect, then a socket", 17))
-	var hand_scroll := ScrollContainer.new()
+	var inspection_actions := HBoxContainer.new()
+	column.add_child(inspection_actions)
+	inspect_button = _button("Inspect", _toggle_inspect_mode, inspection_actions)
+	inspect_button.toggle_mode = true
+	cancel_button = _button("Cancel selection", _cancel_selection, inspection_actions)
+	_button("Details / Pass", _show_details, inspection_actions)
+	for button in inspection_actions.get_children():
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var hand_hint := _label("RUNES / tap to use · hold to inspect · drag to scroll", 17)
+	hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(hand_hint)
+	hand_scroll = ScrollContainer.new()
 	hand_scroll.custom_minimum_size.y = 104
 	hand_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	column.add_child(hand_scroll)
+	gestures.register_scroll(hand_scroll)
 	hand_box = HBoxContainer.new()
 	hand_box.add_theme_constant_override("separation", 8)
 	hand_scroll.add_child(hand_box)
@@ -243,10 +292,32 @@ func _build_ui() -> void:
 	_button("Map", _show_map, navigation)
 	_button("Guide", _show_guide, navigation)
 	sound_button = _button("Sound: On", _toggle_sound, navigation)
+	for button in navigation.get_children():
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dialog = AcceptDialog.new()
 	dialog.min_size = Vector2i(550, 360)
 	dialog.dialog_autowrap = true
 	add_child(dialog)
+	# Keep native help dialogs bounded: their text scrolls instead of increasing
+	# the Window's minimum height as help grows.
+	dialog.get_label().hide()
+	dialog.get_label().max_lines_visible = 0
+	var guide_scroll := ScrollContainer.new()
+	guide_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	guide_scroll.custom_minimum_size = Vector2(260, 240)
+	dialog.add_child(guide_scroll)
+	guide_text = _label("", 20)
+	guide_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	guide_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guide_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	guide_scroll.add_child(guide_text)
+	var guide_gestures := TouchRouter.new()
+	dialog.add_child(guide_gestures)
+	guide_gestures.register_scroll(guide_scroll)
+	dialog.about_to_popup.connect(func():
+		guide_text.text = dialog.dialog_text
+		guide_scroll.scroll_vertical = 0
+	)
 	menu = ConfirmationDialog.new()
 	menu.title = "Rune Cast"
 	menu.ok_button_text = "Restart"
@@ -269,6 +340,12 @@ func _build_ui() -> void:
 			menu.hide()
 	)
 	add_child(menu)
+	for popup in [dialog, menu]:
+		popup.about_to_popup.connect(func(): gestures.set_suspended(true))
+		popup.visibility_changed.connect(func():
+			_sync_native_modal()
+		)
+	_build_inspector()
 	player = AudioStreamPlayer.new()
 	var sound := AudioStreamWAV.new()
 	sound.format = AudioStreamWAV.FORMAT_8_BITS
@@ -282,17 +359,42 @@ func _build_ui() -> void:
 	add_child(player)
 	if experiment_mode:
 		_build_record_dialog()
+		record_dialog.about_to_popup.connect(func(): gestures.set_suspended(true))
+		record_dialog.visibility_changed.connect(_sync_native_modal)
+
+func _sync_native_modal() -> void:
+	gestures.set_suspended(dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible))
+
+func _fit_layout() -> void:
+	if cells.is_empty(): return
+	var width := get_viewport_rect().size.x
+	cancel_button.text = "Cancel" if width < 500 else "Cancel selection"
+	var side := minf(137, floorf((width - 70) / 4.0))
+	for cell in cells:
+		cell.custom_minimum_size = Vector2(side, side)
+	dialog.min_size = Vector2i(mini(550, int(width) - 32), 300)
 
 func _refresh() -> void:
+	gestures.cancel_pending()
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
 	if controller == null:
 		_refresh_startup_error()
 		return
+	var previous := game
 	game = controller.snapshot()
+	if previous != game or controller.is_busy():
+		_close_inspector()
+		help_text = ""
+		if previous.get("turn") != game.turn or previous.get("encounter_id") != game.encounter_id or previous.get("state") != game.state or controller.is_busy():
+			_clear_selection()
+		if selected_uid != -1 and InspectionData.describe_hand(game, selected_uid).is_empty():
+			selected_uid = -1
 	if experiment_mode:
 		_refresh_experiment()
 	var spell: Dictionary = game.forecast
-	var editable := _can_edit()
+	# Modal routing blocks background input without leaving controls visually
+	# disabled after a same-state refresh and dismissal.
+	var editable := not _closing and not _replacing_controller and controller.can_edit()
 	encounter_title.text = "RUNE CAST   /   " + game.encounter.title.to_upper()
 	encounter_title.tooltip_text = game.encounter.help_text
 	arena.enemy_name = game.enemy_name
@@ -324,6 +426,9 @@ func _refresh() -> void:
 		cell.disabled = not editable or (experiment_mode and cell.piece.get("kind") == "blocked")
 		cell.active = spell.active.has(index)
 		cell.chosen = index == selected_cell
+		cell.preview = 0
+		if not inspect_mode and (selected_tool != "" or selected_uid != -1):
+			cell.preview = 1 if InspectionData.placement(game, index, selected_tool, selected_uid).allowed else -1
 		cell.end_value = int(spell.damage) if spell.valid else 0
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
 		if _rule_options().get("endpoint_rotation") == "player" and cell.piece.get("kind") in ["begin", "end"]:
@@ -333,8 +438,19 @@ func _refresh() -> void:
 		var finite: bool = game.stock_totals.has(kind)
 		stock_buttons[kind].text = kind.capitalize() + ("\n%d / %d" % [game.stock[kind], game.stock_totals[kind]] if finite else "\nUnlimited")
 		stock_buttons[kind].tooltip_text = "%d available, %d owned (%d installed)." % [game.stock[kind], game.stock_totals[kind], game.stock_totals[kind] - game.stock[kind]] if finite else "Unlimited supply"
+		stock_buttons[kind].set_pressed_no_signal(selected_tool == kind)
+		stock_buttons[kind].modulate = Color("#b5bdc9") if finite and game.stock[kind] == 0 else Color.WHITE
 	for button in edit_buttons:
 		button.disabled = not editable
+	for action in ["rotate", "flip", "undo"]:
+		var availability: Dictionary = InspectionData.edit_action(game, selected_cell, action)
+		action_buttons[action].disabled = not editable or not availability.allowed
+		action_buttons[action].tooltip_text = availability.reason
+	action_buttons.erase.set_pressed_no_signal(selected_tool == "erase")
+	inspect_button.set_pressed_no_signal(inspect_mode)
+	inspect_button.text = "Inspect: ON" if inspect_mode else "Inspect"
+	inspect_button.disabled = not editable
+	cancel_button.disabled = not editable or (selected_tool == "" and selected_uid == -1 and selected_cell == -1 and not inspect_mode)
 	for child in hand_box.get_children():
 		hand_box.remove_child(child)
 		child.queue_free()
@@ -342,11 +458,13 @@ func _refresh() -> void:
 		var rune: Dictionary = game.catalog[card.id]
 		var button := _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
 		button.custom_minimum_size = Vector2(142, 92)
+		button.toggle_mode = true
+		button.set_pressed_no_signal(card.uid == selected_uid)
+		button.set_meta("uid", int(card.uid))
+		gestures.register_target(button, _select_card.bind(card.uid), _inspect_hand.bind(card.uid))
 		button.modulate = Color(rune.color)
 		button.disabled = not editable
 		button.tooltip_text = _rune_description(rune) + " | %d energy%s" % [rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
-		if card.uid == selected_uid:
-			button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
 	cast_button.disabled = not spell.valid or spell.cost > game.energy or not editable
 	var incoming: int = 0 if spell.damage >= game.enemy_hp else maxi(0, game.intent - spell.shield)
@@ -355,11 +473,147 @@ func _refresh() -> void:
 	if game.has("production"):
 		status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
-		status.text = "Need %d energy; %d available. Edit the circuit or pass in Menu." % [spell.cost, game.energy]
+		if help_text == "": status.text = "Need %d energy; %d available. Edit the circuit or open Details / Pass." % [spell.cost, game.energy]
+	if help_text == "" and not spell.valid and game.state == "playing":
+		status.text = spell.message + "\nKeep building, or open Details / Pass."
+		if game.has("production"): status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	pass_button.disabled = not editable
 
 func _rule_options() -> Dictionary:
 	return game.get("production", game.get("experiment", {}))
+
+func _build_inspector() -> void:
+	inspector = Control.new()
+	inspector.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	inspector.mouse_filter = Control.MOUSE_FILTER_STOP
+	inspector.z_index = 100
+	add_child(inspector)
+	var shade := ColorRect.new()
+	shade.color = Color(0.015, 0.025, 0.045, 0.9)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	inspector.add_child(shade)
+	inspector_panel = PanelContainer.new()
+	inspector_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	inspector_panel.anchor_left = 0.04
+	inspector_panel.anchor_right = 0.96
+	inspector_panel.anchor_top = 0.12
+	inspector_panel.anchor_bottom = 0.88
+	var frame := StyleBoxFlat.new()
+	frame.bg_color = Color("#142535")
+	frame.border_color = Color("#cfad69")
+	frame.set_border_width_all(2)
+	frame.set_corner_radius_all(12)
+	for side in ["left", "right", "top", "bottom"]:
+		frame.set("content_margin_" + side, 18)
+	inspector_panel.add_theme_stylebox_override("panel", frame)
+	inspector.add_child(inspector_panel)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 14)
+	inspector_panel.add_child(column)
+	inspector_title = _label("Inspection", 28)
+	inspector_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(inspector_title)
+	inspector_scroll = ScrollContainer.new()
+	inspector_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inspector_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	column.add_child(inspector_scroll)
+	gestures.register_scroll(inspector_scroll)
+	inspector_text = _label("", 23)
+	inspector_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	inspector_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	inspector_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inspector_scroll.add_child(inspector_text)
+	inspector_pass = _button("Pass turn…", _confirm_pass_details, column)
+	inspector_confirm_pass = _button("Confirm Pass / enemy acts", _accept_pass_details, column)
+	inspector_close = _button("Close", _close_inspector, column)
+	for button in [inspector_pass, inspector_confirm_pass, inspector_close]:
+		button.custom_minimum_size.y = 64
+	inspector.hide()
+
+func _open_inspector(detail: Dictionary) -> void:
+	if detail.is_empty() or not _can_edit(): return
+	gestures.cancel_pending()
+	inspector_title.text = detail.title
+	inspector_text.text = detail.text
+	inspector_scroll.scroll_vertical = 0
+	inspector_pass.hide()
+	inspector_confirm_pass.hide()
+	inspector.show()
+	gestures.set_modal(inspector)
+	inspector_close.grab_focus()
+
+func _close_inspector() -> void:
+	if inspector == null or not inspector.visible: return
+	inspector.hide()
+	gestures.set_modal(null)
+	inspector_close.release_focus()
+
+func _inspect_hand(uid: int) -> void:
+	if _can_edit(): _open_inspector(InspectionData.describe_hand(controller.snapshot(), uid))
+
+func _inspect_cell(index: int) -> void:
+	if _can_edit(): _open_inspector(InspectionData.describe_cell(controller.snapshot(), index))
+
+func _inspect_tool(kind: String) -> void:
+	if _can_edit(): _open_inspector(InspectionData.describe_tool(controller.snapshot(), kind))
+
+func _toggle_inspect_mode() -> void:
+	if not _can_edit(): return
+	var enabled := not inspect_mode
+	_clear_selection()
+	inspect_mode = enabled
+	help_text = "Inspect ON: tap a card, piece or connector for details. Nothing will be played or placed." if enabled else "Inspect off. Tap to use; hold to inspect."
+	_refresh()
+
+func _cancel_selection() -> void:
+	if not _can_edit(): return
+	_clear_selection()
+	help_text = "Selection cleared. Tap to use; hold to inspect."
+	_refresh()
+
+func _endpoint_direction(index: int) -> String:
+	var piece: Dictionary = game.board[index]
+	var ports: Dictionary = preload("res://scripts/core/circuit.gd").ports(piece)
+	var direction: int = ports.output[0] if piece.kind == "begin" else ports.input[0]
+	return "%s %s %s." % [str(piece.kind).capitalize(), "points" if piece.kind == "begin" else "receives from", ["up", "right", "down", "left"][direction]]
+
+func _show_details() -> void:
+	if not _can_edit(): return
+	var spell: Dictionary = game.forecast
+	var incoming: int = 0 if spell.valid and spell.damage >= game.enemy_hp else maxi(0, int(game.intent) - int(spell.shield)) if spell.valid else int(game.intent)
+	var text := "%s\n\nEnergy: %d available. Cast cost: %d.\nSpell: %d damage, %d shield. Incoming after Cast: %d.\n\nPass is available even with an incomplete circuit or an empty hand. Pass uses no spell or shield; the enemy attacks for %d." % [spell.message, game.energy, spell.cost, spell.damage, spell.shield, incoming, game.intent]
+	if game.has("production"):
+		text += "\n\nCast / Pass discards all permanent hand and installed runes, deletes temporaries and clears connectors. The next playable turn draws normally and gets new endpoints and a fresh kit."
+	if not spell.valid:
+		text += "\n\nThis circuit cannot Cast yet. Legal construction steps remain allowed."
+	if selected_cell >= 0:
+		for action in ["rotate", "flip", "erase", "undo"]:
+			var availability: Dictionary = InspectionData.edit_action(game, selected_cell, action)
+			text += "\n%s: %s" % [action.capitalize(), availability.reason]
+	_open_inspector({"title": "Circuit details", "text": text})
+	inspector_pass.show()
+
+func _confirm_pass_details() -> void:
+	if controller == null or not controller.can_edit() or not inspector.visible: return
+	inspector_title.text = "Pass this turn?"
+	inspector_text.text = "The enemy attacks for %d damage. No spell or shield is used.\n\n%s" % [game.intent, "All non-endpoint pieces clear, permanent runes discard and temporaries expire. A surviving player gets a new turn, hand and kit." if game.has("production") else "Normal turn cleanup and the active profile's board rules apply."]
+	inspector_pass.hide()
+	inspector_confirm_pass.show()
+	inspector_scroll.scroll_vertical = 0
+	gestures.cancel_pending()
+
+func _accept_pass_details() -> void:
+	if controller == null or not controller.can_edit() or not inspector.visible or not inspector_confirm_pass.visible: return
+	_close_inspector()
+	_pass()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if inspector != null and inspector.visible:
+			_close_inspector()
+		else:
+			_cancel_selection()
+		get_viewport().set_input_as_handled()
 
 func _kit_description() -> String:
 	var kit: Dictionary = game.get("kit", {})
@@ -374,6 +628,10 @@ func _rune_description(rune: Dictionary) -> String:
 	return ""
 
 func _refresh_startup_error() -> void:
+	_close_inspector()
+	_clear_selection()
+	inspect_button.disabled = true
+	cancel_button.disabled = true
 	if experiment_mode:
 		experiment_label.text = "%s / %s | seed %d | unavailable" % [experiment_scenario, experiment_variant, experiment_seed]
 		next_button.disabled = true
@@ -409,27 +667,47 @@ func _clear_selection() -> void:
 	selected_uid = -1
 	selected_cell = -1
 	help_text = ""
+	inspect_mode = false
+	if gestures != null: gestures.cancel_pending()
+	_close_inspector()
 
 func _select_tool(kind: String) -> void:
 	if not _can_edit():
 		return
+	if inspect_mode:
+		_inspect_tool(kind)
+		return
 	selected_tool = kind
 	selected_uid = -1
+	selected_cell = -1
 	help_text = "Tap a socket to place %s. Then Rotate or Flip if needed." % kind
+	if game.stock_totals.has(kind) and int(game.stock[kind]) == 0:
+		help_text = "No %s available. Erase one to refund it, or replace the same kind." % kind
+	elif kind == "erase":
+		help_text = "Erase selected. Tap an eligible piece to return it; endpoints are protected."
 	_refresh()
 
 func _select_card(uid: int) -> void:
 	if not _can_edit():
 		return
+	if inspect_mode:
+		_inspect_hand(uid)
+		return
 	for card in game.hand:
 		if card.uid != uid:
 			continue
 		if game.catalog[card.id].type == "technique":
+			var availability: Dictionary = InspectionData.technique_action(controller.snapshot(), uid)
+			if not availability.allowed:
+				help_text = availability.reason
+				_refresh()
+				return
 			_clear_selection()
-			controller.command("technique", {"uid": uid})
+			if not controller.command("technique", {"uid": uid}): help_text = controller.snapshot().log_text
 		else:
 			selected_uid = uid
 			selected_tool = ""
+			selected_cell = -1
 			help_text = "Tap a socket to install %s. Cost is paid when casting." % game.catalog[card.id].name
 		break
 	_refresh()
@@ -437,13 +715,26 @@ func _select_card(uid: int) -> void:
 func _cell_pressed(index: int) -> void:
 	if not _can_edit():
 		return
+	if inspect_mode:
+		_inspect_cell(index)
+		return
+	if index < 0 or index >= game.board.size(): return
 	selected_cell = index
+	help_text = ""
 	if _rule_options().get("endpoint_rotation") == "player" and game.board[index].get("kind") in ["begin", "end"]:
 		selected_tool = ""
 		selected_uid = -1
-		help_text = "%s selected. Use Rotate to change its direction." % str(game.board[index].kind).capitalize()
+		help_text = "%s selected; protected from replacement/erase. Use Rotate to change its direction." % str(game.board[index].kind).capitalize()
+		if game.has("production"):
+			help_text += " " + _endpoint_direction(index)
 		_refresh()
 		return
+	if selected_uid != -1 or selected_tool != "":
+		var preview: Dictionary = InspectionData.placement(game, index, selected_tool, selected_uid)
+		if not preview.allowed:
+			help_text = preview.reason
+			_refresh()
+			return
 	if selected_uid != -1:
 		if controller.command("place_rune", {"index": index, "uid": selected_uid}):
 			selected_uid = -1
@@ -452,21 +743,33 @@ func _cell_pressed(index: int) -> void:
 	elif selected_tool != "":
 		if not controller.command("place_wire", {"index": index, "kind": selected_tool}):
 			help_text = ""
+	else:
+		var detail: Dictionary = InspectionData.describe_cell(game, index)
+		help_text = str(detail.get("title", "Socket")) + " selected. Hold to inspect."
+		var reason: Dictionary = InspectionData.edit_action(game, index, "rotate")
+		if not reason.allowed: help_text += " " + str(reason.reason)
 	_refresh()
 
 func _rotate() -> void:
 	if not _can_edit():
 		return
+	var availability: Dictionary = InspectionData.edit_action(game, selected_cell, "rotate")
+	if not availability.allowed:
+		help_text = availability.reason
+		_refresh()
+		return
 	if selected_cell >= 0:
-		if controller.command("rotate", {"index": selected_cell}) and game.has("production") and game.board[selected_cell].get("kind") in ["begin", "end"]:
-			var piece: Dictionary = game.board[selected_cell]
-			var ports: Dictionary = preload("res://scripts/core/circuit.gd").ports(piece)
-			var direction: int = ports.output[0] if piece.kind == "begin" else ports.input[0]
-			help_text = "%s %s %s. Rotate turns clockwise; Undo restores the previous direction." % [str(piece.kind).capitalize(), "points" if piece.kind == "begin" else "receives from", ["up", "right", "down", "left"][direction]]
+		if controller.command("rotate", {"index": selected_cell}) and game.board[selected_cell].get("kind") in ["begin", "end"]:
+			help_text = _endpoint_direction(selected_cell) + " Use Rotate to turn clockwise; Undo restores the previous direction."
 	_refresh()
 
 func _flip() -> void:
 	if not _can_edit():
+		return
+	var availability: Dictionary = InspectionData.edit_action(game, selected_cell, "flip")
+	if not availability.allowed:
+		help_text = availability.reason
+		_refresh()
 		return
 	if selected_cell >= 0:
 		controller.command("flip", {"index": selected_cell})
@@ -523,7 +826,7 @@ func _open_menu() -> void:
 func _show_map() -> void:
 	dialog.title = "Tower map"
 	dialog.dialog_text = startup_error if controller == null else "%s\n%s\n\nOne encounter at a time is available in this prototype.\n\n%s\n\nPlanned route: encounters, events, shops, recovery rooms and a final guardian. Branching routes and encounter saves are not implemented." % [game.encounter.title, game.enemy_name, game.encounter.help_text]
-	dialog.popup_centered(Vector2i(550, 360))
+	dialog.popup_centered(Vector2i(mini(550, int(size.x) - 32), mini(360, int(size.y) - 32)))
 
 func _show_guide() -> void:
 	dialog.title = "Circuit guide"
@@ -538,7 +841,9 @@ func _show_guide() -> void:
 		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. " + endpoint_help + " Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
 	if controller != null and game.stock_totals.has("straight") and game.stock_totals.has("corner"):
 		dialog.dialog_text += "\n\nStraight, Corner, Split and Join show available / total quantities. Every installed connector reserves one piece, including disconnected pieces. Erase or replacement returns the displaced connector; installing a rune over a connector returns it too. Rotate and Flip preserve quantities. Undo restores the board, hand and connector supply together."
-	dialog.popup_centered(Vector2i(620, 620))
+	dialog.dialog_text = dialog.dialog_text.replace("On desktop, hover for costs and details.", "Hold any card or piece to inspect costs and details.")
+	dialog.dialog_text += "\n\nTOUCH CONTROLS\nTap effects/tools, then an eligible + socket. A legal unfinished circuit is allowed; x sockets explain protected or unavailable targets. Tap an installed piece, then Rotate; Flip supports straight/corner wires only. Rotate/Flip/Undo show actual availability. Cancel selection clears the active card, tool and Inspect mode.\n\nHold a card, piece or stock button for details without using it. Or switch Inspect ON, then tap any item safely, including techniques. Close returns to the board; Inspect stays ON until switched off or cancelled. Normal short taps still play techniques immediately. Drag horizontally over the hand or vertically over the page to scroll; movement cancels tap and hold. Details / Pass explains the circuit and offers a confirmed Pass even when Cast is unavailable."
+	dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
 
 func _toggle_sound() -> void:
 	sound_enabled = not sound_enabled
@@ -606,11 +911,13 @@ func _experiment_scenario_selected(index: int) -> void:
 				variant_select.add_item(variant)
 
 func _launch_selected_experiment() -> void:
+	if _closing or _replacing_controller: return
 	var seed_text := seed_input.text.strip_edges()
 	var chosen_seed := int(seed_text) if seed_text.is_valid_int() else -1
 	_launch_experiment(str(scenario_select.get_selected_metadata()), variant_select.get_item_text(variant_select.selected), chosen_seed)
 
 func _launch_experiment(scenario: String, variant: String, seed_value: int, cached_setup: Dictionary = {}) -> bool:
+	if _closing or _replacing_controller: return false
 	var loaded: Dictionary = Experiments.load_setup(scenario, variant, seed_value) if cached_setup.is_empty() else {"ok": true, "setup": cached_setup.duplicate(true)}
 	if not loaded.ok:
 		experiment_feedback.text = "Launch rejected: " + " / ".join(loaded.errors)
@@ -621,7 +928,14 @@ func _launch_experiment(scenario: String, variant: String, seed_value: int, cach
 		if record_error != "":
 			experiment_feedback.text = "Session kept. " + record_error
 			return false
+	_replacing_controller = true
+	gestures.cancel_pending()
+	_close_inspector()
+	if controller != null:
 		controller.dispose()
+	if _closing or not is_inside_tree():
+		_replacing_controller = false
+		return false
 	experiment_scenario = scenario
 	experiment_variant = variant
 	experiment_seed = seed_value
@@ -632,6 +946,7 @@ func _launch_experiment(scenario: String, variant: String, seed_value: int, cach
 	controller.changed.connect(_refresh)
 	controller.changed.connect(_save_experiment_record)
 	controller.presentation_started.connect(_presentation_started)
+	_replacing_controller = false
 	_clear_selection()
 	menu.get_ok_button().disabled = false
 	_refresh()

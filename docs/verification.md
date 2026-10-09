@@ -533,3 +533,76 @@ The [final preservation audit](../output/qa/rc-007/implementation/preservation-r
 Kit quantities/probabilities, arbitrary-position rebuilding quality and starter difficulty remain tuning risks. There are no remaining RC-007 implementation blockers. **RC-008, RC-009, RC-010, RC-024 and RC-033** are next-ready under the updated plan; external platform/device requirements still apply to RC-021/RC-022.
 
 Final [documentation audit](../output/qa/rc-007/implementation/document-links.json) checks 13 updated documents and 432 relative file links, with zero missing targets. This covers file existence, not Markdown anchors.
+
+## October 9, 2026 — RC-008 touch inspection complete
+
+**RC-008 is complete.** The [touch interaction contract](touch-interactions.md) and [handoff](project-plan.md#october-9-2026--rc-008-touch-inspection-complete) describe the delivered behavior. Production/core rules, controller command/event ordering, distributions, ownership and historical experiment semantics remain unchanged. The user-requested no-Git exception and device limitations are recorded below.
+
+### Fresh baseline before editing
+
+Read the requested architecture/rules/content/visual documents, the latest RC-007 handoff, project configuration and launcher, and inspected the approved Combat reference. No applicable `AGENTS.md` was found in the project or its parent locations. Baseline records use a separate `output/qa/rc-008/` directory. Existing fixed-name launcher logs were archived before running commands and restored after verification.
+
+| Baseline action | Actual result |
+| --- | --- |
+| `-Action import` | Exit 0, but restricted user-data access emitted a `user://` error; existing Android build-tools warning also appeared. [Log](../output/qa/rc-008/baseline-import.log). Final normal-access import below is clean apart from the known Android warning. |
+| `-Action test` | **1063 checks / 0 failures**, exit 0. [Log](../output/qa/rc-008/baseline-test.log). |
+| `-Action smoke`, restricted | Exit 1, **327 checks / 1 failure** plus a null file-write script error: settings persistence and the temporary invalid-content fixture could not write to `user://`. This incomplete environment-blocked run is preserved in its [log](../output/qa/rc-008/baseline-smoke.log). |
+| `-Action smoke`, normal local access | **333 UI checks / 0 failures**, exit 0. Expected invalid-content diagnostics only. [Log](../output/qa/rc-008/baseline-smoke-normal-access.log). This is the valid pre-edit UI baseline. |
+| Baseline rendering | [450×1000 normal preview](../output/qa/rc-008/baseline-normal.png) and [360×640 smaller window](../output/qa/rc-008/baseline-small.png), both saved successfully and inspected. |
+
+The baseline showed compact cards with no visible touch inspector and eight small editing controls in one row. Source/input-path inspection confirmed immediate technique activation and no scroll/hold arbitration around card/board Button signals. A real native-window inspection succeeded, but the attempted click returned `SendInput sent 0 of 1 events; GetLastError=87`; the refreshed capture was not reliable for the intended window. Native input attempts stopped. Thus there is no successful manual technique/scroll test to infer from that attempt.
+
+### Final required commands
+
+Each launcher action was executed separately from PowerShell in `C:\Dev\RuneCast`, with actual output and exit status inspected. Normal local user-directory access was used for import/UI/rendering when required; no SDK or engine upgrade was performed.
+
+| Command | Actual final result |
+| --- | --- |
+| `.\tools\godot.ps1 -Action version` | `4.7.2.stable.official.ed1daf0bf`, exit 0. [Log](../output/qa/rc-008/final-version.log). |
+| `.\tools\godot.ps1 -Action import` | Exit 0. Existing `Unable to open Android 'build-tools' directory` warning; no script import error. [Log](../output/qa/rc-008/final-import.log). |
+| `.\tools\godot.ps1 -Action test` | **1063 core checks / 0 failures**, exit 0. [Log](../output/qa/rc-008/final-test.log). |
+| `.\tools\godot.ps1 -Action smoke` | **503 UI checks / 0 failures**, exit 0. [Final rerun](../output/qa/rc-008/final-smoke-02.log). Deliberately missing/invalid startup diagnostics are expected test coverage. |
+| `.\tools\godot.ps1 -Action capture -CapturePath res://output/qa/rc-008/final-production.png` | Exit 0; screenshot saved successfully to a new path. [Log](../output/qa/rc-008/final-capture.log), [normal launch](../output/qa/rc-008/final-production.png). |
+
+The final core count retains all existing checks, including production geometry/accounting and historical rules. The UI count is the existing **333**, plus **67** read-only inspection/availability checks, **30** gesture arbitration checks and **73** actual-scene touch/lifecycle checks. Coverage lives in [inspection_data_tests.gd](../tests/inspection_data_tests.gd), [touch_router_tests.gd](../tests/touch_router_tests.gd) and [ui_touch_tests.gd](../tests/ui_touch_tests.gd), wired into [ui_smoke.gd](../tests/ui_smoke.gd). These include:
+
+- Every hand/installed rune, technique, connector and endpoint description; configured costs/values/ports/stock and profile-specific cleanup; snapshot/RNG/UID/history purity.
+- Real `Viewport.push_input` routing for short taps versus holds, exactly-at-threshold motion, scroll cancellation, cancelled release, multiple pointers and emulated touch/mouse suppression. Deterministic timing advances the production hold path; no fragile hold sleeps.
+- Modal background blocking, scroll isolation, Close/Escape without click-through, keyboard focus trapping, native Guide scrolling, missing OS release after focus loss and fresh input recovery.
+- Legal incomplete placement versus protected/exhausted targets, replacement/refund/Undo labels, endpoint direction and Undo, selection cancellation, technique energy/history boundaries and a validated 14-card hand scrolled to its last item.
+- Busy presentation, late callbacks, turn/reset/Exact replay/encounter entry, historical experiment relaunch with synchronous cancellation reentry, scene teardown and safe invalid-content startup.
+- Details / Pass consequence confirmation, exactly one accepted Pass, and stale confirmation rejection after Restart.
+
+Intermediate evidence is retained. [Integration run 01](../output/qa/rc-008/integration-smoke-01.log) had nine assertions failing on changed inventory/endpoint feedback wording; restoring compatible wording with clearer reasons fixed them, and [run 02](../output/qa/rc-008/integration-smoke-02.log) passed all then-integrated 421 checks. Subsequent checks caught narrow-screen row overflow; navigation wrapping and responsive board sizing fixed it. A hidden native Guide label still contributed a large minimum height; limiting its visible lines and rendering the body in a scroll container fixed the [reviewed Guide](../output/qa/rc-008/guide-scroll-02.png). Visual review also shortened the narrow Cancel label and moved placement markers beside, rather than over, End's value. The final 503-check rerun and fresh rendered suite include these fixes.
+
+### Rendered interaction evidence
+
+Ran the pinned executable separately with `--path . --script res://tests/ui_touch_capture.gd` and a dedicated RC-008 log path. [Final rendered log](../output/qa/rc-008/touch-render-final-02.log): **82 synthetic touch UI/capture checks / 0 failures**, exit 0. This repeats the **73** scene interaction checks and adds **nine screenshot-save checks**; it is not 82 extra unique tests beyond the UI suite. Earlier restricted rendered runs reported a shader-cache access warning; the final normal-access rendered run does not. The deliberate missing-content diagnostic remains expected.
+
+The following final states were visually inspected. The controlled scene uses a valid deterministic setup with both card types for repeatable inspection; the 14-card hand is an explicitly validated QA fixture, not a changed production opening. Ordinary standalone launch is separately captured above.
+
+| State | Final evidence |
+| --- | --- |
+| Selected tool, eligible `+` cells and protected `x` endpoints | [720×1600 preview](../output/qa/rc-008/touch-capture-1791519954-3060/selected-tool-preview.png) |
+| Selected/rotated Begin, direction feedback and actual editing availability | [Endpoint](../output/qa/rc-008/touch-capture-1791519954-3060/selected-rotated-endpoint.png) |
+| Rune cost, ports and ownership/cleanup explanation | [Rune inspector](../output/qa/rc-008/touch-capture-1791519954-3060/inspect-hand-rune.png) |
+| Technique effect/payment and explicit inspection safety | [Technique inspector](../output/qa/rc-008/touch-capture-1791519954-3060/inspect-hand-technique.png) |
+| Exhausted stock, legal same-kind replacement and rejected new placement | [Unavailable stock](../output/qa/rc-008/touch-capture-1791519954-3060/unavailable-stock.png) |
+| Larger hand, visible horizontal scrollbar and selected last card | [14-card hand](../output/qa/rc-008/touch-capture-1791519954-3060/large-hand-scrolled.png) |
+| Small viewport with board/edit controls fitting horizontally | [360×640 board](../output/qa/rc-008/touch-capture-1791519954-3060/small-portrait-board.png) |
+| Small inspector with independent content scrolling and fixed Close | [360×640 inspector](../output/qa/rc-008/touch-capture-1791519954-3060/small-portrait-inspector.png) |
+| Explicit enemy consequence and separate Pass confirmation | [Pass confirmation](../output/qa/rc-008/touch-capture-1791519954-3060/pass-confirmation.png) |
+
+The normal 450×1000 preview preserves the substantial enemy arena and compact name/symbol/value cards. Extra editing rows remain labeled and reachable; the small viewport scrolls vertically, so not every area is visible simultaneously. Inspector content and background scrolling are separated. No permanent forecast strip, production artwork or screen redesign was added.
+
+### Preservation and limits
+
+The [preservation audit](../output/qa/rc-008/preservation-results.json) verifies **506 / 506** pre-existing output/evidence, asset and content file hashes unchanged against the [pre-edit manifest](../output/qa/rc-008/preservation-before.json). This includes the approved reference images, historical captures, experiment definitions and previous raw evidence. Launcher logs at their old fixed filenames were preserved through pre-run copies and restored after verification; all new evidence is separately named. No historical human finding was rewritten or inferred.
+
+The computer-use skill was used to attempt native Windows testing. Input injection failed as recorded above; manual native interaction remains unverified. **All touch acceptance here is synthetic desktop input plus rendered QA. No physical touch device was available**, and no mobile packaging, SDK installation, OS/device minimum, safe-area acceptance or device usability result is claimed. Physical gesture feel, text scaling and platform lifecycle remain RC-021/RC-022 and their later acceptance tasks, including RC-023/RC-044. The existing Android build-tools warning is a platform setup limitation, not a failed desktop gameplay check.
+
+The initial discovery command included one read-only `git status --short` before the pasted no-Git restriction was read. It returned no changes and was disclosed immediately; no subsequent Git operations, commit or checkpoint occurred. The owner retains Git responsibility.
+
+Next-ready: **RC-009**, independently available **RC-010**, **RC-024** and **RC-033**, with platform access still conditional as recorded in the [current plan](project-plan.md).
+
+Documentation QA checked six updated documents and 342 relative file links, with zero missing targets (output/qa/rc-008/document-links.json). This checks file existence, not Markdown anchors.

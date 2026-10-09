@@ -6,6 +6,8 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-007, October 9, 2026:** the owner accepted all proposed defaults. The [production contract](docs/production-rules-spec.md) and [gameplay rules](docs/gameplay-rules.md) describe current behavior; [verification](docs/verification.md) and the [handoff](docs/project-plan.md) record actual checks and remaining tuning limits. This is not a complete tower run.
 
+**RC-008 complete, October 9, 2026:** hold or use Inspect mode for safe rune/technique details, preview legal placements, cancel selection, and scroll the hand/page independently. Fresh verification passes 1063 core / 503 UI checks, plus 82 rendered interaction/capture checks. See [touch interactions](docs/touch-interactions.md) for controls and the pending physical-device checks.
+
 ## Start the project
 
 The pinned editor is **Godot 4.7.2 Standard with GDScript**, using the Compatibility renderer. No Blender or .NET dependency is required.
@@ -28,13 +30,14 @@ The bootstrap downloads the official Windows x64 portable editor and verifies it
 ## Play the sandbox
 
 - Every playable turn starts with only Begin and End and fourteen empty cells. Select either endpoint and Rotate; Undo restores it. Endpoints can be adjacent or initially face outward.
-- Tap a wiring tool or effect rune, then a board socket. Rotate changes orientation; Flip reverses ordinary wires. Endpoints cannot be erased or replaced.
+- Tap a wiring tool or effect rune, then an eligible **+** board socket. An **x** marks a protected/unavailable target; legal incomplete construction remains allowed. Rotate changes orientation; Flip reverses ordinary wires. Endpoints cannot be erased or replaced. **Cancel selection** clears the active tool/card.
 - A random ten-piece kit supplies Straight/Corner/Split/Join in counts **6/2/1/1**, **4/4/1/1** or **4/2/2/2**, with equal chances and repeats allowed. Labels show available/total; disconnected pieces count. Erase/replacement returns stock and Undo restores it.
-- Focus and Conjure Spark are techniques and resolve immediately when tapped.
+- Hold a card, board piece or connector button to inspect live costs, ports, stock and cleanup. Or turn **Inspect: ON**, then tap any item safely. Close retains Inspect mode; Cancel selection turns it off. Drag the hand horizontally or the page vertically to scroll without using a card.
+- Focus and Conjure Spark still resolve immediately on a normal short tap. A hold or an Inspect-mode tap only shows details and never activates them. See [touch interactions](docs/touch-interactions.md).
 - Cast pays each powered physical rune once plus 1 per Split; Join costs 0. Damage is one aggregate hit. Shield applies to surviving-enemy retaliation only.
 - Cast and Pass clear all non-endpoint pieces. Permanent runes enter discard; temporaries disappear. A surviving turn moves both endpoints, replaces the kit, refreshes energy and draws normally. Unused supply never accumulates; cards and kits may repeat.
 - The starter has 3 energy and draws 3 cards, including the first turn. Victory/defeat clean up without generating an unused turn.
-- Menu provides Pass, Restart with continuing RNG, and Exact replay of the original seed. Guide explains the rules. Sound toggles the placeholder cast tone and saves the preference.
+- **Details / Pass** explains the current circuit and offers a confirmed Pass even with an incomplete board or empty hand. Menu provides Pass, Restart with continuing RNG, and Exact replay of the original seed. Guide explains the controls and rules. Sound toggles the placeholder cast tone and saves the preference.
 - Map currently describes the planned tower route; branching progression is not implemented.
 
 ## Validate
@@ -91,6 +94,7 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 - [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)
 - [Game description](docs/game-design.md)
 - [Gameplay rules](docs/gameplay-rules.md)
+- [Touch interactions — inspection, selection, scrolling and placement feedback](docs/touch-interactions.md)
 - [Combat/presentation architecture and animation contract](docs/combat-presentation.md)
 - [Decisions and open questions](docs/decisions.md)
 - [Art direction and asset production](docs/art-direction.md)

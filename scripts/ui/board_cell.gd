@@ -6,9 +6,16 @@ var active := false
 var chosen := false
 var end_value := 0
 var split_cost := 1
+var preview := 0 # +1 eligible construction, -1 protected/unavailable; UI-only.
 
 func _draw() -> void:
 	var center := size * 0.5
+	if preview != 0:
+		var tint := Color("#6edbc1") if preview > 0 else Color("#a57b76")
+		draw_rect(Rect2(Vector2(6, 6), size - Vector2(12, 12)), tint, false, 2)
+		draw_string(get_theme_default_font(), Vector2(10, size.y - 10), "+" if preview > 0 else "x", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, tint)
+	if chosen:
+		draw_rect(Rect2(Vector2(2, 2), size - Vector2(4, 4)), Color("#fff0b5"), false, 3)
 	if piece.is_empty():
 		return
 	if piece.get("kind") == "blocked":
@@ -56,8 +63,6 @@ func _draw() -> void:
 			var cost := split_cost if piece.kind == "split" else int(catalog[piece.rune_id].cost)
 			draw_circle(Vector2(size.x - 17, 18), 13, Color("#196090"))
 			draw_string(font, Vector2(size.x - 22, 24), str(cost), HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color.WHITE)
-	if chosen:
-		draw_rect(Rect2(Vector2(2, 2), size - Vector2(4, 4)), Color("#fff0b5"), false, 3)
 
 func _center_text(font: Font, value: String, y: float, font_size: int, color: Color) -> void:
 	draw_string(font, Vector2((size.x - font.get_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x) * 0.5, y), value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
