@@ -1,6 +1,6 @@
 # Validated content definitions
 
-RC-004 adds a small loader for the current combat rules. Normal definitions describe existing scalar damage/shield runes, draw/conjure techniques, fixed-geometry boards, attack sequences and player setups. RC-005 adds narrowly gated experimental geometry described below. The future roster, relics, statuses, combined effects and guardian phases remain unimplemented.
+RC-007 selects the production profile described below: scalar damage/shield runes, draw/conjure techniques, endpoints-only boards, random connector kits and normal draws. RC-004 historical definitions and the narrowly gated RC-005/RC-006 experiments retain their original semantics. The future roster, relics, statuses, combined effects and guardian phases remain unimplemented.
 
 ## Files and entry points
 
@@ -10,7 +10,12 @@ RC-004 adds a small loader for the current combat rules. Normal definitions desc
 | [`data/boards.json`](../data/boards.json) | Array of starting-board definitions. |
 | [`data/enemies.json`](../data/enemies.json) | Array of enemy definitions and scalar attack sequences. |
 | [`data/loadouts.json`](../data/loadouts.json) | Array of player stats, permanent ownership, opening policy and inventory. |
-| [`data/encounter.json`](../data/encounter.json) | Default encounter object, `training_shadeling`. |
+| [`data/production_encounter.json`](../data/production_encounter.json) | Default production encounter, preserving `training_shadeling`. |
+| [`data/production_boards.json`](../data/production_boards.json) | Production endpoint templates; `board_training` remains the normal board ID. |
+| [`data/production_loadouts.json`](../data/production_loadouts.json) | Production normal-draw loadouts; connector stock comes from kit definitions. |
+| [`data/production_rules.json`](../data/production_rules.json) | Three versioned, provisional equal-probability ten-piece kits. |
+| [`data/production_transition_encounter.json`](../data/production_transition_encounter.json) | Bounded development entry into [`production_next_encounter.json`](../data/production_next_encounter.json); no full progression. |
+| [`data/encounter.json`](../data/encounter.json) | Explicit historical prefilled training encounter, also `training_shadeling`; different profile, not a new roster entry. |
 | [`data/dev_encounter.json`](../data/dev_encounter.json) | Alternate encounter object, `dev_calibration`; development/test content only. |
 
 [`RuneContentLoader`](../scripts/core/content_loader.gd) separates file access from validation:
@@ -18,7 +23,7 @@ RC-004 adds a small loader for the current combat rules. Normal definitions desc
 ```gdscript
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
 const Combat = preload("res://scripts/core/combat.gd")
-var loaded := ContentLoader.load_setup("res://data/encounter.json")
+var loaded := ContentLoader.load_setup()
 if loaded.ok:
     var model := Combat.new(loaded.setup)
 else:
@@ -26,9 +31,9 @@ else:
     pass
 ```
 
-`load_setup(encounter_path, definition_paths = {})` reads the selected encounter plus the four definition files. Tests or tools can override the `runes`, `boards`, `enemies` and `loadouts` file paths. Unknown source keys fail. `read_document(path)` returns parsed data or file/JSON diagnostics. `validate_documents({runes, boards, enemies, loadouts, encounter}, source_names = {})` validates supplied parsed documents without I/O. Source names are optional diagnostic labels. Both setup-producing functions return `{ok, errors, setup}`; any failure returns an empty setup. All definitions are checked, including unused entries; ownership and installed-inventory accounting apply to the selected encounter's board/loadout combination.
+`load_setup(encounter_path = DEFAULT_ENCOUNTER, definition_paths = {})` first reads the encounter. A supported `ruleset: "rc007_production_v1"` selects production board/loadout files and validated kit rules; absence of the marker explicitly selects the historical profile. Unsupported markers fail. Tests/tools can override the `runes`, `boards`, `enemies` and `loadouts` paths; unknown source keys fail. `read_document(path)` returns parsed data or file/JSON diagnostics. `validate_documents(documents, source_names = {}, experiment_context = null, production_context = null)` validates supplied parsed documents without I/O. Production and experiment contexts are mutually exclusive, versioned and strictly validated. Source names are optional diagnostic labels. Setup-producing functions return `{ok, errors, setup}`; any failure returns an empty setup. All definitions are checked, including unused entries.
 
-The returned setup is a deep copy containing `catalog`, flattened `encounter`, sixteen-cell `board`, `owned_cards`, `opening_hand`, `opening_draw` and `inventory`. The combat constructor accepts this normalized setup and performs no file access. Treat it as a trusted internal boundary: callers must validate documents before construction. The constructor makes its own independent restart template and active state copies. `Combat.new(setup, seed_override)` also accepts an optional integer seed override in the same range as the encounter seed; ordinary scene launch uses the encounter seed.
+The returned setup is a deep copy containing `catalog`, flattened `encounter`, sixteen-cell `board`, `owned_cards`, `opening_hand`, `opening_draw` and `inventory`. Production also includes validated `production` options and, when configured, one validated `next_encounter` setup. The combat constructor accepts this normalized setup and performs no file access. Treat it as a trusted internal boundary: callers must validate documents before construction. The constructor makes its own independent restart template and active state copies. `Combat.new(setup, seed_override)` also accepts an optional integer seed override in the same range as the encounter seed; ordinary scene launch uses the encounter seed.
 
 ## Common schema rules
 
@@ -55,7 +60,9 @@ Required fields are `id`, `width`, `height` and `placements`. Width and height m
 
 `rotation` is an optional integer 0–3, default 0, representing clockwise quarter turns. `reversed` is optional boolean, default false, and may be explicitly supplied only for straight/corner wires. A `rune` placement requires a known `rune_id` whose definition type is `rune`; other pieces cannot carry this field. Board data never provides card UIDs.
 
-In normal loading, Begin must be explicitly installed at cell 0, End at cell 14, both rotation 0. Explicit custom ports, endpoint geometry, blocked cells and obstacle kinds fail validation outside the opt-in experimental contexts below. The roster's stable introductory board ID is `board_training`.
+Production templates require exactly one Begin and one End at distinct cells with rotations 0–3, and fourteen empty cells. Every distinct pair and outward-facing direction is valid authoring input; playable setup resamples the pair/directions using the selected RNG contract. Prefilled connectors/effects and blocked cells fail. Production effect ports are straight, either omitted or explicitly `port_shape: straight`; corner effects fail. The roster's stable introductory board ID is `board_training`.
+
+Explicit historical loading retains Begin0/End14 with rotation0. Alternate geometry/ports remain gated by their historical experiment contexts below.
 
 A structurally valid board does **not** need to be currently castable. Open connections, disconnected pieces and incomplete paths remain editable starting positions; `RuneCircuit.evaluate` supplies the ordinary circuit forecast and cast rejection. Schema errors concern malformed/unsupported data, not whether the current circuit can cast.
 
@@ -71,14 +78,26 @@ Required fields are `id`, `name`, `max_health` and `intents`. Maximum health is 
 | `max_health` | Required integer 1–100,000. |
 | `current_health` | Optional; defaults to maximum. Must be 1–`max_health`, because a battle setup starts with a living player. |
 | `energy_per_turn` | Required integer 0–20; also the initial energy. |
-| `draw_per_turn` | Required integer 0–20 for each subsequent turn. |
+| `draw_per_turn` | Required integer 0–20; production uses this count for every playable entry, including the first. |
 | `owned_cards` | Required ordered array of 0–100 known permanent card IDs; repeated IDs are owned copies. Temporary cards are forbidden. |
-| `opening_policy` | Required `curated` or `draw`. |
+| `opening_policy` | Production requires `draw`; historical profiles also permit `curated`. |
 | `opening_hand` | Required for `curated`: ordered permanent IDs, maximum 100. Omit for `draw`. |
-| `opening_draw` | Required for `draw`: integer 0–20. Omit for `curated`. |
-| `inventory` | Required object containing integer `split` and `join` totals, each 0–14. Basic wires remain unlimited. |
+| `opening_draw` | Required for `draw`: integer 0–20. Production requires equality with `draw_per_turn`; draws stop when the permanent pool is empty. Omit for historical `curated`. |
+| `inventory` | Omit in production: every playable entry selects its complete kit. Historical profiles require integer `split`/`join` totals 0–14 and optionally `straight`/`corner` together, also 0–14. Omitting both basic types preserves historical unlimited wires. |
 
-Curated hand copies and permanent installed runes must fit ownership together. A draw opening cannot request more cards than ownership remaining after permanent board allocation. Inventory totals include pieces already on the board; a setup installing more Splits or Joins than owned fails. These caps bound supported setup data, not balance recommendations.
+Historical curated hand copies and permanent installed runes must fit ownership together, and historical draw openings cannot exceed remaining ownership. Production permits a smaller or empty pool and draws only available cards. Finite totals include disconnected installations; overinstalled authored stock fails. Production's normalized `inventory` receives a detached first-kit placeholder, replaced by the model's actual one-time kit selection before its initial snapshot. Raw authored stock is forbidden so it cannot override or bypass the selected kits. These caps bound setup data, not balance recommendations.
+
+### RC-007 selected production profile — October 9, 2026
+
+[`RuneProductionRules`](../scripts/core/production_rules.gd) validates the selected kit definitions and complete production options. `load_rules(path)` and `validate_rules(document, source)` return detached `{ok, errors, rules}` values; failure returns no partial rules. Version `rc007_connector_kits_v1` requires `extra_straights` 6/2/1/1, `extra_corners` 4/4/1/1 and `extra_branches` 4/2/2/2, weight 1 each and `balance: provisional`. Unsupported fields, partial kits and changed counts/probabilities fail this version. Later tuning explicitly revises the versioned definition and validation together.
+
+`production_options(validated_kit_rules)` supplies the `rc007_production_v1` options; `validate_production(context)` rejects missing, unsupported or unselected options. These select full reset/discard, empty temporary expiry, Split1/Join0, aggregate damage, random distinct endpoints and player Rotate. `select_kit(validated_rules, dedicated_rng)` makes one uniform selection and returns a detached kit; repeats are allowed. Combat owns the stream and calls this helper exactly once at playable entry, replacing stock. Exact seed/selection/order policies are in the [production specification](production-rules-spec.md).
+
+Finite inventory uses the existing authoritative combat model. Placement reserves stock by board occupancy; erase/replacement returns the displaced type; rune installation returns its displaced connector; removing a rune creates no connector. Rotation/Flip preserve quantities and Undo restores board, hand and derived stock together. Production snapshots expose all four stock types plus detached `production` and `kit` metadata. Historical fixtures retain their exact snapshot/configuration shapes and fingerprints.
+
+Production encounter files may specify `next_encounter: "res://...json"`. File loading resolves and validates that successor before constructing a model; missing/incompatible successors, cycles or a second successor fail. Pure document validation rejects unresolved path fields; callers composing normalized setups use `validate_transition(current_setup, next_setup)` and attach its detached result as `setup.next_encounter`. Both profiles must be production, catalog definitions and permanent ownership multisets must match, and the successor ID must differ. This is a trusted normalized-setup boundary, not an unvalidated command payload.
+
+`next_encounter` takes no command arguments and is accepted once after eligible victory. Runtime reconciliation also verifies the initial permanent UID ledger against every live instance before mutating or consuming RNG. Current/max HP carry without healing, overriding the next loadout's authored health. The next enemy starts at its maximum; energy/draw use its configuration. Old zones, temporaries and Undo clear; UID-sorted permanents are shuffled using continuing card RNG, then drawn normally. Endpoints sample the initial 240-pair domain with continuing endpoint RNG; the kit uses continuing kit RNG. No nested run/map/reward/save system is provided.
 
 ### Encounters
 
@@ -88,27 +107,29 @@ To add a supported encounter, add/reuse a validated enemy, board and loadout, th
 
 ## Ownership, identity and reproducibility
 
-Stable definition IDs include `spark`, `shield`, `focus`, `conjure`, `free_spark`, `shadeling`, `board_training` and `training_shadeling`. The scene exposes the selected stable encounter ID as `snapshot.encounter_content_id`. RC-003's numeric `snapshot.encounter_id` remains a reset/presentation generation counter, not a content ID. Card UIDs identify instances within one generation and are not persistent ownership IDs. Events retain their existing action/generation/sequence identities.
+Stable definition IDs include `spark`, `shield`, `focus`, `conjure`, `free_spark`, `shadeling`, `board_training` and `training_shadeling`. The scene exposes the selected stable encounter ID as `snapshot.encounter_content_id`. RC-003's numeric `snapshot.encounter_id` remains a reset/presentation generation counter, not a content ID. Card UIDs identify live instances and carry unchanged through the configured encounter transition, even though that advances the generation. Fresh construction and Restart allocate new instances; UIDs are not persistent save identifiers. Events retain their existing action/generation/sequence identities.
 
-Construction allocates temporary starting board runes first, then curated hand cards, then permanent board runes, then all remaining owned cards in ownership-array order. Each permanent allocation removes one owned copy from the remainder; none are duplicated. The remaining draw pile uses the existing descending Fisher–Yates shuffle and end-of-pile draws. Draw policy deals from that shuffled remainder. Setup dealing emits no action/presentation batch.
+Production construction allocates the complete permanent collection in ownership-array order (starter UIDs 0–7), shuffles it with descending Fisher–Yates, then draws from the end of the pile. Historical construction allocates temporary starting board runes first, then curated hand cards, then permanent board runes, then all remaining owned cards in ownership-array order. Each permanent allocation removes one owned copy from the remainder; none are duplicated. The remaining historical draw pile uses the same shuffle and end-of-pile draws. Setup dealing emits no action/presentation batch.
 
-The training loadout owns exactly two each of Spark, Shield, Focus and Conjure Spark. Its ownership order preserves the original curated hand `spark`, `shield`, `conjure` and residual sequence `spark`, `shield`, `focus`, `focus`, `conjure` before shuffling. The installed Free Spark is a tutorial setup item outside the eight permanent cards. It retains UID 0, followed by permanent UIDs 1–8. Generated cards receive fresh UIDs and never enter permanent ownership or discard/draw piles. Every live hand, board and pile instance has a unique UID.
+Both training profiles own exactly two each of Spark, Shield, Focus and Conjure Spark. Production draws its first hand normally and has no tutorial installation. The explicit historical profile preserves the original curated hand `spark`, `shield`, `conjure` and residual sequence `spark`, `shield`, `focus`, `focus`, `conjure` before shuffling. Its installed Free Spark is a tutorial setup item outside the eight permanent cards, retaining UID 0 followed by permanent UIDs 1–8. Generated cards receive fresh UIDs and never enter permanent ownership or discard/draw piles. Every live hand, board and pile instance has a unique UID.
 
-Fresh models with the same normalized setup/seed reproduce the same state. Restart restores the selected cached setup, including its definitions, opening policy, board, health and totals; it does not reload files or switch to training. Restart **continues** the RNG stream, preserving RC-003 behavior, so it need not reproduce a fresh battle's shuffle. Card UIDs restart while presentation generation increases, and action identity remains monotonic. Edits and undo compute available inventory from configured totals minus current board usage.
+Fresh models with the same normalized setup/seed reproduce the same state. Exact replay reconstructs that initial state. Restart restores the original selected cached encounter, definitions, opening policy and health without reloading files. Production selects fresh endpoints and a kit while **continuing all three RNG streams**; historical profiles restore their configured board and totals while continuing their applicable streams. Thus Restart need not reproduce the opening. Card UIDs restart while presentation generation increases, and action identity remains monotonic. Edits and Undo compute available inventory from current totals minus board usage.
 
 ## Development scene and diagnostics
 
-Normal launch stays on training:
+Normal launch selects the production Training Crypt. Historical and bounded transition fixtures require explicit selection:
 
 ```powershell
 .\tools\godot.ps1 -Action run
+.\tools\godot.ps1 -Action run -Encounter res://data/encounter.json
 .\tools\godot.ps1 -Action run -Encounter res://data/dev_encounter.json
-.\tools\godot.ps1 -Action capture -Encounter res://data/dev_encounter.json -CapturePath res://output/qa/rc-004-development.png
+.\tools\godot.ps1 -Action run -Encounter res://data/production_transition_encounter.json
+.\tools\godot.ps1 -Action capture -Encounter res://data/dev_encounter.json -CapturePath res://output/qa/rc-007/implementation/review-development.png
 ```
 
-The equivalent Godot user arguments are `-- --encounter=res://data/dev_encounter.json` and, for a capture, `--capture --capture-path=res://output/qa/rc-004-development.png`. The actual main scene also accepts an injected encounter path before `_ready()` for tests. Use the documented launcher rather than editing the default JSON to select the fixture.
+The equivalent Godot user arguments are `-- --encounter=res://data/dev_encounter.json` and, for a capture, `--capture --capture-path=res://output/qa/rc-007/implementation/review-development.png`. Use a fresh capture destination to preserve earlier evidence. The actual main scene also accepts an injected encounter path before `_ready()` for tests. Use the documented launcher rather than editing the default JSON to select the fixture.
 
-The alternate **Calibration Wisp** is explicitly a development fixture, not balanced production content: enemy 45 HP with attacks 3→7→5; player 24/40 HP, four energy and two cards per turn; two Splits and zero Joins. It owns six permanent cards, opens with Focus/Shield and an owned Spark installed on a different complete path. Its opening forecast is six damage for two energy. The shared placeholder art is retained.
+The historical **Calibration Wisp** (`dev_encounter.json`) is explicitly a development fixture, not balanced production content: enemy 45 HP with attacks 3→7→5; player 24/40 HP, four energy and two cards per turn; two Splits and zero Joins. It owns six permanent cards, opens with Focus/Shield and an owned Spark installed on a different complete path. Its opening forecast is six damage for two energy. The separate production successor reuses this enemy with endpoints-only geometry, normal draws and the same eight-card collection as production training; entry carries the previous player's current/max HP. The shared placeholder art is retained.
 
 Missing/unreadable files, malformed JSON and schema failures return diagnostics such as `res://data/runes.json [spark].cost: expected an integer in [0, 20]`. JSON syntax errors include a parser line. The screen shows startup errors and disables gameplay with no silently playable training fallback. Tests inject malformed/invalid fixtures under `tests/fixtures/` and mutate detached source documents; production data is not corrupted.
 
@@ -116,9 +137,11 @@ The existing `-Action test` includes loader and configured-combat tests; `-Actio
 
 ## RC-005 opt-in extensions
 
+The following study sections preserve historical fixture semantics and the decisions available when each was added. References to unchanged normal gameplay or unresolved production choices describe that historical stage; the accepted RC-007 profile above is current. None of these old fixtures is rewritten to use production rules.
+
 Normal `load_setup` has no experimental flag: JSON cannot enable candidate rules by adding an encounter field. `RuneExperiments.load_setup(scenario_id, variant_id, seed=42)` builds bounded fixture documents and calls `validate_documents(documents, source_names={}, experiment_context=null)` with an explicit context. `experiment_options` creates the exact `rc005_v1` mapping, and `validate_experiment` rejects unknown/missing keys, incorrect types, unknown IDs, mismatched seed/version or rules inconsistent with that scenario/variant. There is no general scripting or arbitrary option cross-product.
 
-Normalized experimental setup gains a detached `experiment` dictionary: `scenario_id`, `variant_id`, `version`, `seed`, `effects`, `split_cost`, `damage_mode`, `expiry`, `transfer`. See the [matrix and exact semantics](circuit-experiments.md). The same core model implements these strategies; normal snapshots and events retain their existing shape.
+Normalized experimental setup gains a detached `experiment` dictionary: `scenario_id`, `variant_id`, `version`, `seed`, `effects`, `split_cost`, `damage_mode`, `expiry`, `transfer`. See the [matrix and exact semantics](circuit-experiments.md). The same core model implements these strategies; historical baseline snapshots and events retain their existing shape.
 
 Geometry capabilities are limited to their comparison context:
 

@@ -1,4 +1,7 @@
 extends SceneTree
+
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
 const Circuit = preload("res://scripts/core/circuit.gd")
 const Combat = preload("res://scripts/core/combat.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
@@ -12,7 +15,7 @@ func check(condition: bool, description: String) -> void:
 		push_error(description)
 
 func _initialize() -> void:
-	var game := Combat.new(ContentLoader.load_setup().setup)
+	var game := Combat.new(ContentLoader.load_setup(ContentLoader.LEGACY_ENCOUNTER).setup)
 	var result := game.forecast()
 	check(result.valid and result.damage == 12 and result.cost == 1, "Reference circuit doubles the temporary Spark for one energy.")
 	var board := game.board.duplicate(true)
@@ -88,6 +91,10 @@ func _initialize() -> void:
 	preload("res://tests/moving_endpoint_tests.gd").new().run(check)
 	preload("res://tests/free_endpoint_tests.gd").new().run(check)
 	preload("res://tests/experiment_record_tests.gd").new().run(check)
+	preload("res://tests/production_rules_tests.gd").new().run(check)
+	preload("res://tests/connector_geometry_tests.gd").new().run(check)
+	preload("res://tests/production_content_tests.gd").new().run(check)
+	preload("res://tests/production_combat_tests.gd").new().run(check)
 	print("%d checks, %d failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)
 

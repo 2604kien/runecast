@@ -1,11 +1,14 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 const Combat = preload("res://scripts/core/combat.gd")
 const Circuit = preload("res://scripts/core/circuit.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
 
 func _setup(options: Dictionary = {}) -> Dictionary:
-	var value: Dictionary = Loader.load_setup().setup
+	var value: Dictionary = Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup
 	value.experiment = {"scenario_id": "test_core", "variant_id": "control", "version": "rc005_v1",
 		"seed": 42, "effects": "persistent", "split_cost": 1, "damage_mode": "aggregate",
 		"expiry": "straight", "transfer": "none"}
@@ -243,7 +246,7 @@ func _transfer(check: Callable) -> void:
 		check.call(not game.snapshot().can_advance and not game.execute("next_encounter").accepted, mode + " second victory cannot start a third encounter.")
 		game.reset()
 		check.call(game.snapshot().encounter_number == 1 and game.player_hp == 30 and game.board[1].rune_id == "free_spark", mode + " ordinary Restart rebuilds the first encounter with its normal fixture.")
-	var normal := Combat.new(Loader.load_setup().setup)
+	var normal := Combat.new(Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup)
 	normal.enemy_hp = 1
 	normal.cast()
 	check.call(not normal.execute("next_encounter").accepted, "Normal gameplay never enables the paired encounter command.")

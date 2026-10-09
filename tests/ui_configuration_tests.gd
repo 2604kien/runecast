@@ -2,7 +2,7 @@ extends RefCounted
 
 func run(training: Control, check: Callable, tree: SceneTree) -> void:
 	training._restart()
-	check.call(training.startup_error == "" and training.encounter_title.text == "RUNE CAST   /   TRAINING CRYPT" and training.arena.enemy_name == "Shadeling", "The default screen retains the training title and Shadeling identity.")
+	check.call(training.startup_error == "" and training.encounter_title.text == "RUNE CAST   /   TRAINING CRYPT" and training.arena.enemy_name == "Shadeling", "The explicitly selected historical fixture retains its training title and Shadeling identity.")
 	check.call(training.stats.text == "HEALTH 30 / 30       ENERGY 3 / 3       TURN 1" and training.stock_buttons.split.text == "Split\n0 / 1" and training.stock_buttons.join.text == "Join\n0 / 1", "Training labels preserve player stats and installed inventory accounting.")
 	check.call(training.cast_button.tooltip_text.contains("12 damage") and training.cast_button.text.contains("1 energy"), "The unchanged training opening forecast is bound to the Cast control.")
 

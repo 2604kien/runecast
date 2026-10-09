@@ -1,0 +1,11 @@
+{
+  "id": "training_shadeling",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_training",
+  "loadout_id": "starter",
+  "title": "TRAINING CRYPT",
+  "help_text": "Build from Begin and End each turn. Rotate either endpoint. Your rune hand and ten-piece connector kit are separate; every Cast or Pass clears the construction.",
+  "opening_log": "New turn: rotate the endpoints and build with your hand and connector kit.",
+  "seed": 42
+}

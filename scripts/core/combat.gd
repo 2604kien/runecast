@@ -3,6 +3,7 @@ extends RefCounted
 
 const Circuit = preload("res://scripts/core/circuit.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
+const ProductionRules = preload("res://scripts/core/production_rules.gd")
 var catalog: Dictionary
 var encounter: Dictionary
 var board: Array
@@ -21,12 +22,16 @@ var log_text := ""
 var next_uid := 0
 var rng := RandomNumberGenerator.new()
 var endpoint_rng := RandomNumberGenerator.new()
+var kit_rng := RandomNumberGenerator.new()
 var _setup: Dictionary
 var _encounter_id := 0
 var _action_id := 0
 var _events: Array = []
 var _last_result: Dictionary = {}
 var _experiment: Dictionary = {}
+var _production: Dictionary = {}
+var _kit: Dictionary = {}
+var _owned_instances: Dictionary = {}
 var _encounter_number := 1
 var _endpoint_layout_id := "opening"
 
@@ -43,6 +48,7 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 	# Geometry must not consume the card-shuffle stream. Exact replay creates a
 	# fresh model; ordinary Restart deliberately continues both random streams.
 	endpoint_rng.seed = int(_setup.encounter.seed) ^ 0x52434D45
+	kit_rng.seed = int(_setup.encounter.seed) ^ 0x52434B49
 	reset()
 
 func reset() -> void:
@@ -52,13 +58,17 @@ func reset() -> void:
 	catalog = _setup.catalog.duplicate(true)
 	encounter = _setup.encounter.duplicate(true)
 	_experiment = _setup.get("experiment", {}).duplicate(true)
+	_production = _setup.get("production", {}).duplicate(true)
+	_kit = {}
 	_encounter_number = 1
 	_endpoint_layout_id = "opening"
 	board = _setup.board.duplicate(true)
-	if _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
+	if _rules().get("endpoint_policy", "fixed") == "random_any_cells":
 		_move_free_endpoints(true)
 	owned_cards = _setup.owned_cards.duplicate()
 	stock_totals = _setup.inventory.duplicate(true)
+	if not _production.is_empty():
+		_select_turn_kit(true)
 	hand.clear()
 	draw_pile.clear()
 	discard_pile.clear()
@@ -87,11 +97,22 @@ func reset() -> void:
 		draw_pile.append(_card(id))
 	_shuffle(draw_pile)
 	_draw(int(_setup.opening_draw))
+	_owned_instances.clear()
+	if not _production.is_empty():
+		for card in hand + draw_pile + discard_pile:
+			if not catalog[card.id].get("temporary", false):
+				_owned_instances[card.uid] = card.id
 	# Initial dealing is setup, not an action or a presentation batch.
 	_events.clear()
 
 # The UI receives values, never references to authoritative collections.
 func snapshot() -> Dictionary:
+	var available_stock := {"split": stock("split"), "join": stock("join")}
+	# Legacy experiment snapshots retain their original two-kind stock shape.
+	# Finite connector setups explicitly carry all four validated totals.
+	for kind in ["straight", "corner"]:
+		if stock_totals.has(kind):
+			available_stock[kind] = stock(kind)
 	var value := {
 		"encounter_id": _encounter_id, "board": board, "hand": hand,
 		"draw_pile": draw_pile, "discard_pile": discard_pile,
@@ -103,11 +124,16 @@ func snapshot() -> Dictionary:
 		"owned_cards": owned_cards, "encounter_content_id": encounter.id,
 		"encounter_title": encounter.title, "encounter_help_text": encounter.help_text,
 		"log_text": log_text, "intent": intent(), "forecast": forecast(),
-		"stock": {"split": stock("split"), "join": stock("join")},
+		"stock": available_stock,
 		"undo_count": history.size()
 	}
 	if not _experiment.is_empty():
 		value.experiment = _experiment
+		value.encounter_number = _encounter_number
+		value.can_advance = _can_advance()
+	if not _production.is_empty():
+		value.production = _production
+		value.kit = _kit
 		value.encounter_number = _encounter_number
 		value.can_advance = _can_advance()
 	return value.duplicate(true)
@@ -134,7 +160,7 @@ func execute(command: String, arguments: Dictionary = {}) -> Dictionary:
 			if arguments.is_empty():
 				accepted = _next_encounter()
 			else:
-				log_text = "Paired experiments use the same fixed board geometry; next_encounter accepts no override arguments."
+				log_text = "Configured encounter transitions accept no override arguments." if not _production.is_empty() else "Paired experiments use the same fixed board geometry; next_encounter accepts no override arguments."
 	if accepted:
 		_action_id += 1
 	_last_result = {
@@ -193,7 +219,10 @@ func intent() -> int:
 	return int(encounter.intents[(turn - 1) % encounter.intents.size()])
 
 func forecast() -> Dictionary:
-	return Circuit.evaluate(board, catalog, _experiment)
+	return Circuit.evaluate(board, catalog, _rules())
+
+func _rules() -> Dictionary:
+	return _production if not _production.is_empty() else _experiment
 
 func stock(kind: String) -> int:
 	var count := 0
@@ -212,7 +241,7 @@ func _editable(index: int) -> bool:
 		return false
 	if board[index].get("kind") in ["begin", "end", "blocked"]:
 		return false
-	return not _experiment.is_empty() or (index != Circuit.BEGIN and index != Circuit.END)
+	return not _production.is_empty() or not _experiment.is_empty() or (index != Circuit.BEGIN and index != Circuit.END)
 
 func _return_rune(index: int) -> void:
 	var piece: Dictionary = board[index]
@@ -222,7 +251,7 @@ func _return_rune(index: int) -> void:
 func _place_wire(index: int, kind: String) -> bool:
 	if not _editable(index) or not ["straight", "corner", "split", "join", "erase"].has(kind):
 		return false
-	if kind in ["split", "join"] and stock(kind) == 0 and board[index].get("kind") != kind:
+	if stock_totals.has(kind) and stock(kind) == 0 and board[index].get("kind") != kind:
 		log_text = "You own %d %s." % [stock_totals[kind], kind]
 		if stock_totals[kind] > 0:
 			log_text += " Move an installed piece first."
@@ -257,7 +286,7 @@ func _place_rune(index: int, uid: int) -> bool:
 func _rotate(index: int) -> bool:
 	if state != "playing" or index < 0 or index >= board.size():
 		return false
-	var free_endpoint: bool = _experiment.get("endpoint_rotation", "fixed") == "player" and board[index].get("kind") in ["begin", "end"]
+	var free_endpoint: bool = _rules().get("endpoint_rotation", "fixed") == "player" and board[index].get("kind") in ["begin", "end"]
 	if (not _editable(index) and not free_endpoint) or board[index].is_empty():
 		return false
 	_remember()
@@ -347,7 +376,7 @@ func _cast() -> bool:
 	energy -= spell.cost
 	_record("cast", {"source": "player", "spell": spell,
 		"energy_before": energy_before, "energy_after": energy})
-	if _experiment.get("damage_mode", "aggregate") == "multi_hit":
+	if _rules().get("damage_mode", "aggregate") == "multi_hit":
 		for hit_index in range(spell.hits.size()):
 			if enemy_hp <= 0:
 				break
@@ -359,7 +388,7 @@ func _cast() -> bool:
 		_record("shield", {"target": "player", "amount": int(spell.shield)})
 		damage_taken = _retaliate(int(spell.shield))
 	log_text = "Cast %d damage, %d shield. Received %d damage." % [spell.damage, spell.shield, damage_taken]
-	if _experiment.get("effects", "persistent") == "consumed":
+	if _rules().get("effects", "persistent") == "consumed":
 		_consume_effects(spell.active)
 	_end_turn()
 	return true
@@ -409,7 +438,7 @@ func _retaliate(shield: int) -> int:
 	return damage_taken
 
 func _end_turn() -> void:
-	if _experiment.get("board_reset", "none") == "each_turn":
+	if _rules().get("board_reset", "none") == "each_turn":
 		_clear_turn_board()
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
@@ -431,26 +460,40 @@ func _end_turn() -> void:
 		"hand_after": [], "undo_cleared": undo_before})
 	if enemy_hp <= 0:
 		state = "victory"
+		if not _production.is_empty():
+			log_text += " Board cleared."
 		log_text += " Victory! Use Menu to restart."
 		_record("battle_ended", {"state": state, "player_hp": player_hp, "enemy_hp": enemy_hp})
 	elif player_hp <= 0:
 		state = "defeat"
+		if not _production.is_empty():
+			log_text += " Board cleared."
 		log_text += " Defeat. Use Menu to restart."
 		_record("battle_ended", {"state": state, "player_hp": player_hp, "enemy_hp": enemy_hp})
 	else:
 		var energy_before := energy
-		turn += 1
-		energy = int(encounter.energy_per_turn)
-		if _experiment.get("endpoint_policy", "fixed") == "random_each_turn":
-			_move_turn_endpoints()
-		elif _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
+		if not _production.is_empty():
+			# Production events follow the actual mutations: geometry, supply,
+			# then turn/energy refresh. Historical experiments keep their order.
 			_move_free_endpoints()
+			_select_turn_kit()
+			turn += 1
+			energy = int(encounter.energy_per_turn)
+		else:
+			turn += 1
+			energy = int(encounter.energy_per_turn)
+			if _experiment.get("endpoint_policy", "fixed") == "random_each_turn":
+				_move_turn_endpoints()
+			elif _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
+				_move_free_endpoints()
 		_record("turn_started", {"turn_before": turn - 1, "turn_after": turn,
 			"energy_before": energy_before, "energy_after": energy, "intent": intent()})
 		_draw(int(encounter.draw_per_turn))
+		if not _production.is_empty():
+			log_text += " Board cleared; turn %d draws %d cards and receives a new kit." % [turn, hand.size()]
 
 func _clear_turn_board() -> void:
-	# RC-006 opt-in only. Clear powered and disconnected pieces in cell order,
+	# Shared production/RC-006 cleanup. Clear powered and disconnected pieces in cell order,
 	# after combat resolution and before hand cleanup or any next-turn draw.
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
@@ -466,7 +509,7 @@ func _clear_turn_board() -> void:
 				_record("effect_consumed", {"cell": index, "card": card, "before": piece,
 					"after": {}, "from": "board", "to": "discard"})
 		else:
-			# Split/Join stock is derived from the board; removing a piece restores
+			# Connector stock is derived from the board; removing a piece restores
 			# availability without changing its owned total or spending energy.
 			_record("board_piece_cleared", {"cell": index, "before": piece, "after": {}})
 
@@ -512,11 +555,15 @@ func _move_free_endpoints(initial: bool = false) -> void:
 		_record("endpoints_changed", {"before": previous, "after": _endpoint_layout()})
 
 func _can_advance() -> bool:
+	if not _production.is_empty():
+		return state == "victory" and _encounter_number == 1 and _setup.has("next_encounter")
 	return state == "victory" and _encounter_number == 1 and _experiment.get("transfer", "none") in ["reset", "retain"]
 
 func _next_encounter() -> bool:
 	if not _can_advance():
 		return false
+	if not _production.is_empty():
+		return _next_production_encounter()
 	# Reconcile the existing permanent instances; never allocate a replacement UID
 	# or construct a temporary from the opening fixture at the encounter boundary.
 	var cards: Array = []
@@ -565,5 +612,90 @@ func _next_encounter() -> bool:
 	_record("encounter_transition", {"mode": mode, "encounter_before": 1, "encounter_after": 2,
 		"player_hp": player_hp, "board_before": previous_board, "board_after": board})
 	_draw(int(_setup.opening_draw))
+	return true
+
+func _select_turn_kit(initial: bool = false) -> void:
+	var previous := _kit.duplicate(true)
+	_kit = ProductionRules.select_kit(_production.kits, kit_rng)
+	stock_totals = _kit.totals.duplicate(true)
+	if not initial:
+		_record("kit_changed", {"before": previous, "after": _kit})
+
+func _next_production_encounter() -> bool:
+	# Validate the cached successor and all live ownership before changing any
+	# zone or stream. No caller-supplied override can bypass the configured target.
+	var validated := Loader.validate_transition(_setup, _setup.next_encounter)
+	if not validated.ok:
+		log_text = "Encounter transition rejected: " + " / ".join(validated.errors)
+		return false
+	var cards: Array = []
+	var seen := {}
+	var live_counts := {}
+	var owned_counts := {}
+	for id in owned_cards:
+		owned_counts[id] = int(owned_counts.get(id, 0)) + 1
+	for card in hand + draw_pile + discard_pile:
+		cards.append(card.duplicate(true))
+	for piece in board:
+		if piece.get("kind") == "rune":
+			cards.append({"id": piece.get("rune_id"), "uid": piece.get("uid")})
+	var permanents: Array = []
+	for card in cards:
+		if not card.get("id") is String or not catalog.has(card.id) or not card.get("uid") is int or card.uid < 0 or seen.has(card.uid):
+			log_text = "Encounter transition rejected: card identities are inconsistent."
+			return false
+		seen[card.uid] = true
+		if not catalog[card.id].get("temporary", false):
+			if _owned_instances.get(card.uid) != card.id:
+				log_text = "Encounter transition rejected: a permanent instance changed identity."
+				return false
+			permanents.append(card)
+			live_counts[card.id] = int(live_counts.get(card.id, 0)) + 1
+	if live_counts != owned_counts or permanents.size() != _owned_instances.size():
+		log_text = "Encounter transition rejected: permanent ownership is inconsistent."
+		return false
+	permanents.sort_custom(func(first, second): return first.uid < second.uid)
+	var next_setup: Dictionary = validated.setup
+	var previous_board := board.duplicate(true)
+	var previous_kit := _kit.duplicate(true)
+	var previous_energy := energy
+	var previous_turn := turn
+	var previous_encounter: String = encounter.id
+	var maximum_health: int = encounter.player_max_health
+	var previous_zones := {"hand": hand.duplicate(true), "draw": draw_pile.duplicate(true), "discard": discard_pile.duplicate(true)}
+	catalog = next_setup.catalog.duplicate(true)
+	encounter = next_setup.encounter.duplicate(true)
+	encounter.player_health = player_hp
+	encounter.player_max_health = maximum_health
+	_production = next_setup.production.duplicate(true)
+	owned_cards = next_setup.owned_cards.duplicate()
+	board = next_setup.board.duplicate(true)
+	hand.clear()
+	discard_pile.clear()
+	history.clear()
+	draw_pile = permanents.duplicate(true)
+	_shuffle(draw_pile)
+	_move_free_endpoints(true)
+	# Initial geometry and supply of a new encounter are fully described by the
+	# single transition event below, before normal per-card draw events.
+	_select_turn_kit(true)
+	_encounter_id += 1
+	_encounter_number = 2
+	enemy_hp = int(encounter.max_health)
+	energy = int(encounter.energy_per_turn)
+	turn = 1
+	state = "playing"
+	log_text = "Entered %s. Health and permanent cards carried; build a new circuit." % encounter.title
+	_record("encounter_transition", {"mode": "production_reset", "encounter_before": 1, "encounter_after": 2,
+		"content_before": previous_encounter, "content_after": encounter.id,
+		"player_hp": player_hp, "player_max_hp": maximum_health,
+		"board_before": previous_board, "board_after": board,
+		"kit_before": previous_kit, "kit_after": _kit,
+		"stock_before": previous_kit.totals, "stock_after": stock_totals,
+		"energy_before": previous_energy, "energy_after": energy,
+		"turn_before": previous_turn, "turn_after": turn,
+		"zones_before": previous_zones, "permanents": permanents,
+		"draw_after": draw_pile, "hand_after": [], "discard_after": []})
+	_draw(int(encounter.draw_per_turn))
 	return true
 

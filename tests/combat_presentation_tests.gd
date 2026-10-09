@@ -1,5 +1,8 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 const Combat = preload("res://scripts/core/combat.gd")
 const Controller = preload("res://scripts/ui/combat_controller.gd")
 const Immediate = preload("res://scripts/ui/combat_presentation.gd")
@@ -7,7 +10,7 @@ const Delayed = preload("res://tests/delayed_presentation.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
 
 func training_combat() -> Combat:
-	return Combat.new(ContentLoader.load_setup().setup)
+	return Combat.new(ContentLoader.load_setup(ContentLoader.LEGACY_ENCOUNTER).setup)
 
 func types(result: Dictionary) -> Array:
 	return result.events.map(func(event): return event.type)

@@ -1,5 +1,8 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 # Automated contract checks only; no participant records are read or written.
 # Detached board/setup overrides exercise all cell pairs and terminal states.
 const Combat = preload("res://scripts/core/combat.gd")
@@ -456,5 +459,5 @@ func _isolation(check: Callable) -> void:
 		var game := Combat.new(Experiments.load_setup("effects", variant, 42).setup)
 		var result := game.execute("cast")
 		check.call(result.accepted and game.board[2].get("kind") == "split" and game.board[8].get("rune_id") == "shield" and _changes(result).is_empty(), "Legacy effects/%s retains its original cleanup and fixed endpoint behavior." % variant)
-	var normal := Combat.new(Loader.load_setup().setup)
-	check.call(not normal.rotate(0) and not normal.rotate(14) and not normal.snapshot().has("experiment") and normal.cast() and normal.board[2].get("kind") == "split", "Normal gameplay remains outside manual endpoint rotation, random placement and full-reset rules.")
+	var normal := Combat.new(Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup)
+	check.call(not normal.rotate(0) and not normal.rotate(14) and not normal.snapshot().has("experiment") and normal.cast() and normal.board[2].get("kind") == "split", "The explicit historical training fixture preserves its protected endpoints and retained construction.")

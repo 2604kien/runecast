@@ -1,6 +1,14 @@
 # Combat and presentation contract
 
-Implemented by RC-003 and extended by RC-004 on October 8, 2026. This contract preserves the training encounter and [current gameplay rules](gameplay-rules.md), with [validated configurable setup](content-definitions.md). It prepares RC-017's animation integration; production animation and run/save systems remain unimplemented.
+Implemented by RC-003/RC-004 and extended by RC-007's accepted production rules on October 9, 2026. The model/controller/presentation boundary and historical fixtures remain intact while normal gameplay follows the [production specification](production-rules-spec.md), with [validated setup](content-definitions.md). Production animation and run/save systems remain unimplemented.
+
+**October 9, 2026 — RC-007 production:** snapshots expose detached `production` options, selected `kit` (`id`, `weight`, four `totals`), all four available quantities, `encounter_number` and `can_advance`. The view never selects kits or mutates stock. Rejected commands emit no accepted action/events; feedback may explain rejection. Legacy setup/snapshot shapes and experimental event ordering are preserved.
+
+Production Cast records payment in `cast`, then one `damage` event even for zero. `amount` is requested damage; `applied` is actual clamped HP loss. If the enemy survives, player `shield` and enemy `retaliation` events follow; lethal spell damage suppresses both. Pass records `passed` then retaliation without spell/shield. Next come ascending-cell `effect_consumed` (each permanent UID to discard once), `temporary_expired` (deleted), and `board_piece_cleared` events. `turn_cleanup` describes old-hand discard/expiry and Undo clearing. A terminal action ends with `battle_ended`, with no next geometry, kit, energy refresh, hand or random consumption. Otherwise `endpoints_changed` follows endpoint mutation, `kit_changed` follows supply replacement, `turn_started` follows turn/energy refresh, then actual `reshuffled`/`card_drawn` events. Initial setup emits no action batch.
+
+The configured production `next_encounter` command is guarded and argument-free. Its one `encounter_transition` event describes the committed new generation, carried HP/max, old/new content IDs, board, kit/stock, energy, turn, old zones, UID-sorted collection and shuffled new draw pile; actual opening draw events follow. Permanent identity/catalog/ownership checks finish before reconciliation. Action IDs remain monotonic across transition/Restart. A repeated/ineligible transition cannot reconcile twice.
+
+Production Exact replay disposes the old controller under a replacement/teardown guard, then constructs a fresh controller/model from the cached validated initial setup. Old completions and cancellation reentry cannot mutate or unlock the new model. Ordinary Restart instead resets the existing model, increases its generation and continues all three RNG streams. Event playback consumes detached values only; it cannot apply damage, clear cards or reroll resources. Placeholder presentation remains immediate.
 
 ## Responsibilities and command flow
 
@@ -12,11 +20,12 @@ Implemented by RC-003 and extended by RC-004 on October 8, 2026. This contract p
 
 Player intent → guarded screen handler → `controller.command(name, arguments)` → `model.execute(name, arguments)` → final model state and detached result → presentation → completion → unlocked controls. The model has already finished before presentation starts. A consumer never pays, damages, expires or draws anything.
 
-Construction is `ContentLoader.load_setup(path)` → check `ok` → `Combat.new(result.setup)` → `Controller.new(combat, presenter)`. An optional integer second argument to `Combat.new` overrides the configured seed for headless callers. The constructor copies the setup, and Reset rebuilds active collections from a separate retained copy. It preserves the selected configuration and continues the existing RNG stream. The scene handles a failed load with visible diagnostics and disabled gameplay before constructing any model/controller.
+Construction is `ContentLoader.load_setup(path)` → check `ok` → `Combat.new(result.setup)` → `Controller.new(combat, presenter)`. An optional integer second argument to `Combat.new` overrides the configured seed for headless callers. The constructor copies the setup, and Reset rebuilds active collections from a separate retained copy. It preserves the selected configuration and continues the applicable RNG streams. The scene handles a failed load with visible diagnostics and disabled gameplay before constructing any model/controller.
 
 | Command | Arguments | Presentation |
 | --- | --- | --- |
 | `cast`, `pass` | None | Ordered batch; waits for completion |
+| `next_encounter` | None; requires eligible victory and validated successor | Ordered batch; waits for completion |
 | `technique` | `uid` | Same ordered-batch/completion boundary |
 | `place_wire` | `index`, `kind` (`straight`, `corner`, `split`, `join`, `erase`) | Immediate snapshot refresh |
 | `place_rune` | `index`, `uid` | Immediate snapshot refresh |
@@ -29,21 +38,21 @@ The controller returns an acceptance boolean. All edits are guarded in controlle
 
 `snapshot()`, `execute()` and `last_result()` return deep copies of nested dictionaries/arrays. Recording an event also copies its payload immediately, before later cleanup/draws can change it. Mutating a view snapshot, a presenter batch, a prior result, or a copy from `last_result()` cannot change authoritative board/hand/catalog/piles or the model's retained outcome. Results remain unchanged after later commands and Reset. These values are detached, not language-enforced immutable objects: a consumer can edit its own copy.
 
-A snapshot includes `encounter_id`, board, hand, draw/discard piles, catalog, encounter definition, health, energy, turn, battle state, `log_text`, intent, forecast, Split/Join stock and undo count. RC-004 adds `encounter_content_id`, `encounter_title`, `encounter_help_text`, `player_max_hp`, `enemy_max_hp`, `enemy_name`, `energy_per_turn`, `draw_per_turn`, `owned_cards` and `stock_totals` for presentation. `stock` means available quantities; `stock_totals` includes installed pieces. The view binds labels, tooltips and help to these values.
+A snapshot includes `encounter_id`, board, hand, draw/discard piles, catalog, encounter definition, health, energy, turn, battle state, `log_text`, intent, forecast, stock and undo count. RC-004 adds `encounter_content_id`, `encounter_title`, `encounter_help_text`, `player_max_hp`, `enemy_max_hp`, `enemy_name`, `energy_per_turn`, `draw_per_turn`, `owned_cards` and `stock_totals` for presentation. `stock` means available quantities; `stock_totals` includes installed pieces. Production exposes all four connector quantities and the metadata described above. The view binds labels, tooltips and help to these values.
 
-Board cells are zero-based indices 0–15. Cards have definition `id` and instance `uid`; installed runes use `rune_id` and `uid`. The training opening Free Spark retains UID 0. `player` and `enemy` identify the only two combatants. `encounter_content_id` (also `encounter.id`) is the stable content identity, such as `training_shadeling` or `dev_calibration`; `encounter_id` remains the reset generation counter. There is no speculative multi-target schema.
+Board cells are zero-based indices 0–15. Cards have definition `id` and instance `uid`; installed runes use `rune_id` and `uid`. The explicit historical training opening contains Free Spark UID 0; production allocates its eight permanent cards as UIDs 0–7. `player` and `enemy` identify the only two combatants. `encounter_content_id` (also `encounter.id`) is the stable content identity, such as `training_shadeling` or `dev_calibration`; `encounter_id` remains the generation counter. There is no speculative multi-target schema.
 
 | Result field | Meaning |
 | --- | --- |
 | `accepted` | Whether this command applied its gameplay mutation |
 | `command` | Requested command name |
-| `encounter_id` | Model-local generation; increments on every Reset |
+| `encounter_id` | Model-local generation; increments on every Reset and accepted encounter transition |
 | `action_id` | Model-local monotonically increasing accepted-command ID; continues across Reset, including edits; 0 for rejection |
 | `turn` | Turn at command entry |
 | `before`, `after` | Detached snapshots at entry and after complete resolution |
 | `events` | Ordered consequence records; empty for rejected commands and preparation edits |
 
-Every event adds `type`, zero-based contiguous `sequence`, `action_id` and `encounter_id`. Identify a card by generation plus UID and an event by action plus sequence within this model's lifetime. These are presentation identities, not a persistent save/replay format or globally unique session IDs. Reset preserves the existing RNG continuation while restarting card UIDs.
+Every event adds `type`, zero-based contiguous `sequence`, `action_id` and `encounter_id`. Identify a card in a snapshot by generation plus UID and an event by action plus sequence within this model's lifetime. Transition events bridge the old/new generations while conserving permanent UIDs. These are presentation identities, not a persistent save/replay format or globally unique session IDs. Reset preserves RNG continuation while restarting card UIDs.
 
 Invalid, unaffordable, missing-card, terminal and unknown commands have `accepted = false`, `action_id = 0` and no events, including in `last_result()`. They preserve board, cards, stats, history and RNG. Existing model error feedback can change `log_text`; it is not a gameplay effect. Selection/help is view-local and never writes that field. A command rejected while the controller is busy never reaches the model or emits a batch. Model Reset clears `last_result()` to an empty dictionary.
 
@@ -58,22 +67,26 @@ The following records describe operations at their actual resolution point. Snap
 | `shield` | `target`, `amount`. Only if the enemy survives a Cast, including amount 0. Shield is transient protection, not stored HP or a next-turn resource. |
 | `retaliation` | `source`, `target`, raw `incoming`, `blocked`, remaining damage `amount`, clamped HP loss `applied`, `health_before`, `health_after`. Follows shield on surviving Cast; follows `passed` on Pass with `blocked = 0`. |
 | `passed` | `source`. Starts Pass; no Cast, spell payment, damage-to-enemy or shield event is synthesized. |
-| `temporary_expired` | Board `cell`, full piece `before` (including rune ID/UID/rotation), connector `after`. All installed temporaries, including disconnected ones, expire in ascending cell order. |
-| `turn_cleanup` | Normal hand cards `discarded` and temporary hand cards `expired`, each in hand order; `hand_after = []`, `undo_cleared` count. Follows board expiry; ordinary installed runes remain installed. |
+| `effect_consumed` | Production board `cell`, permanent `card`, `before`, `after: {}`, `from = board`, `to = discard`. Includes every installed permanent, powered or disconnected, on Cast and Pass. |
+| `temporary_expired` | Board `cell`, full piece `before` (including rune ID/UID/rotation), `after: {}` in production. All installed temporaries, including disconnected ones, expire in ascending cell order. The historical training profile replaces them with wires. |
+| `board_piece_cleared` | Production connector `cell`, full `before`, `after: {}`; stock is derived from current occupancy. Board events interleave by ascending cell, not by event type. |
+| `turn_cleanup` | Permanent hand cards `discarded` and temporary hand cards `expired`, each in hand order; `hand_after = []`, `undo_cleared` count. Follows board cleanup. Historical baseline installed permanents remain installed. |
 | `battle_ended` | `state` (`victory`/`defeat`), `player_hp`, `enemy_hp`. After cleanup, enemy death is checked first. No new turn or draw follows. |
 | `turn_started` | `turn_before`, `turn_after`, `energy_before`, `energy_after`, next `intent`. Only if both combatants live, after cleanup. |
+| `endpoints_changed` | Production `before`/`after` layouts with pair ID and Begin/End cell/rotation; emitted immediately after the selected endpoint mutation, before kit/energy refresh. |
+| `kit_changed` | Production `before`/`after` kit metadata, each containing `id`, `weight` and four `totals`; emitted after supply replacement and before turn/energy refresh. New totals are fully available on the cleared board. |
 | `reshuffled` | Ordered `cards` in the newly shuffled draw pile, `from = discard`, `to = draw`. Only when a draw needs an empty pile refilled; not emitted for setup shuffles. |
 | `card_drawn` | `card`, `from = draw`, `to = hand`, resulting `draw_remaining`, resulting `hand_size`. Emitted per actual draw; follows any required reshuffle. |
 | `technique` | Played `card`, `cost`, `energy_before`, `energy_after`, `from = hand`, `to = discard`, `undo_cleared`. Records payment, card commitment and undo clearing before its effect. |
 | `card_created` | Generated `card`, `to = hand`. Follows Conjure's technique event. |
 
-Cast order: Cast/payment → enemy damage → shield/retaliation **only if enemy survives** → board expiry → hand/history cleanup → battle end **or** next-turn refresh and actual draws. Pass uses `passed` → retaliation → the same cleanup/terminal/next-turn sequence. A terminal turn retains its turn number and remaining energy.
+Cast order: Cast/payment → enemy damage → shield/retaliation **only if enemy survives** → board cleanup → hand/history cleanup → battle end **or** next playable entry. Production entry selects endpoints, replaces the kit, then refreshes turn/energy and draws; historical profiles retain their fixture order. Pass uses `passed` → retaliation → the same cleanup/terminal/next-turn sequence. A terminal turn retains its turn number and remaining energy.
 
 Draw techniques use technique/payment/discard/undo commit → any required reshuffle → up to `value` actual draws (two for Focus). Their own card is already in discard and can be recycled by that draw. Conjure uses technique → `value` card creations of `generated_rune_id`, with no turn advancement. Only explicit `draw` and `conjure` dispatch is supported; an unknown effect cannot fall through to creation. No presentation code invokes RNG; the existing descending Fisher–Yates shuffle and end-of-pile draw order are preserved.
 
-### Concrete opening Cast
+### Historical prefilled opening Cast
 
-Fresh model, default seed 42, action 1, encounter generation 1, turn 1 (abbreviated payloads):
+Explicit `res://data/encounter.json`, fresh model, seed 42, action 1, encounter generation 1, turn 1 (abbreviated payloads). Normal production opens empty and cannot perform this immediate 12-damage Cast:
 
 ```text
 0 cast               damage 12, shield 0, cost 1; energy 3 → 2
@@ -108,11 +121,15 @@ Subclass the immediate adapter and override `present(result, completed)` and `ca
 
 Run the existing `tools/godot.ps1 -Action test` for original rules plus `tests/combat_presentation_tests.gd`, `content_loading_tests.gd` and `combat_configuration_tests.gd`; `-Action smoke` runs original UI coverage plus `tests/ui_presentation_tests.gd` and `ui_configuration_tests.gd`. Tests explicitly release the delayed adapter; they do not sleep to simulate animation. They exercise event/state agreement, terminal/Pass/technique/expiry order, detached ownership, rejection, replay, baseline draw order, every guarded mutation, duplicate/stale callbacks, cancellation reentry and actual scene teardown. Configuration tests add both setups, validation failures, input isolation, ownership, configured effects and invalid-screen guards. The smoke runner retains its existing short audio teardown wait; it is not used to prove locking.
 
+Both runners also register RC-007 coverage: `production_rules_tests.gd`, `production_content_tests.gd`, `production_combat_tests.gd`, `connector_geometry_tests.gd` and `ui_production_tests.gd`. These exercise the selected profile, all 720 endpoint/kit geometry combinations, production event boundaries, UID reconciliation, RNG isolation, finite-stock editing and actual screen/Exact replay/entry behavior. Original assertions explicitly load their historical fixtures.
+
 See the dated [verification record](verification.md) and [project handoff](project-plan.md) for actual commands, counts, comparison captures and limitations.
 
 ## RC-005 experimental commands, events and observations
 
-The opt-in [experiment harness](circuit-experiments.md) uses this same model/controller boundary. Normal content, snapshots and event ordering are unchanged. Experimental snapshots additionally expose detached `experiment`, `encounter_number` (1 or2) and `can_advance`. `next_encounter` is an ordered presentation command allowed only after eligible first victory; it resets or retains the board as configured. Nonempty transition arguments and duplicate/ineligible transitions fail. Its `encounter_transition` event records mode, old/new encounter numbers, carried HP and both boards; optional opening draws follow it. Generation increases and accepted action identity remains monotonic.
+The following study sections preserve their historical semantics; references to unchanged normal behavior or pending production approval describe that earlier stage. RC-007's accepted production contract is specified above.
+
+The opt-in [experiment harness](circuit-experiments.md) uses this same model/controller boundary. Historical baseline content, snapshots and event ordering are unchanged. Experimental snapshots additionally expose detached `experiment`, `encounter_number` (1 or2) and `can_advance`. `next_encounter` is an ordered presentation command allowed only after eligible first victory; it resets or retains the board as configured. Nonempty transition arguments and duplicate/ineligible transitions fail. Its `encounter_transition` event records mode, old/new encounter numbers, carried HP and both boards; optional opening draws follow it. Generation increases and accepted action identity remains monotonic.
 
 In consumed mode, `effect_consumed` occurs after enemy damage and any shield/retaliation, before temporary expiry/hand cleanup. Payload includes cell, card UID/ID, before/after piece and board-to-discard movement. Disconnected permanents and Pass are unaffected. Experimental temporary expiry can produce matching corner connectors or empty cells, with the same ordered `temporary_expired` event shape.
 

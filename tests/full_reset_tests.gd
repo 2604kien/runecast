@@ -1,5 +1,8 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 # Automated model checks only. These do not create participant observations or
 # export records, and use detached setup overrides for explicit edge cases.
 const Combat = preload("res://scripts/core/combat.gd")
@@ -231,6 +234,6 @@ func _legacy_isolation(check: Callable) -> void:
 		var game := Combat.new(loaded.setup)
 		var result := game.execute("cast")
 		check.call(loaded.setup.experiment.version == "rc005_v1" and not loaded.setup.experiment.has("board_reset") and result.accepted and game.board[2].get("kind") == "split" and game.board[8].get("rune_id") == "shield", "Legacy effects/%s retains its original experiment version, wires and disconnected permanent." % variant)
-	var normal := Combat.new(Loader.load_setup().setup)
+	var normal := Combat.new(Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup)
 	var result := normal.execute("cast")
-	check.call(result.accepted and not normal.snapshot().has("experiment") and normal.board[2].get("kind") == "split" and not _only_endpoints(normal.board), "Normal gameplay remains outside the opt-in full-reset experiment.")
+	check.call(result.accepted and not normal.snapshot().has("experiment") and normal.board[2].get("kind") == "split" and not _only_endpoints(normal.board), "The explicit historical training fixture retains its pre-RC-007 cleanup behavior.")

@@ -1,5 +1,17 @@
 # Rune Cast decisions
 
+## October 9, 2026 — complete RC-007 defaults accepted
+
+The owner responded **“Accept all default.”** to the consolidated production-rule proposal. The [accepted RC-007 contract](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract) is now authoritative for implementation: Split1/Join0 per powered physical piece; normal shuffled first hand and 3-energy/3-draw starting values; straight effect ports; no blocked cells; one aggregate hit including zero with requested/applied damage and lethal suppression; first 240/later 211 endpoint pairs with independent random rotations and separate RNG streams; the explicit cleanup/terminal sequence; and victory-only compatible transfer preserving HP/max HP and permanent UIDs through UID-ordered collection, continued shuffle/draw and fresh endpoints/kit. Previously confirmed full-reset, manual endpoint rotation and equal-probability finite kits remain selected.
+
+RC-007 is implemented and complete: final verification passes 1063 core / 333 UI checks plus 52 rendered checks, with historical records/fixtures preserved. See [verification](verification.md) and the [completed handoff](project-plan.md#october-9-2026--rc-007-production-rules-complete). This owner decision resolves the design gate; it is not a new human-playtest result or a testing waiver. The historical prototype defaults, unanswered-question records and earlier preparation descriptions below retain their chronology and do not override the accepted contract.
+
+## October 9, 2026 — RC-007 reconciliation and independent groundwork
+
+The current request reports RC-006 complete, but no post-H31 decision evidence resolves the remaining production rule choices. The request explicitly reconfirms endpoints-only first and later playable turns, all distinct endpoint positions including adjacency, player Rotate/Undo, normal draws with repeats, and the three equally likely provisional kits. One consolidated question asks the owner to resolve costs/resources, ports, blocked cells, hits, exact endpoint/RNG policies, cleanup/terminal order and remaining encounter-entry state. No answer or testing waiver has been inferred; recommendations remain proposals in the [specification](production-rules-spec.md).
+
+Independent implementation adds validated kit definitions, optional all-four finite inventory, authoritative placement/refund/Undo accounting, accurate UI labels and conditional Guide text. Normal training, experiment versions, fixtures and production rule defaults remain as before pending integration. Automated baseline and final checks are recorded in [verification](verification.md); they are not new human observations. RC-007 remains in progress, and RC-010 remains independently available.
+
 ## Explicit direction
 
 - Name: Rune Cast.

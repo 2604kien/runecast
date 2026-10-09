@@ -2,7 +2,7 @@
 
 Rune Cast is a portrait, turn-based spell-building roguelike for Android and iOS. A travelling spellcaster descends into a cursed tower, constructing attacks and protection from individual runes instead of choosing complete spells.
 
-The central challenge is spatial: build a valid circuit between fixed Begin and End sockets, then use the space, connections, owned pieces, and energy budget to improve what the spell produces.
+The central challenge is spatial: build a valid circuit between randomly placed Begin and End sockets, rotate their ports, then use the space, finite connector supply, rune cards and energy budget to improve what the spell produces.
 
 ## Player experience
 
@@ -10,7 +10,7 @@ Enemies announce their next action. During preparation, the player draws a small
 
 A Split copies the spell prepared upstream. Its branches occupy separate board cells. A Join combines their effects before End. For example, a 6 damage Spark followed by a Split and Join produces 12 total damage. The same structure can amplify protection.
 
-The circuit remains between turns. The player can exploit a good arrangement and selectively rebuild it when the enemy's intent or available runes changes.
+Every playable turn starts with only Begin and End. After Cast or Pass, permanent runes enter discard, temporary runes disappear and all connectors clear. The next turn supplies a normal hand and one random ten-piece kit, with no banking or guarantee of different cards. Endpoint positions change each turn and the player can Rotate them. The owner accepted the complete [production contract](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract) on October 9; RC-007 now implements it in normal gameplay, with final core/UI/rendered verification recorded.
 
 ## Run structure
 

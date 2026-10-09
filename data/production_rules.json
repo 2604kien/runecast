@@ -1,0 +1,21 @@
+{
+  "version": "rc007_connector_kits_v1",
+  "balance": "provisional",
+  "kits": [
+    {
+      "id": "extra_straights",
+      "weight": 1,
+      "totals": {"straight": 6, "corner": 2, "split": 1, "join": 1}
+    },
+    {
+      "id": "extra_corners",
+      "weight": 1,
+      "totals": {"straight": 4, "corner": 4, "split": 1, "join": 1}
+    },
+    {
+      "id": "extra_branches",
+      "weight": 1,
+      "totals": {"straight": 4, "corner": 2, "split": 2, "join": 2}
+    }
+  ]
+}

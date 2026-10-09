@@ -2,7 +2,9 @@ class_name RuneContentLoader
 extends RefCounted
 
 # File I/O, schema validation and normalization complete before a model is built.
-const DEFAULT_ENCOUNTER := "res://data/encounter.json"
+const ProductionRules = preload("res://scripts/core/production_rules.gd")
+const DEFAULT_ENCOUNTER := "res://data/production_encounter.json"
+const LEGACY_ENCOUNTER := "res://data/encounter.json"
 const DEFINITION_PATHS := {
 	"runes": "res://data/runes.json", "boards": "res://data/boards.json",
 	"enemies": "res://data/enemies.json", "loadouts": "res://data/loadouts.json"
@@ -149,8 +151,36 @@ static func validate_experiment(context: Variant) -> Dictionary:
 	return _result(errors, expected.setup)
 
 static func load_setup(encounter_path: String = DEFAULT_ENCOUNTER, definition_paths: Dictionary = {}) -> Dictionary:
+	return _load_setup(encounter_path, definition_paths, false)
+
+static func _load_setup(encounter_path: String, definition_paths: Dictionary, successor: bool) -> Dictionary:
+	var selected := read_document(encounter_path)
+	if not selected.ok:
+		return _result(selected.errors)
+	var production: Variant = null
+	var next_path := ""
 	var paths := DEFINITION_PATHS.duplicate()
 	var errors: Array = []
+	if selected.document is Dictionary and selected.document.has("ruleset"):
+		if not _matches(selected.document.ruleset, ProductionRules.PRODUCTION_VERSION):
+			return _result([encounter_path + ".ruleset: unsupported production ruleset"])
+		var rules := ProductionRules.load_rules()
+		if not rules.ok:
+			return _result(rules.errors)
+		production = ProductionRules.production_options(rules.rules)
+		paths.boards = "res://data/production_boards.json"
+		paths.loadouts = "res://data/production_loadouts.json"
+		if selected.document.has("next_encounter"):
+			if successor:
+				return _result([encounter_path + ".next_encounter: only one successor is supported"])
+			var candidate: Variant = selected.document.next_encounter
+			if not candidate is String or not candidate.begins_with("res://") or not candidate.ends_with(".json"):
+				return _result([encounter_path + ".next_encounter: expected a res:// JSON encounter path"])
+			next_path = candidate
+			# File-based chaining is resolved here before model construction. The
+			# pure document validator never leaves an unresolved successor path.
+			selected.document = selected.document.duplicate(true)
+			selected.document.erase("next_encounter")
 	for key in definition_paths:
 		if not paths.has(key):
 			errors.append("definition_paths.%s: unsupported definition source" % key)
@@ -159,8 +189,10 @@ static func load_setup(encounter_path: String = DEFAULT_ENCOUNTER, definition_pa
 		else:
 			paths[key] = definition_paths[key]
 	paths.encounter = encounter_path
-	var documents := {}
+	var documents := {"encounter": selected.document}
 	for key in paths:
+		if key == "encounter":
+			continue
 		var loaded := read_document(paths[key])
 		if loaded.ok:
 			documents[key] = loaded.document
@@ -168,7 +200,16 @@ static func load_setup(encounter_path: String = DEFAULT_ENCOUNTER, definition_pa
 			errors.append_array(loaded.errors)
 	if not errors.is_empty():
 		return _result(errors)
-	return validate_documents(documents, paths)
+	var result := validate_documents(documents, paths, null, production)
+	if result.ok and not next_path.is_empty():
+		var next := _load_setup(next_path, definition_paths, true)
+		if not next.ok:
+			return next
+		var compatible := validate_transition(result.setup, next.setup)
+		if not compatible.ok:
+			return compatible
+		result.setup.next_encounter = compatible.setup
+	return result
 
 static func read_document(path: String) -> Dictionary:
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -185,9 +226,17 @@ static func read_document(path: String) -> Dictionary:
 		return {"ok": false, "errors": ["%s: JSON line %d: %s" % [path, parser.get_error_line(), parser.get_error_message()]]}
 	return {"ok": true, "errors": [], "document": parser.data}
 
-static func validate_documents(documents: Dictionary, source_names: Dictionary = {}, experiment_context: Variant = null) -> Dictionary:
+static func validate_documents(documents: Dictionary, source_names: Dictionary = {}, experiment_context: Variant = null, production_context: Variant = null) -> Dictionary:
 	var errors: Array = []
 	var experiment := {}
+	var production := {}
+	if production_context != null:
+		if experiment_context != null:
+			return _result(["production: cannot combine production and experiment contexts"])
+		var validated := ProductionRules.validate_production(production_context)
+		if not validated.ok:
+			return _result(validated.errors)
+		production = validated.rules
 	if experiment_context != null:
 		var validated_experiment := validate_experiment(experiment_context)
 		if not validated_experiment.ok:
@@ -198,8 +247,9 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 	for kind in ["runes", "boards", "enemies", "loadouts"]:
 		definitions[kind] = _index(documents.get(kind), str(source_names.get(kind, kind)), errors)
 	var catalog: Dictionary = definitions.runes
+	var rules: Dictionary = experiment if production.is_empty() else production
 	for id in catalog:
-		_validate_rune(catalog[id], _context(source_names, "runes", id), errors, experiment)
+		_validate_rune(catalog[id], _context(source_names, "runes", id), errors, rules)
 	for id in catalog:
 		var rune: Dictionary = catalog[id]
 		if _matches(rune.get("effect"), "conjure") and rune.get("generated_rune_id") is String:
@@ -213,11 +263,11 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 					_error(errors, field, "generated target must be a temporary effect rune with zero cost")
 	var boards := {}
 	for id in definitions.boards:
-		boards[id] = _validate_board(definitions.boards[id], catalog, _context(source_names, "boards", id), errors, experiment)
+		boards[id] = _validate_board(definitions.boards[id], catalog, _context(source_names, "boards", id), errors, rules)
 	for id in definitions.enemies:
 		_validate_enemy(definitions.enemies[id], _context(source_names, "enemies", id), errors)
 	for id in definitions.loadouts:
-		_validate_loadout(definitions.loadouts[id], catalog, _context(source_names, "loadouts", id), errors)
+		_validate_loadout(definitions.loadouts[id], catalog, _context(source_names, "loadouts", id), errors, production)
 	var encounter_source := str(source_names.get("encounter", "encounter"))
 	var entry: Variant = documents.get("encounter")
 	if not entry is Dictionary:
@@ -225,7 +275,12 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 		return _result(errors)
 	var encounter: Dictionary = entry.duplicate(true)
 	var context := "%s [%s]" % [encounter_source, encounter.get("id", "?")]
-	_fields(encounter, ["id", "enemy_id", "board_id", "loadout_id", "title", "help_text", "opening_log", "seed"], context, errors)
+	var encounter_fields := ["id", "enemy_id", "board_id", "loadout_id", "title", "help_text", "opening_log", "seed"]
+	if not production.is_empty():
+		encounter_fields.append("ruleset")
+		if not _matches(encounter.get("ruleset"), ProductionRules.PRODUCTION_VERSION):
+			_error(errors, context + ".ruleset", "must name the selected production version")
+	_fields(encounter, encounter_fields, context, errors)
 	_id(encounter.get("id"), context + ".id", errors)
 	for field in ["title", "help_text"]:
 		_string(encounter.get(field), context + "." + field, errors)
@@ -248,17 +303,19 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 	var available: Array = loadout.owned_cards.duplicate()
 	for index in range(loadout.opening_hand.size()):
 		_allocate(available, loadout.opening_hand[index], _context(source_names, "loadouts", loadout.id) + ".opening_hand[%d]" % index, errors)
-	var installed := {"split": 0, "join": 0}
+	var installed := {}
+	for kind in loadout.inventory:
+		installed[kind] = 0
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
-		if piece.get("kind") in ["split", "join"]:
+		if installed.has(piece.get("kind")):
 			installed[piece.kind] += 1
 		elif piece.get("kind") == "rune" and not catalog[piece.rune_id].temporary:
 			_allocate(available, piece.rune_id, _context(source_names, "boards", encounter.board_id) + ".placements(cell=%d).rune_id" % index, errors)
 	for kind in installed:
 		if installed[kind] > loadout.inventory[kind]:
 			_error(errors, context + ".loadout_id", "board installs %d %s pieces, but loadout inventory owns %d" % [installed[kind], kind, loadout.inventory[kind]])
-	if loadout.opening_draw > available.size():
+	if production.is_empty() and loadout.opening_draw > available.size():
 		_error(errors, _context(source_names, "loadouts", loadout.id) + ".opening_draw", "cannot draw %d opening cards from %d remaining owned cards" % [loadout.opening_draw, available.size()])
 	if not errors.is_empty():
 		return _result(errors)
@@ -274,14 +331,40 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 		"opening_draw": loadout.opening_draw, "inventory": loadout.inventory}
 	if not experiment.is_empty():
 		setup.experiment = experiment
+	if not production.is_empty():
+		setup.production = production
 	return _result([], setup)
+
+# Both inputs are normalized configurations from validation, never raw files.
+# Runtime ownership reconciliation remains the model's exact-instance check.
+static func validate_transition(current_setup: Dictionary, next_setup: Dictionary) -> Dictionary:
+	var errors: Array = []
+	for candidate in [current_setup, next_setup]:
+		var validated := ProductionRules.validate_production(candidate.get("production"))
+		if not validated.ok or candidate.has("experiment"):
+			errors.append("next_encounter: both setups must use validated production rules")
+	if next_setup.has("next_encounter") or next_setup.get("encounter", {}).has("next_encounter"):
+		errors.append("next_encounter: nested successors are unsupported")
+	if current_setup.get("catalog", {}) != next_setup.get("catalog", {}):
+		errors.append("next_encounter: rune catalogs must be compatible")
+	var current_owned: Array = current_setup.get("owned_cards", []).duplicate()
+	var next_owned: Array = next_setup.get("owned_cards", []).duplicate()
+	current_owned.sort()
+	next_owned.sort()
+	if current_owned != next_owned:
+		errors.append("next_encounter: permanent ownership multisets must match")
+	if current_setup.get("encounter", {}).get("id") == next_setup.get("encounter", {}).get("id"):
+		errors.append("next_encounter: successor requires a distinct encounter ID")
+	return _result(errors, next_setup)
 
 static func _validate_rune(rune: Dictionary, context: String, errors: Array, experiment: Dictionary = {}) -> void:
 	var allowed := ["id", "name", "board_label", "symbol", "type", "effect", "value", "cost", "color", "temporary", "generated_rune_id"]
-	if experiment.get("scenario_id") in ["ports", "expiry"]:
+	if experiment.get("scenario_id") in ["ports", "expiry"] or experiment.get("version") == ProductionRules.PRODUCTION_VERSION:
 		allowed.append("port_shape")
 	_fields(rune, allowed, context, errors)
 	if rune.has("port_shape"):
+		if experiment.get("version") == ProductionRules.PRODUCTION_VERSION and not _matches(rune.port_shape, "straight"):
+			_error(errors, context + ".port_shape", "production effects require straight ports")
 		if not rune.get("port_shape") in ["straight", "corner"] or not _matches(rune.get("type"), "rune"):
 			_error(errors, context + ".port_shape", "only effect runes support straight or corner port shapes")
 	for field in ["name", "symbol", "type", "effect", "color"]:
@@ -324,8 +407,11 @@ static func _validate_enemy(enemy: Dictionary, context: String, errors: Array) -
 		if _number(enemy.intents[index], 0, MAX_HEALTH, context + ".intents[%d]" % index, errors):
 			enemy.intents[index] = int(enemy.intents[index])
 
-static func _validate_loadout(loadout: Dictionary, catalog: Dictionary, context: String, errors: Array) -> void:
-	_fields(loadout, ["id", "max_health", "current_health", "energy_per_turn", "draw_per_turn", "owned_cards", "opening_policy", "opening_hand", "opening_draw", "inventory"], context, errors)
+static func _validate_loadout(loadout: Dictionary, catalog: Dictionary, context: String, errors: Array, production: Dictionary = {}) -> void:
+	var fields := ["id", "max_health", "current_health", "energy_per_turn", "draw_per_turn", "owned_cards", "opening_policy", "opening_hand", "opening_draw"]
+	if production.is_empty():
+		fields.append("inventory")
+	_fields(loadout, fields, context, errors)
 	_integer(loadout, "max_health", 1, MAX_HEALTH, context, errors)
 	if not loadout.has("current_health"):
 		loadout.current_health = loadout.get("max_health")
@@ -348,12 +434,23 @@ static func _validate_loadout(loadout: Dictionary, catalog: Dictionary, context:
 			loadout.opening_hand = []
 		_:
 			_error(errors, context + ".opening_policy", "expected curated or draw")
+	if not production.is_empty():
+		if not _matches(loadout.get("opening_policy"), "draw") or loadout.get("opening_draw") != loadout.get("draw_per_turn"):
+			_error(errors, context + ".opening_policy", "production uses a normal opening draw equal to draw_per_turn")
+		# The runtime selects a complete kit at every playable entry. This detached
+		# normalized placeholder is replaced before any model snapshot is exposed.
+		loadout.inventory = production.kits.kits[0].totals.duplicate(true)
 	if not loadout.get("inventory") is Dictionary:
 		_error(errors, context + ".inventory", "expected an object with split and join totals")
 		return
-	_fields(loadout.inventory, ["split", "join"], context + ".inventory", errors)
+	_fields(loadout.inventory, ["straight", "corner", "split", "join"], context + ".inventory", errors)
 	for kind in ["split", "join"]:
 		_integer(loadout.inventory, kind, 0, 14, context + ".inventory", errors)
+	if loadout.inventory.has("straight") != loadout.inventory.has("corner"):
+		_error(errors, context + ".inventory", "finite connector supply requires straight and corner totals together")
+	for kind in ["straight", "corner"]:
+		if loadout.inventory.has(kind):
+			_integer(loadout.inventory, kind, 0, 14, context + ".inventory", errors)
 
 static func _validate_board(definition: Dictionary, catalog: Dictionary, context: String, errors: Array, experiment: Dictionary = {}) -> Array:
 	_fields(definition, ["id", "width", "height", "placements"], context, errors)
@@ -367,7 +464,8 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 		return board
 	var seen := {}
 	var endpoint_count := {"begin": 0, "end": 0}
-	var alternate_endpoints: bool = experiment.get("scenario_id") == "endpoints" and experiment.get("variant_id") == "treatment"
+	var is_production: bool = experiment.get("version") == ProductionRules.PRODUCTION_VERSION
+	var alternate_endpoints: bool = is_production or (experiment.get("scenario_id") == "endpoints" and experiment.get("variant_id") == "treatment")
 	var blocked_allowed: bool = experiment.get("scenario_id") == "blocked" and experiment.get("variant_id") == "treatment"
 	var starts_empty: bool = experiment.get("board_reset", "none") == "each_turn"
 	for index in range(definition.placements.size()):
@@ -414,7 +512,7 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 			endpoint_count[piece.kind] += 1
 			if not alternate_endpoints and ((piece.kind == "begin" and cell != 0) or (piece.kind == "end" and cell != 14) or not _matches(piece.get("rotation"), 0)):
 				_error(errors, field, "endpoints require Begin at cell 0 and End at cell 14, both rotation 0")
-			if alternate_endpoints and _is_integer(piece.get("rotation")):
+			if alternate_endpoints and not is_production and _is_integer(piece.get("rotation")):
 				var direction: int = (1 + int(piece.rotation)) % 4 if piece.kind == "begin" else int(piece.rotation)
 				if (direction == 0 and cell < 4) or (direction == 1 and cell % 4 == 3) or (direction == 2 and cell >= 12) or (direction == 3 and cell % 4 == 0):
 					_error(errors, field + ".rotation", "endpoint port must face an in-bounds neighbor")

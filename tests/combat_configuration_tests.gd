@@ -1,5 +1,8 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 const Combat = preload("res://scripts/core/combat.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
 const Controller = preload("res://scripts/ui/combat_controller.gd")
@@ -39,7 +42,7 @@ func _unique_cards(game: Combat) -> bool:
 	return true
 
 func run(check: Callable) -> void:
-	var training := Loader.load_setup()
+	var training := Loader.load_setup(Loader.LEGACY_ENCOUNTER)
 	var alternate := Loader.load_setup("res://data/dev_encounter.json")
 	check.call(training.ok and alternate.ok, "Both shipped configurations validate before combat construction.")
 	if not training.ok or not alternate.ok:

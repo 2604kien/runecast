@@ -1,5 +1,8 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 const Combat = preload("res://scripts/core/combat.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
 const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
@@ -8,7 +11,7 @@ const Delayed = preload("res://tests/delayed_presentation.gd")
 const Immediate = preload("res://scripts/ui/combat_presentation.gd")
 
 func setup() -> Dictionary:
-	var value: Dictionary = ContentLoader.load_setup().setup
+	var value: Dictionary = ContentLoader.load_setup(ContentLoader.LEGACY_ENCOUNTER).setup
 	value.experiment = {"scenario_id": "metrics_fixture", "variant_id": "control", "version": 1, "seed": 42}
 	return value
 
@@ -155,7 +158,9 @@ func _terminal_and_guard_checks(check: Callable) -> void:
 	check.call(not controller.is_busy() and record.summary().attempts == count, "Disposal and stale presentation playback are observation-neutral.")
 
 func _export_checks(check: Callable, record: ExperimentRecord) -> void:
-	var path := "res://output/qa/experiment-records/record-test.json"
+	# Historical experiment exports are evidence; each automated run owns a new directory.
+	var qa_directory := "res://output/qa/rc-007/record-tests-%d-%d-%d" % [int(Time.get_unix_time_from_system()), OS.get_process_id(), Time.get_ticks_usec()]
+	var path := qa_directory.path_join("record-test.json")
 	var default_path := record.default_path()
 	check.call(default_path.begins_with("user://experiments/") and default_path == record.default_path(), "Human observations have a stable per-session local user://experiments destination.")
 	var saved := record.export_record(path)
@@ -166,11 +171,11 @@ func _export_checks(check: Callable, record: ExperimentRecord) -> void:
 	parsed = JSON.parse_string(FileAccess.get_file_as_string(path)) if saved.ok else null
 	check.call(saved.ok and parsed is Dictionary and parsed.notes.back().text == "Safe replacement verification.", "Replacing an existing record publishes a complete updated JSON document.")
 	var before := record.document()
-	var directory_path := "res://output/qa/experiment-records/occupied.json"
+	var directory_path := qa_directory.path_join("occupied.json")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(directory_path))
 	var failed := record.export_record(directory_path)
 	check.call(not failed.ok and not failed.error.is_empty() and record.document() == before and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(directory_path)), "A publication failure is visible and leaves observations and existing paths intact.")
-	failed = record.export_record("res://output/qa/experiment-records/invalid.txt")
+	failed = record.export_record(qa_directory.path_join("invalid.txt"))
 	check.call(not failed.ok and not failed.error.is_empty(), "Invalid output paths fail explicitly without silently switching destinations.")
 	var final_saved: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 	check.call(final_saved is Dictionary and final_saved.notes.back().text == "Safe replacement verification.", "Failed export attempts cannot corrupt a prior successful record.")

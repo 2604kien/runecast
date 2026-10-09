@@ -1,9 +1,12 @@
 extends RefCounted
 
+# RC-007 preserves these historical assertions using the explicit legacy fixture.
+# Production defaults are covered separately by production_*_tests.gd.
+
 const Loader = preload("res://scripts/core/content_loader.gd")
 const Circuit = preload("res://scripts/core/circuit.gd")
 
-static func documents(encounter_path: String = Loader.DEFAULT_ENCOUNTER) -> Dictionary:
+static func documents(encounter_path: String = Loader.LEGACY_ENCOUNTER) -> Dictionary:
 	var result := {}
 	for kind in Loader.DEFINITION_PATHS:
 		result[kind] = Loader.read_document(Loader.DEFINITION_PATHS[kind]).document
@@ -11,7 +14,7 @@ static func documents(encounter_path: String = Loader.DEFAULT_ENCOUNTER) -> Dict
 	return result
 
 func run(check: Callable) -> void:
-	var training := Loader.load_setup()
+	var training := Loader.load_setup(Loader.LEGACY_ENCOUNTER)
 	check.call(training.ok and training.errors.is_empty(), "Training files validate before battle creation.")
 	var alternate := Loader.load_setup("res://data/dev_encounter.json")
 	check.call(alternate.ok and alternate.setup.encounter.name == "Calibration Wisp" and alternate.setup.encounter.player_health == 24 and alternate.setup.encounter.player_max_health == 40 and alternate.setup.inventory == {"split": 2, "join": 0}, "Development fixture resolves its own enemy, player and inventory definitions.")
@@ -45,9 +48,9 @@ func run(check: Callable) -> void:
 	check.call(not unreadable.ok and unreadable.setup.is_empty() and _has(unreadable, "cannot read file"), "Unreadable file paths fail without constructing playable data.")
 	var malformed := Loader.load_setup("res://tests/fixtures/malformed_content.json")
 	check.call(not malformed.ok and malformed.setup.is_empty() and _has(malformed, "malformed_content.json: JSON line"), "Malformed JSON reports its source path, parser line and reason.")
-	var missing_catalog := Loader.load_setup(Loader.DEFAULT_ENCOUNTER, {"runes": "res://tests/fixtures/does_not_exist.json"})
+	var missing_catalog := Loader.load_setup(Loader.LEGACY_ENCOUNTER, {"runes": "res://tests/fixtures/does_not_exist.json"})
 	check.call(not missing_catalog.ok and missing_catalog.setup.is_empty(), "Definition-file failures cannot silently retain the training catalog.")
-	var unsupported_source := Loader.load_setup(Loader.DEFAULT_ENCOUNTER, {"future_schema": "res://data/runes.json"})
+	var unsupported_source := Loader.load_setup(Loader.LEGACY_ENCOUNTER, {"future_schema": "res://data/runes.json"})
 	check.call(not unsupported_source.ok and _has(unsupported_source, "definition_paths.future_schema"), "Unsupported source overrides are diagnosed.")
 	var named := documents()
 	named.runes[0].cost = -1

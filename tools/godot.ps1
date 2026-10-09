@@ -21,7 +21,7 @@ if (-not $Experiment -and ($PSBoundParameters.ContainsKey('Scenario') -or $PSBou
 }
 if ($Experiment -and $Encounter) { throw '-Experiment and -Encounter are separate launch modes.' }
 if ($Encounter -and $Action -notin @('run', 'capture')) {
-    throw '-Encounter applies to run or capture. Smoke always exercises both training and development scenes plus invalid startup.'
+    throw '-Encounter applies to run or capture. Smoke exercises production, historical training/development, encounter entry and invalid startup.'
 }
 if ($PSBoundParameters.ContainsKey('CapturePath') -and $Action -ne 'capture') {
     throw '-CapturePath applies only to capture.'

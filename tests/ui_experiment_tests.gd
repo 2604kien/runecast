@@ -4,12 +4,14 @@ const Experiments = preload("res://scripts/core/experiments.gd")
 const Delayed = preload("res://tests/delayed_presentation.gd")
 
 func run(training: Control, check: Callable, tree: SceneTree) -> void:
+	# Keep autosaves and explicit exports separate from all historical study records.
+	var qa_directory := "res://output/qa/rc-007/ui-experiment-tests-%d-%d-%d" % [int(Time.get_unix_time_from_system()), OS.get_process_id(), Time.get_ticks_usec()]
 	check.call(not training.experiment_mode and training.scenario_select == null and training.controller.get_record() == null, "Normal launch has no experiment controls or observation writes.")
 	training.hide()
 	var scene: Control = load("res://scenes/main.tscn").instantiate()
 	scene.experiment_mode = true
 	scene.setup_path = "res://data/encounter.json"
-	scene.experiment_record_path = "res://output/qa/experiment-records/ui-session.json"
+	scene.experiment_record_path = qa_directory.path_join("ui-session.json")
 	tree.root.add_child(scene)
 	await tree.process_frame
 	check.call(scene.controller != null and scene.scenario_select.item_count == 9 and scene.experiment_label.text.contains("effects / control | seed 42"), "Opt-in screen exposes bounded scenario selection and active variant/seed.")
@@ -46,7 +48,7 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 			scene.cast_button.pressed.emit()
 			check.call(scene.controller.record_document().totals.accepted == 1 + actions.size(), "Playable edits/cast recorded once through UI: " + scenario + "/" + variant)
 			scene.controller.add_note("AUTOMATED UI CHECK: no participant evidence")
-			var exported: Dictionary = scene.controller.export_record("res://output/qa/experiment-records/ui-%s-%s.json" % [scenario, variant])
+			var exported: Dictionary = scene.controller.export_record(qa_directory.path_join("ui-%s-%s.json" % [scenario, variant]))
 			check.call(exported.ok, "Per-variant playable evidence exported separately: " + scenario + "/" + variant)
 			scene.replay_button.pressed.emit()
 			check.call(scene.controller.snapshot() == initial and scene.controller.record_document().totals.attempts == 0, "Exact replay reconstructs all starting state and a new record: " + scenario + "/" + variant)
@@ -66,13 +68,13 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 	scene.record_dialog.hide()
 	var stored: Variant = JSON.parse_string(FileAccess.get_file_as_string(scene.experiment_record_path))
 	check.call(stored is Dictionary and stored.totals.casts == 1 and stored.notes.size() == 1, "UI export on disk matches authoritative metrics and notes.")
-	scene.experiment_record_path = "res://output/qa/experiment-records/no-extension"
+	scene.experiment_record_path = qa_directory.path_join("no-extension")
 	scene._pass()
 	check.call(scene.record_error.contains("Record write failed") and scene.game.turn >= 2, "Visible write failure does not corrupt or stop gameplay.")
 	before = scene.controller.snapshot()
 	scene._replay_experiment()
 	check.call(scene.controller.snapshot() == before and scene.experiment_feedback.text.contains("Session kept"), "Replay preserves unsaved observations when export fails.")
-	scene.experiment_record_path = "res://output/qa/experiment-records/ui-session.json"
+	scene.experiment_record_path = qa_directory.path_join("ui-session.json")
 	scene._save_experiment_record()
 	for variant in ["control", "treatment"]:
 		scene._launch_experiment("encounters", variant, 42)
@@ -91,7 +93,7 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 		scene._cast()
 		check.call(scene.game.state == "victory" and scene.game.encounter_number == 2 and scene.next_button.disabled, "Both encounters complete through playable controls: " + variant)
 		scene.controller.add_note("AUTOMATED PAIRED PLAYTHROUGH: no participant evidence")
-		scene.controller.export_record("res://output/qa/experiment-records/ui-encounters-%s-complete.json" % variant)
+		scene.controller.export_record(qa_directory.path_join("ui-encounters-%s-complete.json" % variant))
 	# Exact replay cancels a live adapter; its retained callback cannot unlock a new action.
 	scene._launch_experiment("hits", "treatment", 42)
 	var delayed := Delayed.new()
@@ -123,7 +125,7 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 	invalid.setup_path = "res://data/encounter.json"
 	invalid.experiment_mode = true
 	invalid.experiment_scenario = "unknown"
-	invalid.experiment_record_path = "res://output/qa/experiment-records/invalid.json"
+	invalid.experiment_record_path = qa_directory.path_join("invalid.json")
 	tree.root.add_child(invalid)
 	await tree.process_frame
 	check.call(invalid.controller == null and invalid.startup_error.contains("unknown scenario") and invalid.cast_button.disabled and invalid.next_button.disabled, "Unknown experiment startup displays diagnostics with no playable fallback.")

@@ -1,0 +1,12 @@
+{
+  "id": "rc007_entry_probe",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_training",
+  "loadout_id": "starter",
+  "title": "ENCOUNTER ENTRY FIXTURE",
+  "help_text": "Development fixture: win to enter one Calibration Wisp encounter. Health and permanent instances carry; the new encounter draws normally and supplies new endpoints and a kit.",
+  "opening_log": "Development fixture: production rules, followed by one validated encounter entry after victory.",
+  "next_encounter": "res://data/production_next_encounter.json",
+  "seed": 42
+}

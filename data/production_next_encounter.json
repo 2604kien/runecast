@@ -1,0 +1,11 @@
+{
+  "id": "rc007_entry_probe_next",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "dev_calibration_wisp",
+  "board_id": "dev_entry_board",
+  "loadout_id": "dev_entry",
+  "title": "ENCOUNTER ENTRY FIXTURE 2",
+  "help_text": "Development successor: carried health and permanent instances; four energy, two normal draws, fresh endpoints and connector kit. This bounded fixture has no further transition.",
+  "opening_log": "Development successor: build a new circuit with your carried collection.",
+  "seed": 73
+}

@@ -12,6 +12,9 @@ const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
 var setup_path := ""
+var initial_setup: Dictionary = {}
+var _replacing_controller := false
+var _closing := false
 var startup_error := ""
 var controller: Controller
 # View-local snapshot and help text; neither is authoritative combat state.
@@ -36,6 +39,8 @@ var player: AudioStreamPlayer
 var dialog: AcceptDialog
 var menu: ConfirmationDialog
 var pass_button: Button
+var production_replay_button: Button
+var production_next_button: Button
 var experiment_mode := false
 var experiment_scenario := "effects"
 var experiment_variant := "control"
@@ -64,15 +69,17 @@ func _ready() -> void:
 		experiment_variant = _argument_value("--variant=", experiment_variant)
 		var seed_text := _argument_value("--seed=", str(experiment_seed))
 		experiment_seed = int(seed_text) if seed_text.is_valid_int() else -1
-		setup_path = _argument_value("--encounter=", "res://data/encounter.json")
+		setup_path = _argument_value("--encounter=", ContentLoader.DEFAULT_ENCOUNTER)
 	var loaded: Dictionary = Experiments.load_setup(experiment_scenario, experiment_variant, experiment_seed) if experiment_mode else ContentLoader.load_setup(setup_path)
 	if loaded.ok:
+		initial_setup = loaded.setup.duplicate(true)
 		var model := Combat.new(loaded.setup)
 		if experiment_mode:
 			experiment_setup = loaded.setup.duplicate(true)
 		controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(loaded.setup, model.snapshot()) if experiment_mode else null)
 		if experiment_mode and "--capture" in OS.get_cmdline_user_args():
-			experiment_record_path = "res://output/qa/experiment-records/capture-%s-%s.json" % [experiment_scenario, experiment_variant]
+			# Each automated capture owns its observations; never replace earlier study exports.
+			experiment_record_path = "res://output/qa/rc-007/capture-%d-%d-%d/%s-%s.json" % [int(Time.get_unix_time_from_system()), OS.get_process_id(), Time.get_ticks_usec(), experiment_scenario, experiment_variant]
 			controller.add_note("AUTOMATED CAPTURE: no human observation")
 		game = controller.snapshot()
 	else:
@@ -110,9 +117,10 @@ func _argument_value(prefix: String, fallback: String) -> String:
 	return fallback
 
 func _can_edit() -> bool:
-	return controller != null and controller.can_edit()
+	return not _closing and not _replacing_controller and controller != null and controller.can_edit()
 
 func _exit_tree() -> void:
+	_closing = true
 	if controller != null:
 		if experiment_mode:
 			_save_experiment_record()
@@ -244,10 +252,20 @@ func _build_ui() -> void:
 	menu.ok_button_text = "Restart"
 	menu.cancel_button_text = "Resume"
 	pass_button = menu.add_button("Pass turn", false, "pass")
+	production_replay_button = menu.add_button("Exact replay", false, "exact_replay")
+	production_next_button = menu.add_button("Next encounter", false, "next_encounter")
+	production_replay_button.hide()
+	production_next_button.hide()
 	menu.confirmed.connect(_restart)
 	menu.custom_action.connect(func(action):
 		if action == "pass":
 			_pass()
+			menu.hide()
+		elif action == "exact_replay":
+			_exact_replay()
+			menu.hide()
+		elif action == "next_encounter":
+			_next_production_encounter()
 			menu.hide()
 	)
 	add_child(menu)
@@ -287,6 +305,12 @@ func _refresh() -> void:
 	stats.text = "HEALTH %d / %d       ENERGY %d / %d       TURN %d" % [game.player_hp, game.player_max_hp, game.energy, game.energy_per_turn, game.turn]
 	stats.tooltip_text = "Refreshes to %d energy and draws %d cards each turn." % [game.energy_per_turn, game.draw_per_turn]
 	menu.dialog_text = "Restart %s?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast." % game.encounter.title
+	production_replay_button.visible = game.has("production")
+	production_next_button.visible = game.has("production") and initial_setup.has("next_encounter")
+	production_next_button.disabled = not game.get("can_advance", false) or controller.is_busy()
+	if game.has("production"):
+		menu.dialog_text = "Cast or Pass clears every non-endpoint piece.\nRestart deals a fresh opening with continuing randomness.\nExact replay restores the original seed and opening."
+		stats.tooltip_text += "\nHand %d; draw pile %d; discard %d. %s." % [game.hand.size(), game.draw_pile.size(), game.discard_pile.size(), _kit_description()]
 	if experiment_mode:
 		menu.dialog_text = "Restart this experiment with continuing RNG.\nUse Exact replay above the board to restore the original seed.\n" + game.encounter.help_text
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
@@ -296,18 +320,19 @@ func _refresh() -> void:
 		var cell: Button = cells[index]
 		cell.piece = game.board[index]
 		cell.catalog = game.catalog
-		cell.split_cost = int(game.get("experiment", {}).get("split_cost", 1))
+		cell.split_cost = int(_rule_options().get("split_cost", 1))
 		cell.disabled = not editable or (experiment_mode and cell.piece.get("kind") == "blocked")
 		cell.active = spell.active.has(index)
 		cell.chosen = index == selected_cell
 		cell.end_value = int(spell.damage) if spell.valid else 0
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
-		if game.get("experiment", {}).get("endpoint_rotation") == "player" and cell.piece.get("kind") in ["begin", "end"]:
+		if _rule_options().get("endpoint_rotation") == "player" and cell.piece.get("kind") in ["begin", "end"]:
 			cell.tooltip_text += ". Select, then Rotate to change direction."
 		cell.queue_redraw()
 	for kind in stock_buttons:
-		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / %d" % [game.stock[kind], game.stock_totals[kind]])
-		stock_buttons[kind].tooltip_text = "Unlimited supply" if kind in ["straight", "corner"] else "%d available, %d owned (%d installed)." % [game.stock[kind], game.stock_totals[kind], game.stock_totals[kind] - game.stock[kind]]
+		var finite: bool = game.stock_totals.has(kind)
+		stock_buttons[kind].text = kind.capitalize() + ("\n%d / %d" % [game.stock[kind], game.stock_totals[kind]] if finite else "\nUnlimited")
+		stock_buttons[kind].tooltip_text = "%d available, %d owned (%d installed)." % [game.stock[kind], game.stock_totals[kind], game.stock_totals[kind] - game.stock[kind]] if finite else "Unlimited supply"
 	for button in edit_buttons:
 		button.disabled = not editable
 	for child in hand_box.get_children():
@@ -324,11 +349,21 @@ func _refresh() -> void:
 			button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
 	cast_button.disabled = not spell.valid or spell.cost > game.energy or not editable
-	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, maxi(0, game.intent - spell.shield)] if spell.valid else spell.message
+	var incoming: int = 0 if spell.damage >= game.enemy_hp else maxi(0, game.intent - spell.shield)
+	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, incoming] if spell.valid else spell.message
 	status.text = help_text if help_text != "" else game.log_text
+	if game.has("production"):
+		status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
 		status.text = "Need %d energy; %d available. Edit the circuit or pass in Menu." % [spell.cost, game.energy]
 	pass_button.disabled = not editable
+
+func _rule_options() -> Dictionary:
+	return game.get("production", game.get("experiment", {}))
+
+func _kit_description() -> String:
+	var kit: Dictionary = game.get("kit", {})
+	return "Kit: " + str(kit.get("id", "")).replace("_", " ").capitalize()
 
 func _rune_description(rune: Dictionary) -> String:
 	match rune.effect:
@@ -364,6 +399,8 @@ func _refresh_startup_error() -> void:
 	cast_button.disabled = true
 	cast_button.tooltip_text = startup_error
 	pass_button.disabled = true
+	production_replay_button.hide()
+	production_next_button.hide()
 	menu.get_ok_button().disabled = true
 	menu.dialog_text = startup_error
 
@@ -401,7 +438,7 @@ func _cell_pressed(index: int) -> void:
 	if not _can_edit():
 		return
 	selected_cell = index
-	if game.get("experiment", {}).get("endpoint_rotation") == "player" and game.board[index].get("kind") in ["begin", "end"]:
+	if _rule_options().get("endpoint_rotation") == "player" and game.board[index].get("kind") in ["begin", "end"]:
 		selected_tool = ""
 		selected_uid = -1
 		help_text = "%s selected. Use Rotate to change its direction." % str(game.board[index].kind).capitalize()
@@ -421,7 +458,11 @@ func _rotate() -> void:
 	if not _can_edit():
 		return
 	if selected_cell >= 0:
-		controller.command("rotate", {"index": selected_cell})
+		if controller.command("rotate", {"index": selected_cell}) and game.has("production") and game.board[selected_cell].get("kind") in ["begin", "end"]:
+			var piece: Dictionary = game.board[selected_cell]
+			var ports: Dictionary = preload("res://scripts/core/circuit.gd").ports(piece)
+			var direction: int = ports.output[0] if piece.kind == "begin" else ports.input[0]
+			help_text = "%s %s %s. Rotate turns clockwise; Undo restores the previous direction." % [str(piece.kind).capitalize(), "points" if piece.kind == "begin" else "receives from", ["up", "right", "down", "left"][direction]]
 	_refresh()
 
 func _flip() -> void:
@@ -450,13 +491,34 @@ func _pass() -> void:
 	controller.command("pass")
 
 func _restart() -> void:
-	if controller == null:
+	if controller == null or _replacing_controller or _closing:
 		return
 	_clear_selection()
 	controller.restart()
 
+func _exact_replay() -> void:
+	if controller == null or _replacing_controller or _closing or not game.has("production"):
+		return
+	_replacing_controller = true
+	controller.dispose()
+	if not is_inside_tree():
+		_replacing_controller = false
+		return
+	controller = Controller.new(Combat.new(initial_setup), Presentation.new())
+	controller.changed.connect(_refresh)
+	controller.presentation_started.connect(_presentation_started)
+	_replacing_controller = false
+	_clear_selection()
+	_refresh()
+
+func _next_production_encounter() -> void:
+	if controller == null or _replacing_controller or _closing or not game.has("production"):
+		return
+	_clear_selection()
+	controller.command("next_encounter")
+
 func _open_menu() -> void:
-	menu.popup_centered(Vector2i(540, 220))
+	menu.popup_centered(Vector2i(660, 250) if game.has("production") else Vector2i(540, 220))
 
 func _show_map() -> void:
 	dialog.title = "Tower map"
@@ -467,11 +529,15 @@ func _show_guide() -> void:
 	dialog.title = "Circuit guide"
 	var context: String = startup_error if controller == null else game.encounter.help_text
 	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
+	if game.has("production"):
+		dialog.dialog_text = context + "\n\nEvery playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its direction. Undo restores edits. Endpoints may be adjacent and may initially face outward; they cannot be replaced, erased, flipped or dragged.\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected Joins are invalid. Effect runes have straight ports. Split copies output and costs 1 energy per powered piece; Join costs 0. Each physical rune pays once. Cast deals one total damage hit, then shields against a surviving enemy's retaliation.\n\nCast or Pass clears every non-endpoint piece, including disconnected pieces. Permanent runes go to discard; all temporary runes disappear. Unplayed permanent cards also go to discard. The next turn moves both endpoints, replaces the ten-piece kit, refreshes energy and draws normally; repeats are allowed. A finished battle does not draw another hand or kit.\n\nTap a rune to install it; techniques resolve immediately. Menu offers Pass, Restart with continuing randomness, and Exact replay of the original seed. Kit balance is provisional."
 	if experiment_mode:
 		var endpoint_help := "Protected endpoints and blocked cells cannot be edited."
 		if game.get("experiment", {}).get("endpoint_rotation") == "player":
 			endpoint_help = "Click Begin or End, then Rotate to change its direction. Endpoints cannot be replaced, erased or flipped."
 		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. " + endpoint_help + " Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
+	if controller != null and game.stock_totals.has("straight") and game.stock_totals.has("corner"):
+		dialog.dialog_text += "\n\nStraight, Corner, Split and Join show available / total quantities. Every installed connector reserves one piece, including disconnected pieces. Erase or replacement returns the displaced connector; installing a rune over a connector returns it too. Rotate and Flip preserve quantities. Undo restores the board, hand and connector supply together."
 	dialog.popup_centered(Vector2i(620, 620))
 
 func _toggle_sound() -> void:

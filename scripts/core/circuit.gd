@@ -75,7 +75,7 @@ static func evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}
 			if board[index].get("kind") == "end":
 				ends.append(index)
 		if begins.size() != 1 or ends.size() != 1:
-			result.message = "An experimental board requires exactly one Begin and End."
+			result.message = "A production board requires exactly one Begin and End." if options.get("version") == "rc007_production_v1" else "An experimental board requires exactly one Begin and End."
 			return result
 		begin = begins[0]
 		end = ends[0]
@@ -120,6 +120,8 @@ static func evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}
 			result.cost += int(rune.cost)
 		elif piece.kind == "split":
 			result.cost += int(options.get("split_cost", 1))
+		elif piece.kind == "join":
+			result.cost += int(options.get("join_cost", 0))
 		signals[index] = signal_value
 	result.valid = true
 	result.damage = signals[end].damage

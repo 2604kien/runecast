@@ -2,7 +2,9 @@
 
 Rune Cast is a portrait mobile roguelike about constructing spells on a 4 by 4 circuit board. Connect Begin to End, prepare effects, split a spell into branches, and rejoin them before casting. The project targets **Android and iOS**, with a Windows desktop development preview.
 
-This repository contains a playable **single encounter sandbox** with validated, configurable setup and an opt-in RC-005 circuit experiment harness, not a complete tower run. Normal launch uses the original training encounter; an alternate development fixture exercises configuration. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
+This repository contains a playable **single encounter sandbox** with validated production rules, a bounded encounter-entry development fixture and opt-in historical circuit experiments. Normal launch uses endpoints-only turns, player-rotatable random endpoints, normal rune draws and finite connector kits. The current screen uses simple vector placeholders; the approved artwork is preserved separately.
+
+**RC-007, October 9, 2026:** the owner accepted all proposed defaults. The [production contract](docs/production-rules-spec.md) and [gameplay rules](docs/gameplay-rules.md) describe current behavior; [verification](docs/verification.md) and the [handoff](docs/project-plan.md) record actual checks and remaining tuning limits. This is not a complete tower run.
 
 ## Start the project
 
@@ -25,12 +27,14 @@ The bootstrap downloads the official Windows x64 portable editor and verifies it
 
 ## Play the sandbox
 
-- The opening circuit matches the reference: a temporary free Spark, one Split, two branches, one Join, and End.
-- Tap a wiring tool or effect rune, then a board socket. Tap an installed piece to select it. Rotate changes orientation; Flip reverses a wire.
-- Basic wires are unlimited. One Split and one Join are available, counting installed pieces.
+- Every playable turn starts with only Begin and End and fourteen empty cells. Select either endpoint and Rotate; Undo restores it. Endpoints can be adjacent or initially face outward.
+- Tap a wiring tool or effect rune, then a board socket. Rotate changes orientation; Flip reverses ordinary wires. Endpoints cannot be erased or replaced.
+- A random ten-piece kit supplies Straight/Corner/Split/Join in counts **6/2/1/1**, **4/4/1/1** or **4/2/2/2**, with equal chances and repeats allowed. Labels show available/total; disconnected pieces count. Erase/replacement returns stock and Undo restores it.
 - Focus and Conjure Spark are techniques and resolve immediately when tapped.
-- Cast spends the circuit's energy and ends the turn. Surviving enemies retaliate.
-- Menu provides Restart and Pass turn. Guide explains the rules. Sound toggles the placeholder cast tone and saves the preference.
+- Cast pays each powered physical rune once plus 1 per Split; Join costs 0. Damage is one aggregate hit. Shield applies to surviving-enemy retaliation only.
+- Cast and Pass clear all non-endpoint pieces. Permanent runes enter discard; temporaries disappear. A surviving turn moves both endpoints, replaces the kit, refreshes energy and draws normally. Unused supply never accumulates; cards and kits may repeat.
+- The starter has 3 energy and draws 3 cards, including the first turn. Victory/defeat clean up without generating an unused turn.
+- Menu provides Pass, Restart with continuing RNG, and Exact replay of the original seed. Guide explains the rules. Sound toggles the placeholder cast tone and saves the preference.
 - Map currently describes the planned tower route; branching progression is not implemented.
 
 ## Validate
@@ -45,14 +49,23 @@ The bootstrap downloads the official Windows x64 portable editor and verifies it
 
 The screenshot is saved to `output/qa/foundation-screen.png`. Logs also go to `output/qa/`.
 
+To preserve an earlier screenshot, pass a fresh destination, for example `-Action capture -CapturePath 'res://output/qa/rc-007/implementation/review-production.png'`. Automated records use unique QA subdirectories; human records still use `user://experiments/`. Tests cover production configuration, ownership, cleanup, RNG, encounter transfer and 720 endpoint/kit geometry cases, alongside preserved historical fixtures. Smoke exercises the actual production screen, labels, Guide, construction, terminals, Restart/Exact replay and encounter entry.
+
 To exercise the RC-004 development fixture in the actual scene:
 
 ```powershell
 .\tools\godot.ps1 -Action run -Encounter 'res://data/dev_encounter.json'
-.\tools\godot.ps1 -Action capture -Encounter 'res://data/dev_encounter.json' -CapturePath 'res://output/qa/rc-004-development.png'
+.\tools\godot.ps1 -Action capture -Encounter 'res://data/dev_encounter.json' -CapturePath 'res://output/qa/rc-007/implementation/legacy-development.png'
 ```
 
-This is an unbalanced configuration fixture, identified as a development encounter in the screen. Normal launch remains Training Crypt. Restart restores the selected setup while continuing its RNG stream; a fresh scene uses its configured seed. Missing or invalid content displays diagnostics and disables gameplay. Both configurations and invalid startup are covered by the existing test/smoke commands. See [content definitions](docs/content-definitions.md) to author supported setups.
+This is an explicit historical configuration fixture. The original prefilled 12-damage training circuit is also preserved, with its original curated hand and unlimited basic wires:
+
+```powershell
+.\tools\godot.ps1 -Action run -Encounter 'res://data/encounter.json'
+.\tools\godot.ps1 -Action run -Encounter 'res://data/production_transition_encounter.json'
+```
+
+The second command selects the bounded production encounter-entry fixture. After victory, Menu > Next encounter carries current/max health and permanent UIDs into one Calibration Wisp encounter, drawing normally with its four energy/two-card configuration. This fixture implements no map, rewards or saves. Normal launch uses `data/production_encounter.json`. Fresh same-seed setup and Exact replay reproduce the opening; ordinary Restart continues the separate card, endpoint and kit streams. Invalid content disables gameplay with diagnostics. See [content definitions](docs/content-definitions.md).
 
 ## Project documentation
 
@@ -63,8 +76,7 @@ RC-005 supplied six experiment families through nine bounded scenarios and 19 va
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant treatment -Seed 42
 ```
 
-The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Exact replay restores the cached starting setup and seed; Menu Restart retains its existing RNG continuation. Records stay in `user://experiments/` (absolute path shown in Inspect); automated evidence stays in `output/qa/experiment-records/`. Harness candidates remain provisional; see the [matrix, known solutions and RC-006 human protocol](docs/circuit-experiments.md). RC-006 is **partial**: the owner selected endpoints-only starts every turn after Cast/Pass, all installed permanent cards to discard (including disconnected ones), and fresh normal draws with repeats allowed. In the separate [full-reset follow-up](docs/circuit-experiments.md#rc-006-full-reset-follow-up), the owner confirms clearing works and the hand changes; its two-Cast record corroborates clearing and different constructed circuits. The owner reports rebuilding is worthwhile and selects random Begin/End positions every turn at any two distinct cells, including adjacent cells, with normal player-controlled Rotate. The moving-endpoint feedback confirms clearing and corrects the facilitator's protected-rotation/eight-layout interpretation; the separate [free-endpoint follow-up](docs/circuit-experiments.md#rc-006-free-endpoint-follow-up) is available. The owner now confirms manual endpoint rotation works; S01-08 records seven accepted rotations across Begin and End. It contains no Cast, Pass, Undo or adjacent-position play, so those outcomes are not inferred. The played full-reset fixture has fixed endpoints and is not a matched pair with the older prebuilt fixtures. The owner has also selected [random ten-piece circuit kits for now](docs/circuit-experiments.md#provisional-random-circuit-kits-h31): Straight/Corner/Split/Join counts of 6/2/1/1, 4/4/1/1 or 4/2/2/2, separate from the normal rune hand. Each playable turn gets a new kit; erasing returns its pieces, with no carry or banking. These starting counts remain tunable and the kit has not been playtested or implemented. B2 costs, initial orientation generation, first-turn policy and encounter integration remain open. Normal gameplay has not adopted the selected rules. See [study evidence](docs/rc-006-playtest-results.md), [validation](docs/verification.md) and the [incomplete production contract](docs/production-rules-spec.md). RC-007 is not ready; RC-010 remains independently available.
-
+The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Historical fixtures keep their original versions, semantics and fingerprints. Human records remain in `user://experiments/`; automated evidence uses unique QA destinations. See the [matrix and historical protocol](docs/circuit-experiments.md) and [RC-006 evidence register](docs/rc-006-playtest-results.md). H32 records the owner's acceptance of all remaining production defaults as a design choice; it does not add human playtest findings or a testing waiver. The three kit quantities and equal probabilities remain provisional tuning. RC-010 remains independently available; subsequent work follows the [current plan](docs/project-plan.md).
 ```powershell
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant full_reset -Seed 42
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant moving_endpoints -Seed 42
@@ -72,8 +84,8 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 ```
 
 - [Circuit experiments — opt-in matrix, replay, records and human protocol](docs/circuit-experiments.md)
-- [RC-006 playtest results — evidence register, session guide and pending decisions](docs/rc-006-playtest-results.md)
-- [Production rules specification — pending RC-006 selections, not ready for RC-007](docs/production-rules-spec.md)
+- [RC-006 playtest results — preserved evidence and owner decisions](docs/rc-006-playtest-results.md)
+- [Production rules specification — accepted contract and historical decisions](docs/production-rules-spec.md)
 - [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)
