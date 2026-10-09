@@ -2,6 +2,7 @@ class_name RuneCombat
 extends RefCounted
 
 const Circuit = preload("res://scripts/core/circuit.gd")
+const Loader = preload("res://scripts/core/content_loader.gd")
 var catalog: Dictionary
 var encounter: Dictionary
 var board: Array
@@ -19,6 +20,7 @@ var state := "playing"
 var log_text := ""
 var next_uid := 0
 var rng := RandomNumberGenerator.new()
+var endpoint_rng := RandomNumberGenerator.new()
 var _setup: Dictionary
 var _encounter_id := 0
 var _action_id := 0
@@ -26,6 +28,7 @@ var _events: Array = []
 var _last_result: Dictionary = {}
 var _experiment: Dictionary = {}
 var _encounter_number := 1
+var _endpoint_layout_id := "opening"
 
 func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 	# Loading/validation belong to the caller. Keep a private restart template and
@@ -37,6 +40,9 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 		if _setup.has("experiment"):
 			_setup.experiment.seed = seed_override
 	rng.seed = int(_setup.encounter.seed)
+	# Geometry must not consume the card-shuffle stream. Exact replay creates a
+	# fresh model; ordinary Restart deliberately continues both random streams.
+	endpoint_rng.seed = int(_setup.encounter.seed) ^ 0x52434D45
 	reset()
 
 func reset() -> void:
@@ -47,7 +53,10 @@ func reset() -> void:
 	encounter = _setup.encounter.duplicate(true)
 	_experiment = _setup.get("experiment", {}).duplicate(true)
 	_encounter_number = 1
+	_endpoint_layout_id = "opening"
 	board = _setup.board.duplicate(true)
+	if _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
+		_move_free_endpoints(true)
 	owned_cards = _setup.owned_cards.duplicate()
 	stock_totals = _setup.inventory.duplicate(true)
 	hand.clear()
@@ -246,7 +255,10 @@ func _place_rune(index: int, uid: int) -> bool:
 	return true
 
 func _rotate(index: int) -> bool:
-	if not _editable(index) or board[index].is_empty():
+	if state != "playing" or index < 0 or index >= board.size():
+		return false
+	var free_endpoint: bool = _experiment.get("endpoint_rotation", "fixed") == "player" and board[index].get("kind") in ["begin", "end"]
+	if (not _editable(index) and not free_endpoint) or board[index].is_empty():
 		return false
 	_remember()
 	board[index].rotation = (int(board[index].rotation) + 1) % 4
@@ -397,6 +409,8 @@ func _retaliate(shield: int) -> int:
 	return damage_taken
 
 func _end_turn() -> void:
+	if _experiment.get("board_reset", "none") == "each_turn":
+		_clear_turn_board()
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
 		if piece.get("kind") == "rune" and catalog[piece.rune_id].get("temporary", false):
@@ -427,9 +441,75 @@ func _end_turn() -> void:
 		var energy_before := energy
 		turn += 1
 		energy = int(encounter.energy_per_turn)
+		if _experiment.get("endpoint_policy", "fixed") == "random_each_turn":
+			_move_turn_endpoints()
+		elif _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
+			_move_free_endpoints()
 		_record("turn_started", {"turn_before": turn - 1, "turn_after": turn,
 			"energy_before": energy_before, "energy_after": energy, "intent": intent()})
 		_draw(int(encounter.draw_per_turn))
+
+func _clear_turn_board() -> void:
+	# RC-006 opt-in only. Clear powered and disconnected pieces in cell order,
+	# after combat resolution and before hand cleanup or any next-turn draw.
+	for index in range(board.size()):
+		var piece: Dictionary = board[index]
+		if piece.is_empty() or piece.get("kind") in ["begin", "end"]:
+			continue
+		board[index] = {}
+		if piece.get("kind") == "rune":
+			if catalog[piece.rune_id].get("temporary", false):
+				_record("temporary_expired", {"cell": index, "before": piece, "after": {}})
+			else:
+				var card := {"id": piece.rune_id, "uid": piece.uid}
+				discard_pile.append(card)
+				_record("effect_consumed", {"cell": index, "card": card, "before": piece,
+					"after": {}, "from": "board", "to": "discard"})
+		else:
+			# Split/Join stock is derived from the board; removing a piece restores
+			# availability without changing its owned total or spending energy.
+			_record("board_piece_cleared", {"cell": index, "before": piece, "after": {}})
+
+func _endpoint_layout() -> Dictionary:
+	var value := {"layout_id": _endpoint_layout_id}
+	for index in range(board.size()):
+		var piece: Dictionary = board[index]
+		if piece.get("kind") in ["begin", "end"]:
+			value[piece.kind] = {"cell": index, "rotation": int(piece.get("rotation", 0))}
+	return value
+
+func _move_turn_endpoints() -> void:
+	# Only called after nonterminal cleanup. The loader validates a bounded pool
+	# with a simple, rune-capable witness and eligible successors for every entry.
+	var previous := _endpoint_layout()
+	var eligible: Array = []
+	for layout in _experiment.endpoint_layouts:
+		if layout.begin.cell != previous.begin.cell and layout.end.cell != previous.end.cell:
+			eligible.append(layout)
+	assert(not eligible.is_empty(), "Moving-endpoint catalog requires an eligible successor.")
+	var chosen: Dictionary = eligible[endpoint_rng.randi_range(0, eligible.size() - 1)]
+	board[previous.begin.cell] = {}
+	board[previous.end.cell] = {}
+	for kind in ["begin", "end"]:
+		var endpoint: Dictionary = chosen[kind]
+		board[endpoint.cell] = {"kind": kind, "rotation": int(endpoint.rotation)}
+	_endpoint_layout_id = str(chosen.id)
+	_record("endpoints_changed", {"before": previous, "after": _endpoint_layout()})
+
+func _move_free_endpoints(initial: bool = false) -> void:
+	# Every distinct ordered pair is possible initially. Later exclude only each
+	# endpoint's own previous cell, giving 211 equally eligible pairs, including
+	# adjacent endpoints and a cross-swap. Rotation is independent and editable.
+	var previous := _endpoint_layout()
+	var eligible := Loader.free_endpoint_pairs() if initial else Loader.free_endpoint_pairs(int(previous.begin.cell), int(previous.end.cell))
+	var pair: Array = eligible[endpoint_rng.randi_range(0, eligible.size() - 1)]
+	board[previous.begin.cell] = {}
+	board[previous.end.cell] = {}
+	board[pair[0]] = {"kind": "begin", "rotation": endpoint_rng.randi_range(0, 3)}
+	board[pair[1]] = {"kind": "end", "rotation": endpoint_rng.randi_range(0, 3)}
+	_endpoint_layout_id = "pair_%02d_%02d" % [pair[0], pair[1]]
+	if not initial:
+		_record("endpoints_changed", {"before": previous, "after": _endpoint_layout()})
 
 func _can_advance() -> bool:
 	return state == "victory" and _encounter_number == 1 and _experiment.get("transfer", "none") in ["reset", "retain"]

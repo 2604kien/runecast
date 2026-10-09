@@ -11,8 +11,17 @@ const MAX_CARDS := 100
 const MAX_TURN_AMOUNT := 20
 const MAX_HEALTH := 100000
 const EXPERIMENT_VERSION := "rc005_v1"
+const FULL_RESET_EXPERIMENT_VERSION := "rc006_full_reset_v1"
+const MOVING_ENDPOINT_EXPERIMENT_VERSION := "rc006_moving_endpoints_v1"
+const FREE_ENDPOINT_EXPERIMENT_VERSION := "rc006_free_endpoints_v1"
+const MOVING_ENDPOINT_PATHS := [
+	[0, 1, 2, 6, 10, 14], [3, 7, 11, 15, 14, 13],
+	[12, 8, 4, 0, 1, 2], [15, 14, 13, 9, 5, 1],
+	[1, 5, 9, 10, 11, 7], [14, 10, 6, 2, 3, 7, 11],
+	[4, 5, 6, 7, 11, 15], [10, 9, 8, 4, 0]
+]
 const EXPERIMENT_VARIANTS := {
-	"effects": ["control", "treatment"], "split_inventory": ["control", "treatment"],
+	"effects": ["control", "treatment", "full_reset", "moving_endpoints", "free_endpoints"], "split_inventory": ["control", "treatment"],
 	"split_cost": ["control", "treatment"], "endpoints": ["control", "treatment"],
 	"blocked": ["control", "treatment"], "ports": ["control", "treatment"],
 	"hits": ["control", "treatment"], "expiry": ["control", "retained", "empty"],
@@ -35,6 +44,28 @@ static func experiment_options(scenario_id: Variant, variant_id: Variant, seed: 
 		"split_cost": 1, "damage_mode": "aggregate", "expiry": "straight", "transfer": "none"}
 	if scenario_id == "effects" and variant_id == "treatment":
 		options.effects = "consumed"
+	if scenario_id == "effects" and variant_id in ["full_reset", "moving_endpoints", "free_endpoints"]:
+		# Additive RC-006 follow-up. Do not add keys to, or relabel, old fixtures.
+		options.version = FULL_RESET_EXPERIMENT_VERSION
+		options.effects = "discard_all"
+		options.expiry = "empty"
+		options.board_reset = "each_turn"
+		if variant_id == "moving_endpoints":
+			options.version = MOVING_ENDPOINT_EXPERIMENT_VERSION
+			options.endpoint_policy = "random_each_turn"
+			# Include the complete bounded geometry in the configuration fingerprint.
+			# These witness paths are facilitator/test data, never participant hints.
+			options.endpoint_layouts = moving_endpoint_layouts()
+			_validate_endpoint_layouts(options.endpoint_layouts, errors)
+		if variant_id == "free_endpoints":
+			options.version = FREE_ENDPOINT_EXPERIMENT_VERSION
+			options.endpoint_policy = "random_any_cells"
+			options.endpoint_rotation = "player"
+			options.endpoint_initial = "random"
+			# Compact, versioned selection contract; no bounded route catalog.
+			options.endpoint_selection = "uniform_ordered_pairs_v1"
+			options.endpoint_position_pairs = 240
+			options.endpoint_successor_pairs = 211
 	if scenario_id == "split_cost" and variant_id == "treatment":
 		options.split_cost = 2
 	if scenario_id == "hits" and variant_id == "treatment":
@@ -43,7 +74,66 @@ static func experiment_options(scenario_id: Variant, variant_id: Variant, seed: 
 		options.expiry = variant_id
 	if scenario_id == "encounters":
 		options.transfer = "reset" if variant_id == "control" else "retain"
-	return _result([], options)
+	return _result(errors, options)
+
+static func free_endpoint_pairs(previous_begin: int = -1, previous_end: int = -1) -> Array:
+	var pairs: Array = []
+	for begin in range(16):
+		for end in range(16):
+			if begin != end and begin != previous_begin and end != previous_end:
+				pairs.append([begin, end])
+	return pairs
+
+static func moving_endpoint_layouts() -> Array:
+	var layouts: Array = []
+	for index in range(MOVING_ENDPOINT_PATHS.size()):
+		var path: Array = MOVING_ENDPOINT_PATHS[index].duplicate()
+		layouts.append({"id": "route_" + "abcdefgh"[index], "path": path,
+			"begin": {"cell": path[0], "rotation": (_path_direction(path[0], path[1]) + 3) % 4},
+			"end": {"cell": path[-1], "rotation": _path_direction(path[-1], path[-2])}})
+	return layouts
+
+static func _path_direction(from_cell: int, to_cell: int) -> int:
+	var delta := Vector2i(to_cell % 4 - from_cell % 4, to_cell / 4 - from_cell / 4)
+	return [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)].find(delta)
+
+static func _validate_endpoint_layouts(layouts: Array, errors: Array) -> void:
+	# Validate the versioned catalog itself as well as requiring supplied metadata
+	# to match it exactly. A path proves connectivity without using Split/Join.
+	var identities := {}
+	var opening_successors := 0
+	for layout in layouts:
+		var field: String = "experiment.endpoint_layouts." + str(layout.id)
+		if identities.has(layout.id):
+			_error(errors, field, "layout ID must be unique")
+		identities[layout.id] = true
+		if layout.begin.cell != 0 and layout.end.cell != 14:
+			opening_successors += 1
+		var path: Array = layout.path
+		var seen := {}
+		var has_straight := false
+		if path.size() < 4:
+			_error(errors, field, "witness needs an interior straight rune socket")
+		for step in range(path.size()):
+			var cell: int = path[step]
+			if cell < 0 or cell > 15 or seen.has(cell):
+				_error(errors, field, "witness must be an in-bounds simple path")
+			seen[cell] = true
+			if step > 0 and _path_direction(path[step - 1], cell) < 0:
+				_error(errors, field, "witness steps must be adjacent")
+			if step > 0 and step < path.size() - 1:
+				if _path_direction(path[step - 1], cell) == _path_direction(cell, path[step + 1]):
+					has_straight = true
+		if not has_straight:
+			_error(errors, field, "witness needs an interior straight rune socket")
+		var successors := 0
+		for candidate in layouts:
+			if candidate.begin.cell != layout.begin.cell and candidate.end.cell != layout.end.cell:
+				successors += 1
+		if successors == 0:
+			_error(errors, field, "must allow a successor moving both endpoints")
+	if opening_successors == 0:
+		_error(errors, "experiment.endpoint_layouts", "must allow a successor from the fixed opening")
 
 static func validate_experiment(context: Variant) -> Dictionary:
 	if not context is Dictionary:
@@ -279,6 +369,7 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 	var endpoint_count := {"begin": 0, "end": 0}
 	var alternate_endpoints: bool = experiment.get("scenario_id") == "endpoints" and experiment.get("variant_id") == "treatment"
 	var blocked_allowed: bool = experiment.get("scenario_id") == "blocked" and experiment.get("variant_id") == "treatment"
+	var starts_empty: bool = experiment.get("board_reset", "none") == "each_turn"
 	for index in range(definition.placements.size()):
 		var field := context + ".placements[%d]" % index
 		var entry: Variant = definition.placements[index]
@@ -295,6 +386,8 @@ static func _validate_board(definition: Dictionary, catalog: Dictionary, context
 			kinds.append("blocked")
 		if not piece.get("kind") in kinds:
 			_error(errors, field + ".kind", "unsupported piece kind")
+		if starts_empty and not piece.get("kind") in ["begin", "end"]:
+			_error(errors, field + ".kind", "full-reset follow-up starts with Begin and End only")
 		if _matches(piece.get("kind"), "blocked") and not _matches(piece.get("rotation"), 0):
 			_error(errors, field + ".rotation", "blocked cells require rotation 0")
 		if entry.has("reversed") and not piece.get("kind") in ["straight", "corner"]:

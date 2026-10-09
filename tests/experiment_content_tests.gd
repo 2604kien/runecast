@@ -20,7 +20,12 @@ func run(check: Callable) -> void:
 			if not loaded.ok:
 				continue
 			var game := Combat.new(loaded.setup)
-			check.call(game.forecast().valid and game.forecast().cost <= game.energy, "%s/%s opens with a valid affordable circuit." % [scenario.id, variant])
+			if variant in ["full_reset", "moving_endpoints"]:
+				check.call(not game.forecast().valid and game.board.filter(func(piece): return not piece.is_empty()).size() == 2, "The full-reset follow-up starts with endpoints only and requires construction.")
+			elif variant == "free_endpoints":
+				check.call(game.board.filter(func(piece): return not piece.is_empty()).size() == 2, "The free-endpoint follow-up starts with only two randomly placed endpoints.")
+			else:
+				check.call(game.forecast().valid and game.forecast().cost <= game.energy, "%s/%s opens with a valid affordable circuit." % [scenario.id, variant])
 			for action in Experiments.known_solution_actions(scenario.id, variant):
 				check.call(game.execute(action.command, action.arguments).accepted, "%s/%s known solution command %s is accepted." % [scenario.id, variant, action.command])
 			var spell := game.forecast()
@@ -32,15 +37,16 @@ func run(check: Callable) -> void:
 					active_splits += 1 if game.board[cell].get("kind") == "split" else 0
 					active_joins += 1 if game.board[cell].get("kind") == "join" else 0
 				check.call(active_splits == 2 and active_joins == 2 and spell.damage == 18, "%s/%s witness powers both extra pieces and three copies of upstream Spark." % [scenario.id, variant])
-	check.call(count == 19, "The bounded matrix contains exactly nineteen variants, not a combinatorial suite.")
+	check.call(count == 22, "The nineteen RC-005 variants plus three RC-006 follow-ups remain a bounded matrix.")
 	scenarios[0].variants.clear()
-	check.call(Experiments.list_scenarios()[0].variants == ["control", "treatment"], "Scenario metadata is detached from catalog constants.")
+	check.call(Experiments.list_scenarios()[0].variants == ["control", "treatment", "full_reset", "moving_endpoints", "free_endpoints"], "Scenario metadata is detached from catalog constants.")
 	var lifetime_control: Dictionary = Experiments.load_setup("effects", "control").setup
 	var lifetime_treatment: Dictionary = Experiments.load_setup("effects", "treatment").setup
 	check.call(_matched(lifetime_control, lifetime_treatment), "Effect lifetime pair holds board, ownership, hand, enemy, energy and seed constant.")
 	var stock_control: Dictionary = Experiments.load_setup("split_inventory", "control").setup
 	var stock_treatment: Dictionary = Experiments.load_setup("split_inventory", "treatment").setup
 	check.call(_matched(stock_control, stock_treatment, ["inventory"]) and stock_control.inventory == {"split": 1, "join": 1} and stock_treatment.inventory == {"split": 2, "join": 2}, "Inventory comparison changes allowance without preinstalling a different layout or changing cost.")
+	check_inventory_guidance(check)
 	var cost_control: Dictionary = Experiments.load_setup("split_cost", "control").setup
 	var cost_treatment: Dictionary = Experiments.load_setup("split_cost", "treatment").setup
 	check.call(_matched(cost_control, cost_treatment) and cost_control.experiment.split_cost == 1 and cost_treatment.experiment.split_cost == 2, "Cost comparison holds the two-pair layout and allowance fixed.")
@@ -107,6 +113,27 @@ func run(check: Callable) -> void:
 	check.call(not Loader.validate_documents(blocked.documents, {}, blocked.experiment).ok, "Blocked cells reject meaningless rotation data.")
 	var wrong_context := Experiments.documents("blocked", "treatment")
 	check.call(not Loader.validate_documents(wrong_context.documents, {}, Loader.experiment_options("effects", "control").setup).ok, "A valid unrelated experiment context does not enable blocked cells.")
+
+func check_inventory_guidance(check: Callable) -> void:
+	var control: Dictionary = Experiments.load_setup("split_inventory", "control", 42).setup
+	var treatment: Dictionary = Experiments.load_setup("split_inventory", "treatment", 42).setup
+	var copy := str(treatment.encounter.help_text).to_lower()
+	var solution_exposed := false
+	for hint in ["cell", "row", "column", "replace", "rotate", "18 damage"]:
+		solution_exposed = solution_exposed or copy.contains(hint)
+	check.call(not solution_exposed and treatment.encounter.opening_log == treatment.encounter.help_text, "B1 participant summary and opening log omit solution coordinates, edit commands and solved damage.")
+	check.call(_matched(control, treatment, ["inventory"]) and treatment.inventory == {"split": 2, "join": 2}, "B1 neutral guidance retains the matched starting geometry, cards, stats and two-pair allowance.")
+	var expected_options: Dictionary = control.experiment.duplicate(true)
+	expected_options.variant_id = "treatment"
+	check.call(treatment.experiment == expected_options and treatment.experiment.version == "rc005_v1", "B1 copy repair changes neither rule options nor experiment semantics version.")
+	var solution := Experiments.known_solution_actions("split_inventory", "treatment")
+	check.call(solution == [{"command": "place_wire", "arguments": {"index": 6, "kind": "join"}}, {"command": "place_wire", "arguments": {"index": 7, "kind": "split"}}, {"command": "rotate", "arguments": {"index": 7}}], "B1 facilitator solution retains the same three edits.")
+	var game := Combat.new(treatment)
+	var accepted := true
+	for action in solution:
+		accepted = game.execute(action.command, action.arguments).accepted and accepted
+	var spell := game.forecast()
+	check.call(accepted and spell.valid and spell.damage == 18 and spell.cost == 4, "B1 facilitator witness still yields the valid threefold, four-energy circuit.")
 
 func _matched(first: Dictionary, second: Dictionary, except: Array = []) -> bool:
 	for field in ["board", "catalog", "owned_cards", "opening_hand", "opening_draw", "inventory"]:

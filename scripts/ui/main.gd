@@ -302,6 +302,8 @@ func _refresh() -> void:
 		cell.chosen = index == selected_cell
 		cell.end_value = int(spell.damage) if spell.valid else 0
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
+		if game.get("experiment", {}).get("endpoint_rotation") == "player" and cell.piece.get("kind") in ["begin", "end"]:
+			cell.tooltip_text += ". Select, then Rotate to change direction."
 		cell.queue_redraw()
 	for kind in stock_buttons:
 		stock_buttons[kind].text = kind.capitalize() + ("\nUnlimited" if kind in ["straight", "corner"] else "\n%d / %d" % [game.stock[kind], game.stock_totals[kind]])
@@ -399,6 +401,12 @@ func _cell_pressed(index: int) -> void:
 	if not _can_edit():
 		return
 	selected_cell = index
+	if game.get("experiment", {}).get("endpoint_rotation") == "player" and game.board[index].get("kind") in ["begin", "end"]:
+		selected_tool = ""
+		selected_uid = -1
+		help_text = "%s selected. Use Rotate to change its direction." % str(game.board[index].kind).capitalize()
+		_refresh()
+		return
 	if selected_uid != -1:
 		if controller.command("place_rune", {"index": index, "uid": selected_uid}):
 			selected_uid = -1
@@ -460,7 +468,10 @@ func _show_guide() -> void:
 	var context: String = startup_error if controller == null else game.encounter.help_text
 	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
 	if experiment_mode:
-		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. Protected endpoints and blocked cells cannot be edited. Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
+		var endpoint_help := "Protected endpoints and blocked cells cannot be edited."
+		if game.get("experiment", {}).get("endpoint_rotation") == "player":
+			endpoint_help = "Click Begin or End, then Rotate to change its direction. Endpoints cannot be replaced, erased or flipped."
+		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. " + endpoint_help + " Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
 	dialog.popup_centered(Vector2i(620, 620))
 
 func _toggle_sound() -> void:
@@ -478,7 +489,7 @@ func _load_settings() -> void:
 		sound_enabled = bool(config.get_value("audio", "enabled", true))
 
 func _build_experiment_controls(column: VBoxContainer) -> void:
-	column.add_child(_label("RC-005 LAB / provisional rules", 19))
+	column.add_child(_label("EXPERIMENT LAB / testing only", 19))
 	var choices := HBoxContainer.new()
 	column.add_child(choices)
 	scenario_select = OptionButton.new()
@@ -572,17 +583,30 @@ func _next_experiment_encounter() -> void:
 func _refresh_experiment() -> void:
 	var options: Dictionary = game.get("experiment", {})
 	experiment_label.text = "%s / %s | seed %d | encounter %d/ %d\n%s" % [experiment_scenario, experiment_variant, experiment_seed, game.get("encounter_number", 1), 2 if options.get("transfer", "none") != "none" else 1, game.encounter.help_text]
-	experiment_label.tooltip_text = JSON.stringify(options, "  ")
+	var visible_options := options.duplicate(true)
+	# The catalog carries facilitator witnesses for reproducible audit, not hints.
+	visible_options.erase("endpoint_layouts")
+	experiment_label.tooltip_text = JSON.stringify(visible_options, "  ")
 	next_button.disabled = not game.get("can_advance", false) or controller.is_busy()
 	replay_button.disabled = false
 	var details: Array[String] = []
+	var cleared_cells := 0
+	var endpoints_moved := false
 	# Raw ordered outcomes remain inspectable even when immediate playback completes.
 	var latest: Dictionary = controller.get_record().latest_result() if controller.get_record() != null else {}
 	for event in latest.get("events", []):
 		if event.type == "damage":
 			details.append("hit %d (%d applied)" % [event.amount, event.applied])
+		elif event.type == "endpoints_changed":
+			endpoints_moved = true
+		elif options.get("board_reset") == "each_turn" and event.type in ["effect_consumed", "temporary_expired", "board_piece_cleared"]:
+			cleared_cells += 1
 		elif event.type in ["effect_consumed", "temporary_expired", "battle_ended", "encounter_transition"]:
 			details.append(event.type)
+	if cleared_cells > 0:
+		details.append("cleared %d cells; Begin / End %s" % [cleared_cells, "moved" if endpoints_moved else "kept"])
+	elif endpoints_moved:
+		details.append("Begin / End moved")
 	experiment_events.text = "Latest: " + (", ".join(details) if not details.is_empty() else "No damage / cleanup events yet")
 	experiment_events.tooltip_text = JSON.stringify(latest, "  ")
 

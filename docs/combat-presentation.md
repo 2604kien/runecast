@@ -121,3 +121,36 @@ Multi-hit mode adds `spell.hits` and damage-event `hit_index`/`hit_count`. Posit
 `ExperimentRecord` is optional on `Controller.new(combat, presenter=null, recorder=null)`. Recording occurs exactly once after authoritative execution and before external signals/playback. Busy/terminal/model rejections are classified independently; accepted action IDs deduplicate accidental re-recording. Exports and presentation callbacks do not increment counters or consume gameplay RNG. Records contain detached setup/snapshots/events, monotonic timing, notes and actual damage/cost/card summaries. `record_document`, `export_record`, `add_note` and `get_record` support the development UI. Write errors are returned visibly without changing combat.
 
 Exact experiment replay saves the current record and constructs a fresh model/controller from the cached setup/seed, disposing the previous controller through existing cancellation guards. Menu Restart keeps RNG continuation and adds a recorder lifecycle entry. Normal launch constructs no recorder and shows no experiment controls. Existing RC-003 delayed-input, reentry, stale-callback and teardown tests remain; experiment tests extend them across replay and the two-encounter transition.
+
+## RC-006 full-reset events
+
+The opt-in `effects/full_reset` fixture (`rc006_full_reset_v1`, normalized `board_reset: "each_turn"`) and the later `effects/moving_endpoints` fixture below use this additional cleanup path. Both start with Begin0/End14 and no other installed pieces. The normal event contract and original 19 variants remain unchanged; these are study extensions, not RC-007 production implementation.
+
+After an accepted Cast's damage and surviving-enemy shield/retaliation, or an accepted Pass's retaliation, board cleanup visits cells in ascending order and removes all nonendpoint pieces. The following detached events share the existing action/generation/sequence identities:
+
+| Event | Full-reset payload and meaning |
+| --- | --- |
+| `effect_consumed` | `cell`, permanent `card` with unchanged UID/definition ID, `before`, `after: {}`, `from: "board"`, `to: "discard"`. Includes powered and disconnected installed permanents after Cast **and Pass**. |
+| `temporary_expired` | `cell`, full temporary piece `before`, `after: {}`. Includes disconnected installed temporaries; no owned-card/pile movement. |
+| `board_piece_cleared` | `cell`, full wire/Split/Join piece `before`, `after: {}`. No energy charge or ownership change. Split/Join availability recovers through the existing board-derived stock calculation. |
+
+Begin and End emit no clear event. After board events, ordinary `turn_cleanup` discards unplayed permanent hand cards, expires hand temporaries and clears undo. Then `battle_ended` occurs, or `turn_started` and normal reshuffle/draw events follow. Terminal Cast/Pass still clears the board but never starts/draws a new turn. A rejected command, preparation edit or standalone technique does not trigger the board reset.
+
+The model resolves this once; presentation only consumes the detached batch. `before` and each event preserve the removed geometry for later visuals. Existing input locking, cancellation and replay/recording boundaries continue to apply. See [fixture limits and actual verification](circuit-experiments.md#rc-006-full-reset-follow-up); experimental event timing is not final production approval.
+
+## RC-006 moving-endpoint events
+
+Only `effects/moving_endpoints` (`rc006_moving_endpoints_v1`, `endpoint_policy: "random_each_turn"`) adds **`endpoints_changed`**. Its payload is `before` and `after`, each containing `layout_id`, `begin: {cell, rotation}` and `end: {cell, rotation}`. For an accepted nonterminal Cast/Pass, the ordering is combat resolution → nonendpoint board cleanup → `turn_cleanup` → turn/energy advance → `endpoints_changed` → `turn_started` → normal draw/reshuffle events. No extra endpoint erasure/placement commands are synthesized.
+
+Terminal Cast/Pass still clears nonendpoint pieces but emits no `endpoints_changed`, starts no turn and consumes no endpoint randomness. Rejected commands, edits, standalone techniques and Undo also emit no relocation. The prior fixed `full_reset` fixture never emits this event. The initial layout remains a fixed study control, and both endpoint positions change only when the new nonterminal turn starts.
+
+The Latest readout reports **Begin / End moved** with the cleanup count where present. Raw event data remains available in Inspect/export; the rules tooltip omits catalog witness paths. Endpoint rendering reads the model's orientations so the displayed Begin direction matches its connecting port. Existing detached-result, locking, cancellation and replay boundaries remain authoritative; presentation does not select layouts. See [follow-up version, validation and limits](circuit-experiments.md#rc-006-moving-endpoint-follow-up).
+
+
+## RC-006 free-endpoint events
+
+The separate `effects/free_endpoints` (`rc006_free_endpoints_v1`) variant reuses full-reset cleanup and `endpoints_changed` at nonterminal turn boundaries. The payload retains `before`/`after` with `layout_id`, `begin: {cell, rotation}` and `end: {cell, rotation}`; generated layout IDs identify ordered position pairs as `pair_BB_EE`, and do not restrict player rotation. Combat resolution → nonendpoint cleanup → `turn_cleanup` → turn/energy advance → `endpoints_changed` → `turn_started` → normal draw/reshuffle remains the order. Terminal actions clear nonendpoint pieces without relocating endpoints or consuming endpoint randomness.
+
+Initial setup samples endpoints before dealing and emits no gameplay action or relocation presentation batch; the actual state is available in `initial_state`. Exact replay reproduces that opening. Menu Restart generates a new opening while continuing both RNG streams and records the existing restart lifecycle. Player Rotate is an ordinary accepted preparation edit with before/after board values and Undo history; it does not emit `endpoints_changed` or consume randomness. A temporarily invalid/outward orientation is allowed while editing and remains subject to normal Cast validity checks. Endpoint Erase, placement/replacement and Flip stay rejected.
+
+Existing locking, cancellation, detached recording and authoritative model rules apply. The prior `moving_endpoints` fixture keeps protected rotations and its fixed first turn; no old records are relabelled. See [the corrected follow-up](circuit-experiments.md#rc-006-free-endpoint-follow-up) for experimental limits and validation.

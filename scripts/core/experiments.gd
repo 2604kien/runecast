@@ -1,12 +1,14 @@
 class_name RuneExperiments
 extends RefCounted
 
-# RC-005 development fixtures. None of these definitions replace normal files.
+# RC-005 fixtures and an explicitly versioned RC-006 follow-up. No normal overrides.
 const Loader = preload("res://scripts/core/content_loader.gd")
+const Combat = preload("res://scripts/core/combat.gd")
+const Circuit = preload("res://scripts/core/circuit.gd")
 const VERSION := Loader.EXPERIMENT_VERSION
 const DEFAULT_SEED := 42
 const SCENARIOS := [
-	{"id": "effects", "title": "A · Effect lifetime", "variants": ["control", "treatment"]},
+	{"id": "effects", "title": "A · Effect lifetime", "variants": ["control", "treatment", "full_reset", "moving_endpoints", "free_endpoints"]},
 	{"id": "split_inventory", "title": "B1 · Split inventory", "variants": ["control", "treatment"]},
 	{"id": "split_cost", "title": "B2 · Split cost", "variants": ["control", "treatment"]},
 	{"id": "endpoints", "title": "C1 · Endpoint placement", "variants": ["control", "treatment"]},
@@ -41,6 +43,9 @@ static func documents(scenario_id: Variant, variant_id: Variant, seed: Variant =
 	var placements := _one_pair()
 	var inventory := {"split": 1, "join": 1}
 	var enemy_health := 36
+	var full_reset: bool = scenario_id == "effects" and variant_id in ["full_reset", "moving_endpoints", "free_endpoints"]
+	if full_reset:
+		placements = [{"cell": 0, "kind": "begin"}, {"cell": 14, "kind": "end"}]
 	if scenario_id == "split_inventory" and variant_id == "treatment":
 		inventory = {"split": 2, "join": 2}
 	if scenario_id == "split_cost":
@@ -72,23 +77,33 @@ static func documents(scenario_id: Variant, variant_id: Variant, seed: Variant =
 		"energy_per_turn": 6, "draw_per_turn": 3,
 		"owned_cards": ["spark", "shield", "conjure", "spark", "shield", "focus", "focus", "conjure"],
 		"opening_policy": "curated", "opening_hand": ["spark", "shield", "conjure"], "inventory": inventory}
-	var fixture_id := "rc005_" + str(scenario_id)
+	var fixture_id := "rc006_effects_full_reset" if full_reset else "rc005_" + str(scenario_id)
+	if scenario_id == "effects" and variant_id == "moving_endpoints":
+		fixture_id = "rc006_effects_moving_endpoints"
+	if scenario_id == "effects" and variant_id == "free_endpoints":
+		fixture_id = "rc006_effects_free_endpoints"
 	var summary := rule_summary(scenario_id, variant_id)
 	var data := {"runes": runes,
 		"boards": [{"id": fixture_id + "_board", "width": 4, "height": 4, "placements": placements}],
 		"enemies": [{"id": "rc005_probe", "name": "Experiment Wisp", "max_health": enemy_health, "intents": [3]}],
 		"loadouts": [loadout],
 		"encounter": {"id": fixture_id, "enemy_id": "rc005_probe", "board_id": fixture_id + "_board",
-			"loadout_id": "rc005_collection", "title": "RC-005 EXPERIMENT", "help_text": summary,
+			"loadout_id": "rc005_collection", "title": "RC-006 FOLLOW-UP" if full_reset else "RC-005 EXPERIMENT", "help_text": summary,
 			"opening_log": summary, "seed": int(seed)}}
 	return {"ok": true, "errors": [], "documents": data, "experiment": selected.setup}
 
 static func rule_summary(scenario_id: String, variant_id: String) -> String:
 	match scenario_id:
 		"effects":
+			if variant_id == "free_endpoints":
+				return "Every turn starts with Begin and End at random, different cells; they can be neighbors. Click Begin or End, then use Rotate to turn it. Cast or Pass clears other pieces: permanents to discard, temporaries gone. Normal draws can repeat."
+			if variant_id == "moving_endpoints":
+				return "Cast or Pass clears the board: permanents to discard, temporaries gone. Each new turn moves both endpoints and may rotate them; a route is always possible. First turn uses the familiar positions. Normal draws can repeat cards."
+			if variant_id == "full_reset":
+				return "Begin and End only at turn start. Cast or Pass clears all other pieces; installed permanent cards enter discard and temporary cards vanish. Normal draws can repeat cards."
 			return "Powered permanent effects stay installed after Cast." if variant_id == "control" else "Cast consumes powered permanent effects into discard; matching wires replace them. Pass keeps them."
 		"split_inventory":
-			return "One Split/Join pair; each powered Split costs 1." if variant_id == "control" else "Two Split/Join pairs; each costs 1. For 18 damage: replace cell 6 with Join, cell 7 with Split, rotate cell 7 once."
+			return "One Split/Join pair; each powered Split costs 1." if variant_id == "control" else "Two Split/Join pairs; each powered Split costs 1. Join costs 0. Installed pieces count against the available supply."
 		"split_cost":
 			return "Two installed pairs: 18 damage, each Split costs 1 (total 4)." if variant_id == "control" else "Two installed pairs: 18 damage, each Split costs 2 (total 6). Focus competes for casting energy."
 		"endpoints":
@@ -106,13 +121,101 @@ static func rule_summary(scenario_id: String, variant_id: String) -> String:
 			return "Two 24-HP encounters. Next rebuilds starting wires; installed effects return to the card pool. Health carries." if variant_id == "control" else "Two 24-HP encounters. Next retains topology and installed permanent instances. Health carries; hand is rebuilt."
 	return "Unknown experimental comparison."
 
-# Cell indices are zero-based, row-major. Actions can be issued through the
-# authoritative command path; the treatment witness really installs 2 pairs.
-static func known_solution_actions(scenario_id: String, variant_id: String) -> Array:
+# Facilitator/test reference only: do not expose solutions in participant copy
+# before a free attempt. Cell indices are zero-based, row-major. Actions can be
+# issued through the authoritative command path to build the bounded witnesses.
+static func known_solution_actions(scenario_id: String, variant_id: String, seed: int = DEFAULT_SEED) -> Array:
+	if scenario_id == "effects" and variant_id == "free_endpoints":
+		return _free_endpoint_solution(seed)
+	if scenario_id == "effects" and variant_id in ["full_reset", "moving_endpoints"]:
+		# Curated opening Spark is UID 0; start empty, build a six-damage path.
+		return [{"command": "place_rune", "arguments": {"index": 1, "uid": 0}},
+			{"command": "place_wire", "arguments": {"index": 2, "kind": "corner"}},
+			{"command": "place_wire", "arguments": {"index": 6, "kind": "straight"}},
+			{"command": "rotate", "arguments": {"index": 6}},
+			{"command": "place_wire", "arguments": {"index": 10, "kind": "straight"}},
+			{"command": "rotate", "arguments": {"index": 10}}]
 	if scenario_id == "split_inventory" and variant_id == "treatment":
 		return [{"command": "place_wire", "arguments": {"index": 6, "kind": "join"}},
 			{"command": "place_wire", "arguments": {"index": 7, "kind": "split"}},
 			{"command": "rotate", "arguments": {"index": 7}}]
+	return []
+
+static func _free_endpoint_solution(seed: int) -> Array:
+	var loaded := load_setup("effects", "free_endpoints", seed)
+	if not loaded.ok:
+		return []
+	var game := Combat.new(loaded.setup)
+	var begin := -1
+	var end := -1
+	for cell in range(game.board.size()):
+		if game.board[cell].get("kind") == "begin":
+			begin = cell
+		elif game.board[cell].get("kind") == "end":
+			end = cell
+	var path := _rune_route([begin], end, false)
+	assert(not path.is_empty(), "Every distinct endpoint pair must support a straight rune socket.")
+	var actions: Array = []
+	_append_rotations(actions, begin, int(game.board[begin].rotation), (_route_direction(begin, path[1]) + 3) % 4)
+	_append_rotations(actions, end, int(game.board[end].rotation), _route_direction(end, path[-2]))
+	var rune_installed := false
+	for step in range(1, path.size() - 1):
+		var cell: int = path[step]
+		var input := _route_direction(cell, path[step - 1])
+		var output := _route_direction(cell, path[step + 1])
+		var straight: bool = (input + 2) % 4 == output
+		var kind := "straight" if straight else "corner"
+		var rotation := 0
+		var reversed := false
+		var matched := false
+		for flipped in [false, true]:
+			for candidate in range(4):
+				var ports := Circuit.ports({"kind": kind, "rotation": candidate, "reversed": flipped})
+				if ports.input == [input] and ports.output == [output]:
+					rotation = candidate
+					reversed = flipped
+					matched = true
+					break
+			if matched:
+				break
+		assert(matched, "A simple grid path needs only straight or corner connectors.")
+		if straight and not rune_installed:
+			# Opening Spark is UID 0. Every other interior cell uses free wire.
+			actions.append({"command": "place_rune", "arguments": {"index": cell, "uid": 0}})
+			rune_installed = true
+		else:
+			actions.append({"command": "place_wire", "arguments": {"index": cell, "kind": kind}})
+			if reversed:
+				actions.append({"command": "flip", "arguments": {"index": cell}})
+		_append_rotations(actions, cell, 0, rotation)
+	return actions
+
+static func _append_rotations(actions: Array, cell: int, before: int, after: int) -> void:
+	for _step in range((after - before + 4) % 4):
+		actions.append({"command": "rotate", "arguments": {"index": cell}})
+
+static func _route_direction(from_cell: int, to_cell: int) -> int:
+	for direction in range(4):
+		if Circuit.neighbor(from_cell, direction) == to_cell:
+			return direction
+	return -1
+
+static func _rune_route(path: Array, end: int, has_straight: bool) -> Array:
+	# Facilitator-only search: allow a detour for adjacent endpoints so a real
+	# Spark socket can fit. This does not bias selection or prefill the board.
+	var current: int = path[-1]
+	if current == end:
+		return path if has_straight else []
+	for direction in range(4):
+		var next := Circuit.neighbor(current, direction)
+		if next < 0 or path.has(next):
+			continue
+		var straight: bool = has_straight or (path.size() > 1 and _route_direction(path[-2], current) == direction)
+		var extended := path.duplicate()
+		extended.append(next)
+		var route := _rune_route(extended, end, straight)
+		if not route.is_empty():
+			return route
 	return []
 
 static func _one_pair() -> Array:

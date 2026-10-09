@@ -33,7 +33,7 @@ func _draw() -> void:
 	var amount := ""
 	var tint := Color("#5be5d2")
 	match piece.kind:
-		"begin": symbol = ">"
+		"begin": symbol = ["^", ">", "v", "<"][port.output[0]]
 		"end":
 			symbol = "O"
 			amount = str(end_value)

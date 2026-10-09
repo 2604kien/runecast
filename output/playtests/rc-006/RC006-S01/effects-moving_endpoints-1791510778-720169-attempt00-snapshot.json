@@ -1,0 +1,620 @@
+{
+	"commands": [],
+	"configuration_fingerprint": "94ea5c516cb6de6f77f55e75c83053e5dfc7849fe1ed2da53d29b90321226512",
+	"experiment": {
+		"board_reset": "each_turn",
+		"damage_mode": "aggregate",
+		"effects": "discard_all",
+		"endpoint_layouts": [
+			{
+				"begin": {
+					"cell": 0,
+					"rotation": 0
+				},
+				"end": {
+					"cell": 14,
+					"rotation": 0
+				},
+				"id": "route_a",
+				"path": [
+					0,
+					1,
+					2,
+					6,
+					10,
+					14
+				]
+			},
+			{
+				"begin": {
+					"cell": 3,
+					"rotation": 1
+				},
+				"end": {
+					"cell": 13,
+					"rotation": 1
+				},
+				"id": "route_b",
+				"path": [
+					3,
+					7,
+					11,
+					15,
+					14,
+					13
+				]
+			},
+			{
+				"begin": {
+					"cell": 12,
+					"rotation": 3
+				},
+				"end": {
+					"cell": 2,
+					"rotation": 3
+				},
+				"id": "route_c",
+				"path": [
+					12,
+					8,
+					4,
+					0,
+					1,
+					2
+				]
+			},
+			{
+				"begin": {
+					"cell": 15,
+					"rotation": 2
+				},
+				"end": {
+					"cell": 1,
+					"rotation": 2
+				},
+				"id": "route_d",
+				"path": [
+					15,
+					14,
+					13,
+					9,
+					5,
+					1
+				]
+			},
+			{
+				"begin": {
+					"cell": 1,
+					"rotation": 1
+				},
+				"end": {
+					"cell": 7,
+					"rotation": 2
+				},
+				"id": "route_e",
+				"path": [
+					1,
+					5,
+					9,
+					10,
+					11,
+					7
+				]
+			},
+			{
+				"begin": {
+					"cell": 14,
+					"rotation": 3
+				},
+				"end": {
+					"cell": 11,
+					"rotation": 0
+				},
+				"id": "route_f",
+				"path": [
+					14,
+					10,
+					6,
+					2,
+					3,
+					7,
+					11
+				]
+			},
+			{
+				"begin": {
+					"cell": 4,
+					"rotation": 0
+				},
+				"end": {
+					"cell": 15,
+					"rotation": 0
+				},
+				"id": "route_g",
+				"path": [
+					4,
+					5,
+					6,
+					7,
+					11,
+					15
+				]
+			},
+			{
+				"begin": {
+					"cell": 10,
+					"rotation": 2
+				},
+				"end": {
+					"cell": 0,
+					"rotation": 2
+				},
+				"id": "route_h",
+				"path": [
+					10,
+					9,
+					8,
+					4,
+					0
+				]
+			}
+		],
+		"endpoint_policy": "random_each_turn",
+		"expiry": "empty",
+		"scenario_id": "effects",
+		"seed": 42,
+		"split_cost": 1,
+		"transfer": "none",
+		"variant_id": "moving_endpoints",
+		"version": "rc006_moving_endpoints_v1"
+	},
+	"initial_state": {
+		"circuit": {
+			"cells": [
+				{
+					"kind": "begin",
+					"rotation": 0
+				},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{
+					"kind": "end",
+					"rotation": 0
+				},
+				{}
+			],
+			"forecast": {
+				"active": [],
+				"cost": 0,
+				"damage": 0,
+				"message": "Open connection at row 1, column 1.",
+				"shield": 0,
+				"valid": false
+			},
+			"layout_fingerprint": "61e7c626bac6ba14667c67ad48a8a41e326fcebd0b4a3db593ec596e1032d511"
+		},
+		"discard_pile": {
+			"by_definition": {},
+			"cards": [],
+			"counts": {
+				"permanent_runes": 0,
+				"techniques": 0,
+				"temporary_runes": 0,
+				"total": 0
+			},
+			"empty": true
+		},
+		"draw_pile": {
+			"by_definition": {
+				"conjure": 1,
+				"focus": 2,
+				"shield": 1,
+				"spark": 1
+			},
+			"cards": [
+				{
+					"id": "focus",
+					"uid": 6
+				},
+				{
+					"id": "shield",
+					"uid": 4
+				},
+				{
+					"id": "conjure",
+					"uid": 7
+				},
+				{
+					"id": "spark",
+					"uid": 3
+				},
+				{
+					"id": "focus",
+					"uid": 5
+				}
+			],
+			"counts": {
+				"permanent_runes": 2,
+				"techniques": 3,
+				"temporary_runes": 0,
+				"total": 5
+			},
+			"empty": false
+		},
+		"encounter_content_id": "rc006_effects_moving_endpoints",
+		"encounter_id": 1,
+		"encounter_number": 1,
+		"enemy_hp": 36,
+		"energy": 6,
+		"hand": {
+			"by_definition": {
+				"conjure": 1,
+				"shield": 1,
+				"spark": 1
+			},
+			"cards": [
+				{
+					"id": "spark",
+					"uid": 0
+				},
+				{
+					"id": "shield",
+					"uid": 1
+				},
+				{
+					"id": "conjure",
+					"uid": 2
+				}
+			],
+			"counts": {
+				"permanent_runes": 2,
+				"techniques": 1,
+				"temporary_runes": 0,
+				"total": 3
+			},
+			"empty": false
+		},
+		"player_hp": 40,
+		"state": "playing",
+		"stock": {
+			"join": 1,
+			"split": 1
+		},
+		"turn": 1,
+		"undo_count": 0
+	},
+	"lifecycle": [],
+	"notes": [],
+	"schema_version": 1,
+	"seed": 42,
+	"starting_setup": {
+		"board": [
+			{
+				"kind": "begin",
+				"rotation": 0
+			},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{
+				"kind": "end",
+				"rotation": 0
+			},
+			{}
+		],
+		"catalog": {
+			"conjure": {
+				"board_label": "Conjure Spark",
+				"color": "#ba9bef",
+				"cost": 0,
+				"effect": "conjure",
+				"generated_rune_id": "free_spark",
+				"id": "conjure",
+				"name": "Conjure Spark",
+				"symbol": "+",
+				"temporary": false,
+				"type": "technique",
+				"value": 1
+			},
+			"focus": {
+				"board_label": "Focus",
+				"color": "#ba9bef",
+				"cost": 1,
+				"effect": "draw",
+				"id": "focus",
+				"name": "Focus",
+				"symbol": "?",
+				"temporary": false,
+				"type": "technique",
+				"value": 2
+			},
+			"free_spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 0,
+				"effect": "damage",
+				"id": "free_spark",
+				"name": "Free Spark",
+				"symbol": "*",
+				"temporary": true,
+				"type": "rune",
+				"value": 6
+			},
+			"shield": {
+				"board_label": "Shield",
+				"color": "#82d6a0",
+				"cost": 1,
+				"effect": "shield",
+				"id": "shield",
+				"name": "Shield",
+				"symbol": "<>",
+				"temporary": false,
+				"type": "rune",
+				"value": 5
+			},
+			"spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 2,
+				"effect": "damage",
+				"id": "spark",
+				"name": "Spark",
+				"symbol": "*",
+				"temporary": false,
+				"type": "rune",
+				"value": 6
+			}
+		},
+		"encounter": {
+			"board_id": "rc006_effects_moving_endpoints_board",
+			"draw_per_turn": 3,
+			"enemy_id": "rc005_probe",
+			"energy_per_turn": 6,
+			"help_text": "Cast or Pass clears the board: permanents to discard, temporaries gone. Each new turn moves both endpoints and may rotate them; a route is always possible. First turn uses the familiar positions. Normal draws can repeat cards.",
+			"id": "rc006_effects_moving_endpoints",
+			"intents": [
+				3
+			],
+			"loadout_id": "rc005_collection",
+			"max_health": 36,
+			"name": "Experiment Wisp",
+			"opening_log": "Cast or Pass clears the board: permanents to discard, temporaries gone. Each new turn moves both endpoints and may rotate them; a route is always possible. First turn uses the familiar positions. Normal draws can repeat cards.",
+			"player_health": 40,
+			"player_max_health": 40,
+			"seed": 42,
+			"title": "RC-006 FOLLOW-UP"
+		},
+		"experiment": {
+			"board_reset": "each_turn",
+			"damage_mode": "aggregate",
+			"effects": "discard_all",
+			"endpoint_layouts": [
+				{
+					"begin": {
+						"cell": 0,
+						"rotation": 0
+					},
+					"end": {
+						"cell": 14,
+						"rotation": 0
+					},
+					"id": "route_a",
+					"path": [
+						0,
+						1,
+						2,
+						6,
+						10,
+						14
+					]
+				},
+				{
+					"begin": {
+						"cell": 3,
+						"rotation": 1
+					},
+					"end": {
+						"cell": 13,
+						"rotation": 1
+					},
+					"id": "route_b",
+					"path": [
+						3,
+						7,
+						11,
+						15,
+						14,
+						13
+					]
+				},
+				{
+					"begin": {
+						"cell": 12,
+						"rotation": 3
+					},
+					"end": {
+						"cell": 2,
+						"rotation": 3
+					},
+					"id": "route_c",
+					"path": [
+						12,
+						8,
+						4,
+						0,
+						1,
+						2
+					]
+				},
+				{
+					"begin": {
+						"cell": 15,
+						"rotation": 2
+					},
+					"end": {
+						"cell": 1,
+						"rotation": 2
+					},
+					"id": "route_d",
+					"path": [
+						15,
+						14,
+						13,
+						9,
+						5,
+						1
+					]
+				},
+				{
+					"begin": {
+						"cell": 1,
+						"rotation": 1
+					},
+					"end": {
+						"cell": 7,
+						"rotation": 2
+					},
+					"id": "route_e",
+					"path": [
+						1,
+						5,
+						9,
+						10,
+						11,
+						7
+					]
+				},
+				{
+					"begin": {
+						"cell": 14,
+						"rotation": 3
+					},
+					"end": {
+						"cell": 11,
+						"rotation": 0
+					},
+					"id": "route_f",
+					"path": [
+						14,
+						10,
+						6,
+						2,
+						3,
+						7,
+						11
+					]
+				},
+				{
+					"begin": {
+						"cell": 4,
+						"rotation": 0
+					},
+					"end": {
+						"cell": 15,
+						"rotation": 0
+					},
+					"id": "route_g",
+					"path": [
+						4,
+						5,
+						6,
+						7,
+						11,
+						15
+					]
+				},
+				{
+					"begin": {
+						"cell": 10,
+						"rotation": 2
+					},
+					"end": {
+						"cell": 0,
+						"rotation": 2
+					},
+					"id": "route_h",
+					"path": [
+						10,
+						9,
+						8,
+						4,
+						0
+					]
+				}
+			],
+			"endpoint_policy": "random_each_turn",
+			"expiry": "empty",
+			"scenario_id": "effects",
+			"seed": 42,
+			"split_cost": 1,
+			"transfer": "none",
+			"variant_id": "moving_endpoints",
+			"version": "rc006_moving_endpoints_v1"
+		},
+		"inventory": {
+			"join": 1,
+			"split": 1
+		},
+		"opening_draw": 0,
+		"opening_hand": [
+			"spark",
+			"shield",
+			"conjure"
+		],
+		"owned_cards": [
+			"spark",
+			"shield",
+			"conjure",
+			"spark",
+			"shield",
+			"focus",
+			"focus",
+			"conjure"
+		]
+	},
+	"totals": {
+		"accepted": 0,
+		"attempts": 0,
+		"blocked": 0,
+		"casts": 0,
+		"cost": 0,
+		"damage": 0,
+		"edits": 0,
+		"edits_by_kind": {
+			"erase": 0,
+			"flip": 0,
+			"place_rune": 0,
+			"place_wire": 0,
+			"rotate": 0,
+			"undo": 0
+		},
+		"outcomes": [],
+		"passes": 0,
+		"rejected": 0,
+		"retaliation": 0,
+		"shield": 0,
+		"techniques": 0,
+		"transitions": 0
+	}
+}

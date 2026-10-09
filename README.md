@@ -56,16 +56,24 @@ This is an unbalanced configuration fixture, identified as a development encount
 
 ## Project documentation
 
-RC-005 offers six experiment families through nine bounded scenarios and 19 variants. Launch a matched pair with:
+RC-005 supplied six experiment families through nine bounded scenarios and 19 variants. Those original fixtures remain intact. RC-006 adds the opt-in `effects/full_reset`, `effects/moving_endpoints` and `effects/free_endpoints` follow-ups, bringing the current menu to nine scenarios and 22 variants. Launch the original matched pair with:
 
 ```powershell
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant control -Seed 42
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant treatment -Seed 42
 ```
 
-The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Exact replay restores the cached starting setup and seed; Menu Restart retains its existing RNG continuation. Records stay in `user://experiments/` (absolute path shown in Inspect); automated evidence stays in `output/qa/experiment-records/`. All candidate rules are provisional. See the [matrix, known solutions and RC-006 human protocol](docs/circuit-experiments.md). Existing test/smoke commands include the harness. RC-006 requires human playtesting; RC-010 remains independently available.
+The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Exact replay restores the cached starting setup and seed; Menu Restart retains its existing RNG continuation. Records stay in `user://experiments/` (absolute path shown in Inspect); automated evidence stays in `output/qa/experiment-records/`. Harness candidates remain provisional; see the [matrix, known solutions and RC-006 human protocol](docs/circuit-experiments.md). RC-006 is **partial**: the owner selected endpoints-only starts every turn after Cast/Pass, all installed permanent cards to discard (including disconnected ones), and fresh normal draws with repeats allowed. In the separate [full-reset follow-up](docs/circuit-experiments.md#rc-006-full-reset-follow-up), the owner confirms clearing works and the hand changes; its two-Cast record corroborates clearing and different constructed circuits. The owner reports rebuilding is worthwhile and selects random Begin/End positions every turn at any two distinct cells, including adjacent cells, with normal player-controlled Rotate. The moving-endpoint feedback confirms clearing and corrects the facilitator's protected-rotation/eight-layout interpretation; the separate [free-endpoint follow-up](docs/circuit-experiments.md#rc-006-free-endpoint-follow-up) is available. The owner now confirms manual endpoint rotation works; S01-08 records seven accepted rotations across Begin and End. It contains no Cast, Pass, Undo or adjacent-position play, so those outcomes are not inferred. The played full-reset fixture has fixed endpoints and is not a matched pair with the older prebuilt fixtures. The owner has also selected [random ten-piece circuit kits for now](docs/circuit-experiments.md#provisional-random-circuit-kits-h31): Straight/Corner/Split/Join counts of 6/2/1/1, 4/4/1/1 or 4/2/2/2, separate from the normal rune hand. Each playable turn gets a new kit; erasing returns its pieces, with no carry or banking. These starting counts remain tunable and the kit has not been playtested or implemented. B2 costs, initial orientation generation, first-turn policy and encounter integration remain open. Normal gameplay has not adopted the selected rules. See [study evidence](docs/rc-006-playtest-results.md), [validation](docs/verification.md) and the [incomplete production contract](docs/production-rules-spec.md). RC-007 is not ready; RC-010 remains independently available.
+
+```powershell
+.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant full_reset -Seed 42
+.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant moving_endpoints -Seed 42
+.\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant free_endpoints -Seed 42
+```
 
 - [Circuit experiments — opt-in matrix, replay, records and human protocol](docs/circuit-experiments.md)
+- [RC-006 playtest results — evidence register, session guide and pending decisions](docs/rc-006-playtest-results.md)
+- [Production rules specification — pending RC-006 selections, not ready for RC-007](docs/production-rules-spec.md)
 - [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)

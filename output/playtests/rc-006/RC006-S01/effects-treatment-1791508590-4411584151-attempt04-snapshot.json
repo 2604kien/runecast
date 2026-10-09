@@ -1,0 +1,2109 @@
+{
+	"commands": [
+		{
+			"accepted": true,
+			"action_id": 1,
+			"after": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 0,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "eec1cbd2bc0bdc9ef804707941a6a1a2ff6e386006526e37c0437244bf63fe72"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 1,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 1,
+						"temporary_runes": 0,
+						"total": 4
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"conjure": 1,
+						"focus": 2
+					},
+					"cards": [
+						{
+							"id": "conjure",
+							"uid": 7
+						},
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 3,
+						"temporary_runes": 0,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 0
+			},
+			"arguments": {},
+			"attempt": 1,
+			"before": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "spark",
+							"uid": 3
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 3,
+						"damage": 12,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "e3ab392703bb423c7d87f83a4c640f39ceeb41d138143ae0132248bf6bfb2fe4"
+				},
+				"discard_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"draw_pile": {
+					"by_definition": {
+						"conjure": 1,
+						"focus": 2
+					},
+					"cards": [
+						{
+							"id": "focus",
+							"uid": 6
+						},
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 3,
+						"temporary_runes": 0,
+						"total": 3
+					},
+					"empty": false
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 36,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"conjure": 1,
+						"shield": 1,
+						"spark": 1
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						}
+					],
+					"counts": {
+						"permanent_runes": 2,
+						"techniques": 1,
+						"temporary_runes": 0,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 40,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 1,
+				"undo_count": 0
+			},
+			"command": "cast",
+			"cumulative_edits": 0,
+			"elapsed_ms": 188955,
+			"encounter_id": 1,
+			"encounter_number": 1,
+			"events": [
+				{
+					"action_id": 1,
+					"encounter_id": 1,
+					"energy_after": 3,
+					"energy_before": 6,
+					"sequence": 0,
+					"source": "player",
+					"spell": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 3,
+						"damage": 12,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"type": "cast"
+				},
+				{
+					"action_id": 1,
+					"amount": 12,
+					"applied": 12,
+					"encounter_id": 1,
+					"health_after": 24,
+					"health_before": 36,
+					"sequence": 1,
+					"source": "player",
+					"target": "enemy",
+					"type": "damage"
+				},
+				{
+					"action_id": 1,
+					"amount": 0,
+					"encounter_id": 1,
+					"sequence": 2,
+					"target": "player",
+					"type": "shield"
+				},
+				{
+					"action_id": 1,
+					"amount": 3,
+					"applied": 3,
+					"blocked": 0,
+					"encounter_id": 1,
+					"health_after": 37,
+					"health_before": 40,
+					"incoming": 3,
+					"sequence": 3,
+					"source": "enemy",
+					"target": "player",
+					"type": "retaliation"
+				},
+				{
+					"action_id": 1,
+					"after": {
+						"kind": "straight",
+						"rotation": 0
+					},
+					"before": {
+						"kind": "rune",
+						"rotation": 0,
+						"rune_id": "spark",
+						"uid": 3
+					},
+					"card": {
+						"id": "spark",
+						"uid": 3
+					},
+					"cell": 1,
+					"encounter_id": 1,
+					"from": "board",
+					"sequence": 4,
+					"to": "discard",
+					"type": "effect_consumed"
+				},
+				{
+					"action_id": 1,
+					"discarded": [
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						}
+					],
+					"encounter_id": 1,
+					"expired": [],
+					"hand_after": [],
+					"sequence": 5,
+					"type": "turn_cleanup",
+					"undo_cleared": 0
+				},
+				{
+					"action_id": 1,
+					"encounter_id": 1,
+					"energy_after": 6,
+					"energy_before": 3,
+					"intent": 3,
+					"sequence": 6,
+					"turn_after": 2,
+					"turn_before": 1,
+					"type": "turn_started"
+				},
+				{
+					"action_id": 1,
+					"card": {
+						"id": "conjure",
+						"uid": 7
+					},
+					"draw_remaining": 2,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 1,
+					"sequence": 7,
+					"to": "hand",
+					"type": "card_drawn"
+				},
+				{
+					"action_id": 1,
+					"card": {
+						"id": "focus",
+						"uid": 5
+					},
+					"draw_remaining": 1,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 2,
+					"sequence": 8,
+					"to": "hand",
+					"type": "card_drawn"
+				},
+				{
+					"action_id": 1,
+					"card": {
+						"id": "focus",
+						"uid": 6
+					},
+					"draw_remaining": 0,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 3,
+					"sequence": 9,
+					"to": "hand",
+					"type": "card_drawn"
+				}
+			],
+			"kind": "cast",
+			"metrics": {
+				"blocked": 0,
+				"cost": 3,
+				"damage": 12,
+				"hits": [
+					{
+						"amount": 12,
+						"applied": 12,
+						"hit_index": 0
+					}
+				],
+				"retaliation": 3,
+				"shield": 0
+			},
+			"preparation_ms": 188955,
+			"turn": 1,
+			"turn_elapsed_ms": 188955
+		},
+		{
+			"accepted": true,
+			"action_id": 2,
+			"after": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 0,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "eec1cbd2bc0bdc9ef804707941a6a1a2ff6e386006526e37c0437244bf63fe72"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 2,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 5
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"focus": 2,
+						"free_spark": 1
+					},
+					"cards": [
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						},
+						{
+							"id": "free_spark",
+							"uid": 8
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 2,
+						"temporary_runes": 1,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 0
+			},
+			"arguments": {
+				"uid": 7
+			},
+			"attempt": 2,
+			"before": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 0,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "eec1cbd2bc0bdc9ef804707941a6a1a2ff6e386006526e37c0437244bf63fe72"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 1,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 1,
+						"temporary_runes": 0,
+						"total": 4
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"conjure": 1,
+						"focus": 2
+					},
+					"cards": [
+						{
+							"id": "conjure",
+							"uid": 7
+						},
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 3,
+						"temporary_runes": 0,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 0
+			},
+			"command": "technique",
+			"cumulative_edits": 0,
+			"elapsed_ms": 225668,
+			"encounter_id": 1,
+			"encounter_number": 1,
+			"events": [
+				{
+					"action_id": 2,
+					"card": {
+						"id": "conjure",
+						"uid": 7
+					},
+					"cost": 0,
+					"encounter_id": 1,
+					"energy_after": 6,
+					"energy_before": 6,
+					"from": "hand",
+					"sequence": 0,
+					"to": "discard",
+					"type": "technique",
+					"undo_cleared": 0
+				},
+				{
+					"action_id": 2,
+					"card": {
+						"id": "free_spark",
+						"uid": 8
+					},
+					"encounter_id": 1,
+					"sequence": 1,
+					"to": "hand",
+					"type": "card_created"
+				}
+			],
+			"kind": "technique",
+			"metrics": {
+				"blocked": 0,
+				"cost": 0,
+				"damage": 0,
+				"hits": [],
+				"retaliation": 0,
+				"shield": 0
+			},
+			"turn": 2,
+			"turn_elapsed_ms": 36713
+		},
+		{
+			"accepted": true,
+			"action_id": 3,
+			"after": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 1,
+							"rune_id": "free_spark",
+							"uid": 8
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 6,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "617ea46a900bec28aa9a4613777f5fba6da100e551888b6402d44b4aa9d90fe3"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 2,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 5
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"focus": 2
+					},
+					"cards": [
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 2
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 1
+			},
+			"arguments": {
+				"index": 7,
+				"uid": 8
+			},
+			"attempt": 3,
+			"before": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 0,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "eec1cbd2bc0bdc9ef804707941a6a1a2ff6e386006526e37c0437244bf63fe72"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 2,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 5
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"focus": 2,
+						"free_spark": 1
+					},
+					"cards": [
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						},
+						{
+							"id": "free_spark",
+							"uid": 8
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 2,
+						"temporary_runes": 1,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 0
+			},
+			"command": "place_rune",
+			"cumulative_edits": 1,
+			"elapsed_ms": 228052,
+			"encounter_id": 1,
+			"encounter_number": 1,
+			"events": [],
+			"kind": "place_rune",
+			"metrics": {
+				"blocked": 0,
+				"cost": 0,
+				"damage": 0,
+				"hits": [],
+				"retaliation": 0,
+				"shield": 0
+			},
+			"turn": 2,
+			"turn_elapsed_ms": 39097
+		},
+		{
+			"accepted": true,
+			"action_id": 4,
+			"after": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 0,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "eec1cbd2bc0bdc9ef804707941a6a1a2ff6e386006526e37c0437244bf63fe72"
+				},
+				"discard_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"draw_pile": {
+					"by_definition": {
+						"conjure": 2,
+						"focus": 1,
+						"spark": 1
+					},
+					"cards": [
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						},
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "spark",
+							"uid": 3
+						}
+					],
+					"counts": {
+						"permanent_runes": 1,
+						"techniques": 3,
+						"temporary_runes": 0,
+						"total": 4
+					},
+					"empty": false
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 18,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"focus": 1,
+						"shield": 1,
+						"spark": 1
+					},
+					"cards": [
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"counts": {
+						"permanent_runes": 2,
+						"techniques": 1,
+						"temporary_runes": 0,
+						"total": 3
+					},
+					"empty": false
+				},
+				"player_hp": 34,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 3,
+				"undo_count": 0
+			},
+			"arguments": {},
+			"attempt": 4,
+			"before": {
+				"circuit": {
+					"cells": [
+						{
+							"kind": "begin",
+							"rotation": 0
+						},
+						{
+							"kind": "straight",
+							"rotation": 0
+						},
+						{
+							"kind": "split",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 0
+						},
+						{},
+						{},
+						{
+							"kind": "straight",
+							"rotation": 1
+						},
+						{
+							"kind": "rune",
+							"rotation": 1,
+							"rune_id": "free_spark",
+							"uid": 8
+						},
+						{
+							"kind": "rune",
+							"rotation": 0,
+							"rune_id": "shield",
+							"uid": 4
+						},
+						{},
+						{
+							"kind": "join",
+							"rotation": 0
+						},
+						{
+							"kind": "corner",
+							"rotation": 1
+						},
+						{},
+						{},
+						{
+							"kind": "end",
+							"rotation": 0
+						},
+						{}
+					],
+					"forecast": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 6,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"layout_fingerprint": "617ea46a900bec28aa9a4613777f5fba6da100e551888b6402d44b4aa9d90fe3"
+				},
+				"discard_pile": {
+					"by_definition": {
+						"conjure": 2,
+						"shield": 1,
+						"spark": 2
+					},
+					"cards": [
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						},
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						}
+					],
+					"counts": {
+						"permanent_runes": 3,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 5
+					},
+					"empty": false
+				},
+				"draw_pile": {
+					"by_definition": {},
+					"cards": [],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 0,
+						"temporary_runes": 0,
+						"total": 0
+					},
+					"empty": true
+				},
+				"encounter_content_id": "rc005_effects",
+				"encounter_id": 1,
+				"encounter_number": 1,
+				"enemy_hp": 24,
+				"energy": 6,
+				"hand": {
+					"by_definition": {
+						"focus": 2
+					},
+					"cards": [
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"counts": {
+						"permanent_runes": 0,
+						"techniques": 2,
+						"temporary_runes": 0,
+						"total": 2
+					},
+					"empty": false
+				},
+				"player_hp": 37,
+				"state": "playing",
+				"stock": {
+					"join": 0,
+					"split": 0
+				},
+				"turn": 2,
+				"undo_count": 1
+			},
+			"command": "cast",
+			"cumulative_edits": 1,
+			"elapsed_ms": 229232,
+			"encounter_id": 1,
+			"encounter_number": 1,
+			"events": [
+				{
+					"action_id": 4,
+					"encounter_id": 1,
+					"energy_after": 5,
+					"energy_before": 6,
+					"sequence": 0,
+					"source": "player",
+					"spell": {
+						"active": [
+							0,
+							1,
+							2,
+							6,
+							3,
+							7,
+							11,
+							10,
+							14
+						],
+						"cost": 1,
+						"damage": 6,
+						"message": "Circuit complete",
+						"shield": 0,
+						"valid": true
+					},
+					"type": "cast"
+				},
+				{
+					"action_id": 4,
+					"amount": 6,
+					"applied": 6,
+					"encounter_id": 1,
+					"health_after": 18,
+					"health_before": 24,
+					"sequence": 1,
+					"source": "player",
+					"target": "enemy",
+					"type": "damage"
+				},
+				{
+					"action_id": 4,
+					"amount": 0,
+					"encounter_id": 1,
+					"sequence": 2,
+					"target": "player",
+					"type": "shield"
+				},
+				{
+					"action_id": 4,
+					"amount": 3,
+					"applied": 3,
+					"blocked": 0,
+					"encounter_id": 1,
+					"health_after": 34,
+					"health_before": 37,
+					"incoming": 3,
+					"sequence": 3,
+					"source": "enemy",
+					"target": "player",
+					"type": "retaliation"
+				},
+				{
+					"action_id": 4,
+					"after": {
+						"kind": "straight",
+						"rotation": 1
+					},
+					"before": {
+						"kind": "rune",
+						"rotation": 1,
+						"rune_id": "free_spark",
+						"uid": 8
+					},
+					"cell": 7,
+					"encounter_id": 1,
+					"sequence": 4,
+					"type": "temporary_expired"
+				},
+				{
+					"action_id": 4,
+					"discarded": [
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						}
+					],
+					"encounter_id": 1,
+					"expired": [],
+					"hand_after": [],
+					"sequence": 5,
+					"type": "turn_cleanup",
+					"undo_cleared": 1
+				},
+				{
+					"action_id": 4,
+					"encounter_id": 1,
+					"energy_after": 6,
+					"energy_before": 5,
+					"intent": 3,
+					"sequence": 6,
+					"turn_after": 3,
+					"turn_before": 2,
+					"type": "turn_started"
+				},
+				{
+					"action_id": 4,
+					"cards": [
+						{
+							"id": "conjure",
+							"uid": 2
+						},
+						{
+							"id": "conjure",
+							"uid": 7
+						},
+						{
+							"id": "focus",
+							"uid": 5
+						},
+						{
+							"id": "spark",
+							"uid": 3
+						},
+						{
+							"id": "focus",
+							"uid": 6
+						},
+						{
+							"id": "spark",
+							"uid": 0
+						},
+						{
+							"id": "shield",
+							"uid": 1
+						}
+					],
+					"encounter_id": 1,
+					"from": "discard",
+					"sequence": 7,
+					"to": "draw",
+					"type": "reshuffled"
+				},
+				{
+					"action_id": 4,
+					"card": {
+						"id": "shield",
+						"uid": 1
+					},
+					"draw_remaining": 6,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 1,
+					"sequence": 8,
+					"to": "hand",
+					"type": "card_drawn"
+				},
+				{
+					"action_id": 4,
+					"card": {
+						"id": "spark",
+						"uid": 0
+					},
+					"draw_remaining": 5,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 2,
+					"sequence": 9,
+					"to": "hand",
+					"type": "card_drawn"
+				},
+				{
+					"action_id": 4,
+					"card": {
+						"id": "focus",
+						"uid": 6
+					},
+					"draw_remaining": 4,
+					"encounter_id": 1,
+					"from": "draw",
+					"hand_size": 3,
+					"sequence": 10,
+					"to": "hand",
+					"type": "card_drawn"
+				}
+			],
+			"kind": "cast",
+			"metrics": {
+				"blocked": 0,
+				"cost": 1,
+				"damage": 6,
+				"hits": [
+					{
+						"amount": 6,
+						"applied": 6,
+						"hit_index": 0
+					}
+				],
+				"retaliation": 3,
+				"shield": 0
+			},
+			"preparation_ms": 40277,
+			"turn": 2,
+			"turn_elapsed_ms": 40277
+		}
+	],
+	"configuration_fingerprint": "620b7deb4d37b790d538fb23635847bcd6e7029336745d27521ee451c5f79cb3",
+	"experiment": {
+		"damage_mode": "aggregate",
+		"effects": "consumed",
+		"expiry": "straight",
+		"scenario_id": "effects",
+		"seed": 42,
+		"split_cost": 1,
+		"transfer": "none",
+		"variant_id": "treatment",
+		"version": "rc005_v1"
+	},
+	"initial_state": {
+		"circuit": {
+			"cells": [
+				{
+					"kind": "begin",
+					"rotation": 0
+				},
+				{
+					"kind": "rune",
+					"rotation": 0,
+					"rune_id": "spark",
+					"uid": 3
+				},
+				{
+					"kind": "split",
+					"rotation": 0
+				},
+				{
+					"kind": "corner",
+					"rotation": 0
+				},
+				{},
+				{},
+				{
+					"kind": "straight",
+					"rotation": 1
+				},
+				{
+					"kind": "straight",
+					"rotation": 1
+				},
+				{
+					"kind": "rune",
+					"rotation": 0,
+					"rune_id": "shield",
+					"uid": 4
+				},
+				{},
+				{
+					"kind": "join",
+					"rotation": 0
+				},
+				{
+					"kind": "corner",
+					"rotation": 1
+				},
+				{},
+				{},
+				{
+					"kind": "end",
+					"rotation": 0
+				},
+				{}
+			],
+			"forecast": {
+				"active": [
+					0,
+					1,
+					2,
+					6,
+					3,
+					7,
+					11,
+					10,
+					14
+				],
+				"cost": 3,
+				"damage": 12,
+				"message": "Circuit complete",
+				"shield": 0,
+				"valid": true
+			},
+			"layout_fingerprint": "e3ab392703bb423c7d87f83a4c640f39ceeb41d138143ae0132248bf6bfb2fe4"
+		},
+		"discard_pile": {
+			"by_definition": {},
+			"cards": [],
+			"counts": {
+				"permanent_runes": 0,
+				"techniques": 0,
+				"temporary_runes": 0,
+				"total": 0
+			},
+			"empty": true
+		},
+		"draw_pile": {
+			"by_definition": {
+				"conjure": 1,
+				"focus": 2
+			},
+			"cards": [
+				{
+					"id": "focus",
+					"uid": 6
+				},
+				{
+					"id": "focus",
+					"uid": 5
+				},
+				{
+					"id": "conjure",
+					"uid": 7
+				}
+			],
+			"counts": {
+				"permanent_runes": 0,
+				"techniques": 3,
+				"temporary_runes": 0,
+				"total": 3
+			},
+			"empty": false
+		},
+		"encounter_content_id": "rc005_effects",
+		"encounter_id": 1,
+		"encounter_number": 1,
+		"enemy_hp": 36,
+		"energy": 6,
+		"hand": {
+			"by_definition": {
+				"conjure": 1,
+				"shield": 1,
+				"spark": 1
+			},
+			"cards": [
+				{
+					"id": "spark",
+					"uid": 0
+				},
+				{
+					"id": "shield",
+					"uid": 1
+				},
+				{
+					"id": "conjure",
+					"uid": 2
+				}
+			],
+			"counts": {
+				"permanent_runes": 2,
+				"techniques": 1,
+				"temporary_runes": 0,
+				"total": 3
+			},
+			"empty": false
+		},
+		"player_hp": 40,
+		"state": "playing",
+		"stock": {
+			"join": 0,
+			"split": 0
+		},
+		"turn": 1,
+		"undo_count": 0
+	},
+	"lifecycle": [],
+	"notes": [],
+	"schema_version": 1,
+	"seed": 42,
+	"starting_setup": {
+		"board": [
+			{
+				"kind": "begin",
+				"rotation": 0
+			},
+			{
+				"kind": "rune",
+				"rotation": 0,
+				"rune_id": "spark"
+			},
+			{
+				"kind": "split",
+				"rotation": 0
+			},
+			{
+				"kind": "corner",
+				"rotation": 0
+			},
+			{},
+			{},
+			{
+				"kind": "straight",
+				"rotation": 1
+			},
+			{
+				"kind": "straight",
+				"rotation": 1
+			},
+			{
+				"kind": "rune",
+				"rotation": 0,
+				"rune_id": "shield"
+			},
+			{},
+			{
+				"kind": "join",
+				"rotation": 0
+			},
+			{
+				"kind": "corner",
+				"rotation": 1
+			},
+			{},
+			{},
+			{
+				"kind": "end",
+				"rotation": 0
+			},
+			{}
+		],
+		"catalog": {
+			"conjure": {
+				"board_label": "Conjure Spark",
+				"color": "#ba9bef",
+				"cost": 0,
+				"effect": "conjure",
+				"generated_rune_id": "free_spark",
+				"id": "conjure",
+				"name": "Conjure Spark",
+				"symbol": "+",
+				"temporary": false,
+				"type": "technique",
+				"value": 1
+			},
+			"focus": {
+				"board_label": "Focus",
+				"color": "#ba9bef",
+				"cost": 1,
+				"effect": "draw",
+				"id": "focus",
+				"name": "Focus",
+				"symbol": "?",
+				"temporary": false,
+				"type": "technique",
+				"value": 2
+			},
+			"free_spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 0,
+				"effect": "damage",
+				"id": "free_spark",
+				"name": "Free Spark",
+				"symbol": "*",
+				"temporary": true,
+				"type": "rune",
+				"value": 6
+			},
+			"shield": {
+				"board_label": "Shield",
+				"color": "#82d6a0",
+				"cost": 1,
+				"effect": "shield",
+				"id": "shield",
+				"name": "Shield",
+				"symbol": "<>",
+				"temporary": false,
+				"type": "rune",
+				"value": 5
+			},
+			"spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 2,
+				"effect": "damage",
+				"id": "spark",
+				"name": "Spark",
+				"symbol": "*",
+				"temporary": false,
+				"type": "rune",
+				"value": 6
+			}
+		},
+		"encounter": {
+			"board_id": "rc005_effects_board",
+			"draw_per_turn": 3,
+			"enemy_id": "rc005_probe",
+			"energy_per_turn": 6,
+			"help_text": "Cast consumes powered permanent effects into discard; matching wires replace them. Pass keeps them.",
+			"id": "rc005_effects",
+			"intents": [
+				3
+			],
+			"loadout_id": "rc005_collection",
+			"max_health": 36,
+			"name": "Experiment Wisp",
+			"opening_log": "Cast consumes powered permanent effects into discard; matching wires replace them. Pass keeps them.",
+			"player_health": 40,
+			"player_max_health": 40,
+			"seed": 42,
+			"title": "RC-005 EXPERIMENT"
+		},
+		"experiment": {
+			"damage_mode": "aggregate",
+			"effects": "consumed",
+			"expiry": "straight",
+			"scenario_id": "effects",
+			"seed": 42,
+			"split_cost": 1,
+			"transfer": "none",
+			"variant_id": "treatment",
+			"version": "rc005_v1"
+		},
+		"inventory": {
+			"join": 1,
+			"split": 1
+		},
+		"opening_draw": 0,
+		"opening_hand": [
+			"spark",
+			"shield",
+			"conjure"
+		],
+		"owned_cards": [
+			"spark",
+			"shield",
+			"conjure",
+			"spark",
+			"shield",
+			"focus",
+			"focus",
+			"conjure"
+		]
+	},
+	"totals": {
+		"accepted": 4,
+		"attempts": 4,
+		"blocked": 0,
+		"casts": 2,
+		"cost": 4,
+		"damage": 18,
+		"edits": 1,
+		"edits_by_kind": {
+			"erase": 0,
+			"flip": 0,
+			"place_rune": 1,
+			"place_wire": 0,
+			"rotate": 0,
+			"undo": 0
+		},
+		"outcomes": [],
+		"passes": 0,
+		"rejected": 0,
+		"retaliation": 6,
+		"shield": 0,
+		"techniques": 1,
+		"transitions": 0
+	}
+}

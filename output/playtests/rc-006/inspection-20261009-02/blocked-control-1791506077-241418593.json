@@ -1,0 +1,353 @@
+{
+	"commands": [],
+	"configuration_fingerprint": "a30e65bc9d92050212f0b20929109f6d735bdeeefbd19e8d75ed59513a346d66",
+	"experiment": {
+		"damage_mode": "aggregate",
+		"effects": "persistent",
+		"expiry": "straight",
+		"scenario_id": "blocked",
+		"seed": 42,
+		"split_cost": 1,
+		"transfer": "none",
+		"variant_id": "control",
+		"version": "rc005_v1"
+	},
+	"initial_state": {
+		"circuit": {
+			"cells": [
+				{
+					"kind": "begin",
+					"rotation": 0
+				},
+				{
+					"kind": "rune",
+					"rotation": 0,
+					"rune_id": "spark",
+					"uid": 3
+				},
+				{
+					"kind": "straight",
+					"rotation": 0
+				},
+				{
+					"kind": "corner",
+					"rotation": 0
+				},
+				{},
+				{},
+				{},
+				{
+					"kind": "straight",
+					"rotation": 1
+				},
+				{},
+				{},
+				{
+					"kind": "corner",
+					"reversed": true,
+					"rotation": 3
+				},
+				{
+					"kind": "corner",
+					"rotation": 1
+				},
+				{},
+				{},
+				{
+					"kind": "end",
+					"rotation": 0
+				},
+				{}
+			],
+			"forecast": {
+				"active": [
+					0,
+					1,
+					2,
+					3,
+					7,
+					11,
+					10,
+					14
+				],
+				"cost": 2,
+				"damage": 6,
+				"message": "Circuit complete",
+				"shield": 0,
+				"valid": true
+			},
+			"layout_fingerprint": "969c6bafc1f067967e39a22236e357de89ffcc51adf9adef0d094f845e2aae66"
+		},
+		"discard_pile": {
+			"by_definition": {},
+			"cards": [],
+			"counts": {
+				"permanent_runes": 0,
+				"techniques": 0,
+				"temporary_runes": 0,
+				"total": 0
+			},
+			"empty": true
+		},
+		"draw_pile": {
+			"by_definition": {
+				"conjure": 1,
+				"focus": 2,
+				"shield": 1
+			},
+			"cards": [
+				{
+					"id": "focus",
+					"uid": 6
+				},
+				{
+					"id": "shield",
+					"uid": 4
+				},
+				{
+					"id": "conjure",
+					"uid": 7
+				},
+				{
+					"id": "focus",
+					"uid": 5
+				}
+			],
+			"counts": {
+				"permanent_runes": 1,
+				"techniques": 3,
+				"temporary_runes": 0,
+				"total": 4
+			},
+			"empty": false
+		},
+		"encounter_content_id": "rc005_blocked",
+		"encounter_id": 1,
+		"encounter_number": 1,
+		"enemy_hp": 36,
+		"energy": 6,
+		"hand": {
+			"by_definition": {
+				"conjure": 1,
+				"shield": 1,
+				"spark": 1
+			},
+			"cards": [
+				{
+					"id": "spark",
+					"uid": 0
+				},
+				{
+					"id": "shield",
+					"uid": 1
+				},
+				{
+					"id": "conjure",
+					"uid": 2
+				}
+			],
+			"counts": {
+				"permanent_runes": 2,
+				"techniques": 1,
+				"temporary_runes": 0,
+				"total": 3
+			},
+			"empty": false
+		},
+		"player_hp": 40,
+		"state": "playing",
+		"stock": {
+			"join": 1,
+			"split": 1
+		},
+		"turn": 1,
+		"undo_count": 0
+	},
+	"lifecycle": [],
+	"notes": [],
+	"schema_version": 1,
+	"seed": 42,
+	"starting_setup": {
+		"board": [
+			{
+				"kind": "begin",
+				"rotation": 0
+			},
+			{
+				"kind": "rune",
+				"rotation": 0,
+				"rune_id": "spark"
+			},
+			{
+				"kind": "straight",
+				"rotation": 0
+			},
+			{
+				"kind": "corner",
+				"rotation": 0
+			},
+			{},
+			{},
+			{},
+			{
+				"kind": "straight",
+				"rotation": 1
+			},
+			{},
+			{},
+			{
+				"kind": "corner",
+				"reversed": true,
+				"rotation": 3
+			},
+			{
+				"kind": "corner",
+				"rotation": 1
+			},
+			{},
+			{},
+			{
+				"kind": "end",
+				"rotation": 0
+			},
+			{}
+		],
+		"catalog": {
+			"conjure": {
+				"board_label": "Conjure Spark",
+				"color": "#ba9bef",
+				"cost": 0,
+				"effect": "conjure",
+				"generated_rune_id": "free_spark",
+				"id": "conjure",
+				"name": "Conjure Spark",
+				"symbol": "+",
+				"temporary": false,
+				"type": "technique",
+				"value": 1
+			},
+			"focus": {
+				"board_label": "Focus",
+				"color": "#ba9bef",
+				"cost": 1,
+				"effect": "draw",
+				"id": "focus",
+				"name": "Focus",
+				"symbol": "?",
+				"temporary": false,
+				"type": "technique",
+				"value": 2
+			},
+			"free_spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 0,
+				"effect": "damage",
+				"id": "free_spark",
+				"name": "Free Spark",
+				"symbol": "*",
+				"temporary": true,
+				"type": "rune",
+				"value": 6
+			},
+			"shield": {
+				"board_label": "Shield",
+				"color": "#82d6a0",
+				"cost": 1,
+				"effect": "shield",
+				"id": "shield",
+				"name": "Shield",
+				"symbol": "<>",
+				"temporary": false,
+				"type": "rune",
+				"value": 5
+			},
+			"spark": {
+				"board_label": "Spark",
+				"color": "#efb553",
+				"cost": 2,
+				"effect": "damage",
+				"id": "spark",
+				"name": "Spark",
+				"symbol": "*",
+				"temporary": false,
+				"type": "rune",
+				"value": 6
+			}
+		},
+		"encounter": {
+			"board_id": "rc005_blocked_board",
+			"draw_per_turn": 3,
+			"enemy_id": "rc005_probe",
+			"energy_per_turn": 6,
+			"help_text": "All non-endpoint cells editable; simple right-edge path.",
+			"id": "rc005_blocked",
+			"intents": [
+				3
+			],
+			"loadout_id": "rc005_collection",
+			"max_health": 36,
+			"name": "Experiment Wisp",
+			"opening_log": "All non-endpoint cells editable; simple right-edge path.",
+			"player_health": 40,
+			"player_max_health": 40,
+			"seed": 42,
+			"title": "RC-005 EXPERIMENT"
+		},
+		"experiment": {
+			"damage_mode": "aggregate",
+			"effects": "persistent",
+			"expiry": "straight",
+			"scenario_id": "blocked",
+			"seed": 42,
+			"split_cost": 1,
+			"transfer": "none",
+			"variant_id": "control",
+			"version": "rc005_v1"
+		},
+		"inventory": {
+			"join": 1,
+			"split": 1
+		},
+		"opening_draw": 0,
+		"opening_hand": [
+			"spark",
+			"shield",
+			"conjure"
+		],
+		"owned_cards": [
+			"spark",
+			"shield",
+			"conjure",
+			"spark",
+			"shield",
+			"focus",
+			"focus",
+			"conjure"
+		]
+	},
+	"totals": {
+		"accepted": 0,
+		"attempts": 0,
+		"blocked": 0,
+		"casts": 0,
+		"cost": 0,
+		"damage": 0,
+		"edits": 0,
+		"edits_by_kind": {
+			"erase": 0,
+			"flip": 0,
+			"place_rune": 0,
+			"place_wire": 0,
+			"rotate": 0,
+			"undo": 0
+		},
+		"outcomes": [],
+		"passes": 0,
+		"rejected": 0,
+		"retaliation": 0,
+		"shield": 0,
+		"techniques": 0,
+		"transitions": 0
+	}
+}

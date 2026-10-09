@@ -24,14 +24,24 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 			var variant: String = scene.variant_select.get_item_text(variant_index)
 			check.call(scene.game.experiment.scenario_id == scenario and scene.game.experiment.variant_id == variant and scene.experiment_label.text.contains(scenario + " / " + variant), "Selection launches real validated scene: " + scenario + "/" + variant)
 			var initial: Dictionary = scene.controller.snapshot()
+			if variant in ["full_reset", "moving_endpoints"]:
+				check.call(scene.cast_button.disabled and initial.board.filter(func(piece): return not piece.is_empty()).size() == 2, "Full-reset follow-up visibly starts empty except endpoints, with Cast unavailable.")
+			elif variant == "free_endpoints":
+				check.call(initial.board.filter(func(piece): return not piece.is_empty()).size() == 2, "Free-endpoint follow-up visibly starts with only its random endpoints.")
 			var actions: Array = Experiments.known_solution_actions(scenario, variant)
 			for action in actions:
 				if action.command == "place_wire":
 					scene._select_tool(action.arguments.kind)
 					scene.cells[action.arguments.index].pressed.emit()
+				elif action.command == "place_rune":
+					scene._select_card(action.arguments.uid)
+					scene.cells[action.arguments.index].pressed.emit()
 				elif action.command == "rotate":
 					scene.selected_cell = action.arguments.index
 					scene._rotate()
+				elif action.command == "flip":
+					scene.selected_cell = action.arguments.index
+					scene._flip()
 			check.call(not scene.cast_button.disabled, "Known solution is castable through UI: " + scenario + "/" + variant)
 			scene.cast_button.pressed.emit()
 			check.call(scene.controller.record_document().totals.accepted == 1 + actions.size(), "Playable edits/cast recorded once through UI: " + scenario + "/" + variant)
