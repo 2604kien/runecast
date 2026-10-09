@@ -56,6 +56,7 @@ func _run() -> void:
 	preload("res://tests/inspection_data_tests.gd").new().run(check)
 	await preload("res://tests/touch_router_tests.gd").new().run(check, self)
 	await preload("res://tests/ui_touch_tests.gd").new().run_followup(check, self)
+	await preload("res://tests/ui_board_catalog_tests.gd").new().run_followup(check, self)
 	await process_frame
 	print("%d UI checks, %d failures" % [checks, failures])
 	scene.player.stop()

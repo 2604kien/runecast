@@ -4,6 +4,18 @@
     "placements": [{"cell": 0, "kind": "begin"}, {"cell": 14, "kind": "end"}]
   },
   {
+    "id": "board_gallery", "width": 4, "height": 4,
+    "placements": [{"cell": 0, "kind": "begin"}, {"cell": 14, "kind": "end"}]
+  },
+  {
+    "id": "board_ossuary", "width": 4, "height": 4,
+    "placements": [{"cell": 0, "kind": "begin"}, {"cell": 14, "kind": "end"}]
+  },
+  {
+    "id": "board_belfry", "width": 4, "height": 4,
+    "placements": [{"cell": 0, "kind": "begin"}, {"cell": 14, "kind": "end"}]
+  },
+  {
     "id": "dev_entry_board", "width": 4, "height": 4,
     "placements": [{"cell": 15, "kind": "begin", "rotation": 2}, {"cell": 1, "kind": "end", "rotation": 0}]
   }

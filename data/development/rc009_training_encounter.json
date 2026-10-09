@@ -1,0 +1,11 @@
+{
+  "id": "dev_rc009_training",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_training",
+  "loadout_id": "starter",
+  "title": "DEV / FIRST CIRCUIT",
+  "help_text": "Development board identity: First Circuit. Production rules and normal starter draws apply. Rotate endpoints and construct an introductory rune-bearing route; the catalog example is optional.",
+  "opening_log": "Development fixture: First Circuit. Begin and End are sampled normally; build with this hand and kit.",
+  "seed": 294
+}

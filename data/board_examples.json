@@ -1,0 +1,1804 @@
+{
+  "examples": [
+    {
+      "board_id": "board_training",
+      "commands": [
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {},
+          "command": "undo"
+        },
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 1,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 1,
+            "uid": 0
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {},
+          "command": "undo"
+        },
+        {
+          "arguments": {
+            "index": 1,
+            "uid": 0
+          },
+          "command": "place_rune"
+        }
+      ],
+      "encounter_path": "res://data/development/rc009_training_encounter.json",
+      "expected": {
+        "after_cast": {
+          "board": [
+            {},
+            {
+              "kind": "begin",
+              "rotation": 2
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 2
+            },
+            {},
+            {},
+            {},
+            {}
+          ],
+          "discard_pile": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "draw_pile": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 1,
+              "rotation": 2
+            },
+            "end": {
+              "cell": 11,
+              "rotation": 2
+            }
+          },
+          "enemy_hp": 26,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 1, column 2.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            }
+          ],
+          "intent": 12,
+          "kit_id": "extra_branches",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 22,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "turn": 2,
+          "undo_count": 0
+        },
+        "built": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 0
+            },
+            {
+              "kind": "rune",
+              "rotation": 0,
+              "rune_id": "spark",
+              "uid": 0
+            },
+            {
+              "kind": "end",
+              "rotation": 3
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 0
+            },
+            "end": {
+              "cell": 2,
+              "rotation": 3
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [
+              0,
+              1,
+              2
+            ],
+            "cost": 2,
+            "damage": 6,
+            "message": "Circuit complete",
+            "shield": 0,
+            "valid": true
+          },
+          "hand": [
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_branches",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 1,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 4
+        },
+        "initial": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 2
+            },
+            {},
+            {
+              "kind": "end",
+              "rotation": 3
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 2
+            },
+            "end": {
+              "cell": 2,
+              "rotation": 3
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 1, column 1.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_branches",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 0
+        }
+      },
+      "purpose": "Introductory three-cell Spark route; endpoint Rotate/Undo and rune-over-wire replacement/Undo.",
+      "seed": 294,
+      "setup_kind": "natural_starter_draw"
+    },
+    {
+      "board_id": "board_gallery",
+      "commands": [
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 13
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 1,
+            "uid": 0
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {
+            "index": 2,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 3,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 7,
+            "uid": 1
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {
+            "index": 7
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 11,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 11
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 15,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 15
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "rotate"
+        }
+      ],
+      "encounter_path": "res://data/development/rc009_gallery_encounter.json",
+      "expected": {
+        "after_cast": {
+          "board": [
+            {},
+            {},
+            {},
+            {
+              "kind": "begin",
+              "rotation": 1
+            },
+            {},
+            {
+              "kind": "end",
+              "rotation": 1
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ],
+          "discard_pile": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            }
+          ],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 3,
+              "rotation": 1
+            },
+            "end": {
+              "cell": 5,
+              "rotation": 1
+            }
+          },
+          "enemy_hp": 26,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 1, column 4.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            }
+          ],
+          "intent": 12,
+          "kit_id": "extra_straights",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 27,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "turn": 2,
+          "undo_count": 0
+        },
+        "built": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 0
+            },
+            {
+              "kind": "rune",
+              "rotation": 0,
+              "rune_id": "spark",
+              "uid": 0
+            },
+            {
+              "kind": "straight",
+              "rotation": 0
+            },
+            {
+              "kind": "corner",
+              "rotation": 0
+            },
+            {},
+            {},
+            {},
+            {
+              "kind": "rune",
+              "rotation": 1,
+              "rune_id": "shield",
+              "uid": 1
+            },
+            {},
+            {},
+            {},
+            {
+              "kind": "straight",
+              "rotation": 1
+            },
+            {},
+            {
+              "kind": "end",
+              "rotation": 1
+            },
+            {
+              "kind": "straight",
+              "rotation": 2
+            },
+            {
+              "kind": "corner",
+              "rotation": 1
+            }
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 0
+            },
+            "end": {
+              "cell": 13,
+              "rotation": 1
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [
+              0,
+              1,
+              2,
+              3,
+              7,
+              11,
+              15,
+              14,
+              13
+            ],
+            "cost": 3,
+            "damage": 6,
+            "message": "Circuit complete",
+            "shield": 5,
+            "valid": true
+          },
+          "hand": [
+            {
+              "id": "spark",
+              "uid": 3
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_corners",
+          "physical_usage": {
+            "corner": 2,
+            "join": 0,
+            "rune": 2,
+            "split": 0,
+            "straight": 3
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 1
+          },
+          "stock_totals": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 15
+        },
+        "initial": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 2
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 0
+            },
+            {},
+            {}
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 2
+            },
+            "end": {
+              "cell": 13,
+              "rotation": 0
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 1, column 1.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_corners",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 0
+        }
+      },
+      "purpose": "Long nine-cell route with Spark and Shield, using the real three-energy opening.",
+      "seed": 39,
+      "setup_kind": "natural_starter_draw"
+    },
+    {
+      "board_id": "board_ossuary",
+      "commands": [
+        {
+          "arguments": {
+            "index": 12
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 12
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 12
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 8,
+            "uid": 3
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {
+            "index": 8
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 8
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 8
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 4,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "command": "flip"
+        },
+        {
+          "arguments": {},
+          "command": "undo"
+        },
+        {
+          "arguments": {
+            "index": 5,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 6,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 10,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 10
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "flip"
+        }
+      ],
+      "encounter_path": "res://data/development/rc009_ossuary_encounter.json",
+      "expected": {
+        "after_cast": {
+          "board": [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "begin",
+              "rotation": 2
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 1
+            },
+            {},
+            {},
+            {}
+          ],
+          "discard_pile": [
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "draw_pile": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 6,
+              "rotation": 2
+            },
+            "end": {
+              "cell": 12,
+              "rotation": 1
+            }
+          },
+          "enemy_hp": 26,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 2, column 3.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            }
+          ],
+          "intent": 12,
+          "kit_id": "extra_branches",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 22,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 2,
+            "split": 2,
+            "straight": 4
+          },
+          "turn": 2,
+          "undo_count": 0
+        },
+        "built": {
+          "board": [
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "corner",
+              "rotation": 3
+            },
+            {
+              "kind": "straight",
+              "rotation": 0
+            },
+            {
+              "kind": "corner",
+              "rotation": 0
+            },
+            {},
+            {
+              "kind": "rune",
+              "rotation": 3,
+              "rune_id": "spark",
+              "uid": 3
+            },
+            {},
+            {
+              "kind": "straight",
+              "rotation": 1
+            },
+            {},
+            {
+              "kind": "begin",
+              "rotation": 3
+            },
+            {},
+            {
+              "kind": "corner",
+              "reversed": true,
+              "rotation": 2
+            },
+            {
+              "kind": "end",
+              "rotation": 3
+            }
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 12,
+              "rotation": 3
+            },
+            "end": {
+              "cell": 15,
+              "rotation": 3
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [
+              12,
+              8,
+              4,
+              5,
+              6,
+              10,
+              14,
+              15
+            ],
+            "cost": 2,
+            "damage": 6,
+            "message": "Circuit complete",
+            "shield": 0,
+            "valid": true
+          },
+          "hand": [
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_corners",
+          "physical_usage": {
+            "corner": 3,
+            "join": 0,
+            "rune": 1,
+            "split": 0,
+            "straight": 2
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 1,
+            "join": 1,
+            "split": 1,
+            "straight": 2
+          },
+          "stock_totals": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 19
+        },
+        "initial": {
+          "board": [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "begin",
+              "rotation": 0
+            },
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 3
+            }
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 12,
+              "rotation": 0
+            },
+            "end": {
+              "cell": 15,
+              "rotation": 3
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 4, column 1.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_corners",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "stock_totals": {
+            "corner": 4,
+            "join": 1,
+            "split": 1,
+            "straight": 4
+          },
+          "turn": 1,
+          "undo_count": 0
+        }
+      },
+      "purpose": "Eight-cell turning route with three Corners; reversed elbow, Rotate and Flip/Undo restore real ports.",
+      "seed": 474,
+      "setup_kind": "natural_starter_draw"
+    },
+    {
+      "board_id": "board_belfry",
+      "commands": [
+        {
+          "arguments": {
+            "uid": 7
+          },
+          "command": "technique"
+        },
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 0
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 14
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 1,
+            "uid": 8
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {
+            "index": 2,
+            "kind": "split"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 3,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 6,
+            "uid": 1
+          },
+          "command": "place_rune"
+        },
+        {
+          "arguments": {
+            "index": 6
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 7,
+            "kind": "straight"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 7
+          },
+          "command": "rotate"
+        },
+        {
+          "arguments": {
+            "index": 10,
+            "kind": "join"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 11,
+            "kind": "corner"
+          },
+          "command": "place_wire"
+        },
+        {
+          "arguments": {
+            "index": 11
+          },
+          "command": "rotate"
+        }
+      ],
+      "encounter_path": "res://data/development/rc009_belfry_encounter.json",
+      "expected": {
+        "after_cast": {
+          "board": [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 2
+            },
+            {
+              "kind": "begin",
+              "rotation": 1
+            },
+            {},
+            {}
+          ],
+          "discard_pile": [
+            {
+              "id": "conjure",
+              "uid": 7
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 13,
+              "rotation": 1
+            },
+            "end": {
+              "cell": 12,
+              "rotation": 2
+            }
+          },
+          "enemy_hp": 20,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 4, column 2.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "shield",
+              "uid": 4
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "spark",
+              "uid": 0
+            }
+          ],
+          "intent": 12,
+          "kit_id": "extra_straights",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 27,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "turn": 2,
+          "undo_count": 0
+        },
+        "built": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 0
+            },
+            {
+              "kind": "rune",
+              "rotation": 0,
+              "rune_id": "free_spark",
+              "uid": 8
+            },
+            {
+              "kind": "split",
+              "rotation": 0
+            },
+            {
+              "kind": "corner",
+              "rotation": 0
+            },
+            {},
+            {},
+            {
+              "kind": "rune",
+              "rotation": 1,
+              "rune_id": "shield",
+              "uid": 1
+            },
+            {
+              "kind": "straight",
+              "rotation": 1
+            },
+            {},
+            {},
+            {
+              "kind": "join",
+              "rotation": 0
+            },
+            {
+              "kind": "corner",
+              "rotation": 1
+            },
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 0
+            },
+            {}
+          ],
+          "discard_pile": [
+            {
+              "id": "conjure",
+              "uid": 7
+            }
+          ],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 0
+            },
+            "end": {
+              "cell": 14,
+              "rotation": 0
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [
+              0,
+              1,
+              2,
+              6,
+              3,
+              7,
+              11,
+              10,
+              14
+            ],
+            "cost": 2,
+            "damage": 12,
+            "message": "Circuit complete",
+            "shield": 5,
+            "valid": true
+          },
+          "hand": [
+            {
+              "id": "focus",
+              "uid": 6
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_straights",
+          "physical_usage": {
+            "corner": 2,
+            "join": 1,
+            "rune": 2,
+            "split": 1,
+            "straight": 1
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 0,
+            "join": 0,
+            "split": 0,
+            "straight": 5
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "turn": 1,
+          "undo_count": 13
+        },
+        "initial": {
+          "board": [
+            {
+              "kind": "begin",
+              "rotation": 2
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+              "kind": "end",
+              "rotation": 3
+            },
+            {}
+          ],
+          "discard_pile": [],
+          "draw_pile": [
+            {
+              "id": "conjure",
+              "uid": 2
+            },
+            {
+              "id": "focus",
+              "uid": 5
+            },
+            {
+              "id": "spark",
+              "uid": 0
+            },
+            {
+              "id": "spark",
+              "uid": 3
+            },
+            {
+              "id": "shield",
+              "uid": 4
+            }
+          ],
+          "endpoints": {
+            "begin": {
+              "cell": 0,
+              "rotation": 2
+            },
+            "end": {
+              "cell": 14,
+              "rotation": 3
+            }
+          },
+          "enemy_hp": 32,
+          "energy": 3,
+          "forecast": {
+            "active": [],
+            "cost": 0,
+            "damage": 0,
+            "message": "Open connection at row 1, column 1.",
+            "shield": 0,
+            "valid": false
+          },
+          "hand": [
+            {
+              "id": "focus",
+              "uid": 6
+            },
+            {
+              "id": "shield",
+              "uid": 1
+            },
+            {
+              "id": "conjure",
+              "uid": 7
+            }
+          ],
+          "intent": 8,
+          "kit_id": "extra_straights",
+          "physical_usage": {
+            "corner": 0,
+            "join": 0,
+            "rune": 0,
+            "split": 0,
+            "straight": 0
+          },
+          "player_hp": 30,
+          "state": "playing",
+          "stock": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "stock_totals": {
+            "corner": 2,
+            "join": 1,
+            "split": 1,
+            "straight": 6
+          },
+          "turn": 1,
+          "undo_count": 0
+        }
+      },
+      "purpose": "Natural Conjure creates Free Spark upstream of Split/Join; the branches amplify damage and add Shield within finite stock.",
+      "seed": 2149,
+      "setup_kind": "natural_starter_draw"
+    }
+  ],
+  "version": "rc009_board_examples_v1"
+}

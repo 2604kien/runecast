@@ -606,3 +606,81 @@ The initial discovery command included one read-only `git status --short` before
 Next-ready: **RC-009**, independently available **RC-010**, **RC-024** and **RC-033**, with platform access still conditional as recorded in the [current plan](project-plan.md).
 
 Documentation QA checked six updated documents and 342 relative file links, with zero missing targets (output/qa/rc-008/document-links.json). This checks file existence, not Markdown anchors.
+
+## October 9, 2026 — RC-009 board identities and construction examples
+
+**RC-009 complete.** The [board catalog](board-catalog.md) distinguishes four stable identities, a sampled runtime layout and an authored example. All four identities use the same accepted random geometry, costs, starter resources and three equally probable finite kits. They do not create different mechanical difficulty. Normal launch remains the existing production encounter. Four clearly labeled development encounters reuse the existing Shadeling/starter catalogs; no final enemies, tower progression, environment art or lighting were added.
+
+### Fresh baseline and environment
+
+Read the applicable project/parent instruction locations (no `AGENTS.md` found), requested design/rules/architecture documents, latest RC-007/RC-008 handoffs, current production data, model/controller/circuit code and existing tests/launcher before implementation. Inspected test/capture output behavior; legacy helper suites use unique paths, while new RC-009 logs, scripts, reports and captures use `output/qa/rc-009/`. Archived fixed-name launcher logs before the baseline and restored them after verification. A pre-edit manifest recorded **897 existing output/evidence, asset and content hashes**.
+
+| Baseline command | Actual result |
+| --- | --- |
+| `.\tools\godot.ps1 -Action import` | Exit 0; restricted `user://` access error and existing Android build-tools warning. [Baseline import](../output/qa/rc-009/baseline-import.log). |
+| `.\tools\godot.ps1 -Action test` | **1063 checks, 0 failures**, exit 0. [Baseline core](../output/qa/rc-009/baseline-test.log). |
+| `.\tools\godot.ps1 -Action smoke` with normal local user-directory access | **503 UI checks, 0 failures**, exit 0. Expected missing/invalid-content diagnostics. [Baseline UI](../output/qa/rc-009/baseline-smoke.log). |
+
+A [normal-access import retry](../output/qa/rc-009/import-normal-access.log) exited 0 with only the existing `Unable to open Android 'build-tools' directory` warning. The restricted user-directory message was an environment limitation, not a gameplay regression. No engine upgrade or mobile SDK installation occurred.
+
+### Final required commands
+
+Run separately in PowerShell from `C:\Dev\RuneCast`, with output and exit statuses inspected. `-LogDirectory` is a new optional launcher output path; it prevents replacing the old fixed-name logs. Import/UI/rendering used normal local user-directory access.
+
+| Exact command | Actual final result |
+| --- | --- |
+| `.\tools\godot.ps1 -Action version -LogDirectory output/qa/rc-009/final-engine` | **4.7.2.stable.official.ed1daf0bf**, exit 0. [Version](../output/qa/rc-009/final-version.log). |
+| `.\tools\godot.ps1 -Action import -LogDirectory output/qa/rc-009/final-engine` | Exit 0; existing Android build-tools warning only, no script import error. [Import](../output/qa/rc-009/final-import.log). |
+| `.\tools\godot.ps1 -Action test -LogDirectory output/qa/rc-009/final-engine` | **1363 checks, 0 failures**, exit 0. [Core](../output/qa/rc-009/final-test.log). |
+| `.\tools\godot.ps1 -Action smoke -LogDirectory output/qa/rc-009/final-engine` | **564 UI checks, 0 failures**, exit 0. [UI](../output/qa/rc-009/final-smoke.log). Deliberately invalid startup diagnostics remain expected coverage. |
+| `.\tools\godot.ps1 -Action capture -CapturePath res://output/qa/rc-009/final-production.png -LogDirectory output/qa/rc-009/final-engine` | Screenshot saved, exit 0. [Capture log](../output/qa/rc-009/final-capture.log), [normal production](../output/qa/rc-009/final-production.png). |
+
+The core total retains the original **1063** checks, including all **720 endpoint-pair/kit geometry cases**, and adds **137 catalog checks + 163 example checks**. The UI total retains **503** checks and adds **61 actual-scene board checks**, including reused RC-008 touch controls on the added Belfry identity. These are aggregate assertion counts; the 720 geometry cases and seeded comparisons are not extra checks to add to the reported total.
+
+Catalog coverage verifies all four actual encounter references, the preserved development-only board, malformed/invalid/duplicate/missing definitions, no prefills/obstacles/alternate ports, endpoint-only entries, controller rejections and detached reads. Per identity, **64 seeds** compare first entry, Pass and two continuing-stream Restarts against ordinary production, including altered legal template coordinates and presentation strings, with identical endpoint/card/kit outcomes and all three RNG states. A validated one-HP predecessor isolates successful encounter entry into each identity, preserving current/max HP and each permanent UID; it does not claim ordinary starter victory.
+
+Each example uses a naturally generated starter setup and actual controller commands. Assertions cover every command's acceptance, finite-stock conservation, rotation/Flip, replacement/Undo, physical cost, aggregate damage/shield, ordered cleanup, permanent UID conservation, temporary expiry, exact next-turn resources, and rejected actions preserving state/RNG. Seeds **294 / 39 / 474 / 2149** are recorded authoring choices; there is no runtime search/reroll, extra card/stock, debug state mutation or changed difficulty. The [standalone run](../output/qa/rc-009/authoring/example-tests-01.log) passes **168 checks, 0 failures**, exit 0: the 163 checks above plus four report replays and one report-file check. Its [machine-readable report](../output/qa/rc-009/examples-1791523071-37904-420274/report.json) contains exact commands and outcomes.
+
+### Rendered board and interaction evidence
+
+Executed the pinned engine with `--path . --log-file C:\Dev\RuneCast\output\qa\rc-009\final-board-render-engine.log --script res://tests/ui_board_catalog_capture.gd`. The [rendered run](../output/qa/rc-009/final-board-render.log) passes **80 checks, 0 failures**, exit 0: **61 repeated scene checks plus 19 screenshot saves**, not 80 extra unique cases. All four scenes open their natural endpoints-only setup, execute the authored commands and the actual Cast button, then display cleanup/new turn. Belfry additionally runs synthetic touch inspection, endpoint selection/Rotate/Undo, stock exhaustion/refund and small-screen page/inspector/Guide scrolling.
+
+Representative captures visually inspected:
+
+| State | Evidence |
+| --- | --- |
+| Normal production remains Training Crypt | [450×1000 normal launch](../output/qa/rc-009/final-production.png) |
+| Added identity with natural endpoints-only opening | [Belfry opening](../output/qa/rc-009/board-capture-1791523199-18876/board_belfry-opening.png) |
+| Introductory rune route | [First Circuit built](../output/qa/rc-009/board-capture-1791523199-18876/board_training-built.png) |
+| Longer route with Spark/Shield | [Long Gallery built](../output/qa/rc-009/board-capture-1791523199-18876/board_gallery-built.png) |
+| Turning/reversal route | [Ossuary Turn built](../output/qa/rc-009/board-capture-1791523199-18876/board_ossuary-built.png) |
+| Branching with finite Split/Join, 12 damage and Cast2 | [Belfry built](../output/qa/rc-009/board-capture-1791523199-18876/board_belfry-built.png) |
+| Complete cleanup, moved endpoints, new hand and full kit | [Belfry turn2](../output/qa/rc-009/board-capture-1791523199-18876/board_belfry-turn2.png), [Gallery turn2](../output/qa/rc-009/board-capture-1791523199-18876/board_gallery-turn2.png) |
+| Read-only rune details on an added identity | [Belfry Shield inspector](../output/qa/rc-009/board-capture-1791523199-18876/belfry-touch/inspect-hand-rune.png) |
+| Zero stock and unavailable placement feedback | [Belfry exhausted Straight](../output/qa/rc-009/board-capture-1791523199-18876/belfry-touch/unavailable-stock.png) |
+| Reachable editing and independent inspector scrolling | [360×640 board](../output/qa/rc-009/board-capture-1791523199-18876/belfry-touch/small-portrait-board.png), [360×640 inspector](../output/qa/rc-009/board-capture-1791523199-18876/belfry-touch/small-portrait-inspector.png) |
+
+Titles, stock labels, hands, Cast and bottom controls fit the 720×1600 scenes. The 360×640 scene scrolls vertically, with reachable controls and a fixed inspector Close. Vertical connections pass behind some rune labels in the existing renderer, but remain readable. All four identities intentionally share the same current crypt/enemy placeholder visuals; no distinct environment treatment is claimed.
+
+The documented wrapper was also exercised directly:
+
+```powershell
+.\tools\godot.ps1 -Action capture -BoardExample board_belfry -ExampleStep built -CapturePath res://output/qa/rc-009/launcher-belfry-built.png -LogDirectory output/qa/rc-009/launcher-built-engine
+.\tools\godot.ps1 -Action capture -BoardExample board_gallery -ExampleStep cast -CapturePath res://output/qa/rc-009/launcher-gallery-cast.png -LogDirectory output/qa/rc-009/launcher-cast-engine
+```
+
+Both saved screenshots and exited 0: [Belfry log](../output/qa/rc-009/launcher-belfry-built.log), [Gallery log](../output/qa/rc-009/launcher-gallery-cast.log). The catalog provides all four ordinary fixture and example-launch commands, plus standalone report/render runners. Normal startup does not load example metadata or auto-build.
+
+### Fixed findings, preservation and limits
+
+Intermediate failures remain visible. The first isolated catalog run had a GDScript inferred-type parse error, corrected before [137 passing checks](../output/qa/rc-009/board-catalog-02.log). The first authoring probe found an incorrectly oriented Ossuary corner; corrected commands produced all four expected results before the witness JSON was finalized. [Scene integration01](../output/qa/rc-009/ui-board-integration-01.log) rejected all four opening facts because JSON parsing represented whole numbers as floats and nested exact comparisons were type-sensitive. The helper now normalizes whole JSON numbers at the validation boundary while retaining full expected-state comparison. [Integration02](../output/qa/rc-009/ui-board-integration-02.log) passes 61 checks/0 failures. Independent review also added type guards for malformed version/setup-kind values. These are fixed development findings, not hidden environment failures or weakened historical assertions.
+
+The [preservation audit](../output/qa/rc-009/preservation-results.json) checks **897 prior files: 896 unchanged hashes, one intended modification (`data/production_boards.json`), zero unexpected changes**. It preserves existing screenshots, raw experiment records, approved images and historical data. Fixed launcher logs were restored. A fresh [fingerprint audit](../output/qa/rc-009/fixture-fingerprint-audit.json) reconstructs all **22 historical fixtures at seed42**, with **22 unchanged fingerprints** against the preserved RC-007 map.
+
+Geometry feasibility with a supplied Spark, affordability with a particular hand, ability to win an encounter and human balance/enjoyment are distinct claims. RC-009 proves the first through the reused geometry suite and the second for its four natural samples. It does not prove universal damaging/affordable hands or ordinary encounter victory. Focus can spend scarce energy, a hand can lack damage, and Pass remains the unchanged fallback. All UI/touch evidence is synthetic desktop input and rendered QA. No new human playtest, physical device, packaging or mobile acceptance is claimed; existing Android configuration and later device work remain outstanding.
+
+The initial discovery command included one read-only `git status --short` before the pasted no-Git prohibition had been read. This was immediately disclosed; it changed no files. No subsequent Git operations, staging, commit or checkpoint occurred. The owner retains Git responsibility.
+
+Next-ready tasks: **RC-010** is the next numbered task; **RC-024** and **RC-033** are also ready under the updated [plan](project-plan.md). Future encounter assignments and presentation remain with their owning tasks.
+
+Documentation QA checked **7 updated documents and 443 relative file links**, with zero missing targets (`output/qa/rc-009/document-links.json`). This checks local file/directory existence, not Markdown anchors. A separate plan audit confirms 60 unique task rows and RC-009 checked complete.

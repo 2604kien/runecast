@@ -1,0 +1,11 @@
+{
+  "id": "dev_rc009_gallery",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_gallery",
+  "loadout_id": "starter",
+  "title": "DEV / LONG GALLERY",
+  "help_text": "Development board identity: Long Gallery. Production rules and normal starter draws apply. The catalog demonstrates a longer route; this identity does not restrict endpoint placement or increase difficulty.",
+  "opening_log": "Development fixture: Long Gallery. Begin and End are sampled normally; build with this hand and kit.",
+  "seed": 39
+}

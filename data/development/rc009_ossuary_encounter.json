@@ -1,0 +1,11 @@
+{
+  "id": "dev_rc009_ossuary",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_ossuary",
+  "loadout_id": "starter",
+  "title": "DEV / OSSUARY TURN",
+  "help_text": "Development board identity: Ossuary Turn. Production rules and normal starter draws apply. The catalog demonstrates turns and directional-wire Flip; endpoint placement follows the shared random policy.",
+  "opening_log": "Development fixture: Ossuary Turn. Begin and End are sampled normally; build with this hand and kit.",
+  "seed": 474
+}

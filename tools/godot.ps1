@@ -2,6 +2,10 @@ param(
     [ValidateSet('run','editor','test','smoke','import','capture','version')]
     [string]$Action = 'run',
     [string]$Encounter = '',
+    [ValidateSet('board_training','board_gallery','board_ossuary','board_belfry')]
+    [string]$BoardExample = '',
+    [ValidateSet('opening','built','cast')][string]$ExampleStep = 'built',
+    [string]$LogDirectory = '',
     [switch]$Experiment,
     [string]$Scenario = 'effects',
     [string]$Variant = 'control',
@@ -10,6 +14,12 @@ param(
     [string]$CapturePath = 'res://output/qa/foundation-screen.png'
 )
 $ErrorActionPreference = 'Stop'
+if ($BoardExample -and ($Experiment -or $Encounter -or $Action -notin @('run','capture'))) {
+    throw '-BoardExample is a separate development run/capture mode; do not combine it with Encounter or Experiment.'
+}
+if ($PSBoundParameters.ContainsKey('ExampleStep') -and -not $BoardExample) {
+    throw '-ExampleStep requires -BoardExample.'
+}
 if ($PSBoundParameters.ContainsKey('CaptureStep') -and ($Action -ne 'capture' -or -not $Experiment)) {
     throw '-CaptureStep requires -Action capture -Experiment.'
 }
@@ -34,10 +44,14 @@ if (-not (Test-Path -LiteralPath $exe)) {
 }
 if (-not $env:GODOT_BIN) { Set-Content -LiteralPath (Join-Path (Split-Path $exe -Parent) '_sc_') -Value '' }
 $logFolder = Join-Path $projectRoot 'output/qa'
+if ($LogDirectory) {
+    $logFolder = if ([System.IO.Path]::IsPathRooted($LogDirectory)) { $LogDirectory } else { Join-Path $projectRoot $LogDirectory }
+}
 New-Item -ItemType Directory -Path $logFolder -Force | Out-Null
 $engineArgs = @('--path', $projectRoot, '--log-file', (Join-Path $logFolder "$Action.log"))
 $sceneArgs = @()
 if ($Encounter) { $sceneArgs += "--encounter=$Encounter" }
+if ($BoardExample) { $sceneArgs += @("--board-example=$BoardExample", "--example-step=$ExampleStep") }
 if ($Experiment) { $sceneArgs += @('--experiment', "--scenario=$Scenario", "--variant=$Variant", "--seed=$Seed", "--capture-step=$CaptureStep") }
 switch ($Action) {
     'version' { & $exe --version }

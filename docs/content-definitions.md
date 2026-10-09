@@ -11,7 +11,8 @@ RC-007 selects the production profile described below: scalar damage/shield rune
 | [`data/enemies.json`](../data/enemies.json) | Array of enemy definitions and scalar attack sequences. |
 | [`data/loadouts.json`](../data/loadouts.json) | Array of player stats, permanent ownership, opening policy and inventory. |
 | [`data/production_encounter.json`](../data/production_encounter.json) | Default production encounter, preserving `training_shadeling`. |
-| [`data/production_boards.json`](../data/production_boards.json) | Production endpoint templates; `board_training` remains the normal board ID. |
+| [`data/production_boards.json`](../data/production_boards.json) | Four stable production board identities sharing the same random endpoint policy, plus preserved `dev_entry_board`; `board_training` remains normal launch. |
+| [`data/board_examples.json`](../data/board_examples.json) | Opt-in RC-009 construction witnesses with exact natural starter seeds, commands and expected observations. Never production prefills. |
 | [`data/production_loadouts.json`](../data/production_loadouts.json) | Production normal-draw loadouts; connector stock comes from kit definitions. |
 | [`data/production_rules.json`](../data/production_rules.json) | Three versioned, provisional equal-probability ten-piece kits. |
 | [`data/production_transition_encounter.json`](../data/production_transition_encounter.json) | Bounded development entry into [`production_next_encounter.json`](../data/production_next_encounter.json); no full progression. |
@@ -116,6 +117,12 @@ Both training profiles own exactly two each of Spark, Shield, Focus and Conjure 
 Fresh models with the same normalized setup/seed reproduce the same state. Exact replay reconstructs that initial state. Restart restores the original selected cached encounter, definitions, opening policy and health without reloading files. Production selects fresh endpoints and a kit while **continuing all three RNG streams**; historical profiles restore their configured board and totals while continuing their applicable streams. Thus Restart need not reproduce the opening. Card UIDs restart while presentation generation increases, and action identity remains monotonic. Edits and Undo compute available inventory from current totals minus board usage.
 
 ## Development scene and diagnostics
+
+RC-009 adds four small encounter files under [`data/development/`](../data/development/), reusing the existing Shadeling, starter loadout and production catalogs. They display **DEV / First Circuit**, **DEV / Long Gallery**, **DEV / Ossuary Turn**, or **DEV / Belfry Circuit**. Board display names, teaching roles and future presentation assignments are documented in the [board catalog](board-catalog.md); the board JSON schema is unchanged. Identity has no effect on endpoint positions, rotations, cards, kits, costs or enemy difficulty.
+
+`-Encounter res://data/development/rc009_gallery_encounter.json` opens its ordinary endpoints-only sample. The separate `-BoardExample board_gallery -ExampleStep opening|built|cast` launch reads the corresponding witness, validates its natural opening, then optionally sends its exact construction commands and one Cast through the existing controller. `built` is the default. No cards, stock or geometry are injected. `data/board_examples.json` uses version `rc009_board_examples_v1`; each of the four entries contains `board_id`, `purpose`, `setup_kind: natural_starter_draw`, `encounter_path`, `seed`, exact `commands` and `expected.initial/built/after_cast` facts. The development helper validates IDs, paths, seed, command forms and phase observations; reproduction mismatch disables startup instead of falling back. Only this explicit development mode reads the witness data.
+
+`-BoardExample` is exclusive with `-Encounter` and `-Experiment`, and applies only to `run`/`capture`. `-ExampleStep` requires it. Menu Exact replay restores the selected fixture's endpoints-only opening; it does not auto-build again. Menu Restart continues the ordinary random streams. `-LogDirectory output/qa/rc-009/<fresh-name>` optionally isolates engine logs for any launcher action; `-CapturePath` still selects the PNG destination. Exact commands for all four identities and examples are in the catalog.
 
 Normal launch selects the production Training Crypt. Historical and bounded transition fixtures require explicit selection:
 

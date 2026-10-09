@@ -10,10 +10,15 @@ const Experiments = preload("res://scripts/core/experiments.gd")
 const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 const InspectionData = preload("res://scripts/ui/inspection_data.gd")
 const TouchRouter = preload("res://scripts/ui/touch_router.gd")
+const BoardExamples = preload("res://scripts/dev/board_examples.gd")
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
 var setup_path := ""
+# Explicit development witnesses; ordinary launch never reads the example data.
+var board_example_id := ""
+var board_example_step := "built"
+var board_example_report: Dictionary = {}
 var initial_setup: Dictionary = {}
 var _replacing_controller := false
 var _closing := false
@@ -81,25 +86,44 @@ var inspector_panel: PanelContainer
 var guide_text: Label
 
 func _ready() -> void:
-	if setup_path == "":
+	if setup_path == "" and board_example_id == "":
+		board_example_id = _argument_value("--board-example=", "")
+		board_example_step = _argument_value("--example-step=", board_example_step)
 		experiment_mode = experiment_mode or "--experiment" in OS.get_cmdline_user_args()
 		experiment_scenario = _argument_value("--scenario=", experiment_scenario)
 		experiment_variant = _argument_value("--variant=", experiment_variant)
 		var seed_text := _argument_value("--seed=", str(experiment_seed))
 		experiment_seed = int(seed_text) if seed_text.is_valid_int() else -1
 		setup_path = _argument_value("--encounter=", ContentLoader.DEFAULT_ENCOUNTER)
-	var loaded: Dictionary = Experiments.load_setup(experiment_scenario, experiment_variant, experiment_seed) if experiment_mode else ContentLoader.load_setup(setup_path)
+	var loaded: Dictionary
+	if board_example_id != "":
+		if experiment_mode or (setup_path != "" and setup_path != ContentLoader.DEFAULT_ENCOUNTER) or board_example_step not in ["opening", "built", "cast"]:
+			loaded = {"ok": false, "errors": ["Board examples require their own development fixture and an opening, built or cast step."]}
+		else:
+			loaded = BoardExamples.load_example(board_example_id)
+			if loaded.ok:
+				setup_path = loaded.example.encounter_path
+	else:
+		loaded = Experiments.load_setup(experiment_scenario, experiment_variant, experiment_seed) if experiment_mode else ContentLoader.load_setup(setup_path)
 	if loaded.ok:
 		initial_setup = loaded.setup.duplicate(true)
 		var model := Combat.new(loaded.setup)
 		if experiment_mode:
 			experiment_setup = loaded.setup.duplicate(true)
 		controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(loaded.setup, model.snapshot()) if experiment_mode else null)
+		if board_example_id != "":
+			board_example_report = BoardExamples.apply(controller, loaded.example, board_example_step)
+			if not board_example_report.ok:
+				startup_error = "Cannot reproduce board example.\n" + "\n".join(board_example_report.errors)
+				printerr(startup_error)
+				controller.dispose()
+				controller = null
 		if experiment_mode and "--capture" in OS.get_cmdline_user_args():
 			# Each automated capture owns its observations; never replace earlier study exports.
 			experiment_record_path = "res://output/qa/rc-007/capture-%d-%d-%d/%s-%s.json" % [int(Time.get_unix_time_from_system()), OS.get_process_id(), Time.get_ticks_usec(), experiment_scenario, experiment_variant]
 			controller.add_note("AUTOMATED CAPTURE: no human observation")
-		game = controller.snapshot()
+		if controller != null:
+			game = controller.snapshot()
 	else:
 		startup_error = "Cannot start encounter.\n" + "\n".join(loaded.errors)
 		printerr(startup_error)

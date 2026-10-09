@@ -8,6 +8,8 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-008 complete, October 9, 2026:** hold or use Inspect mode for safe rune/technique details, preview legal placements, cancel selection, and scroll the hand/page independently. Fresh verification passes 1063 core / 503 UI checks, plus 82 rendered interaction/capture checks. See [touch interactions](docs/touch-interactions.md) for controls and the pending physical-device checks.
 
+**RC-009 complete, October 9, 2026:** all four stable board identities load under the unchanged random-endpoint rules. The [board catalog](docs/board-catalog.md) provides natural starter examples, exact commands and limits. Current verification passes **1363 core / 564 UI checks**, plus **80 rendered board checks**, all zero failures. RC-010 is the next numbered task; RC-024 and RC-033 are also ready under the [plan](docs/project-plan.md).
+
 ## Start the project
 
 The pinned editor is **Godot 4.7.2 Standard with GDScript**, using the Compatibility renderer. No Blender or .NET dependency is required.
@@ -39,6 +41,30 @@ The bootstrap downloads the official Windows x64 portable editor and verifies it
 - The starter has 3 energy and draws 3 cards, including the first turn. Victory/defeat clean up without generating an unused turn.
 - **Details / Pass** explains the current circuit and offers a confirmed Pass even with an incomplete board or empty hand. Menu provides Pass, Restart with continuing RNG, and Exact replay of the original seed. Guide explains the controls and rules. Sound toggles the placeholder cast tone and saves the preference.
 - Map currently describes the planned tower route; branching progression is not implemented.
+
+## Board catalog
+
+The [board catalog](docs/board-catalog.md) describes **First Circuit, Long Gallery, Ossuary Turn and Belfry Circuit**. These are four stable identities sharing the accepted random geometry and current placeholder art. Each has an executable construction witness using a natural starter draw; the identities do not introduce different mechanical difficulty.
+
+Open any development identity with an empty construction:
+
+```powershell
+.\tools\godot.ps1 -Action run -Encounter res://data/development/rc009_training_encounter.json
+.\tools\godot.ps1 -Action run -Encounter res://data/development/rc009_gallery_encounter.json
+.\tools\godot.ps1 -Action run -Encounter res://data/development/rc009_ossuary_encounter.json
+.\tools\godot.ps1 -Action run -Encounter res://data/development/rc009_belfry_encounter.json
+```
+
+Reproduce the authored command sequences in the actual scene:
+
+```powershell
+.\tools\godot.ps1 -Action run -BoardExample board_training
+.\tools\godot.ps1 -Action run -BoardExample board_gallery
+.\tools\godot.ps1 -Action run -BoardExample board_ossuary
+.\tools\godot.ps1 -Action run -BoardExample board_belfry
+```
+
+The default example stage is `built`, ready to Cast. Add `-ExampleStep opening` to inspect the natural starting resources, or `-ExampleStep cast` to execute the Cast and inspect cleanup/new turn. These are opt-in development witnesses; ordinary launch stays on `data/production_encounter.json`. Use `-LogDirectory output/qa/rc-009/<fresh-name>` and a fresh `-CapturePath` to preserve prior evidence.
 
 ## Validate
 
@@ -92,6 +118,7 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 - [First-release design specification — scope, screen behavior and acceptance](docs/v1-design-spec.md)
 - [Content roster — stable IDs, working defaults and task ownership](docs/content-roster.md)
 - [Content definitions — schemas, validation, ownership and development fixtures](docs/content-definitions.md)
+- [Board catalog — four identities, exact construction examples and launch commands](docs/board-catalog.md)
 - [Game description](docs/game-design.md)
 - [Gameplay rules](docs/gameplay-rules.md)
 - [Touch interactions — inspection, selection, scrolling and placement feedback](docs/touch-interactions.md)

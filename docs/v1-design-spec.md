@@ -34,7 +34,7 @@ Use portrait presentation with the existing 720 by 1600 design canvas as the lay
 | Player and tower | One spellcaster/loadout; one tower theme, Ashen Crypt (working name); no rendered player actor | RC-024, RC-036 |
 | Run | Default nine visited rooms, including guardian; retain the 8–10 planning envelope | RC-025, RC-036, RC-045 |
 | Enemies | Five designs: three normal including Shadeling, one elite, one guardian | RC-034; packs RC-014, RC-037–RC-040 |
-| Boards | Four stable 4 by 4 board IDs, introductory through guardian; random endpoints, no blocked cells and straight effects under the accepted contract | RC-009 |
+| Boards | Four stable 4 by 4 board identities, introductory through guardian; all share unrestricted random endpoints, no blocked cells, straight effects and the same kit policy. Distinct construction examples and teaching/content roles do not imply different mechanical difficulty | RC-009 |
 | Permanent definitions | Twelve total runes/techniques, including `spark`, `shield`, `focus`, `conjure` | RC-004, RC-035 |
 | Generated definitions | One additional `free_spark`; excluded from twelve and from permanent ownership | RC-007, RC-035 |
 | Progression | Six unique relics; four authored events; eight single-rank rune upgrades | RC-031, RC-035, RC-036 |
@@ -46,6 +46,8 @@ Use portrait presentation with the existing 720 by 1600 design canvas as the lay
 Use shared effects/cues wherever possible. Bound the effect work to circuit traversal, impact, shield, enemy attack telegraph, technique/temporary creation, expiry, victory and defeat families. Guardian intensity can reuse combat music and shared effects; no third music track, second biome, event character packs or separate shopkeeper actor is required. Home tower art is a separate composition, not a crop of the crypt. Detailed dimensions, animation frames, audio cue lists, provenance and complete manifest expansion belong to RC-010.
 
 ## Tutorial, collection and initial resources
+
+RC-009 distinguishes **board identity** (stable content/encounter assignment and future presentation), **runtime layout** (the current sampled endpoints and player construction), and **authored example** (a reproducible witness with stated resources). The [board catalog](board-catalog.md) supplies the four examples and development launches. All four identities use the same first-turn 240-pair and later-turn 211-pair endpoint domains, independent rotations and equal-probability kits. Names such as Long Gallery or Ossuary Turn do not constrain a sampled route, impose a minimum length, or guarantee a harder fight. Earlier fixed-coordinate layouts remain historical references, never production prefills or endpoint restrictions. Final encounter assignments remain RC-034/RC-036; board presentation remains RC-010/RC-015/RC-016/RC-042.
 
 Offer a short, skippable tutorial before the first run. RC-043 must teach the accepted endpoints-only opening, construction, endpoint Rotate, finite stock, one Cast, full cleanup/rebuilding, energy, techniques, inspection and Pass. Preserve the reproducible `training_shadeling` prebuilt circuit as an explicit historical reference fixture; it is not an approved production tutorial exception. Then teach the route and one reward in the first real run. Tutorial time is excluded from the repeat-run duration target. Home Options provides tutorial replay; it uses separate practice state and does not replace an active run, grant Gold or transfer cards. RC-043 owns guided steps, skip/replay and local tutorial-completion preference.
 

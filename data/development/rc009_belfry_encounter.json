@@ -1,0 +1,11 @@
+{
+  "id": "dev_rc009_belfry",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "shadeling",
+  "board_id": "board_belfry",
+  "loadout_id": "starter",
+  "title": "DEV / BELFRY CIRCUIT",
+  "help_text": "Development board identity: Belfry Circuit. Production rules and normal starter draws apply. The catalog demonstrates a finite-stock Split/Join route; this fixture uses the existing Shadeling, not final guardian content.",
+  "opening_log": "Development fixture: Belfry Circuit. Begin and End are sampled normally; build with this hand and kit.",
+  "seed": 2149
+}
