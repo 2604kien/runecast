@@ -8,7 +8,9 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-008 complete, October 9, 2026:** hold or use Inspect mode for safe rune/technique details, preview legal placements, cancel selection, and scroll the hand/page independently. Fresh verification passes 1063 core / 503 UI checks, plus 82 rendered interaction/capture checks. See [touch interactions](docs/touch-interactions.md) for controls and the pending physical-device checks.
 
-**RC-009 complete, October 9, 2026:** all four stable board identities load under the unchanged random-endpoint rules. The [board catalog](docs/board-catalog.md) provides natural starter examples, exact commands and limits. Current verification passes **1363 core / 564 UI checks**, plus **80 rendered board checks**, all zero failures. RC-010 is the next numbered task; RC-024 and RC-033 are also ready under the [plan](docs/project-plan.md).
+**RC-009 complete, October 9, 2026:** all four stable board identities load under the unchanged random-endpoint rules. The [board catalog](docs/board-catalog.md) provides natural starter examples, exact commands and limits. Its runtime verification passed **1363 core / 564 UI checks**, plus **80 rendered board checks**, all zero failures; these checks were not rerun for the documentation-only RC-010 task.
+
+**RC-010 complete, October 9, 2026:** the [asset manifest](docs/asset-inventory.csv), [consumer mapping and audit guide](docs/asset-manifest-guide.md), [production specification](docs/asset-production-spec.md) and [matching pilot brief](docs/style-pilot-brief.md) define the bounded asset set, proposed technical contracts and separate production/integration ownership. No final art or runtime integration is delivered by this task. Document/manifest validation passes; **RC-011 is next**, with RC-024 and RC-033 also ready under the [plan](docs/project-plan.md).
 
 ## Start the project
 
@@ -105,7 +107,7 @@ RC-005 supplied six experiment families through nine bounded scenarios and 19 va
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant treatment -Seed 42
 ```
 
-The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Historical fixtures keep their original versions, semantics and fingerprints. Human records remain in `user://experiments/`; automated evidence uses unique QA destinations. See the [matrix and historical protocol](docs/circuit-experiments.md) and [RC-006 evidence register](docs/rc-006-playtest-results.md). H32 records the owner's acceptance of all remaining production defaults as a design choice; it does not add human playtest findings or a testing waiver. The three kit quantities and equal probabilities remain provisional tuning. RC-010 remains independently available; subsequent work follows the [current plan](docs/project-plan.md).
+The experiment panel selects scenarios/variants, displays rules and seed, provides **Exact replay**, **Next encounter**, and **Inspect / export** with local notes. Historical fixtures keep their original versions, semantics and fingerprints. Human records remain in `user://experiments/`; automated evidence uses unique QA destinations. See the [matrix and historical protocol](docs/circuit-experiments.md) and [RC-006 evidence register](docs/rc-006-playtest-results.md). H32 records the owner's acceptance of all remaining production defaults as a design choice; it does not add human playtest findings or a testing waiver. The three kit quantities and equal probabilities remain provisional tuning. Subsequent work follows the [current plan](docs/project-plan.md).
 ```powershell
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant full_reset -Seed 42
 .\tools\godot.ps1 -Action run -Experiment -Scenario effects -Variant moving_endpoints -Seed 42
@@ -132,6 +134,9 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 - [Implementation roadmap](docs/roadmap.md)
 - [Verification record](docs/verification.md)
 - [Asset inventory](docs/asset-inventory.csv)
+- [Asset consumers, readiness vocabulary and source audit](docs/asset-manifest-guide.md)
+- [Asset production contracts and provisional budgets](docs/asset-production-spec.md)
+- [RC-011 matching Shadeling, Spark and button pilot](docs/style-pilot-brief.md)
 
 ## Structure
 

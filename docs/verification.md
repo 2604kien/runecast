@@ -684,3 +684,44 @@ The initial discovery command included one read-only `git status --short` before
 Next-ready tasks: **RC-010** is the next numbered task; **RC-024** and **RC-033** are also ready under the updated [plan](project-plan.md). Future encounter assignments and presentation remain with their owning tasks.
 
 Documentation QA checked **7 updated documents and 443 relative file links**, with zero missing targets (`output/qa/rc-009/document-links.json`). This checks local file/directory existence, not Markdown anchors. A separate plan audit confirms 60 unique task rows and RC-009 checked complete.
+
+## October 9, 2026 — RC-010 asset manifest and production contracts
+
+**Documentation-only completion.** RC-010 expanded the [manifest](asset-inventory.csv), added [consumer mappings](asset-consumers.csv), [audit/schema guide](asset-manifest-guide.md), [production specification](asset-production-spec.md) and [pilot brief](style-pilot-brief.md), and synchronized art direction, README and plan. No runtime files or final art/audio were changed. Prior RC-009 gameplay results remain historical; this task did not rerun Godot or claim device/import acceptance.
+
+### Actual document and manifest checks
+
+The standard-library Python [validator](../tools/validate_asset_plan.py) was run with the available bundled interpreter after the system `python` alias proved inaccessible:
+
+```powershell
+& 'C:\Users\nguye\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' tools/validate_asset_plan.py
+```
+
+The [final report](../output/qa/rc-010/validation-report.json) records **PASS**, zero validation errors:
+
+| Check | Actual result |
+| --- | --- |
+| CSV structure and identity | **92 inventory records / 70 consumer records**, valid quoted CSV, unique IDs and required fields. All **16 original IDs** preserved against [original ID capture](../output/qa/rc-010/original-asset-ids.json). |
+| Scope mapping | All **52 primary stable roster IDs** mapped; 12 permanent definitions, 1 generated, 5 actors, 4 boards, 6 relics, 8 upgrades, 4 events, 6 services and 6 room types; one currency. Thirteen screen mappings include Home/Combat/Map/Menu. No extra character/biome/currency/track. |
+| Ownership/dependencies | All owners refer to the actual **60 task rows**; production prerequisites/integration order checked against the plan; task graph and asset graph acyclic. No unowned required row or duplicate planned production destination. |
+| Readiness/paths | Existing sources/current paths/evidence exist; future paths explicitly planned, source-only or external-delivery. No final asset is claimed source-ready, runtime-ready, integrated or device-verified. Current integrated placeholders remain labeled. No resolved production licence claimed. |
+| States and specifications | Automated checks cover four common actor states and seven shared UI states plus linked specifications; manual cross-check covers Home save/recovery/replace, Menu Shop/Quit, Map node entry/inspection, finite stock, RC-008 inspector/Pass, rewards/services/events/results and sound states. |
+| Links | Updated documentation file targets and local Markdown anchors resolve; each manifest specification reference resolves. Final count is in the report and includes repeated references. External links are not treated as local-file assertions. |
+| Preservation | **974 protected files** match [baseline SHA-256 records](../output/qa/rc-010/preservation-baseline.json): runtime assets/scenes/scripts/data/tests, project/export settings, approved/generation history and prior RC-006–RC-009 QA files captured by the baseline. Zero changed protected files. |
+| Reference provenance | Four approved images and ten historical PNG/prompt pairs exist. Every approved image differs from its latest generated-study counterpart; report records both hashes. Exact originating approved-image prompt/model and rights remain unknown. |
+
+Inventory counts are **5 reference, 4 pilot, 3 audit, 5 character, 5 environment (one optional foreground), 2 board, 16 icon, 8 UI, 2 typography, 12 progression, 8 animation/VFX, 16 SFX, 1 music pack (two loops), 1 ambience and 4 release**. These are bounded deliverable records, not a count of all files or claims of production assets already present. Readiness is **80 planned, 1 optional planned, 3 placeholder, 3 integrated placeholder, 5 reference-only**.
+
+Independent review found and corrected pilot path differences, missing stone-bowl/desk motifs, overly broad consumer ownership and a potential future-character scale-preview sequencing ambiguity. The final guide/spec agree on 512-square character exports/foot `(256,448)`, 1440×720 aligned crypt layers, 720×1600 Home, 128-square SVG geometry, button/socket slices and source/runtime separation. Sixteen SFX families contain exactly 21 bounded WAV exports; music remains two loops plus one ambience bed.
+
+The validator initially encountered an empty trailing CSV line; its parser now accepts blank lines as valid CSV whitespace. The [initial report](../output/qa/rc-010/validation-initial.json) then reported only its own report path before that output existed. Once produced, the full check passed; this was an output-bootstrap issue, not missing asset evidence. The final rerun includes the completed handoff/verification documentation.
+
+### Visual inspection and acceptance limits
+
+Visually inspected [Home](../output/imagegen/approved/home.png), [Combat](../output/imagegen/approved/combat.png), [Map](../output/imagegen/approved/map.png) and [Menu](../output/imagegen/approved/menu.png), plus [normal production](../output/qa/rc-009/final-production.png), [Belfry construction](../output/qa/rc-009/board-capture-1791523199-18876/board_belfry-built.png), [unavailable stock](../output/qa/rc-008/touch-capture-1791519954-3060/unavailable-stock.png) and [narrow inspector](../output/qa/rc-008/touch-capture-1791519954-3060/small-portrait-inspector.png). Agent review also inspected selected/rotated endpoint and RC-009 touch captures linked in the pilot brief.
+
+The actual controls preserve live finite counts, precise rotated ports, `+`/`x` placement feedback, compact card faces and independently scrolling inspector text with fixed Close. Their current pixel sizes informed proposed contracts; no reference artwork was cropped or treated as production-ready. Current random-endpoint/finite-kit rules supersede the approved Combat reference's historical fixed arrangement and infinity symbols.
+
+RC-011 still must validate the matching style, proposed dimensions/anchors, type direction, alpha, slices and animation feasibility. RC-012 and later producers must acquire source/rights evidence and test imports. Device minima remain unresolved until RC-021/RC-022; RC-023, RC-044 and RC-047–RC-049 own actual touch/layout/lifecycle/performance acceptance. The **32 MiB active art / 48 MiB retained art**, audio, font, effect and package targets are provisional estimates with explicit decoded-memory calculations, not measured usage.
+
+One forbidden read-only `git status --short` was included in initial discovery before the attached request was read and was disclosed immediately. No subsequent Git operation or checkpoint occurred. Runtime/asset/evidence preservation is established by file hashes, not Git. **Next numbered task: RC-011**, the matching Shadeling/Spark/button style pilot.

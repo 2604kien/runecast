@@ -14,6 +14,8 @@ The board must stay readable at phone size. Keep cell boundaries, ports, directi
 
 ## Asset production
 
+The [asset manifest](asset-inventory.csv) is the authoritative bounded inventory. The [production specification](asset-production-spec.md) defines source/runtime paths, dimensions, anchors, exact circuit geometry, shared states, delivery evidence and provisional budgets. The [RC-011 matching pilot brief](style-pilot-brief.md) gives the next production task its concrete Shadeling/Spark/button deliverables and review criteria. These RC-010 technical contracts are proposed production defaults; the approved screen direction is already settled, while pilot and device validation remain later work.
+
 | Asset | Method | Delivery |
 | --- | --- | --- |
 | Enemy and boss illustrations | Image generation followed by art refinement | Separate transparent PNGs, with consistent scale and foot anchor |
@@ -31,7 +33,7 @@ Blender is optional for future rigged models, rendered sprites, or 3D scene refe
 
 ## Production order
 
-1. Approve one enemy, one rune tile, and one button as a matching style set.
+1. Produce and review Shadeling, one Spark tile treatment, and one reusable button as the matching RC-011 style set, using all four approved references and current runtime scales.
 2. Produce separate environment and enemy assets.
 3. Build reusable UI frames and symbols.
 4. Test outlines, contrast, and readability at phone size.
@@ -39,6 +41,17 @@ Blender is optional for future rigged models, rendered sprites, or 3D scene refe
 6. Verify Android and iOS device layouts.
 
 Do not crop the complete mockup into a single game background. Never bake health, energy, rune values, button labels, or circuit paths into finished background art.
+
+### Production conventions
+
+- Keep editable source masters in `source-assets/`, separated from runtime exports under `assets/`. Use layered `.ora` exchange masters for painted art, retain raw generation/application-native originals, and use editable SVG for symbols. Godot controls supply labels, values, bars, paths and input behavior. The [general contract](asset-production-spec.md#general) defines revisions, imports and source exclusion from builds.
+- Pilot exports stay under `source-assets/pilot/exports/` until RC-012/RC-013/RC-014 adopt and refine the appropriate pieces. A runtime-format PNG, SVG or preview is not proof of runtime readiness, integration, licensing or device acceptance. Preserve source/creator, prompt/model records where known, refinement history and unresolved rights in delivery notes.
+- Proposed characters use a 1024×1024 source and 512×512 transparent export, with shared foot anchor `(256,448)` in export coordinates. The [character contract](asset-production-spec.md#characters) defines framing, scale and four-state needs; the pilot tests the lean pose-plus-transform method before final pack production.
+- Decorative paint must leave precise [edge-port geometry](asset-production-spec.md#circuit-icons), upright text and shared selection/focus/invalid/temporary/placement markers readable. Validate sockets at the current 137-pixel cell size and the 72-pixel cells of the native 360-wide test viewport. Neither larger source art nor a full-screen reference proves small-size legibility.
+- Use shared scalable frames and live text. The [UI contract](asset-production-spec.md#ui-typography) covers normal, pressed, focused, selected, disabled, invalid and relevant unavailable states, plus typography and RC-008 inspector compatibility. An exhausted connector remains inspectable; a decorative border must not hide its count or intercept a control's touch area.
+- The four board IDs reuse one socket/circuit system and one crypt layer set. Three lighting presets (base cool, warm candle/recovery, dark guardian) reuse that art; they do not require four painted boards or environments. Home retains its separate tower illustration; Map uses reusable parchment with live route/node overlays.
+
+Current production uses random distinct Begin/End cells, player Rotate/Undo and finite connector kits. The approved Combat image's fixed arrangement, infinity symbol and BOSS label do not override those accepted rules or Shadeling's introductory normal-enemy role. Preserve the current Inspect, Cancel selection, Details / Pass, stock feedback and scrolling behavior described in [touch interactions](touch-interactions.md); visual refinement does not remove them to imitate an older mockup.
 
 ## Placeholder palette
 
@@ -51,7 +64,7 @@ Do not crop the complete mockup into a single game background. Never bake health
 - Shield: #82D6A0
 - Technique: #BA9BEF
 
-The inventory in asset-inventory.csv tracks what is reference material, a placeholder, or still needed. Final character animations, music, and production sound effects have not been generated.
+The manifest distinguishes approved visual references, existing placeholders and planned deliverables from source-ready, runtime-ready, integrated and device-verified assets, using the vocabulary in the [manifest guide](asset-manifest-guide.md#readiness-and-approval-vocabulary). Final character animations, music, and production sound effects are still planned; RC-010 does not generate them.
 
-The [v1 specification](v1-design-spec.md) and [content roster](content-roster.md) bound production to five character packs, one layered crypt with simple lighting variants, separate Home art, reusable UI/map assets, core effects/SFX, two music loops and ambience. Shadeling is proposed as the introductory normal enemy; its reference label is not a guardian commitment. RC-010 owns the full manifest expansion and production contracts. Screen behavior belongs to RC-025/RC-028/RC-032, with complete art integration in RC-042.
+The [v1 specification](v1-design-spec.md) and [content roster](content-roster.md) bound production to five character packs, one layered crypt with simple lighting variants, separate Home art, reusable UI/map assets, core effects/SFX, two music loops and ambience. Shadeling is proposed as the introductory normal enemy; its reference label is not a guardian commitment. RC-010 supplies the manifest and contracts; RC-011 validates the matching pilot before production. Screen behavior belongs to RC-025/RC-028/RC-032, with complete art integration in RC-042. [Delivery acceptance](asset-production-spec.md#delivery-acceptance) and [performance budgets](asset-production-spec.md#performance-budgets) keep desktop preview, import/integration and physical-device evidence separate.
 
