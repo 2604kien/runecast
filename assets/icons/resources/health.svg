@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Health — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('heart') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <path d="M50 91 C38 80 9 58 8 33 C5 9 33 3 50 25 C69 2 97 12 92 37 C88 60 63 82 50 91" fill="#e84145" stroke="#101522" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <path d="M50 82 C60 65 72 43 67 20 C91 9 96 31 86 50 Z" fill="#b72a35" stroke="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail">
+      <path d="M18 33 C15 19 30 13 40 25" fill="none" stroke="#ff8176" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

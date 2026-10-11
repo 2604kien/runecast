@@ -1,0 +1,58 @@
+{
+  "font_path": "C:\\Dev\\RuneCast\\source-assets\\pilot\\revisions\\r002\\type-geometry\\fonts\\NotoSerif-Variable.ttf",
+  "font_download_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserif/NotoSerif%5Bwdth%2Cwght%5D.ttf",
+  "licence_download_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserif/OFL.txt",
+  "metadata_download_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserif/METADATA.pb",
+  "acquisition_context": "r002 isolated review, after r001 rejection; exact official font, licence and metadata downloaded. No Git commands used.",
+  "font_sha256": "4d8e6761424656867019081a1a01336f3cb086982682698714054fc33f782713",
+  "font_bytes": 1887192,
+  "licence_sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a",
+  "license": "SIL Open Font License1.1; actual text retained",
+  "sfnt_names": {
+    "0": [
+      "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)"
+    ],
+    "1": [
+      "Noto Serif"
+    ],
+    "2": [
+      "Regular"
+    ],
+    "3": [
+      "2.015;GOOG;NotoSerif-Regular"
+    ],
+    "4": [
+      "Noto Serif Regular"
+    ],
+    "5": [
+      "Version 2.015"
+    ],
+    "6": [
+      "NotoSerif-Regular"
+    ],
+    "13": [
+      "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
+    ],
+    "14": [
+      "https://openfontlicense.org"
+    ]
+  },
+  "render_variation_axes": {
+    "wght": 600,
+    "wdth": 100
+  },
+  "pillow_axis_order": [
+    "wght",
+    "wdth"
+  ],
+  "production_status": "Review-only acquisition. No runtime asset/import/theme change or production integration.",
+  "role_direction": {
+    "title": "Noto Serif SemiBold36",
+    "large_action": "Noto Serif SemiBold48",
+    "board_label": "Noto Serif SemiBold17",
+    "card_label": "Noto Serif SemiBold20",
+    "value": "Noto Serif SemiBold30",
+    "navigation": "Noto Serif SemiBold21",
+    "body": "Noto Serif Regular20 for reference comparison; later inspector usability review required"
+  }
+}

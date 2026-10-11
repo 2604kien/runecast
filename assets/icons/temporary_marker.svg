@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Temporary hourglass — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Original RC-012 vector hourglass, using retained pilot gold/dark palette.</metadata>
+  <g>
+    <g id="outline">
+      <path d="M39 22H89 M39 106H89 M43 24V39L62 63L43 87V104 M85 24V39L66 63L85 87V104" fill="none" stroke="#101522" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <path d="M39 22H89 M39 106H89 M43 24V39L62 63L43 87V104 M85 24V39L66 63L85 87V104" fill="none" stroke="#e5c47d" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail">
+      <polygon points="49,34 79,34 64,54" fill="#ffe8a7" stroke="none" stroke-width="1" stroke-linejoin="round" />
+      <polygon points="64,74 80,98 48,98" fill="#ffe8a7" stroke="none" stroke-width="1" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

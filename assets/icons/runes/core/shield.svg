@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Shield — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('shield') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <path d="M50 5 Q74 21 91 19 L87 58 Q77 82 50 96 Q22 81 14 58 L10 19 Q34 22 50 5" fill="#2e9c4c" stroke="#101522" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <path d="M50 12V87 Q73 75 81 53 L83 27 Q67 28 50 12" fill="#54d06b" stroke="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail">
+      <path d="M20 27 Q38 29 50 15V55H22Z" fill="#9df691" stroke="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" />
+      <path d="M50 13V87 M20 54H81" fill="none" stroke="#b2ffab" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

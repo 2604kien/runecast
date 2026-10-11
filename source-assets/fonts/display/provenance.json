@@ -1,0 +1,16 @@
+{
+  "asset_id": "font_display",
+  "task": "RC-012",
+  "revision": "r001",
+  "family": "Noto Serif",
+  "version": "2.015",
+  "shared_provenance": "source-assets/fonts/ui/provenance.json",
+  "runtime_binary": "assets/fonts/ui/NotoSerif-Variable.ttf",
+  "font_sha256": "4d8e6761424656867019081a1a01336f3cb086982682698714054fc33f782713",
+  "resource": "assets/fonts/display/title.tres",
+  "weight": 700,
+  "width": 100,
+  "licence_file": "assets/fonts/ui/OFL.NotoSerif.txt",
+  "fallback": "assets/fonts/ui/labels.tres",
+  "duplicate_binary": false
+}

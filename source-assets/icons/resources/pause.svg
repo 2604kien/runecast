@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Pause — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('pause') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <rect x="27" y="14" width="16" height="72" fill="#fff0bd" stroke="#101522" stroke-width="3" rx="0" />
+    </g>
+    <g id="fill">
+      <rect x="60" y="14" width="16" height="72" fill="#fff0bd" stroke="#101522" stroke-width="3" rx="0" />
+    </g>
+    <g id="detail" />
+  </g>
+</svg>

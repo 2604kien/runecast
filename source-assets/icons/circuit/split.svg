@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Split — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Exact retained r006 ui/split.svg path/polygon geometry; uniform normalization translate(15.6 9) scale(1.1); removed unused filters.</metadata>
+  <g transform="translate(15.6 9) scale(1.1)">
+    <g id="outline">
+      <path d="M10 50H42 M42 50L78 13 M42 50L78 87" fill="none" stroke="#72f7eb" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill" />
+    <g id="detail" />
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Map — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('map') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <polygon points="5,20 33,9 66,22 95,7 95,78 64,92 33,79 5,92" fill="#e7c07c" stroke="#101522" stroke-width="4" stroke-linejoin="round" />
+    </g>
+    <g id="fill">
+      <path d="M33 10V78 M65 23V89" fill="none" stroke="#94703d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail">
+      <path d="M20 62Q21 28 44 40T78 51" fill="none" stroke="#2b2823" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 5" />
+      <circle cx="20" cy="62" r="5" fill="#252522" stroke="none" stroke-width="1" />
+      <polygon points="77,36 83,44 77,53 71,44" fill="#252522" stroke="none" stroke-width="1" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

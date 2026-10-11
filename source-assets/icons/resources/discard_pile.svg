@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Discard pile — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('skull') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <path d="M15 40C12 2 87 1 87 41L76 59V83H26V60Z" fill="#8790a1" stroke="#101522" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <circle cx="34" cy="39" r="12" fill="#202b40" stroke="none" stroke-width="1" />
+    </g>
+    <g id="detail">
+      <circle cx="67" cy="39" r="12" fill="#202b40" stroke="none" stroke-width="1" />
+      <polygon points="50,48 43,62 57,62" fill="#202b40" stroke="none" stroke-width="1" stroke-linejoin="round" />
+      <path d="M37 72V88 M50 72V88 M63 72V88" fill="none" stroke="#202b40" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

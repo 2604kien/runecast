@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Join — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Exact retained r006 ui/join.svg path/polygon geometry; uniform normalization translate(12.5 11.7275) scale(1.03); removed unused filters.</metadata>
+  <g transform="translate(12.5 11.7275) scale(1.03)">
+    <g id="outline">
+      <path d="M14 20V46L50 66L86 46V20 M50 14V91" fill="none" stroke="#ffd86a" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <polygon points="50,5 60,16 50,27 40,16" fill="#ffd86a" stroke="none" stroke-width="1" stroke-linejoin="round" />
+    </g>
+    <g id="detail" />
+  </g>
+</svg>

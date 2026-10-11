@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Rotate — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('rotate') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <path d="M75 22 A34 34 0 1 0 84 64" fill="none" stroke="#fff0bd" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <polygon points="74,6 95,33 65,37" fill="#fff0bd" stroke="#101522" stroke-width="3" stroke-linejoin="round" />
+    </g>
+    <g id="detail" />
+  </g>
+</svg>

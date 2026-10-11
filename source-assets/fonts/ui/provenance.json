@@ -1,0 +1,240 @@
+{
+  "asset_id": "font_ui",
+  "task": "RC-012",
+  "revision": "r001",
+  "date": "2026-10-11",
+  "family": "Noto Serif",
+  "version": "2.015",
+  "licence": "SIL Open Font License 1.1",
+  "copyright": "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)",
+  "retained_binary": "source-assets/pilot/revisions/r002/type-geometry/fonts/NotoSerif-Variable.ttf",
+  "runtime_binary": "assets/fonts/ui/NotoSerif-Variable.ttf",
+  "font_sha256": "4d8e6761424656867019081a1a01336f3cb086982682698714054fc33f782713",
+  "font_bytes": 1887192,
+  "licence_file": "assets/fonts/ui/OFL.NotoSerif.txt",
+  "licence_sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a",
+  "original_acquisition_record": "source-assets/pilot/revisions/r002/type-geometry/font-provenance.json",
+  "source_metadata": "source-assets/fonts/ui/METADATA.pb",
+  "upstream_repository": "https://github.com/notofonts/latin-greek-cyrillic",
+  "upstream_commit_from_retained_metadata": "c4a321e123e4d4ff315f57f4e0adf294fe3a95be",
+  "upstream_archive_from_retained_metadata": "https://github.com/notofonts/latin-greek-cyrillic/releases/download/NotoSerif-v2.015/NotoSerif-v2.015.zip",
+  "acquisition": "Reused exact retained r002 acquisition; no new download and no claim of fresh upstream verification.",
+  "transformation": "Byte-identical runtime copy. No subset, format conversion, static instance or renamed font family.",
+  "role_settings": {
+    "ui/labels": {
+      "resource": "assets/fonts/ui/labels.tres",
+      "weight": 600,
+      "width": 100,
+      "features": {
+        "tnum": 1
+      }
+    },
+    "ui/location": {
+      "resource": "assets/fonts/ui/location.tres",
+      "weight": 500,
+      "width": 100,
+      "features": {}
+    },
+    "display/title": {
+      "resource": "assets/fonts/display/title.tres",
+      "weight": 700,
+      "width": 100,
+      "features": {}
+    }
+  },
+  "fallback_strategy": {
+    "system_fallback": false,
+    "display_resource_unavailable": "Use the bundled ui/labels.tres resource and log the missing display resource; retain serif.",
+    "required_font_binary_unavailable": "Fail development import/package validation; do not ship an OS-dependent replacement.",
+    "unexpected_unicode": "Check has_char for each live/localized string before release. Normalize equivalent punctuation only deliberately; use SVG for game pictograms. Unsupported scripts require an explicitly bundled and licensed matching serif fallback and fresh checks.",
+    "optional_symbols": "Arrows/checks/hearts/lightning are art from the editable SVG library, not requirements placed on font fallback."
+  },
+  "godot_axis_keys": {
+    "wght": "weight",
+    "wdth": "width",
+    "tnum": 1953396077
+  },
+  "font_import_policy": {
+    "antialiasing": "grayscale",
+    "hinting": "auto",
+    "subpixel_positioning": "auto",
+    "generate_mipmaps": false,
+    "multichannel_signed_distance_field": false,
+    "allow_system_fallback": false,
+    "oversampling": 0.0
+  },
+  "inspection": {
+    "names": {
+      "0": [
+        "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)"
+      ],
+      "1": [
+        "Noto Serif"
+      ],
+      "2": [
+        "Regular"
+      ],
+      "3": [
+        "2.015;GOOG;NotoSerif-Regular"
+      ],
+      "4": [
+        "Noto Serif Regular"
+      ],
+      "5": [
+        "Version 2.015"
+      ],
+      "6": [
+        "NotoSerif-Regular"
+      ],
+      "13": [
+        "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
+      ],
+      "14": [
+        "https://openfontlicense.org"
+      ]
+    },
+    "axes": [
+      {
+        "tag": "wght",
+        "minimum": 100.0,
+        "default": 400.0,
+        "maximum": 900.0
+      },
+      {
+        "tag": "wdth",
+        "minimum": 62.5,
+        "default": 100.0,
+        "maximum": 100.0
+      }
+    ],
+    "unicode_cmap_formats": [
+      4,
+      12
+    ],
+    "unicode_codepoint_count": 2965,
+    "opentype_features": {
+      "GSUB": [
+        "aalt",
+        "c2sc",
+        "case",
+        "ccmp",
+        "dnom",
+        "frac",
+        "liga",
+        "lnum",
+        "locl",
+        "mgrk",
+        "numr",
+        "onum",
+        "ordn",
+        "pnum",
+        "rtlm",
+        "sinf",
+        "smcp",
+        "ss03",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "tnum",
+        "zero"
+      ],
+      "GPOS": [
+        "kern",
+        "mark",
+        "mkmk"
+      ]
+    },
+    "units_per_em": 1000,
+    "default_digit_advances": {
+      "0": 559,
+      "1": 559,
+      "2": 559,
+      "3": 559,
+      "4": 559,
+      "5": 559,
+      "6": 559,
+      "7": 559,
+      "8": 559,
+      "9": 559
+    },
+    "coverage": {
+      "ascii": {
+        "characters": 95,
+        "missing": []
+      },
+      "punctuation": {
+        "characters": 28,
+        "missing": []
+      },
+      "display": {
+        "characters": 21,
+        "missing": []
+      },
+      "location": {
+        "characters": 16,
+        "missing": []
+      },
+      "board_endpoints": {
+        "characters": 7,
+        "missing": []
+      },
+      "controls": {
+        "characters": 23,
+        "missing": []
+      },
+      "cards": {
+        "characters": 39,
+        "missing": []
+      },
+      "external_values": {
+        "characters": 31,
+        "missing": []
+      },
+      "status": {
+        "characters": 24,
+        "missing": []
+      }
+    },
+    "non_ui_symbols": {
+      "U+2192": {
+        "character": "→",
+        "covered": false
+      },
+      "U+2190": {
+        "character": "←",
+        "covered": false
+      },
+      "U+2191": {
+        "character": "↑",
+        "covered": false
+      },
+      "U+2193": {
+        "character": "↓",
+        "covered": false
+      },
+      "U+2713": {
+        "character": "✓",
+        "covered": false
+      },
+      "U+2715": {
+        "character": "✕",
+        "covered": false
+      },
+      "U+221E": {
+        "character": "∞",
+        "covered": false
+      },
+      "U+26A1": {
+        "character": "⚡",
+        "covered": false
+      },
+      "U+2665": {
+        "character": "♥",
+        "covered": false
+      }
+    }
+  },
+  "reference_identity": "Practical selected direction from r006; unknown supplied reference font not identified.",
+  "integration_status": "Standalone production assets only. No main-game theme or gameplay changes."
+}

@@ -1,0 +1,14 @@
+config_version=5
+
+[application]
+config/name="RC-012 isolated import specimens"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=64
+window/size/viewport_height=64
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false

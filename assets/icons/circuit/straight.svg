@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Straight — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. RC-012 exact edge geometry; undirected replacement for historical directed wire art.</metadata>
+  <g>
+    <g id="outline">
+      <path d="M0 64H128" fill="none" stroke="#ffc84f" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" data-role="connection" />
+    </g>
+    <g id="fill">
+      <path d="M0 64H128" fill="none" stroke="#fff0a1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail" />
+  </g>
+</svg>

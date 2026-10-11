@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — End — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. r006 open endpoint ring and central diamond; centered on SVG128.</metadata>
+  <g>
+    <g id="outline">
+      <path d="M40.55 100.05 A43 43 0 1 1 87.45 100.05" fill="none" stroke="#31dce1" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <circle cx="64" cy="64" r="33" fill="#03434b" stroke="#258b94" stroke-width="3" />
+    </g>
+    <g id="detail">
+      <polygon points="64,45 83,64 64,83 45,64" fill="#80fff0" stroke="#24bac1" stroke-width="2" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

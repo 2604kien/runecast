@@ -1,0 +1,440 @@
+{
+  "schema_version": 1,
+  "task": "RC-012",
+  "revision": "r001",
+  "date": "2026-10-11",
+  "symbol_count": 24,
+  "source_status": "delivered SVG source; Godot import/visual evidence recorded separately by integration preview",
+  "coordinate_system": {
+    "viewbox": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "origin": "top_left",
+    "pivot": [
+      64,
+      64
+    ],
+    "decorative_safe_bounds": [
+      16,
+      16,
+      112,
+      112
+    ],
+    "port_coordinates": {
+      "N": [
+        64,
+        0
+      ],
+      "E": [
+        128,
+        64
+      ],
+      "S": [
+        64,
+        128
+      ],
+      "W": [
+        0,
+        64
+      ]
+    },
+    "quarter_turn": "clockwise about (64,64)",
+    "rotation_map": "N->E->S->W->N; text and card/detail badges stay upright",
+    "wire_width_normalized": 8,
+    "wire_width_at_137": 8.5625,
+    "wire_width_at_72": 4.5,
+    "wire_runtime_recipe": "SVG8 normalized main width: 1.5/2/3 logical pixels at 24/32/48; 4.5/8.5625 at 72/137. Drawn matching segments use 8*cell_side/128; no arrowheads.",
+    "channel_half_width": 10,
+    "grid_gap": "6 design px is renderer-owned; do not move cell-edge port coordinates"
+  },
+  "connections": {
+    "begin": "E to center; render separately from Begin decoration",
+    "end": "N to center; render separately from End decoration",
+    "spark": "W/E; symbol and connections separate",
+    "shield": "W/E; symbol and connections separate",
+    "focus": "technique; none",
+    "conjure": "technique; none",
+    "split": null,
+    "join": null,
+    "unresolved": "Split/Join glyph tips are decorative. Undirected graph/branch aggregation/cycle/repeated-trigger policy belongs to gameplay migration, not RC-012."
+  },
+  "import_recipe": {
+    "svg_scale": 2.0,
+    "texture_size": [
+      256,
+      256
+    ],
+    "compression": "lossless",
+    "mipmaps": false,
+    "filtering": "linear; preview at integer-aligned positions; nearest is inappropriate for these antialiased outlines",
+    "decoded_rgba8_mib": 6.0,
+    "notes": "6 MiB conservative all-24 decoded estimate at scale2; engine font atlases, buffers and transient copies excluded. Source SVGs excluded by source-assets/.gdignore."
+  },
+  "appearance": {
+    "shader": "assets/icons/symbol_tint.gdshader",
+    "modes": {
+      "0": "original color",
+      "1": "luminance monochrome; retains outline/facet readability",
+      "2": "one-color alpha silhouette; diagnostic/accessibility supplemental preview"
+    },
+    "selected": "outline plus corner check",
+    "focused": "dashed outer outline",
+    "disabled": "reduced opacity plus disabled treatment and live label",
+    "unavailable": "struck slot/slash plus unavailable live label",
+    "invalid": "cross plus live explanation",
+    "note": "Interaction overlays are theme/consumer geometry, never copied glyph files. Monochrome mode1 is the preferred working monochrome; alpha-only mode2 loses interior detail.",
+    "monochrome_on_dark": "mode1 with light ink and default black monochrome_paper",
+    "monochrome_on_parchment": "mode1 with dark ink (#111b29) and light monochrome_paper (#e8d5aa); direct dark multiplication loses internal detail"
+  },
+  "provenance": {
+    "creator": "OpenAI Codex precise vector authoring/adaptation in local workspace",
+    "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+    "sources": {
+      "source-assets/pilot/revisions/r006/build_review.py": "c08d931a8c6ef2b37ab7a40601150541d1aedcc565f6a3cae9223446375b384b",
+      "source-assets/pilot/revisions/r006/ui/spark.svg": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873",
+      "source-assets/pilot/revisions/r006/ui/split.svg": "1fa9df355cfd7d7c64022ef43520fadcef87de95b10660d9add27bdad47ffdb9",
+      "source-assets/pilot/revisions/r006/ui/join.svg": "b1335c50c2f21b6db4265ad0a80b6d5d4cae6196af6398e75e5786340bec0daa"
+    },
+    "source_art_method": "Retained r006 explicit vector primitives reused; original additions hand-authored by Codex. No image generation, tracing raster embeds, third-party icon set or external font dependency.",
+    "rights": "Original project vector construction; no third-party icon licence added. Reference provenance/owner approval does not establish separate shipping-rights clearance; RC-050 audits final shipped assets.",
+    "owner_approval": "Supplied reference only; adapted assets are not separately owner-approved or pixel-identical."
+  },
+  "symbols": [
+    {
+      "id": "circuit_begin",
+      "asset_id": "circuit_geometry",
+      "label": "Begin",
+      "source": "source-assets/icons/circuit/begin.svg",
+      "runtime": "assets/icons/circuit/begin.svg",
+      "sha256": "1772ce8be0feeea294c03119986dee84fa60018a34febc64284eb31d8b3bdd0b",
+      "provenance": "r006 begin_mark polygon and endpoint rings; centered on SVG128.",
+      "usage": "Board endpoint; BEGIN is a separate live label.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "E"
+      ],
+      "port_status": "existing endpoint orientation retained as undirected art recipe; evaluator migration owns behavior"
+    },
+    {
+      "id": "circuit_end",
+      "asset_id": "circuit_geometry",
+      "label": "End",
+      "source": "source-assets/icons/circuit/end.svg",
+      "runtime": "assets/icons/circuit/end.svg",
+      "sha256": "691121485a6b0bf9519e0c7bf5b127c8c32d172171e03e88cb3a607038a13af2",
+      "provenance": "r006 open endpoint ring and central diamond; centered on SVG128.",
+      "usage": "Board endpoint; END is a separate live label.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "N"
+      ],
+      "port_status": "existing endpoint orientation retained as undirected art recipe; evaluator migration owns behavior"
+    },
+    {
+      "id": "circuit_straight",
+      "asset_id": "circuit_geometry",
+      "label": "Straight",
+      "source": "source-assets/icons/circuit/straight.svg",
+      "runtime": "assets/icons/circuit/straight.svg",
+      "sha256": "247197dd3154398b219f03080b8438e0ac5084f086667dac6452d85c07b25892",
+      "provenance": "RC-012 exact edge geometry; undirected replacement for historical directed wire art.",
+      "usage": "Full-cell connection geometry; inset whole image for toolbar icon.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "W",
+        "E"
+      ],
+      "kind": "connection",
+      "connection_path": "M0 64H128",
+      "art_safe_bounds_exception": "connection stroke intentionally reaches exact cell edges"
+    },
+    {
+      "id": "circuit_corner",
+      "asset_id": "circuit_geometry",
+      "label": "Corner",
+      "source": "source-assets/icons/circuit/corner.svg",
+      "runtime": "assets/icons/circuit/corner.svg",
+      "sha256": "782df6370f532eb0f612b257d5dfe7d5a88bb9fcad50a63d11ae79f8b05ab9dd",
+      "provenance": "RC-012 exact edge geometry; undirected replacement for historical directed wire art.",
+      "usage": "Full-cell connection geometry; inset whole image for toolbar icon.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "W",
+        "S"
+      ],
+      "kind": "connection",
+      "connection_path": "M0 64H64V128",
+      "art_safe_bounds_exception": "connection stroke intentionally reaches exact cell edges"
+    },
+    {
+      "id": "circuit_split",
+      "asset_id": "circuit_geometry",
+      "label": "Split",
+      "source": "source-assets/icons/circuit/split.svg",
+      "runtime": "assets/icons/circuit/split.svg",
+      "sha256": "933ca8756954983becf288df952ff5510d887ec099ca2be944683725c995550b",
+      "provenance": "Exact retained r006 ui/split.svg path/polygon geometry; uniform normalization translate(15.6 9) scale(1.1); removed unused filters.",
+      "usage": "Decorative board/tool silhouette. Terminals are not connection ports.",
+      "decorative_ports": [],
+      "logical_ports": null,
+      "kind": "decoration",
+      "port_status": "UNRESOLVED: integration/evaluator follow-up must confirm undirected graph; do not infer port count from fork/trident",
+      "normalized_transform": "translate(15.6 9) scale(1.1)"
+    },
+    {
+      "id": "circuit_join",
+      "asset_id": "circuit_geometry",
+      "label": "Join",
+      "source": "source-assets/icons/circuit/join.svg",
+      "runtime": "assets/icons/circuit/join.svg",
+      "sha256": "f2c6a49e0288deb06e67ddfa1840ad9c09e3c15769c199d50c0d12daacb6e2c1",
+      "provenance": "Exact retained r006 ui/join.svg path/polygon geometry; uniform normalization translate(12.5 11.7275) scale(1.03); removed unused filters.",
+      "usage": "Decorative board/tool silhouette. Terminals are not connection ports.",
+      "decorative_ports": [],
+      "logical_ports": null,
+      "kind": "decoration",
+      "port_status": "UNRESOLVED: integration/evaluator follow-up must confirm undirected graph; do not infer port count from fork/trident",
+      "normalized_transform": "translate(12.5 11.7275) scale(1.03)"
+    },
+    {
+      "id": "runes_core_spark",
+      "asset_id": "rune_symbols",
+      "label": "Spark",
+      "source": "source-assets/icons/runes/core/spark.svg",
+      "runtime": "assets/icons/runes/core/spark.svg",
+      "sha256": "30027828d49cf2f6953797e4d51f69847d91e1e64f85b96594cd010b9ece798c",
+      "provenance": "Exact retained r006/r002 Spark rays, center and highlight; original SVG128 coordinates.",
+      "usage": "Spark and Free Spark share this board symbol. Free Spark identity/temporary marker stays on hand/detail surfaces.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "W",
+        "E"
+      ],
+      "port_status": "separate undirected effect connection recipe; no connection strokes baked into glyph"
+    },
+    {
+      "id": "runes_core_shield",
+      "asset_id": "rune_symbols",
+      "label": "Shield",
+      "source": "source-assets/icons/runes/core/shield.svg",
+      "runtime": "assets/icons/runes/core/shield.svg",
+      "sha256": "b6e85a5c1a496c06f25a68f834d39638c1b91904de1911a2643b10c607adfc28",
+      "provenance": "Retained r006 build_review.py icon('shield') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Board effect or detailed card; straight connections separate.",
+      "decorative_ports": [],
+      "logical_ports": [
+        "W",
+        "E"
+      ],
+      "port_status": "separate effect connection recipe"
+    },
+    {
+      "id": "runes_core_focus",
+      "asset_id": "rune_symbols",
+      "label": "Focus",
+      "source": "source-assets/icons/runes/core/focus.svg",
+      "runtime": "assets/icons/runes/core/focus.svg",
+      "sha256": "6e552b34c02f05d851c735fa52f30fb7ba2cad4f4cfec5ea5fb53263acdec4a2",
+      "provenance": "Retained r006 build_review.py icon('book') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Technique card/detail only; no board ports.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "navigation_menu",
+      "asset_id": "navigation_icons",
+      "label": "Menu",
+      "source": "source-assets/icons/navigation/menu.svg",
+      "runtime": "assets/icons/navigation/menu.svg",
+      "sha256": "0f5241ce144c2f7d3998e72092c015ca6c25eb164e149b8fa4e479026bd4cd77",
+      "provenance": "Retained r006 build_review.py icon('menu') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Bottom Menu navigation and identified menu buttons.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "navigation_map",
+      "asset_id": "navigation_icons",
+      "label": "Map",
+      "source": "source-assets/icons/navigation/map.svg",
+      "runtime": "assets/icons/navigation/map.svg",
+      "sha256": "b773919154e159ee888205e0c84f27dc1584e9bd2b2b364bb1a1753cba4e80d2",
+      "provenance": "Retained r006 build_review.py icon('map') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Bottom Map navigation and route entry.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "navigation_guide",
+      "asset_id": "navigation_icons",
+      "label": "Guide",
+      "source": "source-assets/icons/navigation/guide.svg",
+      "runtime": "assets/icons/navigation/guide.svg",
+      "sha256": "681952d79fbdd3e0c10723a6e669f7f5962bc1345beacd9f1874907b61513e2a",
+      "provenance": "Retained r006 build_review.py icon('guide') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Bottom Guide navigation; question mark is vector geometry.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "navigation_sound_on",
+      "asset_id": "navigation_icons",
+      "label": "Sound on",
+      "source": "source-assets/icons/navigation/sound_on.svg",
+      "runtime": "assets/icons/navigation/sound_on.svg",
+      "sha256": "ef59fa5c92e655b39498234c4fe47cc18c0081805d8fc810eede5510408e4341",
+      "provenance": "Retained r006 build_review.py icon('sound') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Bottom Sound toggle; sound waves show enabled state.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "editing_remove",
+      "asset_id": "editing_icons",
+      "label": "Remove",
+      "source": "source-assets/icons/editing/remove.svg",
+      "runtime": "assets/icons/editing/remove.svg",
+      "sha256": "d6453633a69b9048285349e84b2c113dc21fb023fb9c82576e6c71c471174354",
+      "provenance": "Retained r006 build_review.py icon('remove') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Remove action only; eraser retains dark tip.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "editing_rotate",
+      "asset_id": "editing_icons",
+      "label": "Rotate",
+      "source": "source-assets/icons/editing/rotate.svg",
+      "runtime": "assets/icons/editing/rotate.svg",
+      "sha256": "20d67ac2539001c8285a2179de6c273b9d1388b215401396bd633176d12c065a",
+      "provenance": "Retained r006 build_review.py icon('rotate') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Rotate editing action; curved arrow allowed, never circuit direction.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_health",
+      "asset_id": "resource_icons",
+      "label": "Health",
+      "source": "source-assets/icons/resources/health.svg",
+      "runtime": "assets/icons/resources/health.svg",
+      "sha256": "77c5967614dc34a9fb8a6269f29c6cb10307b4e280d23927b19487901a96fb36",
+      "provenance": "Retained r006 build_review.py icon('heart') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Player/enemy health and recovery values remain live.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_energy",
+      "asset_id": "resource_icons",
+      "label": "Energy",
+      "source": "source-assets/icons/resources/energy.svg",
+      "runtime": "assets/icons/resources/energy.svg",
+      "sha256": "6019673b65f3403393afb1105cfee20ca592d0c8e2d6228f7f467c732cdb38bb",
+      "provenance": "Retained r006 build_review.py icon('crystal') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Energy and cost crystal; live values outside glyph.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_attack",
+      "asset_id": "resource_icons",
+      "label": "Attack",
+      "source": "source-assets/icons/resources/attack.svg",
+      "runtime": "assets/icons/resources/attack.svg",
+      "sha256": "cde49f901a8d1abcf1cda4d4735c1aacebf4be007868499b5f133ee70b2cb31d",
+      "provenance": "Retained r006 build_review.py icon('sword') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Initial attack intent and incoming-damage forecast; live number.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_draw_pile",
+      "asset_id": "resource_icons",
+      "label": "Draw pile",
+      "source": "source-assets/icons/resources/draw_pile.svg",
+      "runtime": "assets/icons/resources/draw_pile.svg",
+      "sha256": "1e5e2570972f93edf5137685069b55ec5740972f0054697f24d5aa65b1901fea",
+      "provenance": "Retained r006 build_review.py icon('deck') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Draw pile emblem; separate frame, DRAW label and count.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_discard_pile",
+      "asset_id": "resource_icons",
+      "label": "Discard pile",
+      "source": "source-assets/icons/resources/discard_pile.svg",
+      "runtime": "assets/icons/resources/discard_pile.svg",
+      "sha256": "b21694fcf945ebc277338034578a5df64a18964108a19d95938eb50082c6c2a1",
+      "provenance": "Retained r006 build_review.py icon('skull') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Discard pile emblem; separate frame, DISCARD label and count.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "resources_pause",
+      "asset_id": "resource_icons",
+      "label": "Pause",
+      "source": "source-assets/icons/resources/pause.svg",
+      "runtime": "assets/icons/resources/pause.svg",
+      "sha256": "3beeec50a37573ddcdc0307d8938e02c03fc278055a018ab4df95e16e896ab1b",
+      "provenance": "Retained r006 build_review.py icon('pause') geometry and palette; normalized with translate(19 19) scale(0.9).",
+      "usage": "Top pause control explicitly retained by current visual contract.",
+      "decorative_ports": [],
+      "logical_ports": [],
+      "port_status": "not a board connection symbol"
+    },
+    {
+      "id": "navigation_sound_off",
+      "asset_id": "navigation_icons",
+      "label": "Sound off",
+      "source": "source-assets/icons/navigation/sound_off.svg",
+      "runtime": "assets/icons/navigation/sound_off.svg",
+      "sha256": "c587733264019f4d4e399a5b270cd60fffeae8f9ee561b5fc4284b1a4912ea53",
+      "provenance": "r006 Sound speaker with original RC-012 cross replacing waves; shared shape and palette.",
+      "usage": "Bottom Sound toggle; crossed speaker distinguishes mute without color.",
+      "decorative_ports": [],
+      "logical_ports": []
+    },
+    {
+      "id": "runes_core_conjure",
+      "asset_id": "rune_symbols",
+      "label": "Conjure",
+      "source": "source-assets/icons/runes/core/conjure.svg",
+      "runtime": "assets/icons/runes/core/conjure.svg",
+      "sha256": "7619b9d2585e2f257f73f1f064039dfc49f7cf727572ca616337686c3d3d1c88",
+      "provenance": "Original RC-012 precise vector cupped-hand/creation-star motif; r006 violet/gold palette, no external icon set.",
+      "usage": "Conjure Spark technique card/detail only; no board ports. Live effect text identifies creation.",
+      "decorative_ports": [],
+      "logical_ports": []
+    },
+    {
+      "id": "temporary_marker",
+      "asset_id": "temporary_marker",
+      "label": "Temporary hourglass",
+      "source": "source-assets/icons/temporary_marker.svg",
+      "runtime": "assets/icons/temporary_marker.svg",
+      "sha256": "cf96b3daf9dfc791640d7b32ad9c0345b909422c3ae4b03374e64c37be317a23",
+      "provenance": "Original RC-012 vector hourglass, using retained pilot gold/dark palette.",
+      "usage": "Free Spark detailed hand card/detail/Guide lifetime cue plus live wording; prohibited on clean board.",
+      "decorative_ports": [],
+      "logical_ports": []
+    }
+  ]
+}

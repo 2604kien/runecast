@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Conjure — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Original RC-012 precise vector cupped-hand/creation-star motif; r006 violet/gold palette, no external icon set.</metadata>
+  <g>
+    <g id="outline">
+      <path d="M22 84L37 70Q44 66 50 72L57 79L73 77Q85 68 97 59L105 63Q102 72 86 88L69 103L39 105Z" fill="#ad76e4" stroke="#101522" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="fill">
+      <path d="M39 91L66 91L84 79 M28 84L39 101" fill="none" stroke="#e7c9ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail">
+      <polygon points="65,19 70,34 85,39 70,44 65,60 60,44 45,39 60,34" fill="#ffd66a" stroke="#9b632b" stroke-width="2" stroke-linejoin="round" />
+      <path d="M32 32L36 26 M94 30L99 24" fill="none" stroke="#ecd3ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

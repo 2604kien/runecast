@@ -1,0 +1,9 @@
+Noto Serif 2.015 variable font
+Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)
+Licensed under the SIL Open Font License, Version 1.1.
+The exact licence accompanies the binary in ui/OFL.NotoSerif.txt.
+
+Shared binary: ui/NotoSerif-Variable.ttf
+Original font is redistributed byte-for-byte; no conversion or subsetting.
+FontVariation resources only choose existing width/weight axes.
+The practical selected family is not an identification of the reference image's unknown font.

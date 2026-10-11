@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Begin — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. r006 begin_mark polygon and endpoint rings; centered on SVG128.</metadata>
+  <g>
+    <g id="outline">
+      <circle cx="64" cy="64" r="43" fill="#07595c" stroke="#31dce1" stroke-width="6" />
+    </g>
+    <g id="fill">
+      <circle cx="64" cy="64" r="33" fill="#03434b" stroke="#258b94" stroke-width="3" />
+    </g>
+    <g id="detail">
+      <g transform="translate(64 64) scale(1.35)">
+        <polygon points="-15,-6 -4,6 17,-14 21,-9 -4,15 -20,0" fill="#73fff1" stroke="none" stroke-width="1" stroke-linejoin="round" />
+      </g>
+    </g>
+  </g>
+</svg>

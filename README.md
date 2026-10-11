@@ -12,6 +12,8 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-010 complete, October 9, 2026:** the [asset manifest](docs/asset-inventory.csv), [consumer mapping and audit guide](docs/asset-manifest-guide.md), [production specification](docs/asset-production-spec.md) and [matching pilot brief](docs/style-pilot-brief.md) define the bounded asset set, proposed technical contracts and separate production/integration ownership. No final art or runtime integration is delivered by this task. Document/manifest validation passes; **RC-011 is next**, with RC-024 and RC-033 also ready under the [plan](docs/project-plan.md).
 
+**RC-012 complete, October 11, 2026:** the [core symbol and typography library](docs/core-symbols-and-typography.md) provides editable source/runtime paths and isolated Godot verification for the clean-board visual contract. Current main-game mechanics and controls remain the earlier baseline. [RC-016A](docs/project-plan.md#rc-016a--undirected-evaluator-and-control-migration-gate) owns their explicit migration before full integration; **RC-013, the reusable UI theme, is the next numbered task**.
+
 ## Start the project
 
 The pinned editor is **Godot 4.7.2 Standard with GDScript**, using the Compatibility renderer. No Blender or .NET dependency is required.
@@ -136,6 +138,7 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 - [Asset inventory](docs/asset-inventory.csv)
 - [Asset consumers, readiness vocabulary and source audit](docs/asset-manifest-guide.md)
 - [Asset production contracts and provisional budgets](docs/asset-production-spec.md)
+- [RC-012 core symbols and typography — editable sources, shared fonts and actual Godot previews](docs/core-symbols-and-typography.md)
 - [RC-011 matching Shadeling, Spark and button pilot](docs/style-pilot-brief.md)
 
 ## Structure

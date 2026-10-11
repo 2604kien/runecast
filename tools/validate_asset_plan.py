@@ -2,6 +2,7 @@
 
 Run with Python 3 from any directory. No Godot, network or Git access.
 """
+import argparse
 import csv
 import hashlib
 import json
@@ -11,7 +12,13 @@ from pathlib import Path
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
-QA = ROOT / "output/qa/rc-010"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--report", default="output/qa/rc-010/validation-report.json",
+                    help="Repository-relative report path; later tasks should preserve the RC-010 historical report")
+args = parser.parse_args()
+REPORT = (ROOT / args.report).resolve()
+if not REPORT.is_relative_to(ROOT.resolve()) or REPORT.suffix != ".json":
+    parser.error("--report must name a JSON file inside the repository")
 CLEANUP_LEDGER = "output/art/rc-011/cleanup/deletion-manifest.json"
 BASELINE_SHA256 = "a9433d2eb4fa3a0a56b693574e5287ec5ce2b3517dbd04fa0a3004a6c1228a81"
 errors = []
@@ -143,8 +150,9 @@ def csv_rows(path, key):
 
 
 def task_ids(value):
-    found = set(re.findall(r"RC-\d{3}", value))
-    for first, last in re.findall(r"RC-(\d{3})[–-](?:RC-)?(\d{3})", value):
+    # A suffixed follow-up is a distinct task, never an alias for its parent.
+    found = set(re.findall(r"\bRC-\d{3}[A-Z]*\b", value))
+    for first, last in re.findall(r"\bRC-(\d{3})[–-](?:RC-)?(\d{3})(?![A-Z0-9])\b", value):
         found.update(f"RC-{number:03}" for number in range(int(first), int(last) + 1))
     return found
 
@@ -209,10 +217,16 @@ check(set(original) <= assets.keys(), "Original asset IDs were removed", "preser
 task_graph = {}
 for line in read("docs/project-plan.md").splitlines():
     cells = line.split("|")
-    if len(cells) >= 6 and re.search(r"\[[ xX]\].*\*\*RC-\d{3}\*\*", cells[1]):
-        owner = re.search(r"RC-\d{3}", cells[1]).group()
+    if len(cells) >= 6 and re.search(r"\[[ xX]\].*\*\*RC-\d{3}[A-Z]*\*\*", cells[1]):
+        owner = re.search(r"\bRC-\d{3}[A-Z]*\b", cells[1]).group()
+        check(owner not in task_graph, f"Duplicate task definition: {owner}", "ownership")
         task_graph[owner] = task_ids(cells[3])
-check(len(task_graph) == 60, "Could not read all 60 task definitions", "ownership")
+original_tasks = {f"RC-{number:03}" for number in range(1, 61)}
+check(original_tasks <= task_graph.keys(), "Missing original task definitions: " + str(sorted(original_tasks - task_graph.keys())), "ownership")
+for owner, dependencies in task_graph.items():
+    check(owner in original_tasks or bool(re.fullmatch(r"RC-\d{3}[A-Z]+", owner)) and owner[:6] in original_tasks,
+          f"Unexpected task identity: {owner}", "ownership")
+    check(dependencies <= task_graph.keys(), f"Unknown task dependencies: {owner}/{sorted(dependencies - task_graph.keys())}", "ownership")
 cycle_check(task_graph, "Task")
 asset_graph = {row["id"]: set(tokens(row["asset_dependencies"])) for row in manifest}
 cycle_check(asset_graph, "Asset")
@@ -280,6 +294,22 @@ for row in manifest:
     if row["id"] in {"button_frames", "ui_frames", "ui_state_overlays", "pilot_button"}:
         check({"normal", "pressed", "focused", "selected", "disabled", "invalid", "unavailable"}
               <= set(tokens(row["required_states_variants"])), f"Missing UI states: {row['id']}", "states")
+
+# The approved clean-board contract supersedes the historical RC-010 controls.
+edit_states = set(tokens(assets["editing_icons"]["required_states_variants"]))
+check({"remove", "rotate"} <= edit_states, "Missing approved Remove/Rotate editing symbols", "current_contract")
+check(not ({"flip", "undo", "erase", "inspect", "cancel", "details", "close", "pass"} & edit_states),
+      "Retired toolbar symbols returned to editing_icons", "current_contract")
+check("card/detail only" in assets["temporary_marker"]["required_states_variants"],
+      "Temporary marker must be restricted to card/detail consumers", "current_contract")
+check("no board badge" in mapping["free_spark"]["required_states"],
+      "Free Spark mapping must exclude board badges", "current_contract")
+check({"undirected", "rotations0-3", "BEGIN/END text only"} <= set(tokens(assets["circuit_geometry"]["required_states_variants"])),
+      "Circuit geometry lacks clean-board/undirected rotation requirements", "current_contract")
+check(not any(">" in state or "reversal" in state for state in tokens(assets["circuit_geometry"]["required_states_variants"])),
+      "Directed artwork remains required by circuit_geometry", "current_contract")
+check("RC-016A" in ancestors("RC-016", task_graph),
+      "Full RC-016 integration must depend on the explicit evaluator/control migration task", "current_contract")
 destinations = {}
 for row in manifest:
     if row["row_kind"] == "deliverable" and row["runtime_path_state"] == "planned":
@@ -289,7 +319,7 @@ for row in manifest:
 
 docs = ["README.md", "docs/art-direction.md", "docs/asset-manifest-guide.md", "docs/asset-production-spec.md",
         "docs/style-pilot-brief.md", "docs/project-plan.md", "docs/verification.md",
-        "docs/visual-reference.md", "docs/gameplay-visual-contract.md"]
+        "docs/visual-reference.md", "docs/gameplay-visual-contract.md", "docs/core-symbols-and-typography.md"]
 for doc in docs:
     for reference in re.findall(r"\]\(([^)]+)\)", read(doc)):
         reference = reference.split(' "')[0].strip("<>")
@@ -302,6 +332,35 @@ check(hashlib.sha256(baseline_path.read_bytes()).hexdigest() == BASELINE_SHA256,
       "Original preservation baseline bytes changed", "preservation")
 baseline = json.loads(read("output/qa/rc-010/preservation-baseline.json"))
 preservation = preservation_partition(baseline, cleanup)
+# RC-012 is authorized to keep source masters out and ship the font licence.
+# Permit only the exact two filter additions on each platform. Reversing those
+# bytes must reproduce the immutable RC-010 baseline; no other config edit passes.
+export_filter_update = None
+export_path = "export_presets.cfg"
+if export_path in preservation["unexpected"]:
+    current = (ROOT / export_path).read_bytes()
+    additions = (
+        (b'include_filter="data/*.json,assets/fonts/ATTRIBUTION.txt,assets/fonts/ui/OFL.NotoSerif.txt"',
+         b'include_filter="data/*.json"'),
+        (b'exclude_filter="docs/*,output/*,tools/*,tests/*,.tools/*,.local/*,source-assets/*"',
+         b'exclude_filter="docs/*,output/*,tools/*,tests/*,.tools/*,.local/*"'),
+    )
+    restored_export = current
+    exact_counts = all(current.count(after) == 2 for after, before in additions)
+    for after, before in additions:
+        restored_export = restored_export.replace(after, before)
+    expected = next(row["sha256"] for row in baseline if row["path"] == export_path)
+    if exact_counts and hashlib.sha256(restored_export).hexdigest() == expected:
+        export_filter_update = {
+            "path": export_path, "before_sha256": expected,
+            "after_sha256": hashlib.sha256(current).hexdigest(),
+            "authorization": "RC-012 user request: narrowly necessary source exclusions and required font licence/attribution delivery",
+            "changes": "Both presets add source-assets/* exclusion and explicit font OFL/attribution inclusion; every other byte is verified against the original baseline",
+        }
+        preservation["unexpected"].remove(export_path)
+        preservation["authorized_export_filters"] = [export_path]
+        preservation["counts"]["unexpected"] = len(preservation["unexpected"])
+        preservation["counts"]["authorized_export_filters"] = 1
 changed = preservation["unexpected"]
 check(not changed, f"Unexpected protected-file changes: {changed}", "preservation")
 historical = sorted((ROOT / "output/imagegen").glob("*.prompt.txt"))
@@ -324,18 +383,21 @@ for screen, stem in {"combat": "rune-cast-gameplay-reference-v5-navigation", "ho
                            "identical": approved == history if history else None}
 
 report = {"task": "RC-010", "planning_date": "2026-10-09", "result": "PASS" if not errors else "FAIL",
+          "task_definitions": len(task_graph), "original_tasks_preserved": len(original_tasks & task_graph.keys()),
+          "suffixed_tasks": sorted(task_graph.keys() - original_tasks),
           "asset_records": len(manifest), "consumer_records": len(consumers), "original_ids_preserved": len(original),
           "category_counts": dict(sorted(Counter(row["category"] for row in manifest).items())),
           "readiness_counts": dict(sorted(Counter(row["readiness_status"] for row in manifest).items())),
           "consumer_kind_counts": dict(sorted(Counter(row["kind"] for row in consumers).items())),
           "roster_ids_mapped": len(roster_ids), "checks_by_family": dict(counts), "errors": errors,
           "protected_files": len(baseline), "protected_changes": changed, "preservation": preservation,
+          "authorized_export_filter_update": export_filter_update,
           "cleanup": {"path": CLEANUP_LEDGER, "present": cleanup["present"], "completed": cleanup["completed"],
                       "removed_files": len(cleanup["removed"]), "updated_files": len(cleanup["updated"])},
           "historical_prompt_pairs": len(historical),
           "approved_history_comparisons": comparisons,
           "limits": "Document/manifest checks only; no new Godot, artwork, import, licensing or device acceptance."}
-QA.mkdir(parents=True, exist_ok=True)
-(QA / "validation-report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+REPORT.parent.mkdir(parents=True, exist_ok=True)
+REPORT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 print(json.dumps(report, indent=2))
 raise SystemExit(bool(errors))

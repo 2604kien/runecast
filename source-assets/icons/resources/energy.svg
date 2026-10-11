@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Energy — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('crystal') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <polygon points="50,2 81,26 79,73 50,98 20,74 18,26" fill="#038cde" stroke="#101522" stroke-width="5" stroke-linejoin="round" />
+    </g>
+    <g id="fill">
+      <polygon points="50,3 50,47 20,26" fill="#55e7ff" stroke="none" stroke-width="1" stroke-linejoin="round" />
+    </g>
+    <g id="detail">
+      <polygon points="50,47 81,26 78,73 50,96" fill="#0073c6" stroke="none" stroke-width="1" stroke-linejoin="round" />
+      <polygon points="50,3 81,26 50,47" fill="#14b9fa" stroke="none" stroke-width="1" stroke-linejoin="round" />
+      <path d="M50 47V96 M20 26L50 47L80 26" fill="none" stroke="#88f4ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

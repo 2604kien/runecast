@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Remove — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('remove') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <polygon points="16,64 59,13 88,37 47,88" fill="#f4cf82" stroke="#101522" stroke-width="6" stroke-linejoin="round" />
+    </g>
+    <g id="fill">
+      <polygon points="16,64 32,45 61,69 47,88" fill="#284057" stroke="#101522" stroke-width="4" stroke-linejoin="round" />
+    </g>
+    <g id="detail">
+      <path d="M61 18L81 35" fill="none" stroke="#ffeaba" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

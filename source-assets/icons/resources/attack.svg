@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Attack — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Retained r006 build_review.py icon('sword') geometry and palette; normalized with translate(19 19) scale(0.9).</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <polygon points="76,3 91,0 87,17 41,66 30,55" fill="#ff6d68" stroke="#101522" stroke-width="4" stroke-linejoin="round" />
+    </g>
+    <g id="fill">
+      <polygon points="76,3 79,15 35,62 30,55" fill="#ffb2a0" stroke="none" stroke-width="1" stroke-linejoin="round" />
+    </g>
+    <g id="detail">
+      <path d="M20 48L47 72 M31 60L12 84 M6 83L16 93" fill="none" stroke="#e54744" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

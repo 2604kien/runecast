@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Sound off — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. r006 Sound speaker with original RC-012 cross replacing waves; shared shape and palette.</metadata>
+  <g transform="translate(19 19) scale(0.9)">
+    <g id="outline">
+      <polygon points="9,38 30,38 50,19 50,81 30,64 9,64" fill="#fff0bd" stroke="#101522" stroke-width="4" stroke-linejoin="round" />
+    </g>
+    <g id="fill">
+      <path d="M63 32L89 68 M89 32L63 68" fill="none" stroke="#fff0bd" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+    <g id="detail" />
+  </g>
+</svg>

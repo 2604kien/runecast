@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Rune Cast — Spark — RC-012</title>
+  <metadata>RC-012 original vector adaptation. No embedded raster, external resources, live labels or gameplay logic. Exact retained r006/r002 Spark rays, center and highlight; original SVG128 coordinates.</metadata>
+  <g>
+    <g id="outline">
+      <g id="rays" fill="#f6bb42" stroke="#b36c25" stroke-width="1.5" stroke-linejoin="round">
+        <path d="M 62.039 39.077 L 64.000 17.000 L 65.961 39.077 Z M 71.725 40.224 L 80.073 25.197 L 75.350 41.725 Z M 80.236 44.990 L 97.234 30.766 L 83.010 47.764 Z M 86.275 52.650 L 102.803 47.927 L 87.776 56.275 Z M 88.923 62.039 L 111.000 64.000 L 88.923 65.961 Z M 87.776 71.725 L 102.803 80.073 L 86.275 75.350 Z M 83.010 80.236 L 97.234 97.234 L 80.236 83.010 Z M 75.350 86.275 L 80.073 102.803 L 71.725 87.776 Z M 65.961 88.923 L 64.000 111.000 L 62.039 88.923 Z M 56.275 87.776 L 47.927 102.803 L 52.650 86.275 Z M 47.764 83.010 L 30.766 97.234 L 44.990 80.236 Z M 41.725 75.350 L 25.197 80.073 L 40.224 71.725 Z M 39.077 65.961 L 17.000 64.000 L 39.077 62.039 Z M 40.224 56.275 L 25.197 47.927 L 41.725 52.650 Z M 44.990 47.764 L 30.766 30.766 L 47.764 44.990 Z M 52.650 41.725 L 47.927 25.197 L 56.275 40.224 Z" />
+      </g>
+    </g>
+    <g id="fill">
+      <g id="center">
+        <circle cx="64" cy="64" r="20" fill="#ffdc68" stroke="#d08729" stroke-width="2.5" />
+      </g>
+    </g>
+    <g id="detail">
+      <g id="light">
+        <path d="M 46 64 A 18 18 0 0 1 82 64 Z" fill="#ffe681" />
+      </g>
+    </g>
+  </g>
+</svg>
