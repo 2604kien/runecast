@@ -1,0 +1,254 @@
+[
+  {
+    "string": "RUNE CAST / COMBAT TYPE REVISION",
+    "font_px": 32,
+    "weight": 600,
+    "width_px": 606.0
+  },
+  {
+    "string": "Actual Noto Serif \u00b7 weight600 / width100 \u00b7 official font and OFL obtained",
+    "font_px": 16,
+    "weight": 400,
+    "width_px": 549.0
+  },
+  {
+    "string": "Cream lettering, dark outside stroke, large action hierarchy; no system substitute.",
+    "font_px": 16,
+    "weight": 400,
+    "width_px": 629.0
+  },
+  {
+    "string": "RUNE CAST",
+    "font_px": 36,
+    "weight": 600,
+    "width_px": 207.0
+  },
+  {
+    "string": "Floor 3 \u00b7 Ashen Crypt",
+    "font_px": 21,
+    "weight": 400,
+    "width_px": 205.0
+  },
+  {
+    "string": "CIRCUIT COMPLETE",
+    "font_px": 29,
+    "weight": 600,
+    "width_px": 292.0
+  },
+  {
+    "string": "CAST",
+    "font_px": 48,
+    "weight": 600,
+    "width_px": 124.0
+  },
+  {
+    "string": "2",
+    "font_px": 38,
+    "weight": 600,
+    "width_px": 21.0
+  },
+  {
+    "string": "Resume",
+    "font_px": 38,
+    "weight": 600,
+    "width_px": 149.0
+  },
+  {
+    "string": "Continue",
+    "font_px": 38,
+    "weight": 600,
+    "width_px": 173.0
+  },
+  {
+    "string": "Spark",
+    "font_px": 20,
+    "weight": 600,
+    "width_px": 59.0
+  },
+  {
+    "string": "Free Spark",
+    "font_px": 20,
+    "weight": 600,
+    "width_px": 109.0
+  },
+  {
+    "string": "Conjure Spark",
+    "font_px": 20,
+    "weight": 600,
+    "width_px": 143.0
+  },
+  {
+    "string": "6    0    8    1",
+    "font_px": 32,
+    "weight": 600,
+    "width_px": 168.0
+  },
+  {
+    "string": "SPARK",
+    "font_px": 17,
+    "weight": 600,
+    "width_px": 57.0
+  },
+  {
+    "string": "0 / 6",
+    "font_px": 24,
+    "weight": 600,
+    "width_px": 47.0
+  },
+  {
+    "string": "32 / 32",
+    "font_px": 24,
+    "weight": 600,
+    "width_px": 75.0
+  },
+  {
+    "string": "Menu    Map    Guide",
+    "font_px": 21,
+    "weight": 600,
+    "width_px": 210.0
+  },
+  {
+    "string": "Cancel selection     Details / Pass",
+    "font_px": 20,
+    "weight": 600,
+    "width_px": 316.0
+  },
+  {
+    "string": "Confirm Pass / enemy acts",
+    "font_px": 20,
+    "weight": 600,
+    "width_px": 259.0
+  },
+  {
+    "string": "SPARK / LONG AMBER RAYS + YELLOW CENTER",
+    "font_px": 24,
+    "weight": 600,
+    "width_px": 569.0
+  },
+  {
+    "string": "Exact editable SVG \u00b7 no baked ports, labels, cost or effect value",
+    "font_px": 17,
+    "weight": 400,
+    "width_px": 504.0
+  },
+  {
+    "string": "24px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 89.0
+  },
+  {
+    "string": "32px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 89.0
+  },
+  {
+    "string": "48px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 89.0
+  },
+  {
+    "string": "62px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 89.0
+  },
+  {
+    "string": "80px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 89.0
+  },
+  {
+    "string": "128px canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 97.0
+  },
+  {
+    "string": "Gameplay recommendation: 80px canvas gives a 60px visible sun in a 137px cell.",
+    "font_px": 18,
+    "weight": 400,
+    "width_px": 709.0
+  },
+  {
+    "string": "62px canvas gives a 46px sun. The earlier 48px canvas made the symbol too small.",
+    "font_px": 17,
+    "weight": 400,
+    "width_px": 673.0
+  },
+  {
+    "string": "137px CELL / TWO SCALE OPTIONS",
+    "font_px": 22,
+    "weight": 600,
+    "width_px": 387.0
+  },
+  {
+    "string": "SPARK",
+    "font_px": 17,
+    "weight": 600,
+    "width_px": 57.0
+  },
+  {
+    "string": "6",
+    "font_px": 24,
+    "weight": 600,
+    "width_px": 14.0
+  },
+  {
+    "string": "62px sun canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 120.0
+  },
+  {
+    "string": "SPARK",
+    "font_px": 17,
+    "weight": 600,
+    "width_px": 57.0
+  },
+  {
+    "string": "6",
+    "font_px": 24,
+    "weight": 600,
+    "width_px": 14.0
+  },
+  {
+    "string": "80px sun canvas",
+    "font_px": 15,
+    "weight": 400,
+    "width_px": 120.0
+  },
+  {
+    "string": "Reference direction",
+    "font_px": 21,
+    "weight": 600,
+    "width_px": 214.0
+  },
+  {
+    "string": "Brighter center; long visible amber rays.",
+    "font_px": 18,
+    "weight": 400,
+    "width_px": 360.0
+  },
+  {
+    "string": "Thin warm edge preserves sun silhouette.",
+    "font_px": 18,
+    "weight": 400,
+    "width_px": 376.0
+  },
+  {
+    "string": "Ports stay separate atN/E/S/W edge centers.",
+    "font_px": 18,
+    "weight": 400,
+    "width_px": 381.0
+  },
+  {
+    "string": "No owner approval or integration inferred.",
+    "font_px": 18,
+    "weight": 400,
+    "width_px": 384.0
+  }
+]

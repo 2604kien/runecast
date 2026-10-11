@@ -1,0 +1,144 @@
+{
+  "asset_id": "pilot_shadeling",
+  "review_date": "2026-10-11",
+  "result": "PASS",
+  "checks": [
+    {
+      "check": "neutral export dimensions and mode",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "raw immutable hash",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "shared exported part dimensions",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "source and runtime-format PNGs embed sRGB ICC",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "unique nonempty exported parts",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "export exactly recomposes from parts",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster MIME",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster source size",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster meaningful seven layers",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster PNG members embed sRGB ICC",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas body_cloak",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas shoulder_underlap",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas lantern_arm",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas lantern_glass_backing",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas lantern_shell",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas lantern_glass_light",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster full-canvas flame",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "OpenRaster merged image exact",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "source and export anchors consistent",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "sRGB profile assignment preserves every decoded source and export pixel",
+      "pass": true,
+      "details": {
+        "files": 16
+      }
+    },
+    {
+      "check": "editable separation SVG parses and links raw",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "timed sequence 48 frames",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "all motion images decode at 1280x720",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "motion and reduced bounds within envelope",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "all nonzero alpha including filtering within envelope",
+      "pass": true,
+      "details": null
+    },
+    {
+      "check": "GIF decodes with duration equal to sequence",
+      "pass": true,
+      "details": {
+        "gif_frames": 48,
+        "png_frames": 48,
+        "GIF note": "GIF delay is quantized to 10 ms; PNG sequence timing is authoritative."
+      }
+    }
+  ],
+  "limits": "File/layer/geometry validation only. Actual artistic findings and owner/device/integration limitations are recorded in delivery.md."
+}

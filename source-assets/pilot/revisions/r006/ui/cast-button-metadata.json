@@ -1,0 +1,20 @@
+{
+  "raw": "../../r004/raw/cast-button.png",
+  "prompt": "../../r004/raw/cast-button.prompt.txt",
+  "crop_bbox": [
+    31,
+    224,
+    1949,
+    560
+  ],
+  "master": [
+    1024,
+    256
+  ],
+  "source_method": "Genuine complementary face/rim separation of generated artwork; pixels not duplicated. Detailed strokes are flattened paint.",
+  "raw_sha256": "39a1ddc49a577865f3d64d5c960e65bf9279852dbfd98b1ece6c59ccff24b50a",
+  "status": "r004 candidate; no approval inferred",
+  "source_revision": "r004",
+  "reuse_revision": "r006",
+  "reuse_note": "Finished paint/layer bytes retained from r004. Composition target update does not change original generation provenance."
+}

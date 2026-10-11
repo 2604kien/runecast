@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
+<title>Shadeling source separation and underlap geometry</title>
+<g id="raw-coordinate-system" transform="translate(58.197183098591495 143.04225352112667) scale(0.6338028169014085)">
+<image id="generated-neutral-reference" xlink:href="raw/neutral-generation.png" width="1254" height="1254"/>
+<polygon id="mask-lantern" points="249,449 270,454 287,460 308,447 332,470 334,499 317,516 343,548 378,582 380,745 351,798 301,839 250,836 207,778 188,586 231,544 244,506 246,480" fill="none" stroke="#40ddcf" stroke-width="2"/>
+<polygon id="mask-lantern_arm" points="204,339 320,337 376,369 417,413 476,433 518,406 547,409 580,479 611,535 610,567 575,592 554,640 530,680 496,689 480,730 446,748 441,648 417,612 407,632 391,602 378,626 348,620 359,512 350,475 331,448 240,465 202,414" fill="none" stroke="#40ddcf" stroke-width="2"/>
+<polygon id="mask-glass" points="220,611 249,608 251,727 223,727" fill="none" stroke="#40ddcf" stroke-width="2"/>
+<polygon id="mask-glass_main" points="268,610 323,610 324,718 315,734 273,733 267,715" fill="none" stroke="#40ddcf" stroke-width="2"/>
+<polygon id="mask-shoulder_underlap" points="505,424 548,415 580,465 611,533 605,574 574,599 542,573 518,520" fill="none" stroke="#40ddcf" stroke-width="2"/>
+</g>
+<path id="foot-anchor" d="M496 896H528M512 880V912" stroke="#ffca6b" fill="none"/>
+</svg>

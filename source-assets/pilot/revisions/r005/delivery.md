@@ -1,0 +1,11 @@
+# Approved final gameplay reference v2
+
+The owner explicitly approved the newly supplied complete gameplay image. It is preserved unchanged as [combat-final-v2-clean-board.png](../../../../output/imagegen/approved/combat-final-v2-clean-board.png). This replaces the earlier gameplay reference as the current target; [combat-final.png](../../../../output/imagegen/approved/combat-final.png), all generated studies and the r004 pilot remain unchanged historical evidence.
+
+The4×4board retains only **BEGIN** and **END** labels. Spark/Split/Join names, all board rune/path/End values, cost badges and TEMP are absent. Symbols and undirected connections remain. Split is a sideways fork, with a left stem and two branches towards upper/lower right; Join is the supplied upright trident. Use these silhouettes on board and toolbar. Their stylized terminal points do not restore directional connection requirements. Hand-card names/costs/effects, toolbar labels/stock, pile counts and the external info bar remain visible.
+
+This is exact reference adoption, not a new generated or retouched image, layered production pack or runtime screenshot. Approval applies to the supplied image; it is not approval of the reconstructed r004 preview. The r004 pilot completed its recorded production/method review against the previous target; later assets/previews must apply this new board/symbol treatment.
+
+RC-011's purpose is to prove a repeatable art-production method before the full asset packs: create representative editable character/tile/button art, assemble it at gameplay size, check legibility/scaling/states/motion, and record sources and limitations. Its scope was expanded to a full painted Combat preview. It does not choose a different visual target or implement the playable game. RC-012–RC-015 develop the production packs; RC-016 integrates the encounter art and corresponding latest gameplay/UI requirements.
+
+[Adoption and preservation checks](../../../../output/art/rc-011/r005/reference-validation.json), [asset-plan checks](../../../../output/art/rc-011/r005/asset-plan-validation.json), [repeatable adoption source](adopt_reference.py). The original974protected files and snapshotted prior artwork are checked by hash; prior reports and images remain intact. No Git operations, runtime edits or asset regeneration were performed.

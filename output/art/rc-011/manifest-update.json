@@ -1,0 +1,10 @@
+{
+  "changed_ids": [
+    "pilot_shadeling",
+    "pilot_spark_tile",
+    "pilot_button",
+    "pilot_review"
+  ],
+  "nonpilot_lines_preserved_byte_for_byte": true,
+  "status": "source_ready; source_only; reference_guided; licence unresolved; owner rejected r001 visual fidelity; revision required"
+}

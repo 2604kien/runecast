@@ -1,0 +1,152 @@
+{
+  "revision": "r004",
+  "status": "complete constructed candidate; owner acceptance not inferred",
+  "source_design_size": [
+    841,
+    1870
+  ],
+  "preview_sizes": [
+    [
+      841,
+      1870
+    ],
+    [
+      720,
+      1600
+    ],
+    [
+      450,
+      1000
+    ],
+    [
+      360,
+      640
+    ]
+  ],
+  "native_narrow": {
+    "cell_size": 72,
+    "viewport": [
+      360,
+      640
+    ],
+    "scroll_boundary": {
+      "y": 619,
+      "content": "Wiring/cards/forecast/Cast in companion viewport"
+    },
+    "source_svg": "pilot_narrow.svg",
+    "companion_source_svg": "pilot_narrow_controls.svg"
+  },
+  "source_mapping": {
+    "environment": "exports/crypt-background.png",
+    "character": "../r002/exports/shadeling.png",
+    "materials": "ui/materials/*.png",
+    "glyph": "ui/spark.svg",
+    "editable_composition": "pilot_review.svg"
+  },
+  "editing_actions": [
+    "Remove",
+    "Rotate"
+  ],
+  "state_tokens": [
+    "normal",
+    "pressed",
+    "focused",
+    "selected",
+    "disabled",
+    "invalid",
+    "unavailable",
+    "focused+selected",
+    "focused+unavailable"
+  ],
+  "sample_rotations": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "glyph_sizes": [
+    24,
+    32,
+    48
+  ],
+  "canonical_ports": {
+    "N": [
+      64,
+      0
+    ],
+    "E": [
+      128,
+      64
+    ],
+    "S": [
+      64,
+      128
+    ],
+    "W": [
+      0,
+      64
+    ]
+  },
+  "tile_state_tokens": [
+    "unpowered",
+    "powered",
+    "selected",
+    "focused",
+    "invalid",
+    "unavailable",
+    "focused+selected"
+  ],
+  "tile_states_source": "pilot_tile_states.svg",
+  "painted_sources": {
+    "tile": "ui/painted_tile.ora",
+    "primary": "ui/cast-button.ora",
+    "secondary": "ui/navy-panel.ora"
+  },
+  "material_exports": {
+    "tile": "exports/spark_tile.png",
+    "primary": "exports/button_primary.png",
+    "secondary": "exports/button_secondary.png"
+  },
+  "slice_caps_export_LTRB": {
+    "tile": [
+      24,
+      24,
+      24,
+      24
+    ],
+    "primary_cast": [
+      56,
+      18,
+      56,
+      18
+    ],
+    "secondary": [
+      38,
+      20,
+      38,
+      20
+    ]
+  },
+  "slice_refinement": "Generated sculpted rims require larger fixed corner/end caps than r001. MainCast uses35logicalpx endplates at87pxheight; tile/board and navy caps remainfixed duringstretch. Pixel caps describe candidate exports; live hitboxes stay rectangular.",
+  "circuit_semantics": "Undirected compatible port pairs. SVG circuit geometry has no arrowheads. Rotate action icon retains its action arrow.",
+  "visual_example": "Main reproduces official visual-example layout/values including BOSS, infinity, floor3, Turn2, Draw8/Discard5; not a guaranteed hand, balance commitment, roster change or implemented rules claim. Finite0/6 inset in state sheet.",
+  "font": "../r002/type-geometry/fonts/NotoSerif-Variable.ttf",
+  "paint_method": "New original r004 generated crypt, empty-tile, navy-panel and cast-button paintings; exact prompts retained under raw/. New UI paint genuinely separated into material/rim ORA layers and recolored variants, with editable SVG icons, labels and geometry. No approved screenshot pixels or underlay linked into gameplay source. r002 supplies acquired font and selected character/glyph geometry only.",
+  "character_transform": {
+    "canvas": 512,
+    "display_size": 384,
+    "top_left": [
+      254,
+      92
+    ],
+    "foot_export": [
+      256,
+      448
+    ],
+    "screen_foot": [
+      446,
+      428
+    ]
+  },
+  "remaining": "Owner review; full runtime import/theme, undirected model/controls and real device behavior not implemented by this source."
+}

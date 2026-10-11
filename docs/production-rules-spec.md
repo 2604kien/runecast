@@ -1,5 +1,7 @@
 # Production rules specification
 
+**October 11 superseding owner direction:** The [official final gameplay contract](gameplay-visual-contract.md) accepts undirected circuit connections and removal of Flip/Undo/Inspect/Cancel/Details-Pass from the visible editing controls, retaining Remove/Rotate. New visuals include detailed cards, draw/discard piles and a forecast bar. The dated RC-007 contract below is preserved as the implemented baseline; its conflicting design requirements do not override this newer instruction. Undirected branch/cycle accounting and the resulting turn/control behavior still need an explicit implementation and verification pass.
+
 ## October 9, 2026 — accepted RC-007 implementation contract
 
 **RC-007 is complete. The owner accepted the complete defaults with “Accept all default.” and the implemented production behavior passes final verification.** This dated contract supersedes the pending choices and proposals preserved below. Acceptance is an owner design decision, not a new human-playtest finding or a testing waiver. The existing reported observations and their limitations remain unchanged.

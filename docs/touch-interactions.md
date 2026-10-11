@@ -1,5 +1,7 @@
 # Touch inspection and board editing
 
+**October 11 final visual/control direction:** [The owner-approved gameplay contract](gameplay-visual-contract.md) replaces the gameplay editing toolbar with **Remove and Rotate only**; Flip, Undo, Inspect, Cancel selection and Details / Pass are removed from that visible area. Detailed cards, draw/discard piles and an information bar above Cast replace the compact-only/no-summary design. The RC-008 text below remains documentation of the current runtime, not the future visual target. No input bindings were changed by finalizing the image.
+
 **October 9, 2026 — RC-008 interaction contract.** This describes the implemented screen controls. The dated [verification record](verification.md) and [project handoff](project-plan.md) own final results and completion status. Production gameplay, balance, ownership, random streams and historical experiment rules are unchanged.
 
 ## Tap, inspect and cancel

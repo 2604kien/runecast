@@ -1,0 +1,72 @@
+{
+  "result": "PASS",
+  "asset_plan_checks": 2720,
+  "historical_prompt_pairs": 12,
+  "protected_files": 974,
+  "protected_changes": [],
+  "historical_rc010_report_preserved": true,
+  "additional_local_links": [
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../docs/gameplay-visual-contract.md",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/imagegen/approved/combat-final.png",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/art/rc-011/r003/gameplay-final.png",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/art/rc-011/r003/final-reference-validation.json",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/art/rc-011/r003/asset-plan-validation.json",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/art/rc-011/r003/delivery-validation.json",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/imagegen/approved/combat.png",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/imagegen/rune-cast-gameplay-reference-v7-remove.png",
+      "exists": true
+    },
+    {
+      "source": "source-assets\\pilot\\revisions\\r003\\delivery.md",
+      "target": "../../../../output/imagegen/rune-cast-gameplay-reference-v7-remove.prompt.txt",
+      "exists": true
+    },
+    {
+      "source": "docs\\gameplay-visual-contract.md",
+      "target": "../output/imagegen/approved/combat-final.png",
+      "exists": true
+    },
+    {
+      "source": "docs\\gameplay-visual-contract.md",
+      "target": "../output/imagegen/approved/combat-final.png",
+      "exists": true
+    },
+    {
+      "source": "docs\\gameplay-visual-contract.md",
+      "target": "../source-assets/pilot/revisions/r003/delivery.md",
+      "exists": true
+    }
+  ],
+  "asset_plan_errors": [],
+  "scope": "Image/manifest/document checks; no runtime behavior or production layer claim"
+}

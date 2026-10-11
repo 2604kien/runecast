@@ -1,0 +1,68 @@
+{
+  "asset_id": "pilot_spark_tile",
+  "revision": "r002",
+  "reference": "output/imagegen/approved/combat.png",
+  "viewBox": [
+    0,
+    0,
+    128,
+    128
+  ],
+  "center": [
+    64,
+    64
+  ],
+  "safe_bounds": [
+    16,
+    16,
+    112,
+    112
+  ],
+  "ports": {
+    "N": [
+      64,
+      0
+    ],
+    "E": [
+      128,
+      64
+    ],
+    "S": [
+      64,
+      128
+    ],
+    "W": [
+      0,
+      64
+    ]
+  },
+  "connectivity_r0": {
+    "input": "W",
+    "output": "E"
+  },
+  "art_contains_ports": false,
+  "rotation_degrees_clockwise": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "revision_reason": "Owner rejected r001 visual mismatch. Approved Spark is a bright large circular sun with long thin amber rays; dark8-unit silhouette erased that reading at gameplay scale.",
+  "r002_outline": {
+    "ray_stroke": 1.5,
+    "ray_stroke_color": "#b36c25",
+    "center_stroke": 2.5,
+    "center_stroke_color": "#d08729"
+  },
+  "proposed_r001_outline_units": 8,
+  "proposed_r001_internal_units": 6,
+  "contract_status": "r002 visual-review exception to provisional8/6; ports and128-unit canvas unchanged. Parent owns brief/spec reconciliation after review.",
+  "display_sizes": [
+    24,
+    32,
+    48,
+    62,
+    80
+  ],
+  "gameplay_scale_note": "At62px SVG canvas, essential sun is about46px wide. At80px canvas, sun is about60px wide, matching reference ratio better on137px cells."
+}

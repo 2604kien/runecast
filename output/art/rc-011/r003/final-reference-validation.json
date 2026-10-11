@@ -1,0 +1,38 @@
+{
+  "result": "PASS",
+  "date": "2026-10-11",
+  "artifact_kind": "owner-approved flattened final visual reference",
+  "source_attachment": "C:\\Users\\nguye\\AppData\\Local\\Temp\\codex-clipboard-3239e11b-675a-4bd5-baae-050d1ecc125b.png",
+  "canonical_path": "output\\imagegen\\approved\\combat-final.png",
+  "review_path": "output\\art\\rc-011\\r003\\gameplay-final.png",
+  "size": [
+    841,
+    1870
+  ],
+  "mode": "RGB",
+  "attachment_sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4",
+  "canonical_sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4",
+  "review_sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4",
+  "copies_byte_identical": true,
+  "pixel_sha256": "c93f35332c9bf57fb986d566e1c99085b2f12596f102cc54a7a0af01e3b9a42b",
+  "v7_decoded_pixels_identical": true,
+  "v7_sha256": "eab2bd562edaf4904307f1dbeeeb167b4ad6905e2161003dbd49d847fda4e189",
+  "new_generation": false,
+  "new_image_edit": false,
+  "visual_checks": {
+    "undirected_board_and_wiring_symbols": "present; no circuit arrowheads",
+    "only_remove_rotate_editing_actions": "present; other requested editing actions absent",
+    "draw_and_discard": "present on left/right of hand",
+    "forecast_above_cast": "present;damage/shield/cost/incoming",
+    "complete_crypt_and_supporting_ui": "present; no visible placeholders"
+  },
+  "approval_evidence": "User explicitly requested this supplied image become the official final gameplay visual and expanded full-preview scope",
+  "runtime_changed": false,
+  "protected_files_checked": 974,
+  "protected_changes": [],
+  "manifest_changed_ids": [
+    "reference_combat",
+    "reference_history"
+  ],
+  "all_other_manifest_rows_preserved": true
+}

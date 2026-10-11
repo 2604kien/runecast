@@ -1,0 +1,401 @@
+{
+  "spark_tile_137x137.png": {
+    "source": "exports/spark_tile.png",
+    "size": [
+      137,
+      137
+    ],
+    "source_slices": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "destination_slices": [
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "button_secondary_normal_167x58.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      167,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_224x50.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      224,
+      50
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "spark_tile_142x92.png": {
+    "source": "exports/spark_tile.png",
+    "size": [
+      142,
+      92
+    ],
+    "source_slices": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "destination_slices": [
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "button_primary_normal_684x64.png": {
+    "source": "exports/button_primary_normal.png",
+    "size": [
+      684,
+      64
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_167x50.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      167,
+      50
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "spark_tile_72x72.png": {
+    "source": "exports/spark_tile.png",
+    "size": [
+      72,
+      72
+    ],
+    "source_slices": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "destination_slices": [
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "button_secondary_normal_77x50.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      77,
+      50
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_77x58.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      77,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_103x50.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      103,
+      50
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_primary_normal_324x64.png": {
+    "source": "exports/button_primary_normal.png",
+    "size": [
+      324,
+      64
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_296x64.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      296,
+      64
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_primary_normal_212x58.png": {
+    "source": "exports/button_primary_normal.png",
+    "size": [
+      212,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_212x58.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      212,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_66x50.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      66,
+      50
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_145x58.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      145,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_330x64.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      330,
+      64
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_primary_normal_570x84.png": {
+    "source": "exports/button_primary_normal.png",
+    "size": [
+      570,
+      84
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_385x64.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      385,
+      64
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_primary_normal_165x58.png": {
+    "source": "exports/button_primary_normal.png",
+    "size": [
+      165,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  },
+  "button_secondary_normal_165x58.png": {
+    "source": "exports/button_secondary_normal.png",
+    "size": [
+      165,
+      58
+    ],
+    "source_slices": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "destination_slices": [
+      12,
+      10,
+      12,
+      10
+    ]
+  }
+}

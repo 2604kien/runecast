@@ -1,0 +1,11 @@
+{
+  "changed_ids": [
+    "pilot_shadeling",
+    "pilot_spark_tile",
+    "pilot_button",
+    "pilot_review"
+  ],
+  "all_nonpilot_lines_preserved_byte_for_byte": true,
+  "record_count": 92,
+  "status": "source_ready/source_only/reference_guided; review production only; no owner/runtime/device/rights approval inferred"
+}

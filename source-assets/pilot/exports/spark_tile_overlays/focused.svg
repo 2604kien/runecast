@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="128" height="128" viewBox="0 0 128 128">
+  <title>Spark tile overlay: focused; no live label</title>
+  <metadata>{"asset_id": "pilot_spark_tile", "revision": "r1", "role": "Spark tile overlay: focused; no live label"}</metadata>
+<g id="focus-brackets" fill="none" stroke="#f5efdb" stroke-width="3" stroke-linejoin="bevel"><path d="M 4 36 V 12 L 12 4 H 36 M 92 4 H 116 L 124 12 V 36 M 124 92 V 116 L 116 124 H 92 M 36 124 H 12 L 4 116 V 92"/></g>
+</svg>

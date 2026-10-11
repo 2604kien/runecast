@@ -1,0 +1,17 @@
+{
+  "raw": "../raw/navy-panel.png",
+  "prompt": "../raw/navy-panel.prompt.txt",
+  "crop_bbox": [
+    29,
+    172,
+    2145,
+    522
+  ],
+  "master": [
+    1024,
+    256
+  ],
+  "source_method": "Genuine complementary face/rim separation of generated artwork; pixels not duplicated. Detailed strokes are flattened paint.",
+  "raw_sha256": "8fd43449115b3c6039d7932cb4db1038e46e0ad9d5d803f350525b87c61ae0fc",
+  "status": "r004 candidate; no approval inferred"
+}

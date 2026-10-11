@@ -1,0 +1,1621 @@
+{
+  "purpose": "Exact previous revision/reference preservation before r006 work; not updated on audit reruns",
+  "files": [
+    {
+      "path": "output/art/rc-011/r002/pilot-360x640-controls.png",
+      "sha256": "66ac69ac3124f0ad35aa71839f087b18e9d5d53b1567b347607f1d66de8b3300"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-360x640-inspector.png",
+      "sha256": "1438688a8806c94d6418e45aff394461a1e40ecafdc7cfb39a686ec2809702ed"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-360x640.png",
+      "sha256": "39989efb2a30d234c7d14d76a65bd4f529f4ba9097768f9c8823fb55e97e03ba"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-450x1000.png",
+      "sha256": "ad31caf883ea95b024c3b1df359f250a20e54df06ae5c1a51d629314821b0542"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-720x1600.png",
+      "sha256": "c8f466e76c1fc85e9dcdbaea276f99017c68aeb8d7b9824e315952d6dc40b3f7"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-endpoints.png",
+      "sha256": "c8320ddce751ba8f1dca842c8bb405d19bddf27e0e6ddb97024fb82283da8d82"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_000.png",
+      "sha256": "2a97e78b19bce160c1d4da79edca43791e6db6eb3a44054f87dd7749a6db85a3"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_001.png",
+      "sha256": "ec8d7f05e2942effc5ce9b0458fec122eff39c99e86e77b33d04f0f3ba839e72"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_002.png",
+      "sha256": "85a0406bc7deb630a33d8b78f8106e8131bb50b85be2ab3535965b6cfd246883"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_003.png",
+      "sha256": "dec6ad81d8c9a1d32d43d042e3f72eb44eab8a2df633b6b1ccf879984fc8c9e3"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_004.png",
+      "sha256": "534abef7455712030295d7de7ccf3262760577608cacfb133043a157fbebe85c"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_005.png",
+      "sha256": "53cc8d377339df8b668a639bd6d77d1758aabda1ecb260d08cd78db23e9aa7f4"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_006.png",
+      "sha256": "439faa5ab8cbd83538679029eefe9d95a875f9e4a58f199890d68fd1d97a9b2a"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_007.png",
+      "sha256": "d9bcb8ab1b8d8317618dba49e97dfbf340e0f3ea5ae2558404571fc17e4c47ff"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_008.png",
+      "sha256": "76ea2d6cc38cca27b43b66416e9545ec0bb9eb0eadf188d635a2a4dce14924f2"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_009.png",
+      "sha256": "901cde74f23d89cbd4efa3bc293c0c4a31d7802b3c73b40f48e8cf68e20e7feb"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_010.png",
+      "sha256": "57e1b713ff2c09334ce9bb97c1fb41841c1d4b98b6f312f1fa12a3d4d6190ba6"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_011.png",
+      "sha256": "ebcc20edcf6dbe1a8a14eac1683cd7aa7fdcc2e1016610168fd97a77a9423e75"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_012.png",
+      "sha256": "9a8f8374cad6a2a7de61a9365fece1e1c300b922fa252d88e9ed80bc70fe23d1"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_013.png",
+      "sha256": "43cdacfb13ec9291a6f8e90574c3e3cb08960e3999683d5ab4f5f32426afd7aa"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_014.png",
+      "sha256": "d2550b516f92a19661c953d4e29eb1fc5192e07b8447f3aeaa7ebe84f6f5b31e"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_015.png",
+      "sha256": "8b0f5df32f90430c4d34e2aa5b23277ff67e5a4a37429b5fe1dd82e50099f51e"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_016.png",
+      "sha256": "d22d2b88294195d92ffa4ebfb3a316539fbf36c321a1dbc52221d14fa713eb07"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_017.png",
+      "sha256": "b5f6d762218b7771c8d9f1eaba271e0dd4178cd3f648ac856ba30dedd62b909b"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_018.png",
+      "sha256": "b941202ab05a4a53a4de8df205375948360ca6268de4313fd7b77150e1f9a36c"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_019.png",
+      "sha256": "7193e4c9a4b92c7a31b5f3784050d55f853f8da8724a531a0b3c0d7a5ffc3b4f"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_020.png",
+      "sha256": "045aa75770feee37ca1c5fb8f7ff3a39c221eb1585f8686964c46c007d20c3f3"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_021.png",
+      "sha256": "f0e753b702d8404834c718513d4b7d05ca7401641e3430e1c299f41fd1288d13"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_022.png",
+      "sha256": "79c3143f37bb636544a1e669ebc5e3f59c2e5a7400fc5a589e29a5dbe3c3becb"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_023.png",
+      "sha256": "6df3da54631bfeae89cb4fb4ac694c7483075d51afecbd875cf2aadca3a179b7"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_024.png",
+      "sha256": "efbc10d40e6af646d89903d873f277b9bdcbbda72f9df2c9db918212cb025a10"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_025.png",
+      "sha256": "d0aedbf3c1cc24644b50c930cca96d057efd91ec3d1c5faf31b589ca55f9fe74"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_026.png",
+      "sha256": "bf855cd5b68158c660ee9a47110cf5f1be493bd868e72bbb50361c356f6d99c3"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_027.png",
+      "sha256": "21bd8f9c72b46344d2beae182f82c9bc3b60931c1f3123bb7cbb25df33379452"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_028.png",
+      "sha256": "590da27dc46102ac256c0c15b5759ee974d5501e941ce14e840d06a8b1983c82"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_029.png",
+      "sha256": "ba98952af7b04d5aedac5137e927ef6fce35f4796a59979e92927f120a7790a8"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_030.png",
+      "sha256": "42ea4f2eedf30b2dfe005ba470a45622ecb47c1651819df08a2cb77beb5bb11b"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_031.png",
+      "sha256": "b05354e17a5ee5621dbe2901020ea65dd1087e558ddf4a28198c67e9997fb360"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_032.png",
+      "sha256": "f3ee6d6ab5b4ec228be7e1a59bb27b88ddbd8234e0f9734bae94a43fede2b80e"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_033.png",
+      "sha256": "b3fb1b2579c4c8f3d35086621d6dba6cb40f2dc8ab4d45a7c7a863547ca058b3"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_034.png",
+      "sha256": "8165d184e8e28fdccc3f6fede5dc324c0a23bc9331acf0ba02cc34db916d6082"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_035.png",
+      "sha256": "d95032bbe1f4c24ab327cf5c969b051767086bf2ad3375d430eb2516348bddbd"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_036.png",
+      "sha256": "830927c0de944b9bf6ef02784b7a970c4e7428dedeadda899eb27ebb5115405f"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_037.png",
+      "sha256": "46ca0144c7c131bb11609a3eecbaffe6a395d3ea6dde927ed701363d1624a332"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_038.png",
+      "sha256": "af9ec956af60dfa6a661c9ef02b90261279187fe120209c2e370fe74979e983d"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_039.png",
+      "sha256": "bedaee8370ac70aaf5b3e895f34103598b626c0ce4aeb428137139d75c8ff042"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_040.png",
+      "sha256": "3b5b06e7faa95c661f9befdf89d7f1a9c00178d11a99f76e598deca3fbf8fb65"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_041.png",
+      "sha256": "1d7f36ffa02d4217a0c160c31284b5387b8eadf3231cf2a0a83d911412024ca6"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_042.png",
+      "sha256": "4dbf012b7c67b2ce4e722d922a34574cbe3efb4490053b06acf978811e1403f5"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_043.png",
+      "sha256": "bf581f6d1d63d9941474e455522e24fc7d235df9659c42dec535cc8eebfb7701"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_044.png",
+      "sha256": "de980b9009e00124cb6702815575eb3402fb8c0e5163f9d49ab5a63a8d7915f8"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_045.png",
+      "sha256": "2076f787ebd41ce639e24750882e29d8677999b9fcc0ea76c281fe3abd235bff"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_046.png",
+      "sha256": "664179ec45bd8e8f73e2cfbfea89814f971ba2013024b4b71e8ee8027d51d957"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-frames/frame_047.png",
+      "sha256": "b4a2c24f5e2c62bf360f02303839ca22d97ec37ff8ae42c39d36d5f768471068"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-sheet.png",
+      "sha256": "7249217d4ff8a1db187d47d7db3af90acb047f55367d09f793fe3ebab119f3e9"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion-timing.json",
+      "sha256": "36632b5be929089c311b712ffbb6bda5ed49186ed9ee71993b40c5ceba3fde5d"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-motion.gif",
+      "sha256": "c76e438005d291d9233a17970c03ace08c90e117f0e41e40227432d08a95a46d"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-reference-comparison.png",
+      "sha256": "5bbecaa338fd226a719e9c0184349347dd1f52d672356a015a0d29cce5951221"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-shadeling-alpha.png",
+      "sha256": "58c278ef1f4c39a8a689f7c6d9b2083dbe8443cb74925f1d63ab237ebe87bacd"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-shadeling-layers.png",
+      "sha256": "7febf77dd1ca270ec10432bfae3db56fe7c0ee342925cd75085a120ad6ee8d31"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-shadeling-scale.png",
+      "sha256": "58d02ec9a3e7b4e67f9df0d8179f04d6ac955569624d3f716e3b360a42de1215"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-states-monochrome.png",
+      "sha256": "b543d882fecce39c28497454cfc4068cb63fcee3db3e623fcf76e78c7ef3b494"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-states.png",
+      "sha256": "52e2ba681e042d3ce9ccd1b8014d3410cc167bfc55d3df695a9e3d45eb6f8250"
+    },
+    {
+      "path": "output/art/rc-011/r002/pilot-type.png",
+      "sha256": "6434280269253b5f50d3f03d3bf5e495c1b4e12e61c77dcb4669919cf8707c8b"
+    },
+    {
+      "path": "output/art/rc-011/r002/revision-validation.json",
+      "sha256": "13875c4b0938d8055112853b70a0968e49f500bba5b46aaaa9de81794077da72"
+    },
+    {
+      "path": "output/art/rc-011/r002/type-geometry/spark-monochrome-check.png",
+      "sha256": "cbfd4e6fcc76b718cdf201b23e753313bee0f852e91806ed504c18879a660ae6"
+    },
+    {
+      "path": "output/art/rc-011/r002/type-geometry/type-spark-specimen.png",
+      "sha256": "6434280269253b5f50d3f03d3bf5e495c1b4e12e61c77dcb4669919cf8707c8b"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/button_cast.png",
+      "sha256": "fea8c3e40301e70ebbc29dc6e9625798204ffc1c7d0dc35050c479971acd7841"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/button_primary.png",
+      "sha256": "aa42ee72b1ae7b462efe8ad768906774a1a52761893ea424cd3524968f6ddfaa"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/button_secondary.png",
+      "sha256": "48136de2d1502ac416057f1ac1e15fccf11690dd397ce7a3e3777ddd308270ce"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/tile_empty.png",
+      "sha256": "bf092c8b1523f7dc6d99686ae72a3c10baa3a631dec6566cabdf911790daba0b"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/tile_powered.png",
+      "sha256": "47f02d6bfd5e9bbee8fdaa0df11a95a4f6935d699e0a4a1a797024bb83749038"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/tile_spark.png",
+      "sha256": "4f49b61474da46948286e9666669f5254b529b8a103439a82f2f3e85ab31f13d"
+    },
+    {
+      "path": "output/art/rc-011/r002/ui/ui-candidate-sheet.png",
+      "sha256": "34718e5f217d5983f08daf5ce6fe7df43540587168757a648c7cc6413aba15bb"
+    },
+    {
+      "path": "output/art/rc-011/r003/asset-plan-validation.json",
+      "sha256": "00fdc7ceea86f5a25bcf3f9c4693a9a5c92415b297b0b5926048913270af3858"
+    },
+    {
+      "path": "output/art/rc-011/r003/delivery-validation.json",
+      "sha256": "6d89bc7316f26bee266fe287c523dc87ee77aee0b0bfeba92fdcba9f1fa00a01"
+    },
+    {
+      "path": "output/art/rc-011/r003/final-reference-validation.json",
+      "sha256": "c006f3300a15a0c0fd9f83d485fbfdbdd3817cd60325adea421c2c414897f0e5"
+    },
+    {
+      "path": "output/art/rc-011/r003/gameplay-final.png",
+      "sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4"
+    },
+    {
+      "path": "output/art/rc-011/r004/asset-plan-validation.json",
+      "sha256": "52b7a731f2ec40b6f1d4ec4fbf0de45d0ce868bfd18b1c875c54d137211b3bff"
+    },
+    {
+      "path": "output/art/rc-011/r004/crypt-layers.png",
+      "sha256": "b907950d3830b80937b26b476544f49920fbf46cf7c206c3a8a9ba5f8124ceae"
+    },
+    {
+      "path": "output/art/rc-011/r004/manifest-update.json",
+      "sha256": "cd5b9b2a0d3abdf7d56d91b8d462742b1ca48c6b7300b5179bcd1c8796ab9644"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-360x640-controls.png",
+      "sha256": "e19c6a39efc034afdbc4b831712cf39838eb24da6a954ca663276c9a06dd183a"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-360x640.png",
+      "sha256": "c5c91cb0652b0a2bfbe61680744ae02a1441a5356c257f1ad684c5073a6c6239"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-450x1000.png",
+      "sha256": "536300c2048d380bcf02022bcd27969b66be4f5a9519dcfdfb3c518f9ad0aec8"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-720x1600.png",
+      "sha256": "e37f96a310346091a5ef8a2779ad64217a948f161db1a114218942a17c37e501"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-841x1870.png",
+      "sha256": "bb9ef3e124aa4198721442682b063c9e68e3f2a70576eeb86245208c28e21a1e"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-states-monochrome.png",
+      "sha256": "a6de719bf21de681dd28e3eeac19e386536cf50364b3c92e2550703ab77f919f"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-states.png",
+      "sha256": "75ae999c58327e73fa392a66cdd8559d3baf5345f6145bb5d775aef3fc5a8c96"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-tile-states.png",
+      "sha256": "1dbb8e1e1c7d44c1037a29a04203895c7e50d3aa7cdb4ae6aebdbfb51d928024"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-type.png",
+      "sha256": "a01f1a8ee800e3044267f0639649e8874ed0bacc4d4270cd0013f8fe7c05549e"
+    },
+    {
+      "path": "output/art/rc-011/r004/preservation-snapshot-validation.json",
+      "sha256": "ea51b55ff25505086196dac09182960ea84fbf8a2394ca713aa8a25ca648ba7f"
+    },
+    {
+      "path": "output/art/rc-011/r004/revision-validation.json",
+      "sha256": "cd7860e3b4898e1212cc479cf1c91f5afab47c2d0f84ca5f33c0675af6a8b60a"
+    },
+    {
+      "path": "output/art/rc-011/r004/visual-review-validation.json",
+      "sha256": "fddca99c797f883ffc666f3940f6aa3f6f212c04d29dc3b497532eee04f2d042"
+    },
+    {
+      "path": "output/art/rc-011/r005/asset-plan-validation.json",
+      "sha256": "5a99e054611f27fb39afda7db02d829869f9ad9bdd4977a216c8a28e562cb0a2"
+    },
+    {
+      "path": "output/art/rc-011/r005/prior-artwork-hashes.json",
+      "sha256": "cc5e3a39b76dd11c0a037db69152cbd57dfd999d7edbcb940995fa9922cc9e28"
+    },
+    {
+      "path": "output/art/rc-011/r005/reference-validation.json",
+      "sha256": "370e64a06c5533e4db7fd26a26d28611d38f1865db2e4501eccbfac9c0e1cf3d"
+    },
+    {
+      "path": "output/imagegen/approved/combat-final-v2-clean-board.png",
+      "sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac"
+    },
+    {
+      "path": "output/imagegen/approved/combat-final.png",
+      "sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4"
+    },
+    {
+      "path": "output/imagegen/approved/combat.png",
+      "sha256": "d5fa939150e3953cf1a5e5d3943203d2af4839f191b5ee81533fa8b04d223841"
+    },
+    {
+      "path": "output/imagegen/approved/home.png",
+      "sha256": "5dcac9f327f25de8350c193ad0618530e12c041ec4c42ce97ce703c99ff71fc6"
+    },
+    {
+      "path": "output/imagegen/approved/map.png",
+      "sha256": "58ec4b54b152b383d2b6afd165739d04da8c67108e35f4c5985b23d0f2a9f6e4"
+    },
+    {
+      "path": "output/imagegen/approved/menu.png",
+      "sha256": "d37c1a5ca8c1ccd5ed9066f559ccabc5f599133a2256d5d5b10bfd263c824d6a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/assemble_shadeling.py",
+      "sha256": "153933bb2af737d78cc84823186bbf5f43d9346b4fa669dbce24b30a1e480a5e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/build_review.py",
+      "sha256": "8217cefd63cfc02ab2e70c0783dd64aae28873d2f60a16a5f686fb922ebfb070"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/build_shadeling.py",
+      "sha256": "f4223ff0664b3e544d36d6b1894b64e8a2aead3cf9bab2603543904bca395e04"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/delivery.md",
+      "sha256": "3c991850f2169976593691d990f2e9a29c1fc54a52436b83d1a622338611b951"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/button_primary_normal.png",
+      "sha256": "aa42ee72b1ae7b462efe8ad768906774a1a52761893ea424cd3524968f6ddfaa"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/button_secondary_normal.png",
+      "sha256": "48136de2d1502ac416057f1ac1e15fccf11690dd397ce7a3e3777ddd308270ce"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling.png",
+      "sha256": "7c444df02e403d31baf4946d46783b533fcb1b49128def6f9f0dca5c74ea50ae"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/body_cloak.png",
+      "sha256": "01b76cc200b7dcf86c76dcba486c0060e7a1668b5d8401793fe9f2cef737d137"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/flame.png",
+      "sha256": "ef90d441a90071a4ec4bfbf99630051bda0e4c20571a39da5d317242fc93c23b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/lantern_arm.png",
+      "sha256": "77a4ad576ef2a96d3c1246c478349dffa8496fb0480f96a1bda7517909a82059"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/lantern_glass_backing.png",
+      "sha256": "5f80d7ec0474c598090930fb9d3321e22183fdb86befc458913a6daf1316e909"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/lantern_glass_light.png",
+      "sha256": "b0f8989b52190049ea452d9b040dd8b128094cfcc3ef8dc7cae06d8b4ef537cb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/lantern_shell.png",
+      "sha256": "bc6282618809386a0fdb9d667e83aecc2da30c2f58e55652f83332d310aa4d19"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/shadeling_parts/shoulder_underlap.png",
+      "sha256": "890add6ce58b16e04bb909834047510ec98bfbcb456079a98ebf68bcd074b64a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark-monochrome.svg",
+      "sha256": "4701a65114d9fe13a8836ec6acce04f4f8a3cb5bb38aff4d3a8e3b5f1e297cae"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark.svg",
+      "sha256": "ac4a8caaf4e7a04ae5ee0b4b32714272d7a9807ae58be8a87330790be774739f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile.png",
+      "sha256": "bf092c8b1523f7dc6d99686ae72a3c10baa3a631dec6566cabdf911790daba0b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/eligible.svg",
+      "sha256": "5325c989dc2f20bd2925de92c496a896d5547d29516d4da5e02a9fbe28dffb9e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/focused.svg",
+      "sha256": "0c6d883682e569cf32621d3e29e0accaf3c16d74dc4b87395333c17101878386"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/invalid.svg",
+      "sha256": "8932eced708ad81bf4175bd42da88a27fc0c4e3e32ecdaedd5a73161f849a7cb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/powered.svg",
+      "sha256": "a63ed52c20f1bf90d11f2792e03cfeacdfa5c8207ed757ea86c0b8428b4a0d4b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/protected.svg",
+      "sha256": "bb72c79883cdd305c88938a893cfe09532d4158a87935d38efc43d3eea33b467"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/selected.svg",
+      "sha256": "a59f2512a0c15800ffd0673234e7edc8f7efb10e148c6908c5a21eb467ca9d9e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/spark_tile_overlays/unavailable.svg",
+      "sha256": "93e405fbd6746caddb2a9ded30c56d29ce6a46778124a8b42eb1257e2c1535e1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/exports/temporary-marker.svg",
+      "sha256": "3b1289ae487e7366e2a65b053eed25f7d0992209eed6383c0dbb909beef3c621"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/body_cloak.png",
+      "sha256": "7a128f4e2de374bb6ef8cdd4c447dafb358e9926876f1895d3d2a4ff3711b09e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/flame.png",
+      "sha256": "0ac6cb17af2ba087ae09694588a409fbe1c5db6e37c07326dc67a4acede5ae2d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_arm.png",
+      "sha256": "ef4791262cabba5b06fefe1c9d7a0cbba533e1b1e39dcce5cd1f0c1e42252e6f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_glass_backing.png",
+      "sha256": "78572f418db0ebb9eb5c4e038becefa037b157ed38c1180f34cb536976351889"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_glass_light.png",
+      "sha256": "1f54913fca5d6cec9f3049f1a61366615f524632519cb5f824b9665d2448538f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_shell.png",
+      "sha256": "b9288a74a5e31c369ff3d76b158d753fd7f66dd1504e51aa281afd63daa17385"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/shoulder_underlap.png",
+      "sha256": "6a285858c915c254882eb15017cf9b20b8e614fc8725dabfd695023c3cb5dd32"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/metadata.json",
+      "sha256": "78bc38852651080fab69a55ca302b0d28e183f3346152aee828e9d96c45846ab"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/neutral-reference.png",
+      "sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_endpoints.svg",
+      "sha256": "945adeba23c0301b062fb19f500faefe45728bd5e2eba8900ec935140aa500e6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_inspector.svg",
+      "sha256": "362e6c13c24ec8a4e417e862e61f61673d2b3c4bb69799972ea1d82915200ffe"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_narrow.svg",
+      "sha256": "4c660475f3394c1f95728580825ec8d97424e448eea11f326ebe159b429604cd"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_narrow_controls.svg",
+      "sha256": "436bc63247b92a35f8af88454d2e43d741515fdfb262192c8c5748b50bbb7f52"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_reference_comparison.svg",
+      "sha256": "8a96d714628101502b779234053a6c98e674a3985a877dd34a62f6e23302c2a1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_review.svg",
+      "sha256": "540d5eee987ed70964ab38383b77ccb9ada0dbdef30381eba7259ed18555f545"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/pilot_states.svg",
+      "sha256": "8eeb27899c31e66ee4a68b8dd96d91d6ff008b478f7467896078894de0b9576d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/raw/shadeling.png",
+      "sha256": "5a56ca7280f5672b1946f25b0a6762a3c6f76433c73b9a300748529f0d519f85"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/raw/shadeling.prompt.txt",
+      "sha256": "4a479cb67462c3fb4918e7c8ae7e564742479f11a70a515895881eb9c5b2e78c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/render_review.cjs",
+      "sha256": "eb31d7a3e4e385d77f7de206baa54eecd74c068ea335adb964f059057ae86d7b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_165x58_normal_standard.png",
+      "sha256": "be5ffe996e75fd73664808adae84f5f44fb6725e7bcf9219c520dd6331a70e1c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_disabled_cast.png",
+      "sha256": "db406c233de5951569dc1986f1679fbd011745b19dae49a2866fe72e5efdd1d4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_focused+selected_cast.png",
+      "sha256": "314427e77ec9000910151e5391996c60fe359d78a83f36883dd260f778c272bf"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_focused+unavailable_cast.png",
+      "sha256": "2d8fb8106918c5511b54b49067ca0a6f27292caccadf9721763493e1f3679430"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_focused_cast.png",
+      "sha256": "d15c191f347ff3d9e6574296740245af5b1549e1b097e66d5e48b0448eefa3cb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_invalid_cast.png",
+      "sha256": "a715b83ec20a72b77f356a83d09995a8382e0b4a43affe615dc46d8089c3be25"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_normal_cast.png",
+      "sha256": "ddbf6efd4761fbec8b5f90b94f0eff368e588eeab5112e4ad10ba3b0feee03b8"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_pressed_cast.png",
+      "sha256": "11b895d228b87020ede6be2f8fc6e1130285b69b2f4b54344e5db86604d4e72c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_selected_cast.png",
+      "sha256": "84f27abe4ad8a150aa32392af3ffcb57dce460d44cee1a440bd300a383bb2f8c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_212x58_unavailable_cast.png",
+      "sha256": "c9c8cf9468b5729ebf3499bfc46b78db32445303522781c98f2a49fa22450a42"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_324x64_normal_cast.png",
+      "sha256": "168f88bbd5f281c5430928bf803d9fc0c2fd596910bff9610586b9d72515fbd1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_560x89_normal_cast.png",
+      "sha256": "1006566829bfe54d04e92e934755f5de972d714a5fec3b79215254e9ca8f5db3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_primary_570x84_normal_standard.png",
+      "sha256": "d52a446706c5357b375374de29fcb3e99bff30aea277442b46497191c35359b5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_103x50_normal_standard.png",
+      "sha256": "84e2c9b715e5e621c40f66eba150d08621d071225d63dfc6273faab2237e4b3f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_145x58_normal_standard.png",
+      "sha256": "02a41a8429e2703cfcc9592a63901c1d4795062fc6b90eb7e80d4003314feaf2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_165x58_normal_standard.png",
+      "sha256": "3d9132af9b81bd3015dd00562cdffcb9a2a9250d5a83f9af4ad0245e82331ef9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_167x50_normal_standard.png",
+      "sha256": "78d6f1755b24a5e596b5201907ae5dfb00d8a39fc0c9c876d6a15d029a096f48"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_167x54_disabled_standard.png",
+      "sha256": "e5f47014a230063ea4566e5876981d60e657c63f1f09a09e18116cac49d974b7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_167x54_normal_standard.png",
+      "sha256": "9ec196d25cc19ab3c7cdcdf04a08b699fefa46e9223cd10a6886d387cff39c58"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_167x58_disabled_standard.png",
+      "sha256": "de00c2c0562760db7600be15a0af9c21b934410bee145c1a4f264fa0b4f01dc4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_167x58_normal_standard.png",
+      "sha256": "4ae7fad259a2c6d14f097035be77b5de0ed4d30e14cf8eb15da8266d4352a42d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_disabled_standard.png",
+      "sha256": "5d0fbe90482d5d4e0567d77ec12145e7ced19c945d9638c2b1de35143b25bc5c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_focused+selected_standard.png",
+      "sha256": "7268f8b41244d82c81d5eaa8a4f47a62486c556b3a5b7ff5b21f6d63b94a4b4e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_focused+unavailable_standard.png",
+      "sha256": "668661fce01e89ba301e3fff8613f240dbbd431e1d08f76cc07e8c38b0016f83"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_focused_standard.png",
+      "sha256": "6fb08ab7154fdeee0795bb488707bd072e3f850ee1d51581b13c9eb828df90a5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_invalid_standard.png",
+      "sha256": "02aa332670308fd3883e8b7f6c004384edfc7120cf46801889eb35df5dcf1585"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_normal_standard.png",
+      "sha256": "533422f429dd287f51f0b4255f910210d351095ab69d01a4c0c94e6961320e22"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_pressed_standard.png",
+      "sha256": "82e19ade6038f975b1421bf33b68f121911f9c00af43e899e4e2c83c00db889e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_selected_standard.png",
+      "sha256": "1b6b32df47a467f77be2e519266b4fd4723f86e43f1976f35df97db6f9878850"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_212x58_unavailable_standard.png",
+      "sha256": "780cf2a97107ffe6811b32ece4b1c46a9e85153019bb95df66221a92d8ca964e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_224x50_normal_standard.png",
+      "sha256": "ee2a46a9b4b0460ee0229ce1e7a5b509cd2e2e4d2cf915b7f7420a1d772c2857"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_226x40_normal_standard.png",
+      "sha256": "46b5db321018bcd4d6a44a8db75647377808e43a04f253ae53daad621ef97de3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_227x40_normal_standard.png",
+      "sha256": "8269604922055088f2df9dd2996d2f1fa71497e917fae5d6a77793d3c5ccfc71"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_296x64_normal_standard.png",
+      "sha256": "5fcd4d85a96a0005495031e3a7c0f814f9370b5c5f2eb163207361cb5014b210"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_330x64_normal_standard.png",
+      "sha256": "b37a1c66b1b6493d4b221eab9588e500c38ba6c89ff522e135eb9b1431c07fb3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_385x64_focused+unavailable_standard.png",
+      "sha256": "7acc54877524bd384da0c4a7e93777651a8585e74332e4d384249f027a58325d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_66x50_normal_standard.png",
+      "sha256": "e4176bb73a8aab1fb8d89aa7d0e6ae94b9e83edbd5825f2f93973b93e90e9a1f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_77x50_normal_standard.png",
+      "sha256": "9f08454906e53c57f6cc3d1b6ad865c4b40155fc76ec216579fe85a210944068"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_77x58_disabled_standard.png",
+      "sha256": "5b23bcf9c82cf8cedc7d8814aba32a146273c95183d9c76b859ef9b6ea6e9226"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/button_secondary_77x58_normal_standard.png",
+      "sha256": "07b1a5deda400dc9880c726dd297c5cd2967341326ce5d64ffbc0afcd3e5c9b1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/cast_main.png",
+      "sha256": "1006566829bfe54d04e92e934755f5de972d714a5fec3b79215254e9ca8f5db3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_disabled.png",
+      "sha256": "0d64eadeb0f48bdab75f0cca3460b735c4043da1e686e3eea51d08eec7612ecc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_focused.png",
+      "sha256": "1c7c5f136495059baab72d1ddfa707272989a20a4e60c16437825e21ef5ac75d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_invalid.png",
+      "sha256": "c764af21869a5a4e8f3d1d17f7e6653a650b4293722620eedcc88698fb0da91f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_normal.png",
+      "sha256": "a651204339646d2d3f47f46dd29d3b2825ee65706ebbdd3c6117196172c3c60e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_selected.png",
+      "sha256": "4564b8240ccd08f2950c8ad6c9f283a013477dc12c99a63c5c9163b4e540d136"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/grayscale_unavailable.png",
+      "sha256": "e7069a8d5c8282aadfca1e8cb0d1d3bd0af032b374aec7e1335622bd49c73ff1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/hand_0.png",
+      "sha256": "85cc3d4689764c1b0579222f1aec17e815c534af7c838d78520b9085948815a7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/hand_1.png",
+      "sha256": "c2326fdd8596940119ff454b02c65bddc85ae63c66851b67d5dc0a2c57f7e493"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_endpoints.svg",
+      "sha256": "8dbf356dde8ffda6865817b850d0e8fd1c0b5b2195e2da7870c2c68708027daf"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_inspector.svg",
+      "sha256": "6a812a4a6a9cd3466ccf88ace228d62dd93af60dac6f4c7ca0294d8aa558ff7e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_narrow.svg",
+      "sha256": "4ec04a9c6754854f659eaf9bdc47dcd273b05681cac9f154a356534cafc5d624"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_narrow_controls.svg",
+      "sha256": "0eee0805723dabb2c798b68193d059f8ae57c9c15011d740ffd2f6f6c45d78cb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_reference_comparison.svg",
+      "sha256": "6e816a2949d44ee8291fdd28e04e335b4332e4378ce05026538f5b8f247cc9e6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_review.svg",
+      "sha256": "f3247e56a8cf54e24f14da77b79fa0eed1bf4a741b3ded806e39f4dbdbc93563"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/render/pilot_states.svg",
+      "sha256": "fcb526bb296674b085f7f5ab57b9a0a206d09e5734d28aa8874700c25316503f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/spark_tile_142x92.png",
+      "sha256": "da52c51e6e00dbc67cb29532fd29402071ff10d8c9ddf638e8c66acc078878cc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/tile_empty_137.png",
+      "sha256": "5c4770d032f5c48ef744f9fff1dda85f5e718a0cdd2c2cdcaf8fd86ecb053c93"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/tile_empty_72.png",
+      "sha256": "c71776bc529870ea75922729075e69678f9999092a34785c80a0857eac6a6772"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/tile_spark_137.png",
+      "sha256": "d92cfdd7edc689e5f6b9f37071d3b32938dc71093926f3e76bcab94cf8d5cda2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/review_resources/tile_spark_72.png",
+      "sha256": "58b2f18af83e386a3c7c5f3700b964c3a0a35d736ebe79a88a75a6072bf08a11"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/separation-masks.svg",
+      "sha256": "900220999cda57aacd9c8ccf71617b26b02989880a496892398aabb9b5a93535"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/shadeling.ora",
+      "sha256": "b2c6e4fcc5f3961696a441ee4812ab28b39770dbf7b19dbcabbe004ebc19d089"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/build_type_geometry.py",
+      "sha256": "497e6de135b712610d08c0c6993bfffdc8317bbcfd37b13c9b02802202f95013"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/compose_specimen.py",
+      "sha256": "4fc8abb6e7befe4443b9b984bd98fea22fc36c7bfc3c47651f53d563d646ea22"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/font-measurements.json",
+      "sha256": "e20ac22a7301a49eabf98af16b7a6c442ffe307b9ffe26e843b737dab9d3bfeb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/font-provenance.json",
+      "sha256": "0bd4264c4beaa38d0b0d226896cab8143dff5d06d8a5dfc4157ce8be712897c8"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/fonts/METADATA.pb",
+      "sha256": "659cf6a2475eabfa3e3bbb92e3ed15c604e6fb035b3b1057d469cc88e67357bb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/fonts/NotoSerif-Variable.ttf",
+      "sha256": "4d8e6761424656867019081a1a01336f3cb086982682698714054fc33f782713"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/fonts/OFL.NotoSerif.txt",
+      "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/geometry-validation.json",
+      "sha256": "9c222f2242a67993a850353cd3034bd25cebed17ffa09bec01c476f023b07dcb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/README.md",
+      "sha256": "70230ad65a2f31f097cd662ee3bfe8ae14fae7f343915cf631b0efbd2c12728e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/render_spark.cjs",
+      "sha256": "e33287cba2365465476098d3e9f768cef669a093377ac42c87489b760612be34"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-128.png",
+      "sha256": "7859189dc31ec47ce89ddb33cd3f38b148395cf36d51df9bb40fdb976b0308c9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-24.png",
+      "sha256": "31188ccc892a4e9a571f1b0201153a6a50d546d9ec18a8daed21c629413e14fa"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-32.png",
+      "sha256": "e60a00297b878c5d30460f8be598fb18e09d63b81c37ed86a34f34c340aa6f93"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-48.png",
+      "sha256": "61d91c4ba6b3dc874842502fc0097afa73b1c52adfb58b2479f92a1507237cd9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-62.png",
+      "sha256": "7f0f0e1be30d56cb83d70c9715f6d3685aaede8d63210313c6a8dab6845560dd"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-80.png",
+      "sha256": "94cfc2cc963bbc1817ada01d19a5d8e5874230c26c63f91c7d39d3ee1c6515e2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-geometry-contract.json",
+      "sha256": "c1b2002f428e9567a58d6e1567a194aa598acc54e6e09daecfc0a48ac31e86b9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-128.png",
+      "sha256": "b439048c221e97a5d32b3a3b362c02d3d2c18f7ea0527f082ebfe9bc1f10a09c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-24.png",
+      "sha256": "b01b83c9585b08a94473e8f9b3e61121664180220e3f89aaff6477423db91196"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-32.png",
+      "sha256": "e840c8f5d66b19b5915d9112600131279d5c3dafb5cde7c38540c7b70f8572c2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-48.png",
+      "sha256": "b68ef445f9eeb623207c66e9f4a3e706eacc0f1a89fe9d84c3609b787baefe71"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-62.png",
+      "sha256": "a3e11e5302ea4df466f6a62060f4bd52754a5265e8122294d849ec2414ec1cbe"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome-80.png",
+      "sha256": "ac060dc9dd3c933950af4454bb92c2e96b13a0832f60b12218e4f9aa1f95e458"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark-monochrome.svg",
+      "sha256": "4701a65114d9fe13a8836ec6acce04f4f8a3cb5bb38aff4d3a8e3b5f1e297cae"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/spark.svg",
+      "sha256": "ac4a8caaf4e7a04ae5ee0b4b32714272d7a9807ae58be8a87330790be774739f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/type-geometry/type-spark-specimen.svg",
+      "sha256": "5c7068992afa9d99d49ab940ddb629283b67b66460368194ab56c73cc6e5c489"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/build_ui.py",
+      "sha256": "70e3ae9900a2792261d2847c64fc29a4c72115a4bccdd07f2f0f82df6efe6516"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_cast.ora",
+      "sha256": "b99ef22c8bbcde68a91150161da5280caac0050228fae76bbec8bf82816de019"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_cast.svg",
+      "sha256": "8a783e54a9f7c12a38581e0ca3a9be5b983ea1b8e94796aed97aee6226f53a09"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_primary.ora",
+      "sha256": "6164cc8f6962de2994d34e49a57c81785b0a3f1b45fd28a344e8ca27a4880ac9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_primary.svg",
+      "sha256": "b5090cd51e003347c3680c3cbfb14e8b9ff3ca18a5d123487d7f2fb768ef2dd1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_secondary.ora",
+      "sha256": "df5f2579517b104a54f5ad626e1491ec4b21bf92002bc9ed541d47600a5d3213"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/button_secondary.svg",
+      "sha256": "14dfb396f1aefc4b06d3e5a5b8ff08403e86681dcf86579c2d9e815b2bb4f5de"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/candidate-metadata.json",
+      "sha256": "daa1cd27ab78ef02f1c875110a058c1b8e1859228376088eaaa3fde2ae2399af"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/file-checks.json",
+      "sha256": "e883da7b8d33c857e6eb50d3cfefb4e0e72f1ef95f2f59087aab7806325b807a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/materials/amber.png",
+      "sha256": "03f0a851f4e6ef01198e425c30713f666c4954c792415c2f08af65d8bdcd0881"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/materials/navy.png",
+      "sha256": "a64d9c7427301cda46adc2d3d82bf2f6b7167f4a22f981e75344bcab80fdbcb0"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/materials/turquoise.png",
+      "sha256": "f1f7bb5f3e66a7d4499099ec5865165a1f36b1b14a6fdcd58680b7d81b01834c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_empty.ora",
+      "sha256": "bfe3cc79dc8b9cb338041805889ed65f1c23d447273aa34611c0efe266e334e2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_empty.svg",
+      "sha256": "7d2f3c17ca386020cb0324409e429b376575093ddf5b40c601dd17431cb1d8c3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_powered.ora",
+      "sha256": "d61f70616fc28e66dd935b2d7c777c6c27506d7e86a99e73961eb494f05d5b7d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_powered.svg",
+      "sha256": "9e7346f1dfd2f31ebb204b45946f17e64b068e72df5fda96a18c36b122eec1b9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_spark.ora",
+      "sha256": "48995b2ec4b8588d3260571ff3662b1f9f3bef9a98f0113b8247822cfecc55fd"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/ui/tile_spark.svg",
+      "sha256": "e347be4eed383d88c44c800336b622c56e99cc2de020cb9b25bde49e734f82e3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/validate_revision.py",
+      "sha256": "14e54ea501ec91de4102d47a05831c27956db6dbdc3fcb064392635a5ed3b92e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r003/adopt_final_reference.py",
+      "sha256": "3f5f198dcd71079761309e6b6ffc9e9bd55883685a305a49827503cdbb5910e4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r003/delivery.md",
+      "sha256": "7f9500aa33385870c1694e92ba22ab7bef2dab2b0ee44e36d31e52e37797dee6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r003/validate_delivery.py",
+      "sha256": "deb0fdbe447ab44d7acda8968a4cc609d43cf44e8f246bdc354561fc5998edbd"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/build_crypt.py",
+      "sha256": "79e1b63fb75980eec89523e3dc93db252e5f61edbcf9b9cdf972dfef18edcfed"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/build_review.py",
+      "sha256": "2633c162020328fe4690c95e9c0cbf89a799a4be17f34756202c5564e93d868b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/cross-screen-review.md",
+      "sha256": "1b8bb8d1ce91750bb36eff3270f2a9e3edbafb06d19f4bcefe6ae2a56a01294c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/crypt.ora",
+      "sha256": "b176b94a1efb82cfd99406d02420f45b8b0d9711724c241f1c5e1b866d5cb554"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/00-central-recessed-stone.png",
+      "sha256": "00f94d0bb85d5ad2ec8307aadac55fe1e2ccea6417242dc407e1412bdd1df172"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/01-rear-arches-statues-banners-and-brazier.png",
+      "sha256": "c3f7a8b9d6777848b50b8dcd9fc824fb3b10623fcf4a89502782780bc97d537d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/02-arena-cobblestone-floor.png",
+      "sha256": "6f6141d43aa7ec3b4fe522ebdb28f9cb3c722e43fa7294f5f308a51a173e03a0"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/03-left-rocky-surround.png",
+      "sha256": "6c9986b82cac276f50774c9ae908a85246ce3ef543cfa04d7fed270d0dc0b9f2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/04-right-rocky-surround.png",
+      "sha256": "48c9f624bea63ce25a4e381256930817e83c61a5cc6bee84f806096e1daec79a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/05-left-foreground-candle-clusters.png",
+      "sha256": "d721cbdb66ac959ca483990d4d885924a2e7525845c86c379564ab7756e6d4b3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/layers/06-right-foreground-candle-clusters.png",
+      "sha256": "7aaadd00483f332e63cffcaa6da0f7f8a3fa4951f56119d9ea82f1f31d131a7e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/merged.png",
+      "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/metadata.json",
+      "sha256": "1e2ac0662b3cd77ad4a5781412063a7be1d743e6a8aa4f6a54da8810386fd521"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/separation-regions.svg",
+      "sha256": "ae29b590069d160f69e2944bc6e77ef54a369f35560f1d4c69575b8f2cee615b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/delivery.md",
+      "sha256": "62af9118a509c6fc158363b5be15f95dd368c269d0a844c6cf03206c7ef7aefe"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/exports/button_primary.png",
+      "sha256": "0c1c2aa5052220686f74b3f4661adc1d477cc07be22625ca19b3381139639eea"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/exports/button_secondary.png",
+      "sha256": "875911d0cfd87a1da4858079b8a25d2491e923078707c22cf237ffe430fed485"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/exports/crypt-background.png",
+      "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/exports/spark_tile.png",
+      "sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_narrow.svg",
+      "sha256": "27b66795d37d41c3a09898ce6f3e244c7c151f236f1f88d98dac5e03bb883a68"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_narrow_controls.svg",
+      "sha256": "f6ea1514ccc653f94b06aa23c3e9328d39c41b8e6c87bdb574f62e01cb22c0e6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_review.svg",
+      "sha256": "84633fc16e736695ee3554f011f6cac5d907c62b3cda5abdb720e2405b94db5c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_states.svg",
+      "sha256": "1db6786212fc56d5bfdec114ac4318e3eafc368f2a80a694f6225d53fe6bd355"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_tile_states.svg",
+      "sha256": "2aac5325f2c198a041efefd0e4bfdc071fff4563ecf0b0fa88469253fe205fb4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/pilot_type.svg",
+      "sha256": "35a6cfd3c6d93dfb4339412985019b770c8e46ed673301a7337e99c990244d72"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/cast-button.png",
+      "sha256": "39a1ddc49a577865f3d64d5c960e65bf9279852dbfd98b1ece6c59ccff24b50a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/cast-button.prompt.txt",
+      "sha256": "4f3808d36e55f4c6266b841c1796f17e1d3142fd627d44bcc12b779611d7a2f8"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/crypt-background.png",
+      "sha256": "63a4f3b1e824b631d3e289fbadb00f5e9ebcd983073d82ac0565646a81adb1c3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/crypt-background.prompt.txt",
+      "sha256": "3eb7d23a63862c01b3dffe9658386fc51fa1b280e6abc417e4d1e9b8d5024787"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/empty-tile.png",
+      "sha256": "a22eb3eb4a73f8695165a30c3ab6dab012906aeef265d9bf230b0864ef893545"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/empty-tile.prompt.txt",
+      "sha256": "c6e571a472f4f61520b7fd8d79ca25bc9359e32b3d39bdbc3ce6104db8ddceb0"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/generation-record.json",
+      "sha256": "9084d080a494250363423d50cdf4bf86c1bb88464616f097a41bbf50bfff821e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/navy-panel.png",
+      "sha256": "8fd43449115b3c6039d7932cb4db1038e46e0ad9d5d803f350525b87c61ae0fc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/navy-panel.prompt.txt",
+      "sha256": "17b3af1943de60c6aa2989a381fb76ff75db3ddd9e32461a59eb95184198cc99"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/shadeling-alternative.png",
+      "sha256": "9cf0d713aac4e3b0426230eb6b9e2d17087a0401ce9751466d2efd6acb966705"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/raw/shadeling-alternative.prompt.txt",
+      "sha256": "5596adef513a3b5b1606f8a09e18b49f4d94ffaf7ddf80bb56c2a7a256aaa0e5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/record_generation.py",
+      "sha256": "809d52e819ec2547b538de70a4b2814f43ebbc133b749a21a44dff3a658ebe0e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/button_primary.svg",
+      "sha256": "b36bff60164ad3083d81f1b7adbf08c8e80d876e136d2a7a301882bcfac813b1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/button_secondary.svg",
+      "sha256": "da70fedfc70ca6611d273fc135d187d2d711f35603b375bae59fb76159d18035"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-318x64-7.png",
+      "sha256": "1ea9671e3e1619e203112c256990139e9a921d56e37c91d378d0224f6bb0bd40"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-426x59-6.png",
+      "sha256": "15bdd91202164395e7f5ea66737db4051ac897641b741a1db1a0b424f2a8abbc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-584x87-11.png",
+      "sha256": "841c1db16dd98a579b2131da32dd46a0fd3db041e35e99bf1addd69711fede5a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-base.png",
+      "sha256": "a52b48ed5fae3b2c4fa8363f06b5e0a0f2a9be9ca802b6b869f7adaf6e89def1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-face.png",
+      "sha256": "6d1dd6bc97d705ce56749843b89c4db892ba6f77c23005b7dec871f2b12103e7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-mask.svg",
+      "sha256": "8ca6a854ef4ca085338aee6f267af811c0b6f3d53d821e275d99d5fb8edfe2c2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-metadata.json",
+      "sha256": "6f48f883cd09b14c054b0ea89e5842e19911266683772b4b6ead1edba33ccaa0"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button-rim.png",
+      "sha256": "69fa7608066f9f310f32f8f4d35cc1a5ac84470e04c8fbeba7a136631d944367"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/cast-button.ora",
+      "sha256": "2adc5c3f7890ebcb8a0192aa9794f6fd7dc712e30f1097fb97e4d13adb47ec31"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/composition-metadata.json",
+      "sha256": "da88ec468a1f6ca6d02b36d83d189d7ed0b71270ea152a233b4b9df94da845c1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-137x137-8.png",
+      "sha256": "4adfd0af163b1833afe628921e817dd1a5f7ba7c1a1aff95d34263743d920226"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-159x168-12.png",
+      "sha256": "01f1cc447f4df288b9cf5eea2af4bf262cdc351b93d87f58b2bef9493489ea1f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-174x170-12.png",
+      "sha256": "8e4c661783fd5610c9c969c4a600e7633a91b58a20a567e4ff079460a546609e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-244x73-10.png",
+      "sha256": "faa6e4484b92dc749b726907b9581cbdece9cb863fc526a31e5dd21b3ac2f0c3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-247x63-10.png",
+      "sha256": "33b7f2d1350cdd1cb1c7c5796ba922068fdcdcf8aa701044de2ad5e103ab4218"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-251x63-10.png",
+      "sha256": "b6b22ed3ea60e6becd5bdcd80418df284a2970249cf1f5480a2116c83584e202"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-282x63-10.png",
+      "sha256": "d3f50b18b871cc44d1994d222eb88c7025d3b194ddce50596dbeb939c4a89a17"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-340x38-8.png",
+      "sha256": "3a150119792c66299fb427807c3b56b5034b74ee6dbeb7aca1bbe33e551c87e5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-340x68-8.png",
+      "sha256": "ec3db7250dfb44056ede388d888dcdc486bedf82805984be79498859dac51301"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-342x337-10.png",
+      "sha256": "50d808442ec4c07c1356ca3593fd637e46f7ba80145e8a7099fe31ee9fc4cfae"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-342x337-12.png",
+      "sha256": "3a86eafa062bd0b710604793d6c12a2b2341ee9eb339beca711c25182b304abe"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-426x59-10.png",
+      "sha256": "94a21c14ba079a1e9d2db65e7d291fe2b7bcfced14a7d615f3e590220321a61c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-746x85-15.png",
+      "sha256": "cd232c539456492dab33a14266a6ded11ae879f66aaeccba77735934996e7366"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-748x76-14.png",
+      "sha256": "fd41ff6f88142c176dc3ee802cb6ff76ee0e7fb5bec60740889223d4151163b7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-789x123-14.png",
+      "sha256": "8e5ba48015f666c2bd92fbc23eba9ee733874dbb1d317f899149dda5a61cf4f4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-793x683-17.png",
+      "sha256": "aaf8464c05940fd93a6743746950ec7ccbb76ba2f87026b1e984033acc8f2baf"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-793x683-20.png",
+      "sha256": "e3f186ae6ca94d7c22d4efaeead779a51b70b84bfa8202c804cccb2e7b5bef8e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-82x78-12.png",
+      "sha256": "f8dbbf33f81b036c7926d2caf1605642b5a409b0043a2d1c9c8d131c400d4b1b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-82x78-8.png",
+      "sha256": "c4476fe0460ef6e25c1322e47ca8c708772123ddd4cfdc69fa11a46a04d6d879"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-84x50-12.png",
+      "sha256": "d1412406a880f93ace2e17e9d183e2c8b04759d9dcfe2f4d0e31be9e7dc30633"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-84x50-8.png",
+      "sha256": "2317fbb16fb0fef48c189e48b869aec01c9e976de09775b62aeab7767720ae39"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-85x85-12.png",
+      "sha256": "b46123015cf5c076574652ca1b974fc069176ed2329852045968f9903a59b730"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-85x85-8.png",
+      "sha256": "efeb23d81e4513a7b470884f199d5039976333aaf7016c84da11f81355974412"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-94x58-12.png",
+      "sha256": "dd4bd38be5d7cd3b267bb0ce278cdb2a9f2f21e5efd2cd924a54462e784db43f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-94x58-8.png",
+      "sha256": "4d277e34ae0f558156c39574639f4b8cfe848544ccb1d801123ea7454049c224"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-137x137-8.png",
+      "sha256": "19230bd40b68a5917b6e153feeaea9dcfed991b9c1f2f7bb3097d078863021a9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-159x168-12.png",
+      "sha256": "4985561e89e7338fba671908dea2ee58c993306ef9d6e71fcaf96a8d823585cc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-166x168-12.png",
+      "sha256": "3c1c3794fff1a32f83a6dda059084eb92b3ca31f56f011a024e4e27361fd9e04"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-174x170-12.png",
+      "sha256": "47d4ca269f52e65a06486205f283eead71f925f2031c662561c4c4b8ba10e805"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-342x337-12.png",
+      "sha256": "e5773b0044a8bf31fe638a3a9add87ca6ae05d7e42bc9cfb6fab4a38ae6a20a2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-793x683-20.png",
+      "sha256": "afe9edc6224b9e0a842bda2669fe69d125872b351ea38ae33e11d2cd3d0ef535"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-82x78-12.png",
+      "sha256": "b3d80880284b2dc75d73c260fa57a283b37d2f679e7dde129abdf5f794926b09"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-84x50-12.png",
+      "sha256": "7d6502365aef8da590f6be7086ec4f46762a577b6bdd3bd9d2ec3c4f00e87477"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-85x85-12.png",
+      "sha256": "d2e3a01a6d94e7a4d45f6b687b653081d7f143fd5ed242f950c13fdbadedc23f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-gold-94x58-12.png",
+      "sha256": "0d395d052b36f77da5b5e7e3392f7f1480e168f2015bfc3024079ed4caa3fdff"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-green-159x168-12.png",
+      "sha256": "b7d05e8adb0ae498dab87696153c0e4616091e1bcae3d63ac0ac5cb42c87d7c9"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-green-174x170-12.png",
+      "sha256": "66caf363548fde219d811199df2b0c604a258e45c81562bb672c7466ecbc6a3e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/frame-violet-174x170-12.png",
+      "sha256": "1b4d1690e5cf4f6ddb4423876a55e16d809d75ceababab0bd135ff91930d7728"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/amber.png",
+      "sha256": "515ffea0955f1cb8e169f2a7180cbff30c64400be2c4ea9b893dc05b428c7141"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/board-stone.png",
+      "sha256": "23dc40722540118751f70f96de3007d99b088170630acb43815b8753daa918cc"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/green.png",
+      "sha256": "7a2985390c509bcd7756b4d207864506683843ce4ddc15a9704247b598e4442d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/navy.png",
+      "sha256": "3dbc36b8b5649442f24d3727d79d5399e1f0e9864b21df9c0f127764590b0e21"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/parchment.png",
+      "sha256": "bd84a79b7b103370ce80d721aaf753b416bf47f64ad6f8bca319501383871641"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/turquoise.png",
+      "sha256": "2664289ae2bccec96ba3e8bb9eda889a1395d54b8868070f245035bd73b0f60f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/materials/violet.png",
+      "sha256": "d6da25f8587c7cd7ef7f18d824575e27a428e3de20991f93dced067bfb06fad6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-244x73-6.png",
+      "sha256": "19b5731c8e1f3d03708a074528249314dd858ba03e87aea1d65b305b8d7d65c1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-247x63-6.png",
+      "sha256": "3f85439307552f9c9da9fa6df19751e23b894b1aa222134477c9f40454247008"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-251x63-6.png",
+      "sha256": "ee69165b8947c33a7ce90ef4b9077628e643978a86740b5e3a47976a7e4fc9de"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-282x63-6.png",
+      "sha256": "a4558feb2900ea648d164e351cabb4775e258ae60bec22f907de48881f65b72e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-340x38-4.png",
+      "sha256": "656959838035fca803d1d92ccfd4dd2ca71ae1b142c315c0d95ff721dc2393fd"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-340x68-5.png",
+      "sha256": "9b2aa35c0f38e8e8a4c22652ab410586f19d6069f410a3fc84adcdc3f41444e2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-342x337-6.png",
+      "sha256": "e44ac1dafc991c1d89c37699aadd51487f10950684cbe54ba168566028cd8ed4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-426x59-6.png",
+      "sha256": "b46e04309fcb65f2f97d7d74159a6606b63f33db0da096879e24d8d00985304c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-746x85-9.png",
+      "sha256": "fedc88d2f2e49f678d21f1f62b245ee09b79b934c0de233792c0cbe893de10eb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-748x76-8.png",
+      "sha256": "e3de6afdde09b5f89e20fb89c3303038de3368e466ac8a0655f58521ca3feedb"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-789x123-8.png",
+      "sha256": "1c6049400a2af68cfcb6dfb65b8b03fadd680c4d999dcc8d804ba39f32d8c657"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-793x683-10.png",
+      "sha256": "31c41e9819400181f641055a6d3116851e184d7fa82aa90c56beac8c8bd0ba63"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-82x78-4.png",
+      "sha256": "b8f4f8dccdb739eb89feed5ed20f74ad45d225963f98a2eedb3463ebea5f91aa"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-84x50-3.png",
+      "sha256": "5f2d09f2f5caf7f8cb2959b066a894a9775e3816385a8f339f61a7cf8452539b"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-85x85-5.png",
+      "sha256": "be569a755b7608cad7a9ea665f88c1aa2a6f296747263967301e148eb87c70b2"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-94x58-4.png",
+      "sha256": "268184464b337b11682ac3fde9476674acf187bca23d32ac406238309722bb8e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-base.png",
+      "sha256": "cb8432cacc20823be517353ea81ed3e6a4c4bb27133230f4dddecee2362982b4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-face.png",
+      "sha256": "9d97b6d490f898454562537331541804e6d3a345022332b9b73aa20a94a2bbcf"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-mask.svg",
+      "sha256": "8ebfc1ff4e408c4ddcfe09842ddd0120d214e4e430e0e2f988dcb23efc351fb8"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-metadata.json",
+      "sha256": "f13a1de20d8757757dcf4d316ac321984ceb49ec83f339aa569af91056978cbe"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel-rim.png",
+      "sha256": "30770d26a4dd0b0d65c8956c841ea1b0b3527a1a741cb196a6c7ec296801a8ef"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/navy-panel.ora",
+      "sha256": "f5faefa4b428ba21d39b382dee49c8e00e8739260b60dd4ed928d32c4eaf0065"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face-amber.png",
+      "sha256": "f3ddda797d6116d4511b8b80a0aa2891c1298c80f487aee80848d69ccfd88bd6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face-green.png",
+      "sha256": "b665b69d882e2fc656cfe3602022d23267194fe4e9e569affcd826eaeb5a04e3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face-navy.png",
+      "sha256": "1c9db3b891c58109b8c043bb899bc23ff749c828bfb968c022eeb1b7d5c2936a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face-turquoise.png",
+      "sha256": "5a4f4e746a500aad5ad3e014ce1a80368bf6eb914b9c04126d5ad7a86d8a6826"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face-violet.png",
+      "sha256": "74badfba1d3a761ec5b84472e994c07b9eb7f2b24d53299bd218c74a66c09173"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-face.png",
+      "sha256": "a915e0bed271bc44de998a52fcd306fe55701891a7e3f20b3139604f53a45f94"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-frame-green.png",
+      "sha256": "c94d66356161fcc62d4087989bc19cd3e2ed20972fd0d44fffda8b108675fe80"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-frame-mask.svg",
+      "sha256": "14731a4fdbc9131886d4ccc8c2811250234e062aa80b44cb96d00a9dd9bb0a86"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-frame-metadata.json",
+      "sha256": "4256273a0a3eb7c239c7ff4f97494f2eab8c502320f136cd8ab8ee3359c99bef"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-frame-violet.png",
+      "sha256": "cbeb4b91e8652417f037a8029b0fd26b2246827739c69e3522421412f82b5327"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-frame.png",
+      "sha256": "773f84e0ed88a7f919d9782c958f3af8b1e0dde1e8e09b732b6a7771f04d05fa"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted-tile-source.png",
+      "sha256": "954bd6bd24d94190ebc398f40669d4527ab27d331d86061760267b91d0381a05"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/painted_tile.ora",
+      "sha256": "9011309ca6237c338e72e33035e1d72815f622c91bf942b9006bd454d427e9aa"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_narrow.svg",
+      "sha256": "3a6de96acd8d548a84ec6b4bce4eae3e95702777d8265d79719e9ac64655321f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_narrow_controls.svg",
+      "sha256": "bc0fdad86b29c5f6efa4e00df8ec6d73e7f938d13e4ef9cf9bc8d3df59e7af6c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_review.svg",
+      "sha256": "a33e9e25d38a5b40d04d02b196cce707469f439ade46b6078f16a90999c0c04a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_states.svg",
+      "sha256": "a6531159d41b8d2a40b130b80ea8a63e70116ce180324733d1b579bfd1d7e82a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_tile_states.svg",
+      "sha256": "a81ed4c7bb03a299231eaf55497caac101ea92769174ae10af2014579c30192e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render/pilot_type.svg",
+      "sha256": "f793cbcbe76ab76ce67498f44045f0dbcbfa2a31762161dbb6a61ffc9a3179f6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/render_review.cjs",
+      "sha256": "a6021d8770eeaab78db3f39907f80f272afb42fca22dee5228cab94b259e46d1"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/spark.svg",
+      "sha256": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/spark_tile.svg",
+      "sha256": "2daac97ce4e65d4cba5d9086723d0eb7aa7b8f171cdfdd6451adbe84d4bb72e7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/tile-amber.png",
+      "sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/tile-green.png",
+      "sha256": "2495ff22c32b214740fc4fe345cb994e3552990b8b0fa314e42424771fa4f2c6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/tile-navy.png",
+      "sha256": "d72b33ff18f8271a6f5378708a3c97f74468da3317d6c04e0b7e9796ac1fcc65"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/tile-turquoise.png",
+      "sha256": "74ae2851ab7921e88b6b3c3086296aed1579be50fd3ba548050cf21981dcf50f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/ui/tile-violet.png",
+      "sha256": "4c30d67a61288bdc3a2ba3e87e243d1bd6da32966f286445a35064960138567c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/update_manifest.py",
+      "sha256": "87f02377e66aef5a379a788260438ff67fa2149322c73591aab4d7f9d61b3a66"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/validate_revision.py",
+      "sha256": "c6cea8d6bfa9d4d4d19f200e3628702e38753d27fe20acacc9648a977f6e5044"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r005/adopt_reference.py",
+      "sha256": "1f21a4f5f3ea6e3a4321791298ea04ec21e64ac7942c326964580a2575369a26"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r005/delivery.md",
+      "sha256": "4bad10e733f24e5bc70762935e7d85266af36e38b565111e678d99271cad69b3"
+    }
+  ]
+}

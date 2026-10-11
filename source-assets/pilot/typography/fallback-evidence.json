@@ -1,0 +1,159 @@
+{
+  "actual_source": "ThemeDB.fallback_font from existing pinned engine",
+  "candidate_fonts_obtained": false,
+  "capture_dimensions": [
+    1100,
+    1360
+  ],
+  "engine": {
+    "build": "official",
+    "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "hex": 263938,
+    "major": 4,
+    "minor": 7,
+    "patch": 2,
+    "status": "stable",
+    "string": "4.7.2-stable (official)",
+    "timestamp": 0
+  },
+  "fallback_family": "Open Sans SemiBold",
+  "fallback_font_class": "FontFile",
+  "fallback_style": "SemiBold",
+  "font_file_purpose": "engine-fallback-preview-only.woff2 preserves existing engine bytes for isolated SVG/raster review reproduction; not an acquired or cleared production font",
+  "measurements": [
+    {
+      "height_px": 45.0,
+      "size_px": 32,
+      "string": "Training Crypt",
+      "width_px": 219.0
+    },
+    {
+      "height_px": 39.0,
+      "size_px": 28,
+      "string": "CAST   /   Resume   /   Continue",
+      "width_px": 406.0
+    },
+    {
+      "height_px": 28.0,
+      "size_px": 20,
+      "string": "Cancel selection   ·   Details / Pass",
+      "width_px": 321.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "Inspect before you commit.",
+      "width_px": 304.0
+    },
+    {
+      "height_px": 22.0,
+      "size_px": 15,
+      "string": "Spark     Free Spark     Conjure Spark",
+      "width_px": 260.0
+    },
+    {
+      "height_px": 30.0,
+      "size_px": 21,
+      "string": "0 / 6     32 / 32     6  0  8  1",
+      "width_px": 238.0
+    },
+    {
+      "height_px": 22.0,
+      "size_px": 15,
+      "string": "Rotate",
+      "width_px": 48.0
+    },
+    {
+      "height_px": 28.0,
+      "size_px": 20,
+      "string": "Cancel selection",
+      "width_px": 156.0
+    },
+    {
+      "height_px": 28.0,
+      "size_px": 20,
+      "string": "Details / Pass",
+      "width_px": 129.0
+    },
+    {
+      "height_px": 28.0,
+      "size_px": 20,
+      "string": "Confirm Pass / enemy acts",
+      "width_px": 255.0
+    },
+    {
+      "height_px": 22.0,
+      "size_px": 15,
+      "string": "Conjure Spark",
+      "width_px": 103.0
+    },
+    {
+      "height_px": 30.0,
+      "size_px": 21,
+      "string": "1",
+      "width_px": 12.0
+    },
+    {
+      "height_px": 39.0,
+      "size_px": 28,
+      "string": "Free Spark",
+      "width_px": 143.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "6 damage. Cost 0.",
+      "width_px": 194.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "Temporary rune; cleared",
+      "width_px": 275.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "after Cast or Pass.",
+      "width_px": 200.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "Input W · output E.",
+      "width_px": 207.0
+    },
+    {
+      "height_px": 32.0,
+      "size_px": 23,
+      "string": "Rotate changes ports.",
+      "width_px": 242.0
+    },
+    {
+      "height_px": 30.0,
+      "size_px": 21,
+      "string": "6  0  8  1     0 / 6     32 / 32",
+      "width_px": 238.0
+    },
+    {
+      "height_px": 30.0,
+      "size_px": 21,
+      "string": "0 O    1 I    5 S    ×  –  '    →",
+      "width_px": 234.0
+    },
+    {
+      "height_px": 20.0,
+      "size_px": 14,
+      "string": "14 px: Spark  /  15 px: Free Spark",
+      "width_px": 218.0
+    },
+    {
+      "height_px": 26.0,
+      "size_px": 18,
+      "string": "18 px: 0 / 6   32 / 32   6 0 8 1",
+      "width_px": 234.0
+    }
+  ],
+  "save_error": 0,
+  "standalone_font_files_written": true
+}

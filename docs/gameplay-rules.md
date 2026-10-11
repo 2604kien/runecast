@@ -1,5 +1,7 @@
 # Rune Cast gameplay rules
 
+**October 11 owner change — accepted design, runtime update pending:** [Official final gameplay contract](gameplay-visual-contract.md) requires undirected compatible circuit connections, only Remove/Rotate editing actions, detailed hand cards, draw/discard piles and the info bar above Cast. This supersedes conflicting design requirements below. The October9 text continues to describe the existing implemented baseline; copying the final image has not changed its evaluator or controls.
+
 **October 9, 2026 — implemented production rules; RC-007 complete.** The owner accepted all proposed defaults. This document describes normal gameplay using `data/production_encounter.json`, verified by 1063 core / 333 UI checks and 52 rendered checks, all passing. See the [exact production contract](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract), [decisions](decisions.md) and [verification](verification.md).
 
 ## Starting a turn

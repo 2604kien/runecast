@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="128" height="128" viewBox="0 0 128 128">
+  <title>Temporary marker — hourglass tag; live TEMP wording remains separate</title>
+  <metadata>{"asset_id": "pilot_spark_tile", "revision": "r1", "role": "Temporary marker \u2014 hourglass tag; live TEMP wording remains separate"}</metadata>
+<g id="tag-outline"><path d="M 28 18 H 100 V 91 L 64 111 L 28 91 Z" fill="#141726" stroke="#141726" stroke-width="8" stroke-linejoin="round"/></g>
+<g id="tag-fill"><path d="M 31 21 H 97 V 89 L 64 107 L 31 89 Z" fill="#cba05c"/></g>
+<g id="temporary-hourglass" fill="none" stroke="#141726" stroke-width="8" stroke-linejoin="round"><path d="M 46 38 H 82 L 46 82 H 82 Z"/></g>
+</svg>

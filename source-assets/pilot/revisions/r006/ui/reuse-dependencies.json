@@ -1,0 +1,67 @@
+{
+  "revision": "r006",
+  "copied_painted_sources": [
+    {
+      "current": "ui/painted_tile.ora",
+      "origin": "../r004/ui/painted_tile.ora",
+      "sha256": "9011309ca6237c338e72e33035e1d72815f622c91bf942b9006bd454d427e9aa",
+      "byte_preserved": true
+    },
+    {
+      "current": "ui/cast-button.ora",
+      "origin": "../r004/ui/cast-button.ora",
+      "sha256": "2adc5c3f7890ebcb8a0192aa9794f6fd7dc712e30f1097fb97e4d13adb47ec31",
+      "byte_preserved": true
+    },
+    {
+      "current": "ui/navy-panel.ora",
+      "origin": "../r004/ui/navy-panel.ora",
+      "sha256": "f5faefa4b428ba21d39b382dee49c8e00e8739260b60dd4ed928d32c4eaf0065",
+      "byte_preserved": true
+    },
+    {
+      "current": "exports/crypt-background.png",
+      "origin": "../r004/exports/crypt-background.png",
+      "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
+      "byte_preserved": true
+    },
+    {
+      "current": "exports/spark_tile.png",
+      "origin": "../r004/exports/spark_tile.png",
+      "sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20",
+      "byte_preserved": true
+    },
+    {
+      "current": "exports/button_primary.png",
+      "origin": "../r004/exports/button_primary.png",
+      "sha256": "0c1c2aa5052220686f74b3f4661adc1d477cc07be22625ca19b3381139639eea",
+      "byte_preserved": true
+    },
+    {
+      "current": "exports/button_secondary.png",
+      "origin": "../r004/exports/button_secondary.png",
+      "sha256": "875911d0cfd87a1da4858079b8a25d2491e923078707c22cf237ffe430fed485",
+      "byte_preserved": true
+    },
+    {
+      "current": "ui/spark.svg",
+      "origin": "../r004/ui/spark.svg",
+      "sha256": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873",
+      "byte_preserved": true
+    }
+  ],
+  "retained_source_dependencies": [
+    "../r004/raw/empty-tile.png",
+    "../r004/raw/empty-tile.prompt.txt",
+    "../r004/raw/navy-panel.png",
+    "../r004/raw/navy-panel.prompt.txt",
+    "../r004/raw/cast-button.png",
+    "../r004/raw/cast-button.prompt.txt",
+    "../r002/exports/shadeling.png",
+    "../r002/type-geometry/fonts/NotoSerif-Variable.ttf",
+    "../../button/build_materials.py"
+  ],
+  "composition_target": "../../../../output/imagegen/approved/combat-final-v2-clean-board.png",
+  "origin_provenance": "../r004/raw and ../r004/ui/*-metadata.json; original painting reference attribution unchanged",
+  "renderer_output": "../../../../output/art/rc-011/r006"
+}

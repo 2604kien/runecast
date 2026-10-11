@@ -1,0 +1,158 @@
+{
+  "asset_id": "pilot_shadeling",
+  "revision": "r001",
+  "date": "2026-10-11",
+  "creator": "Built-in imagegen painting; Codex deterministic source separation and preview assembly",
+  "generation": {
+    "tool": "image_gen.imagegen",
+    "model_version": null,
+    "model_version_status": "not exposed by tool",
+    "prompt_path": "raw/neutral.prompt.txt",
+    "raw_path": "raw/neutral-generation.png",
+    "raw_dimensions": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "b66d8f6bbba3b846950bd8b7940c40c85558efc635054ef2230c10a1684a0fba"
+  },
+  "source_size": [
+    1024,
+    1024
+  ],
+  "export_size": [
+    512,
+    512
+  ],
+  "source_foot": [
+    512,
+    896
+  ],
+  "export_foot": [
+    256,
+    448
+  ],
+  "colour": {
+    "space": "sRGB",
+    "profile": "embedded standard sRGB ICC in source layers, ORA PNG members and runtime-format review PNGs",
+    "alpha": "straight/unassociated",
+    "profile_assignment": "Explicit sRGB interpretation; no pixel conversion; raw generation unchanged"
+  },
+  "raw_to_source": {
+    "scale": 0.6338028169014085,
+    "translate": [
+      58.197183098591495,
+      143.04225352112667
+    ],
+    "raw_foot": [
+      716.0,
+      1188.0
+    ]
+  },
+  "shared_origin": [
+    0,
+    0
+  ],
+  "draw_order": [
+    "body_cloak",
+    "shoulder_underlap",
+    "lantern_arm",
+    "lantern_glass_backing",
+    "lantern_shell",
+    "lantern_glass_light",
+    "flame"
+  ],
+  "export_pivots": {
+    "foot": [
+      256,
+      448
+    ],
+    "body_center": [
+      246.17605633802816,
+      277.82394366197184
+    ],
+    "head": [
+      223.99295774647885,
+      168.80985915492954
+    ],
+    "attack_origin": [
+      125.43661971830984,
+      208.42253521126756
+    ],
+    "lantern_arm": [
+      202.12676056338026,
+      219.83098591549293
+    ],
+    "held_item": [
+      120.04929577464786,
+      216.97887323943658
+    ],
+    "flame": [
+      121.9507042253521,
+      301.9084507042253
+    ]
+  },
+  "neutral_alpha_bounds_gt16": [
+    93,
+    88,
+    370,
+    449
+  ],
+  "motion_alpha_bounds_gt16": [
+    69,
+    86,
+    377,
+    457
+  ],
+  "neutral_alpha_bounds_all": [
+    91,
+    86,
+    372,
+    451
+  ],
+  "motion_alpha_bounds_all": [
+    68,
+    84,
+    379,
+    459
+  ],
+  "allowed_envelope": [
+    32,
+    32,
+    480,
+    480
+  ],
+  "envelope_pass": true,
+  "alpha_cleanup": {
+    "removed_alpha_lte": 3,
+    "raw_pixels_removed": 17759,
+    "reason": "sparse effectively invisible residue; original retained"
+  },
+  "layer_pixel_counts": {
+    "body_cloak": 170997,
+    "shoulder_underlap": 4946,
+    "lantern_arm": 22203,
+    "lantern_glass_backing": 2873,
+    "lantern_shell": 9538,
+    "lantern_glass_light": 2735,
+    "flame": 1781
+  },
+  "rgba8_neutral_bytes": 1048576,
+  "rgba8_parts_bytes": 7340032,
+  "motion": {
+    "format": "PNG image sequence",
+    "frames": 48,
+    "fps": 8,
+    "duration_seconds": 6,
+    "gif": "output/art/rc-011/pilot-motion.gif",
+    "sequence": "output/art/rc-011/pilot-motion-frames",
+    "video_status": "No video encoder was available in PATH; permitted PNG sequence substitute with GIF convenience preview.",
+    "recommendation": "Lean transform method is sufficient for pilot feasibility; RC-014 must refine final attack/hit silhouettes and underlaps, RC-017 owns timing, cancellation, event callbacks and reduced-motion integration."
+  },
+  "limitations": [
+    "Generated shoulder has limited hidden anatomy; shoulder underlap is a deliberate flat indigo patch supporting modest rotations only.",
+    "Flame is extracted generated bright glass content, with independent generated glass-light and vector dark backing; not a final animated flame sheet.",
+    "Inspector/type source fonts on motion/technical sheets are local Arial annotations, not the proposed game font package.",
+    "No Godot import, physical-device, animation-event or owner aesthetic acceptance is claimed."
+  ],
+  "rights_status": "unresolved; raw prompt/tool provenance retained, no model/version or third-party licence invented"
+}

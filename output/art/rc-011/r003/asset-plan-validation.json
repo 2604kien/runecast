@@ -1,0 +1,90 @@
+{
+  "task": "RC-010",
+  "planning_date": "2026-10-09",
+  "result": "PASS",
+  "asset_records": 92,
+  "consumer_records": 70,
+  "original_ids_preserved": 16,
+  "category_counts": {
+    "ambience": 1,
+    "animation": 8,
+    "audit": 3,
+    "board": 2,
+    "character": 5,
+    "environment": 5,
+    "icon": 16,
+    "music": 1,
+    "pilot": 4,
+    "progression": 12,
+    "reference": 5,
+    "release": 4,
+    "sfx": 16,
+    "typography": 2,
+    "ui": 8
+  },
+  "readiness_counts": {
+    "integrated_placeholder": 3,
+    "optional_planned": 1,
+    "placeholder": 3,
+    "planned": 76,
+    "reference_only": 5,
+    "source_ready": 4
+  },
+  "consumer_kind_counts": {
+    "actor": 5,
+    "board": 4,
+    "currency": 1,
+    "encounter": 1,
+    "event": 4,
+    "generated": 1,
+    "permanent": 12,
+    "release": 3,
+    "relic": 6,
+    "room": 6,
+    "screen": 13,
+    "service": 6,
+    "upgrade": 8
+  },
+  "roster_ids_mapped": 52,
+  "checks_by_family": {
+    "csv": 168,
+    "preservation": 2,
+    "ownership": 863,
+    "dependency_graphs": 2,
+    "schema": 92,
+    "readiness": 192,
+    "paths": 450,
+    "links": 707,
+    "coverage": 155,
+    "states": 9,
+    "reuse": 79,
+    "provenance": 1
+  },
+  "errors": [],
+  "protected_files": 974,
+  "protected_changes": [],
+  "historical_prompt_pairs": 12,
+  "approved_history_comparisons": {
+    "combat": {
+      "approved_sha256": "d5fa939150e3953cf1a5e5d3943203d2af4839f191b5ee81533fa8b04d223841",
+      "historical_sha256": "a28cc579eacf29e3c79f7ad936ea163330436f805732fa658c7f1abea198da04",
+      "identical": false
+    },
+    "home": {
+      "approved_sha256": "5dcac9f327f25de8350c193ad0618530e12c041ec4c42ce97ce703c99ff71fc6",
+      "historical_sha256": "1e1cae9cdd7e0d6290a9e0a41d23ee5da7d231156cac45a5ad4d8aaae316d84e",
+      "identical": false
+    },
+    "map": {
+      "approved_sha256": "58ec4b54b152b383d2b6afd165739d04da8c67108e35f4c5985b23d0f2a9f6e4",
+      "historical_sha256": "c9fb57ed9c8698db6e129128428a06cbfa9f3e616dab924ae7a5ca6eac37cff5",
+      "identical": false
+    },
+    "menu": {
+      "approved_sha256": "d37c1a5ca8c1ccd5ed9066f559ccabc5f599133a2256d5d5b10bfd263c824d6a",
+      "historical_sha256": "eea3fbccf063fba525d87c31c4298012735285d72f6a92a00ee2605010180f52",
+      "identical": false
+    }
+  },
+  "limits": "Document/manifest checks only; no new Godot, artwork, import, licensing or device acceptance."
+}

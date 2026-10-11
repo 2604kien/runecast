@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1360" viewBox="0 0 1100 1360"><title>RC-011 typography source — editable live text; PNG is authoritative fallback render</title><metadata>Fallback family: Open Sans SemiBold; no font file embedded. Replacement on systems lacking this family may change metrics.</metadata><rect x="0.0" y="0.0" width="1100.0" height="1360.0" fill="#101b2b" stroke="none"/>
+<rect x="32.0" y="32.0" width="4.0" height="80.0" fill="#d6ad67" stroke="none"/>
+<text x="52.0" y="63.0" font-family="Open Sans SemiBold, sans-serif" font-size="32" fill="#eee0bf">RUNE CAST / TYPE DIRECTION</text>
+<text x="52.0" y="93.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">RC-011 · 1 image pixel = 1 logical design pixel · desktop evidence</text>
+<text x="52.0" y="122.0" font-family="Open Sans SemiBold, sans-serif" font-size="16" fill="#d6ad67">ACTUAL RENDER: Godot fallback / Open Sans SemiBold / SemiBold</text>
+<text x="52.0" y="151.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">Noto candidate binaries are not acquired. Samples below use the current engine fallback.</text>
+<path d="M 48.0 174.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="205.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#d6ad67">ROLE / CHOSEN DIRECTION</text>
+<text x="447.0" y="205.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#d6ad67">ACTUAL-SIZE FALLBACK SPECIMEN</text>
+<text x="48.0" y="241.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Display title</text>
+<text x="48.0" y="265.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Serif SemiBold · 32 px</text>
+<text x="447.0" y="251.0" font-family="Open Sans SemiBold, sans-serif" font-size="32" fill="#eee0bf">Training Crypt</text>
+<path d="M 48.0 285.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="317.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Primary / large action</text>
+<text x="48.0" y="341.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Serif SemiBold · 28 px</text>
+<text x="447.0" y="327.0" font-family="Open Sans SemiBold, sans-serif" font-size="28" fill="#eee0bf">CAST   /   Resume   /   Continue</text>
+<path d="M 48.0 361.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="393.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">General UI / body</text>
+<text x="48.0" y="417.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Sans Regular · 20 px</text>
+<text x="447.0" y="403.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Cancel selection   ·   Details / Pass</text>
+<path d="M 48.0 437.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="469.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Inspector body</text>
+<text x="48.0" y="493.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Sans Regular · 23 px</text>
+<text x="447.0" y="479.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">Inspect before you commit.</text>
+<path d="M 48.0 513.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="545.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Compact labels</text>
+<text x="48.0" y="569.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Sans SemiBold · 15 px</text>
+<text x="447.0" y="555.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#eee0bf">Spark     Free Spark     Conjure Spark</text>
+<path d="M 48.0 589.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="621.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Values / finite stock</text>
+<text x="48.0" y="645.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Noto Sans SemiBold · 21 px</text>
+<text x="447.0" y="631.0" font-family="Open Sans SemiBold, sans-serif" font-size="21" fill="#eee0bf">0 / 6     32 / 32     6  0  8  1</text>
+<path d="M 48.0 665.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="740.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#d6ad67">CONTROL FIT / FIXED BOUNDS; TEXT REMAINS EDITABLE</text>
+<rect x="48.0" y="764.0" width="66.0" height="50.0" fill="#20334b" stroke="#d6ad67"/>
+<text x="58.0" y="794.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#eee0bf">Rotate</text>
+<text x="48.0" y="837.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#adb9c9">66 × 50</text>
+<rect x="143.0" y="764.0" width="188.0" height="58.0" fill="#20334b" stroke="#d6ad67"/>
+<text x="159.0" y="798.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Cancel selection</text>
+<text x="143.0" y="847.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#adb9c9">188 × 58 · 20 px</text>
+<rect x="353.0" y="764.0" width="168.0" height="64.0" fill="#11616a" stroke="#d6ad67"/>
+<text x="369.0" y="802.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Details / Pass</text>
+<text x="353.0" y="853.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#adb9c9">168 × 64 · 20 px</text>
+<rect x="550.0" y="764.0" width="312.0" height="64.0" fill="#20334b" stroke="#d6ad67"/>
+<text x="566.0" y="802.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Confirm Pass / enemy acts</text>
+<text x="550.0" y="853.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#adb9c9">312 × 64 · 20 px; retain full label</text>
+<rect x="890.0" y="764.0" width="142.0" height="92.0" fill="#20334b" stroke="#d6ad67"/>
+<text x="902.0" y="790.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#eee0bf">Conjure Spark</text>
+<text x="905.0" y="837.0" font-family="Open Sans SemiBold, sans-serif" font-size="21" fill="#eee0bf">1</text>
+<text x="890.0" y="880.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#adb9c9">142 × 92</text>
+<text x="48.0" y="916.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#d6ad67">NATIVE 360-WIDE INSPECTOR / 23 PX BODY + SCROLL</text>
+<rect x="48.0" y="938.0" width="328.0" height="335.0" fill="#162735" stroke="#d6ad67"/>
+<text x="70.0" y="977.0" font-family="Open Sans SemiBold, sans-serif" font-size="28" fill="#eee0bf">Free Spark</text>
+<text x="70.0" y="1023.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">6 damage. Cost 0.</text>
+<text x="70.0" y="1056.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">Temporary rune; cleared</text>
+<text x="70.0" y="1089.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">after Cast or Pass.</text>
+<text x="70.0" y="1122.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">Input W · output E.</text>
+<text x="70.0" y="1155.0" font-family="Open Sans SemiBold, sans-serif" font-size="23" fill="#eee0bf">Rotate changes ports.</text>
+<rect x="357.0" y="997.0" width="5.0" height="199.0" fill="#0a1520" stroke="none"/>
+<rect x="357.0" y="997.0" width="5.0" height="88.0" fill="#8797a8" stroke="none"/>
+<rect x="64.0" y="1209.0" width="296.0" height="48.0" fill="#20334b" stroke="#d6ad67"/>
+<text x="187.0" y="1240.0" font-family="Open Sans SemiBold, sans-serif" font-size="20" fill="#eee0bf">Close</text>
+<text x="417.0" y="950.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#d6ad67">NUMERAL / PUNCTUATION CHECK</text>
+<text x="417.0" y="994.0" font-family="Open Sans SemiBold, sans-serif" font-size="21" fill="#eee0bf">6  0  8  1     0 / 6     32 / 32</text>
+<text x="417.0" y="1033.0" font-family="Open Sans SemiBold, sans-serif" font-size="21" fill="#eee0bf">0 O    1 I    5 S    ×  –  '    →</text>
+<text x="417.0" y="1080.0" font-family="Open Sans SemiBold, sans-serif" font-size="14" fill="#eee0bf">14 px: Spark  /  15 px: Free Spark</text>
+<text x="417.0" y="1113.0" font-family="Open Sans SemiBold, sans-serif" font-size="18" fill="#eee0bf">18 px: 0 / 6   32 / 32   6 0 8 1</text>
+<text x="417.0" y="1153.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">Small board labels remain a device review item.</text>
+<text x="417.0" y="1180.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">Narrow layout scrolls; full inspector text is never</text>
+<text x="417.0" y="1205.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">uniformly shrunk to fit. The baseline font is not</text>
+<text x="417.0" y="1230.0" font-family="Open Sans SemiBold, sans-serif" font-size="17" fill="#adb9c9">evidence of Noto Serif appearance or font clearance.</text>
+<path d="M 48.0 1300.0 h 1004.0" stroke="#394357"/>
+<text x="48.0" y="1328.0" font-family="Open Sans SemiBold, sans-serif" font-size="15" fill="#adb9c9">Source: Noto official project + Google Fonts OFL pages · exact binaries/licence package: RC-012</text></svg>

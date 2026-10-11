@@ -1,0 +1,169 @@
+{
+  "asset_id": "pilot_shadeling",
+  "revision": "r002",
+  "date": "2026-10-11",
+  "creator": "Built-in imagegen painting; Codex deterministic source separation and preview assembly",
+  "generation": {
+    "tool": "image_gen.imagegen",
+    "model_version": null,
+    "model_version_status": "not exposed by tool",
+    "prompt_path": "raw/shadeling.prompt.txt",
+    "raw_path": "raw/shadeling.png",
+    "raw_dimensions": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "5a56ca7280f5672b1946f25b0a6762a3c6f76433c73b9a300748529f0d519f85",
+    "referenced_image_paths": [
+      "output/imagegen/approved/combat.png"
+    ],
+    "reference_sha256": "d5fa939150e3953cf1a5e5d3943203d2af4839f191b5ee81533fa8b04d223841",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-0fa585a0-7d90-47df-94e9-ebd961c5df2b.png"
+  },
+  "source_size": [
+    1024,
+    1024
+  ],
+  "export_size": [
+    512,
+    512
+  ],
+  "source_foot": [
+    512,
+    896
+  ],
+  "export_foot": [
+    256,
+    448
+  ],
+  "colour": {
+    "space": "sRGB",
+    "profile": "embedded standard sRGB ICC in source layers, ORA PNG members and runtime-format review PNGs",
+    "alpha": "straight/unassociated",
+    "profile_assignment": "Explicit sRGB interpretation; no pixel conversion; raw generation unchanged"
+  },
+  "raw_to_source": {
+    "scale": 0.6587374199451053,
+    "translate": [
+      54.17749313815182,
+      121.98353156450128
+    ],
+    "raw_foot": [
+      695.0,
+      1175.0
+    ]
+  },
+  "shared_origin": [
+    0,
+    0
+  ],
+  "draw_order": [
+    "body_cloak",
+    "shoulder_underlap",
+    "lantern_arm",
+    "lantern_glass_backing",
+    "lantern_shell",
+    "lantern_glass_light",
+    "flame"
+  ],
+  "export_pivots": {
+    "foot": [
+      256,
+      448
+    ],
+    "body_center": [
+      238.5434583714547,
+      278.37511436413536
+    ],
+    "head": [
+      224.05123513266238,
+      156.5086916742909
+    ],
+    "attack_origin": [
+      108.4428179322964,
+      176.92955169258917
+    ],
+    "lantern_arm": [
+      183.20951509606584,
+      176.92955169258917
+    ],
+    "held_item": [
+      114.37145471180236,
+      177.58828911253426
+    ],
+    "flame": [
+      106.13723696248854,
+      260.259835315645
+    ]
+  },
+  "neutral_alpha_bounds_gt16": [
+    62,
+    88,
+    404,
+    449
+  ],
+  "motion_alpha_bounds_gt16": [
+    33,
+    85,
+    417,
+    460
+  ],
+  "neutral_alpha_bounds_all": [
+    60,
+    86,
+    406,
+    451
+  ],
+  "motion_alpha_bounds_all": [
+    33,
+    83,
+    418,
+    461
+  ],
+  "allowed_envelope": [
+    32,
+    32,
+    480,
+    480
+  ],
+  "envelope_pass": true,
+  "alpha_cleanup": {
+    "removed_alpha_lte": 3,
+    "raw_pixels_removed": 13682,
+    "reason": "sparse effectively invisible residue; original retained"
+  },
+  "layer_pixel_counts": {
+    "body_cloak": 218159,
+    "shoulder_underlap": 5296,
+    "lantern_arm": 24243,
+    "lantern_glass_backing": 8209,
+    "lantern_shell": 18641,
+    "lantern_glass_light": 5023,
+    "flame": 4256
+  },
+  "rgba8_neutral_bytes": 1048576,
+  "rgba8_parts_bytes": 7340032,
+  "motion": {
+    "format": "PNG image sequence",
+    "frames": 48,
+    "fps": 8,
+    "duration_seconds": 6,
+    "gif": "output/art/rc-011/r002/pilot-motion.gif",
+    "sequence": "output/art/rc-011/r002/pilot-motion-frames",
+    "video_status": "No video encoder was available in PATH; permitted PNG sequence substitute with GIF convenience preview.",
+    "recommendation": "Lean transform method is sufficient for pilot feasibility; RC-014 must refine final attack/hit silhouettes and underlaps, RC-017 owns timing, cancellation, event callbacks and reduced-motion integration."
+  },
+  "limitations": [
+    "Generated shoulder has limited hidden anatomy; shoulder underlap is a deliberate flat indigo patch supporting modest rotations only.",
+    "Flame is extracted generated bright glass content, with independent generated glass-light and vector dark backing; not a final animated flame sheet.",
+    "Inspector/type source fonts on motion/technical sheets are local Arial annotations, not the proposed game font package.",
+    "No Godot import, physical-device, animation-event or owner aesthetic acceptance is claimed."
+  ],
+  "rights_status": "unresolved; raw prompt/tool provenance retained, no model/version or third-party licence invented",
+  "review_status": "r002 correction candidate; r001 visual pass withdrawn; no owner acceptance or exact-match claim",
+  "display_scale": {
+    "r001": 0.46,
+    "r002_comparison": 0.64,
+    "reason": "Reference character is substantially more prominent; canvas and foot anchor retained."
+  }
+}

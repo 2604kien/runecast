@@ -1,0 +1,98 @@
+{
+  "revision": "r004",
+  "size": [
+    841,
+    1870
+  ],
+  "color_space": "sRGB",
+  "alpha": "opaque composite; straight-alpha semantic parts",
+  "generation": {
+    "tool": "built-in image_gen",
+    "model": null,
+    "seed": null,
+    "prompt": "../raw/crypt-background.prompt.txt",
+    "raw": "../raw/crypt-background.png",
+    "raw_sha256": "63a4f3b1e824b631d3e289fbadb00f5e9ebcd983073d82ac0565646a81adb1c3",
+    "reference": "output/imagegen/approved/combat-final.png",
+    "reference_sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-d4d285d2-a68c-43d5-8a59-c15d16f1c99c.png"
+  },
+  "layers": [
+    {
+      "name": "Central recessed stone",
+      "path": "layers\\00-central-recessed-stone.png",
+      "bbox": [
+        71,
+        506,
+        770,
+        1870
+      ]
+    },
+    {
+      "name": "Rear arches statues banners and brazier",
+      "path": "layers\\01-rear-arches-statues-banners-and-brazier.png",
+      "bbox": [
+        0,
+        0,
+        841,
+        381
+      ]
+    },
+    {
+      "name": "Arena cobblestone floor",
+      "path": "layers\\02-arena-cobblestone-floor.png",
+      "bbox": [
+        90,
+        352,
+        779,
+        552
+      ]
+    },
+    {
+      "name": "Left rocky surround",
+      "path": "layers\\03-left-rocky-surround.png",
+      "bbox": [
+        0,
+        345,
+        239,
+        1870
+      ]
+    },
+    {
+      "name": "Right rocky surround",
+      "path": "layers\\04-right-rocky-surround.png",
+      "bbox": [
+        612,
+        341,
+        841,
+        1870
+      ]
+    },
+    {
+      "name": "Left foreground candle clusters",
+      "path": "layers\\05-left-foreground-candle-clusters.png",
+      "bbox": [
+        0,
+        1111,
+        163,
+        1828
+      ]
+    },
+    {
+      "name": "Right foreground candle clusters",
+      "path": "layers\\06-right-foreground-candle-clusters.png",
+      "bbox": [
+        696,
+        1120,
+        841,
+        1828
+      ]
+    }
+  ],
+  "pixel_exact_recomposition": true,
+  "production_reference_crop": false,
+  "editability": "Seven disjoint semantic paint layers, retained generation, explicit masks and repeatable source. Color correction, repaint and replacement are supported. Hidden areas are not reconstructed; arbitrary parallax or relocation needs paint extension.",
+  "memory_rgba8_mib": 5.999,
+  "parts_rgba8_mib": 41.995,
+  "scope": "Isolated asset review; not imported into gameplay or device tested."
+}

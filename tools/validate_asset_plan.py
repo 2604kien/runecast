@@ -191,7 +191,8 @@ for row in manifest:
             destinations[path] = row["id"]
 
 docs = ["README.md", "docs/art-direction.md", "docs/asset-manifest-guide.md", "docs/asset-production-spec.md",
-        "docs/style-pilot-brief.md", "docs/project-plan.md", "docs/verification.md"]
+        "docs/style-pilot-brief.md", "docs/project-plan.md", "docs/verification.md",
+        "docs/visual-reference.md", "docs/gameplay-visual-contract.md"]
 for doc in docs:
     for reference in re.findall(r"\]\(([^)]+)\)", read(doc)):
         reference = reference.split(' "')[0].strip("<>")
@@ -206,7 +207,9 @@ for item in baseline:
         changed.append(item["path"])
 check(not changed, f"Protected files changed: {changed}", "preservation")
 historical = sorted((ROOT / "output/imagegen").glob("*.prompt.txt"))
-check(len(historical) == 10 and all(path.with_name(path.name.replace(".prompt.txt", ".png")).exists() for path in historical),
+# Later approved revisions append studies. Original pairs remain protected by
+# the exact baseline hashes above; require a matching PNG for every new prompt.
+check(len(historical) >= 10 and all(path.with_name(path.name.replace(".prompt.txt", ".png")).exists() for path in historical),
       "Missing historical image/prompt pairs", "provenance")
 comparisons = {}
 for screen, stem in {"combat": "rune-cast-gameplay-reference-v5-navigation", "home": "rune-cast-home-reference-v1",

@@ -1,6 +1,10 @@
 # Rune Cast art direction
 
-The four [approved visual references](visual-reference.md) for Home, Combat, Map, and Menu are the final visual targets for the production UI, confirmed October 8, 2026. Exact user-supplied images are stored in `output/imagegen/approved/`. The working Godot screen uses intentionally simple vector placeholders so gameplay can be tested first.
+The [approved visual references](visual-reference.md) are the final visual targets for production UI. Combat now uses the owner's [approved final v2 gameplay image](../output/imagegen/approved/combat-final-v2-clean-board.png), preserved from the latest attachment exactly. Home, Map and Menu retain their existing approvals. Older `combat.png`, `combat-final.png` and generation history remain preserved. The working Godot screen still contains placeholders and older controls.
+
+The latest approved board has **Begin and End labels only**, with no other slot names, rune/path/End values, cost badges or TEMP. Use the image's sideways-fork Split and upright-trident Join on the board and toolbar. Cards, toolbar stock/names, piles and the external information bar retain their content. The [r006 editable pilot](../source-assets/pilot/revisions/r006/delivery.md) applies these corrections; r004 is preserved as source/method history.
+
+The current matching-preview scope covers the **entire Combat screen**, including the painted crypt and all supporting UI, with no placeholders. The previous three-asset pilot scope and blockout allowance are superseded. Follow the [gameplay visual contract](gameplay-visual-contract.md) for the full-screen composition and the distinction between approved design and implemented runtime behavior.
 
 Preserve the Menu's turquoise Resume button and matching navy Options, Shop, and Quit buttons. Preserve the Map's parchment route without a legend strip and its Menu, Map, Guide, Sound navigation. The Home screen uses the illustrated moonlit tower and Continue, New Run, Options buttons.
 
@@ -10,11 +14,15 @@ Use strong dark outlines, angular silhouettes, broad matte colour shapes, and si
 
 Keep the full-body enemy centered in a side-view arena. Show intent above the enemy and health beneath it. Do not add a visible player character.
 
-The board must stay readable at phone size. Keep cell boundaries, ports, direction arrows, effect values, and selection states clear. Colour supports recognition but should not be the only way to distinguish components.
+The board must stay readable at phone size. Keep cell boundaries, connecting ports and selection states clear; values remain in cards and the external forecast. Circuit strokes have no directional arrowheads. Split/Join use the approved fork/trident silhouettes without directional port semantics. Colour supports recognition but should not be the only way to distinguish components.
+
+Use Remove and Rotate as the only circuit editing actions. Remove Flip, Undo, Inspect, Cancel selection and Details / Pass from the requested editor UI. Preserve the detailed hand cards, flanking draw/discard piles, action log, damage/shield/cost/incoming info bar above Cast, pointed turquoise Cast button and illustrated bottom navigation shown in the final reference.
 
 ## Asset production
 
-The [asset manifest](asset-inventory.csv) is the authoritative bounded inventory. The [production specification](asset-production-spec.md) defines source/runtime paths, dimensions, anchors, exact circuit geometry, shared states, delivery evidence and provisional budgets. The [RC-011 matching pilot brief](style-pilot-brief.md) gives the next production task its concrete Shadeling/Spark/button deliverables and review criteria. These RC-010 technical contracts are proposed production defaults; the approved screen direction is already settled, while pilot and device validation remain later work.
+The [r006 pilot](../source-assets/pilot/revisions/r006/delivery.md) supplies the current full Combat composition, using retained r004 painted crypt, stone tiles, navy panels and pointed turquoise Cast. Preserve those painted materials, distinct gold edge planes, dark indigo recesses and live outlined serif labels when developing RC-012/RC-013. The retained r002 actor supplies the crooked hood, compact masked face, broad ragged cloak, gold chain and lantern at the reference arena scale. Current state and native narrow sheets use the clean board and corrected symbols; prior full-screen previews remain revision history.
+
+The [asset manifest](asset-inventory.csv) is the bounded inventory. The [production specification](asset-production-spec.md) defines source/runtime paths, dimensions, anchors, exact circuit geometry, shared states, delivery evidence and provisional budgets. The [RC-011 matching pilot brief](style-pilot-brief.md) records the earlier Shadeling/Spark/button work; its limited scope does not exempt the current full-screen preview from matching the crypt or supporting UI. These RC-010 technical contracts are proposed production defaults, subordinate to the latest [gameplay visual contract](gameplay-visual-contract.md) where direction or controls conflict. The visual target is settled; production, integration and device validation require separate evidence.
 
 | Asset | Method | Delivery |
 | --- | --- | --- |
@@ -33,9 +41,9 @@ Blender is optional for future rigged models, rendered sprites, or 3D scene refe
 
 ## Production order
 
-1. Produce and review Shadeling, one Spark tile treatment, and one reusable button as the matching RC-011 style set, using all four approved references and current runtime scales.
-2. Produce separate environment and enemy assets.
-3. Build reusable UI frames and symbols.
+1. Match the entire Combat preview to the official final gameplay image, including the complete painted crypt, Shadeling, board, cards, piles, info bar, Cast and supporting navigation; no placeholders.
+2. Produce separate environment and enemy assets from that settled visual direction.
+3. Build reusable UI frames and symbols, using undirected connection geometry and the approved Remove/Rotate editor controls.
 4. Test outlines, contrast, and readability at phone size.
 5. Add enemy reactions, cast pulses, and audio.
 6. Verify Android and iOS device layouts.
@@ -48,12 +56,24 @@ Do not crop the complete mockup into a single game background. Never bake health
 - Pilot exports stay under `source-assets/pilot/exports/` until RC-012/RC-013/RC-014 adopt and refine the appropriate pieces. A runtime-format PNG, SVG or preview is not proof of runtime readiness, integration, licensing or device acceptance. Preserve source/creator, prompt/model records where known, refinement history and unresolved rights in delivery notes.
 - Proposed characters use a 1024×1024 source and 512×512 transparent export, with shared foot anchor `(256,448)` in export coordinates. The [character contract](asset-production-spec.md#characters) defines framing, scale and four-state needs; the pilot tests the lean pose-plus-transform method before final pack production.
 - Decorative paint must leave precise [edge-port geometry](asset-production-spec.md#circuit-icons), upright text and shared selection/focus/invalid/temporary/placement markers readable. Validate sockets at the current 137-pixel cell size and the 72-pixel cells of the native 360-wide test viewport. Neither larger source art nor a full-screen reference proves small-size legibility.
-- Use shared scalable frames and live text. The [UI contract](asset-production-spec.md#ui-typography) covers normal, pressed, focused, selected, disabled, invalid and relevant unavailable states, plus typography and RC-008 inspector compatibility. An exhausted connector remains inspectable; a decorative border must not hide its count or intercept a control's touch area.
+- Use shared scalable frames and live text. The [UI contract](asset-production-spec.md#ui-typography) covers normal, pressed, focused, selected, disabled, invalid and relevant unavailable states, plus typography. Its older RC-008 inspector requirements are historical where they conflict with the October 11 editor changes. A decorative border must not hide a stock count or intercept a control's touch area.
 - The four board IDs reuse one socket/circuit system and one crypt layer set. Three lighting presets (base cool, warm candle/recovery, dark guardian) reuse that art; they do not require four painted boards or environments. Home retains its separate tower illustration; Map uses reusable parchment with live route/node overlays.
 
-Current production uses random distinct Begin/End cells, player Rotate/Undo and finite connector kits. The approved Combat image's fixed arrangement, infinity symbol and BOSS label do not override those accepted rules or Shadeling's introductory normal-enemy role. Preserve the current Inspect, Cancel selection, Details / Pass, stock feedback and scrolling behavior described in [touch interactions](touch-interactions.md); visual refinement does not remove them to imitate an older mockup.
+The runtime still uses the earlier directed circuits and controls. The owner has now explicitly approved undirected connection validity and removal of Flip, Undo, Inspect, Cancel selection and Details / Pass, leaving Rotate and Remove. Saving or displaying the final image does not implement those changes; the evaluator, controls and corresponding interaction documentation need a separate implementation update. Keep random distinct Begin/End generation, finite connector kits and Shadeling's introductory normal-enemy role unless separately changed. The reference's fixed arrangement, infinity symbol, BOSS label and example numbers are illustrative, not fresh mechanics approvals. The older [touch interactions](touch-interactions.md) remain implementation history where they conflict with the new contract.
 
-## Placeholder palette
+## RC-011 r001 visual rejection — October 11, 2026
+
+The owner rejected the [r001 pilot](../source-assets/pilot/delivery.md) for failing to match the approved gameplay reference. Its [composition](../output/art/rc-011/pilot-720x1600.png) is retained as rejected evidence. Shared indigo, gold and turquoise colours were insufficient: character proportions/detail, scale, frame construction, Spark prominence, Cast silhouette and typography materially diverged. The previous selection of this visual direction is withdrawn. The existing approved images are the fixed target.
+
+Revision must use the reference's compact broad Shadeling, bold cartoon contour and broad matte cloak planes; substantial sculpted gold bevels; large amber sun on a brown rune face; pointed turquoise Cast; and cream serif labels/values. Font names and provisional technical dimensions are subordinate to the rendered reference match. [Fallback evidence](../source-assets/pilot/font-direction.md) remains a layout test only. Layer separation, independent state geometry and [hierarchical motion](../output/art/rc-011/pilot-motion.gif) remain technically useful, without adopting r001's appearance.
+
+**Historical r001 outcome: visual revision required.** Structural validation is distinct from visual matching. Dependent production must not use the rejected r001 appearance as an approved baseline. That artwork correction did not change runtime mechanics or approve the historical BOSS/infinity labels. The later explicit undirected-circuit and editor changes are recorded above.
+
+The historical [r002 correction](../source-assets/pilot/revisions/r002/delivery.md) has a reference-guided broad Shadeling at larger scale, warm amber Spark with long rays, stronger frame bevels, pointed Cast and actually rendered Noto Serif. Those improvements did not produce an exact full-screen match. Its labelled crypt blockout and unfinished supporting symbols do not meet the expanded October 11 scope and are not an approved final appearance. The official final target is now [combat-final.png](../output/imagegen/approved/combat-final.png); adopting that visual reference does not make the older pilot production assets or runtime complete.
+
+## Historical foundation placeholder palette
+
+These values document the playable foundation. They are not permission to use placeholder paint or simplified UI in the current matching preview.
 
 - Background: #0C1525
 - Surface: #17273B

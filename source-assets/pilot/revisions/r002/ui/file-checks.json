@@ -1,0 +1,65 @@
+{
+  "status": "file checks only; candidate not aesthetically accepted",
+  "ora_and_svg_checks": [
+    {
+      "file": "button_cast.ora",
+      "dimensions": [
+        1024,
+        256
+      ],
+      "layers": 17,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    },
+    {
+      "file": "button_primary.ora",
+      "dimensions": [
+        1024,
+        256
+      ],
+      "layers": 19,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    },
+    {
+      "file": "button_secondary.ora",
+      "dimensions": [
+        1024,
+        256
+      ],
+      "layers": 19,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    },
+    {
+      "file": "tile_empty.ora",
+      "dimensions": [
+        512,
+        512
+      ],
+      "layers": 19,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    },
+    {
+      "file": "tile_powered.ora",
+      "dimensions": [
+        512,
+        512
+      ],
+      "layers": 19,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    },
+    {
+      "file": "tile_spark.ora",
+      "dimensions": [
+        512,
+        512
+      ],
+      "layers": 19,
+      "merged_matches_source_layers": true,
+      "linked_svg_materials_exist": true
+    }
+  ]
+}

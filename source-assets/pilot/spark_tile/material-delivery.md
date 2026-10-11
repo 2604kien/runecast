@@ -1,0 +1,7 @@
+# Painted Spark frame — RC-011 r001
+
+The frame material is delivered in [spark_tile.ora](spark_tile.ora) (512×512, five unique editable layers) and [spark_tile.png](../exports/spark_tile.png) (256×256 RGBA8 sRGB). Nine-slice margins are 16 export pixels on every side; nominal destination caps are 8 logical pixels. The frame has no baked circuit connection, symbol, label, cost or value.
+
+See the coordinated [material delivery](../button/delivery.md), [validation record](../button/validation.json), [actual-scale sheet](../button/material-review.png), [alpha check](../button/material-alpha.png), [raw generation metadata](raw/navy_material_r001.metadata.json), [exact prompt](raw/navy_material_r001.prompt.txt) and [parametric source](../button/build_materials.py). Navy button and tile materials share the same original generated swatch; approved references were inspected but never cropped into art.
+
+Spark SVG, exact ports, temporary marker and tile interaction overlays are separate editable source deliverables in this folder. Their contract is in [geometry-contract.json](geometry-contract.json). **Owner rejected r001 visual fidelity.** The tiny dark sun, navy rune face and pinstripe frame require correction to the large amber sun, warm brown face and substantial bevels of approved Combat. Existing structural checks remain valid, without style approval, runtime import or device acceptance.

@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "source_attachment": "C:\\Users\\nguye\\AppData\\Local\\Temp\\codex-clipboard-f1aabbea-227e-40bb-a12a-a253270dbb34.png",
+  "canonical": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac",
+  "attachment_bytes_identical": true,
+  "size": [
+    841,
+    1870
+  ],
+  "mode": "RGB",
+  "pixel_sha256": "08f624ed438b1274f68c95f738cf3cefd2e6505e30eb431aa559d8ae40d28790",
+  "v10_pixels_identical": true,
+  "new_generation": false,
+  "new_image_edit": false,
+  "approved_by": "User explicitly requested this supplied image as approved final gameplay",
+  "changes": [
+    "Board labels only BEGIN and END",
+    "No rune/branch/End values, cost badges or TEMP on board",
+    "Sideways-fork Split and upright-trident Join on board and toolbar",
+    "Hand/toolbar/info values remain outside board"
+  ],
+  "manifest_changed_ids": [
+    "reference_combat",
+    "reference_history"
+  ],
+  "other_manifest_rows_preserved": true,
+  "historical_prompt_pairs": 15,
+  "original_protected_files": 974,
+  "original_protected_changes": [],
+  "prior_artwork_files": 195,
+  "prior_artwork_changes": [],
+  "runtime_changed": false,
+  "scope": "Final reference adoption; no new editable pilot or runtime implementation claim"
+}

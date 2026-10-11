@@ -1,5 +1,11 @@
 # Rune Cast decisions
 
+## October 11, 2026 — official final Combat visual and undirected design
+
+The owner explicitly requested the supplied complete gameplay image become the **official final visual**, expanded the scope to include the crypt and supporting UI, and required no placeholders. [Exact approved image](../output/imagegen/approved/combat-final.png); [accepted visual/interaction contract](gameplay-visual-contract.md).
+
+Accepted changes: circuit connections have no input/output direction; Remove and Rotate are the only visible editing actions; remove Flip, Undo, Inspect, Cancel selection and Details / Pass; show draw/discard piles, detailed cards and the information bar above Cast. The attachment already shows all of these, so its pixels are preserved exactly. This supersedes the prior compact-hand/no-forecast/control requirements as design direction. Runtime changes and undirected branch/cycle/turn behavior verification remain outstanding; the image does not prove implementation. No additional balance, infinite-stock or enemy-rank decision is inferred from illustrative labels.
+
 ## October 9, 2026 — complete RC-007 defaults accepted
 
 The owner responded **“Accept all default.”** to the consolidated production-rule proposal. The [accepted RC-007 contract](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract) is now authoritative for implementation: Split1/Join0 per powered physical piece; normal shuffled first hand and 3-energy/3-draw starting values; straight effect ports; no blocked cells; one aggregate hit including zero with requested/applied damage and lethal suppression; first 240/later 211 endpoint pairs with independent random rotations and separate RNG streams; the explicit cleanup/terminal sequence; and victory-only compatible transfer preserving HP/max HP and permanent UIDs through UID-ordered collection, continued shuffle/draw and fresh endpoints/kit. Previously confirmed full-reset, manual endpoint rotation and equal-probability finite kits remain selected.
@@ -24,8 +30,8 @@ Independent implementation adds validated kit definitions, optional all-four fin
 - Hand-painted cartoon art with a Slay the Spire-like encounter presentation.
 - Center the full-body enemy and omit the player character.
 - Give the encounter substantial vertical room.
-- Compact rune choices show name, symbol, and value.
-- Remove the separate forecast bar above Cast.
+- Combat hand cards show cost, name, symbol, type and short effect text, with draw/discard piles (October11 update).
+- Keep the information bar above Cast for damage, shield, cost and incoming damage (October11 update).
 - Bottom navigation: Menu, Map, Guide, Sound.
 - Final visual references for Home, Combat, Map, and Menu approved October 8, 2026; see [visual-reference.md](visual-reference.md). These supersede earlier visual drafts.
 - Menu overlay: Resume, Options, Shop, Quit; Quit matches the navy Options and Shop buttons.

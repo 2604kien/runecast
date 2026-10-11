@@ -1,0 +1,26 @@
+{
+  "raw": "../../r004/raw/empty-tile.png",
+  "prompt": "../../r004/raw/empty-tile.prompt.txt",
+  "crop_alpha_threshold": 170,
+  "crop_bbox": [
+    92,
+    113,
+    1162,
+    1140
+  ],
+  "master": [
+    512,
+    512
+  ],
+  "export": [
+    256,
+    256
+  ],
+  "separation": "Complementary interior-face and gold/dark-rim masks; alternate material recolors hidden. No duplicated full composite layers. Underlying strokes remain flattened generated paint.",
+  "raw_sha256": "a22eb3eb4a73f8695165a30c3ab6dab012906aeef265d9bf230b0864ef893545",
+  "reference_pixels_used": false,
+  "nine_slice_proposal": "Painted bevel requires24exportpixel caps for this candidate;16px draft is insufficient. Responsive vector composition used where dimensions vary. Owner acceptance not inferred.",
+  "source_revision": "r004",
+  "reuse_revision": "r006",
+  "reuse_note": "Finished paint/layer bytes retained from r004. Composition target update does not change original generation provenance."
+}

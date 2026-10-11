@@ -1,0 +1,82 @@
+{
+  "revision": "r001",
+  "date": "2026-10-11",
+  "assets": [
+    "pilot_button",
+    "pilot_spark_tile"
+  ],
+  "button": {
+    "source": [
+      1024,
+      256
+    ],
+    "export": [
+      512,
+      128
+    ],
+    "slice_LTRB": [
+      24,
+      20,
+      24,
+      20
+    ],
+    "texture_to_logical_scale": 0.5,
+    "standard_padding_xy": [
+      16,
+      10
+    ],
+    "compact_padding_xy": [
+      8,
+      6
+    ],
+    "min_hitbox": [
+      66,
+      50
+    ],
+    "state_composition": {
+      "normal": "base",
+      "pressed": "base + pressed (live label offset 0,1 logical px)",
+      "focused": "base + focused",
+      "selected": "base + selected",
+      "disabled": "base + disabled; input disabled",
+      "invalid": "base + invalid; live explanation required",
+      "unavailable": "base + unavailable; input remains inspectable",
+      "focused_selected": "base + selected + focused",
+      "focused_unavailable": "base + unavailable + focused"
+    },
+    "overlay_exports": "button/overlays/<state>.png; same shared files for both materials. SVG masters use viewBox256x64; production must regenerate state geometry responsively at actual control size using state_operations, not nine-slice a marker.",
+    "live_text": "NOT included; control bounds never move or shrink"
+  },
+  "tile": {
+    "source": [
+      512,
+      512
+    ],
+    "export": [
+      256,
+      256
+    ],
+    "slice_LTRB": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "ports": "Separate exact live geometry; frame has no painted connections or sockets",
+    "text_glyph_states": "Separate assets by geometry task; not baked into material"
+  },
+  "colour": "sRGB profile embedded; 8-bit RGBA straight alpha",
+  "source_method": "Generated raw material paintings clipped with editable polygon masks. Genuine individual paint, silhouette, trim, facet, bevel and state layers; no duplicated flattened art.",
+  "decoded_bytes": {
+    "button_primary_RGBA8": 262144,
+    "button_secondary_RGBA8": 262144,
+    "shared_button_overlays_6_RGBA8": 1572864,
+    "tile_RGBA8": 262144,
+    "total_export_RGBA8": 2359296
+  },
+  "limits": [
+    "Material paintings are flattened generated strokes, not individual brush-stroke layers. Shape, trim, material and states remain independently editable.",
+    "ORA rasterizes vector trim/state copies; SVG overlays and this parametric Python source retain editable geometry.",
+    "Review-only outputs. Godot import, device readability, input behavior and final font embedding are not verified."
+  ]
+}

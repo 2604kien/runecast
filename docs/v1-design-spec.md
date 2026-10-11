@@ -1,5 +1,7 @@
 # Rune Cast first-release design specification
 
+**October 11 Combat update:** [The official final gameplay visual/interaction contract](gameplay-visual-contract.md) supersedes conflicting older Combat presentation proposals: undirected connections, Remove/Rotate-only editing actions, detailed cards with draw/discard piles and an information bar above Cast. The full painted image is approved as the visual target; runtime implementation remains a separate outstanding change.
+
 RC-002 design baseline, October 8, 2026. This document defines the bounded release to build; it does not claim those features exist. The current product is one playable training encounter. See the [content roster](content-roster.md), [task plan](project-plan.md), and [implemented gameplay rules](gameplay-rules.md).
 
 **October 9 RC-007 acceptance:** the owner answered **“Accept all default.”** to the consolidated proposal. The [accepted production contract](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract) now fixes full clearing, finite kits, random player-rotatable endpoints, straight effects/no blocked cells, Split1/Join0, aggregate hits, cleanup/terminal order and compatible encounter transfer. RC-007 is implemented and complete, with 1063 core / 333 UI and 52 rendered checks passing; see the final verification and handoff. This is a design selection, not new human evidence or a testing waiver. No content budget, new effect or later-task scope is added.

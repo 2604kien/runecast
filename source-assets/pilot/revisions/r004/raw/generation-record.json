@@ -1,0 +1,56 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "model": null,
+  "seed": null,
+  "reference": "output/imagegen/approved/combat-final.png",
+  "reference_sha256": "c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4",
+  "records": [
+    {
+      "asset": "crypt-background.png",
+      "prompt": "crypt-background.prompt.txt",
+      "original_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-d4d285d2-a68c-43d5-8a59-c15d16f1c99c.png",
+      "selected": true,
+      "transparent_background": false,
+      "asset_sha256": "63a4f3b1e824b631d3e289fbadb00f5e9ebcd983073d82ac0565646a81adb1c3",
+      "prompt_sha256": "3eb7d23a63862c01b3dffe9658386fc51fa1b280e6abc417e4d1e9b8d5024787"
+    },
+    {
+      "asset": "empty-tile.png",
+      "prompt": "empty-tile.prompt.txt",
+      "original_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-5d34b5d0-5071-4356-9ef9-f65dad83b003.png",
+      "selected": true,
+      "transparent_background": true,
+      "asset_sha256": "a22eb3eb4a73f8695165a30c3ab6dab012906aeef265d9bf230b0864ef893545",
+      "prompt_sha256": "c6e571a472f4f61520b7fd8d79ca25bc9359e32b3d39bdbc3ce6104db8ddceb0"
+    },
+    {
+      "asset": "shadeling-alternative.png",
+      "prompt": "shadeling-alternative.prompt.txt",
+      "original_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-dfd38a0a-9484-4a91-b0ff-eaffa577d504.png",
+      "selected": false,
+      "transparent_background": true,
+      "decision": "Retained unused alternative. The selected r002 neutral already matches the established identity and has genuine separated parts and verified motion. This extra study does not replace that coherent source set.",
+      "asset_sha256": "9cf0d713aac4e3b0426230eb6b9e2d17087a0401ce9751466d2efd6acb966705",
+      "prompt_sha256": "5596adef513a3b5b1606f8a09e18b49f4d94ffaf7ddf80bb56c2a7a256aaa0e5"
+    },
+    {
+      "asset": "navy-panel.png",
+      "prompt": "navy-panel.prompt.txt",
+      "original_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-5449d147-7276-42db-a728-5cc07aa24d90.png",
+      "selected": true,
+      "transparent_background": true,
+      "asset_sha256": "8fd43449115b3c6039d7932cb4db1038e46e0ad9d5d803f350525b87c61ae0fc",
+      "prompt_sha256": "17b3af1943de60c6aa2989a381fb76ff75db3ddd9e32461a59eb95184198cc99"
+    },
+    {
+      "asset": "cast-button.png",
+      "prompt": "cast-button.prompt.txt",
+      "original_output": "C:/Users/nguye/.codex/generated_images/01a125b7-21db-7683-ac68-ba49d0b1e8d3/exec-3d688422-86ba-403e-9163-c97b1789b827.png",
+      "selected": true,
+      "transparent_background": true,
+      "asset_sha256": "39a1ddc49a577865f3d64d5c960e65bf9279852dbfd98b1ece6c59ccff24b50a",
+      "prompt_sha256": "4f3808d36e55f4c6266b841c1796f17e1d3142fd627d44bcc12b779611d7a2f8"
+    }
+  ],
+  "provenance_note": "Exact prompts and untouched generator output copies are retained. Tool did not expose model version or seed. Reference supplies style/composition; its pixels are not cropped into production art."
+}

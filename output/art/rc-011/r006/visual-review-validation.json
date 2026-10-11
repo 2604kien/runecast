@@ -1,0 +1,91 @@
+{
+  "task": "RC-011",
+  "revision": "r006",
+  "review_date": "2026-10-11",
+  "method": "Independent assistant directly inspected actual exported PNGs and magnified the approved enemy-label region. File checks do not substitute for these visual observations.",
+  "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "reference_sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac",
+  "reviewed_artifacts": [
+    {
+      "path": "output/art/rc-011/r006/pilot-360x640-controls.png",
+      "sha256": "6e4ef506ff22cc56f3102bafeacf869905fa4c127bf969ae65e17023d2421092"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-360x640.png",
+      "sha256": "e355ded2e0fe23c83343e748d855d57d43c23ae4363975ff1f5858172461da3c"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-450x1000.png",
+      "sha256": "27108a08aebef5f3d05be850884435156df078490fdea2329b1f6fed03cddd25"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-720x1600.png",
+      "sha256": "1b3426d60f7edd89cf58585223e8c80c092b88f4d244682980eb4f6343de573a"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-841x1870.png",
+      "sha256": "803c5422e39f77a450e95e06ecdd087abae2f8da9b792125b26db840d1a0f988"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-states-monochrome.png",
+      "sha256": "1485da2fd43f8f9f3776e1021b2c943825729ce1bdfcb6bf5b7b98cf36d9bc21"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-states.png",
+      "sha256": "6f0a7495ff27a0640a2538cd8c9dbb84e0fb90bb062d17539aadb57c9955a29f"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-tile-states.png",
+      "sha256": "0eb1cbc867404b955e3c582c5da6da7e434ae8d760f8907c78799d8859665ea9"
+    },
+    {
+      "path": "output/art/rc-011/r006/pilot-type.png",
+      "sha256": "cad4f6f37edc3b02b7ef6583f48e238896bccf892477781d0a6c900d460bd59b"
+    }
+  ],
+  "findings": [
+    {
+      "criterion": "Clean board in main and native viewport",
+      "result": "pass",
+      "evidence": "Only BEGIN and END have board text. SPARK/SPLIT/JOIN names, numerical damage/branch/End values, cost crystals and TEMP are absent. Rune symbols and connecting strokes remain."
+    },
+    {
+      "criterion": "Corrected Split and Join silhouettes",
+      "result": "pass",
+      "evidence": "Split has a left stem and upper-right/lower-right branches; Join is an upright trident. Board and toolbar visibly share these silhouettes, with editable glyph sources and identical vector path data."
+    },
+    {
+      "criterion": "External gameplay information preserved",
+      "result": "pass",
+      "evidence": "Main retains the reference BOSS label, intent/name/health, player HUD, wiring labels/counts, detailed hand, Draw/Discard piles/counts, action log, external forecast, Cast cost and navigation. Only Remove/Rotate are editing actions."
+    },
+    {
+      "criterion": "State and rotation specimens reflect current board",
+      "result": "pass",
+      "evidence": "All board cells in state sheets are clean; explanatory labels/values are outside the cells. Four rotations,24/32/48glyphs and137/72cell samples remain. Power collars, focus dashes, selection check, invalid cross and unavailable cue remain distinct."
+    },
+    {
+      "criterion": "Native narrow and typography",
+      "result": "pass for desktop review",
+      "evidence": "Native360x640 uses72px cells and a visible scrolling boundary. Lower companion includes real piles around a scrolling detailed card, controls, forecast and Cast. Font sheet clearly distinguishes endpoint text from external values. No missing-glyph boxes or obvious text clipping were found."
+    },
+    {
+      "criterion": "Source method and pixel identity",
+      "result": "pass for reconstruction; pixel identity not claimed",
+      "evidence": "Existing separated painted assets are retained unchanged; new composition and vector geometry implement the latest visual changes. The actor painting, Noto letterforms and frame/icon execution are not pixel-identical to the flattened reference."
+    },
+    {
+      "criterion": "Runtime, device and owner acceptance",
+      "result": "not tested/not inferred",
+      "evidence": "No runtime evaluator/control behavior or device verification is established by these previews. Approval of the supplied reference is not retroactive approval of different production artwork."
+    },
+    {
+      "criterion": "Owner-reported Begin overlap follow-up",
+      "result": "pass after correction",
+      "evidence": "Initial review missed a diamond under the Begin check and the narrow Begin diamond. Corrected Begin uses one check only; End keeps its diamond. Root inspected450/native/state outputs; independent reviewer inspected841/720 and grayscale states. Current hashes identify corrected exports."
+    }
+  ],
+  "clarification": "The approved image DOES contain yellow BOSS above Shadeling. Magnified inspection corrected an earlier mistaken full-screen reading; no reference pixels or historical records were edited.",
+  "limitations": "These hashes identify the inspected versions. Changed image outputs need fresh visual review.",
+  "before_fix_archive": "output/art/rc-011/r006/history/begin-overlap-before.zip"
+}

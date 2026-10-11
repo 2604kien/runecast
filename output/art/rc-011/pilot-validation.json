@@ -1,0 +1,2745 @@
+{
+  "task": "RC-011",
+  "date": "2026-10-11",
+  "result": "PASS",
+  "checks": [
+    {
+      "check": "dimensions and RGBA: exports/shadeling.png",
+      "result": "pass",
+      "evidence": "{'size': (512, 512), 'mode': 'RGBA'}"
+    },
+    {
+      "check": "sRGB profile: exports/shadeling.png",
+      "result": "pass",
+      "evidence": "ICC present"
+    },
+    {
+      "check": "dimensions and RGBA: exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "{'size': (256, 256), 'mode': 'RGBA'}"
+    },
+    {
+      "check": "sRGB profile: exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "ICC present"
+    },
+    {
+      "check": "dimensions and RGBA: exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "{'size': (512, 128), 'mode': 'RGBA'}"
+    },
+    {
+      "check": "sRGB profile: exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "ICC present"
+    },
+    {
+      "check": "dimensions and RGBA: exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "{'size': (512, 128), 'mode': 'RGBA'}"
+    },
+    {
+      "check": "sRGB profile: exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "ICC present"
+    },
+    {
+      "check": "shared full-canvas part body_cloak.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\body_cloak.png"
+    },
+    {
+      "check": "shared full-canvas part flame.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\flame.png"
+    },
+    {
+      "check": "shared full-canvas part lantern_arm.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\lantern_arm.png"
+    },
+    {
+      "check": "shared full-canvas part lantern_glass_backing.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\lantern_glass_backing.png"
+    },
+    {
+      "check": "shared full-canvas part lantern_glass_light.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\lantern_glass_light.png"
+    },
+    {
+      "check": "shared full-canvas part lantern_shell.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\lantern_shell.png"
+    },
+    {
+      "check": "shared full-canvas part shoulder_underlap.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\exports\\shadeling_parts\\shoulder_underlap.png"
+    },
+    {
+      "check": "ORA mimetype shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "ORA canvas shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "meaningful layer count shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "7"
+    },
+    {
+      "check": "full-canvas nonempty layer flame",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer lantern_glass_light",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer lantern_shell",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer lantern_glass_backing",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer lantern_arm",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer shoulder_underlap",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer body_cloak",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "layers not duplicated flattened copies shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "ORA merged image shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "shadeling/shadeling.ora"
+    },
+    {
+      "check": "ORA mimetype spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "ORA canvas spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "meaningful layer count spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "5"
+    },
+    {
+      "check": "full-canvas nonempty layer 05 dark inner bevel",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 04 corner highlight and shadow facets",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 03 restrained gold trim",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 02 painted navy slate material",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 01 dark outer silhouette",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "layers not duplicated flattened copies spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "ORA merged image spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "spark_tile/spark_tile.ora"
+    },
+    {
+      "check": "ORA mimetype button/button.ora",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "ORA canvas button/button.ora",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "meaningful layer count button/button.ora",
+      "result": "pass",
+      "evidence": "14"
+    },
+    {
+      "check": "full-canvas nonempty layer state unavailable independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer state invalid independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer state disabled independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer state selected independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer state focused independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer state pressed independent shared overlay",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 08 navy alternate inner rim",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 07 turquoise inner rim",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 06 dark inner bevel",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 05 angular gold highlight and shadow facets",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 04 restrained gold trim",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 03 painted navy alternate material",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 02 painted turquoise material",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "full-canvas nonempty layer 01 dark outer silhouette",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "layers not duplicated flattened copies button/button.ora",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "ORA merged image button/button.ora",
+      "result": "pass",
+      "evidence": "button/button.ora"
+    },
+    {
+      "check": "review dimensions pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "(720, 1600)"
+    },
+    {
+      "check": "review dimensions pilot-450x1000.png",
+      "result": "pass",
+      "evidence": "(450, 1000)"
+    },
+    {
+      "check": "review dimensions pilot-360x640.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "review dimensions pilot-360x640-controls.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "review dimensions pilot-360x640-inspector.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "review dimensions pilot-states.png",
+      "result": "pass",
+      "evidence": "(1440, 2280)"
+    },
+    {
+      "check": "review dimensions pilot-type.png",
+      "result": "pass",
+      "evidence": "(1100, 1360)"
+    },
+    {
+      "check": "editable SVG pilot_endpoints.svg",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "editable text pilot_endpoints.svg",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "editable SVG pilot_inspector.svg",
+      "result": "pass",
+      "evidence": "pilot_inspector.svg"
+    },
+    {
+      "check": "editable text pilot_inspector.svg",
+      "result": "pass",
+      "evidence": "pilot_inspector.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_296x64.png",
+      "result": "pass",
+      "evidence": "pilot_inspector.svg"
+    },
+    {
+      "check": "editable SVG pilot_narrow.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "editable text pilot_narrow.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x58.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x58.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x58.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x58.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "editable SVG pilot_narrow_controls.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "editable text pilot_narrow_controls.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_103x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_142x92.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_142x92.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_324x64.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_77x50.png",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "editable SVG pilot_reference_comparison.svg",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "editable text pilot_reference_comparison.svg",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource ../../output/imagegen/approved/home.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource ../../output/imagegen/approved/combat.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource ../../output/imagegen/approved/map.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource ../../output/imagegen/approved/menu.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_165x58.png",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "editable SVG pilot_review.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "editable text pilot_review.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/shadeling.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x58.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_224x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_142x92.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_142x92.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_684x64.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_167x50.png",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "editable SVG pilot_states.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "editable text pilot_states.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_212x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/temporary-marker.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_137x137.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark-monochrome.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark-monochrome.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark-monochrome.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_66x50.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_145x58.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_330x64.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_primary_normal_570x84.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/button_secondary_normal_385x64.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/spark_tile_72x72.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/spark_tile_overlays/powered.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/temporary-marker.svg",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/shadeling.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/shadeling.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/shadeling.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource exports/shadeling.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_normal.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_selected.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_focused.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_disabled.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_invalid.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "linked resource review_resources/grayscale_unavailable.png",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "Spark128 viewBox",
+      "result": "pass",
+      "evidence": "spark_tile/spark.svg"
+    },
+    {
+      "check": "Spark no raster/font/filter/dependency",
+      "result": "pass",
+      "evidence": "spark_tile/spark.svg"
+    },
+    {
+      "check": "exact edge ports",
+      "result": "pass",
+      "evidence": "{'N': [64, 0], 'E': [128, 64], 'S': [64, 128], 'W': [0, 64]}"
+    },
+    {
+      "check": "W-E graph rotation 0",
+      "result": "pass",
+      "evidence": "{'input': (0, 64), 'output': (128, 64)}"
+    },
+    {
+      "check": "W-E graph rotation 1",
+      "result": "pass",
+      "evidence": "{'input': (64, 0), 'output': (64, 128)}"
+    },
+    {
+      "check": "W-E graph rotation 2",
+      "result": "pass",
+      "evidence": "{'input': (128, 64), 'output': (0, 64)}"
+    },
+    {
+      "check": "W-E graph rotation 3",
+      "result": "pass",
+      "evidence": "{'input': (64, 128), 'output': (64, 0)}"
+    },
+    {
+      "check": "common anchors/origin",
+      "result": "pass",
+      "evidence": "shadeling/metadata.json"
+    },
+    {
+      "check": "motion inside32..480",
+      "result": "pass",
+      "evidence": "shadeling/metadata.json"
+    },
+    {
+      "check": "48-frame authoritative sequence",
+      "result": "pass",
+      "evidence": "48"
+    },
+    {
+      "check": "6 second timing manifest with paired reduced-motion records",
+      "result": "pass",
+      "evidence": "pilot-motion-timing.json"
+    },
+    {
+      "check": "source and review import exclusion",
+      "result": "pass",
+      "evidence": ".gdignore files; export presets not changed"
+    },
+    {
+      "check": "delivery link revisions/r002/delivery.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/shadeling.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/separation-masks.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/assemble_shadeling.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/shadeling.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/shadeling_parts/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-shadeling-layers.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/delivery.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/spark.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/spark-monochrome.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/temporary-marker.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/build_geometry.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/spark.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/temporary-marker.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/spark_tile_overlays/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-glyphs.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/material-delivery.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/button.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/build_materials.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/overlays/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/material_metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/delivery.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_review.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link build_review.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link render_review.cjs",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_states.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_narrow.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_narrow_controls.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_inspector.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_endpoints.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_reference_comparison.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-450x1000.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-360x640.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-360x640-controls.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-360x640-inspector.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-states.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-states-monochrome.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-type.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-endpoints.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-reference-comparison.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-motion.gif",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-motion-sheet.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-motion-frames/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-motion-timing.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/raw/neutral.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/raw/neutral-generation.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/raw/navy_material_r001.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile/raw/navy_material_r001.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/raw/turquoise_material_r001.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/raw/turquoise_material_r001.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/delivery.md#files-and-provenance",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-shadeling-scale.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link review_resources/resources.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../docs/board-catalog.md#first-circuit--introductory-rune",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-endpoints.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link font-direction.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/imagegen/approved/combat.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-450x1000.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-glyphs.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-type.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-360x640.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-360x640-inspector.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-shadeling-alpha-native.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-shadeling-layers.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling/validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link button/validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-states.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-states-monochrome.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-motion-sheet.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/asset-plan-validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\delivery.md"
+    },
+    {
+      "check": "delivery link revisions/r002/type-geometry/README.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/r002/type-geometry/type-spark-specimen.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link revisions/r002/type-geometry/font-provenance.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/engine-fallback-preview-only.woff2",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/LICENSE.engine-fallback.OpenSans.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-type.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/pilot-type.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/render_type.gd",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/fallback-evidence.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link typography/render.log",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link ../../output/art/rc-011/pilot-glyphs.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link spark_tile/geometry-checks.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\font-direction.md"
+    },
+    {
+      "check": "delivery link button.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link build_materials.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link ../exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link ../exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link ../spark_tile/spark_tile.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link ../exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link raw/turquoise_material_r001.metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link ../spark_tile/raw/navy_material_r001.metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link build_materials.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link overlays/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material_metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material-review.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material-review.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material-review.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material-review-grayscale.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link material-alpha.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\button\\delivery.md"
+    },
+    {
+      "check": "delivery link raw/neutral.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link profile-pixel-baseline.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-shadeling-scale.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion-frames/frame_000.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion-timing.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion.gif",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion-sheet.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../exports/shadeling.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../context-audit.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-shadeling-scale.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-shadeling-alpha-native.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-shadeling-alpha.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-shadeling-layers.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion-timing.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion.gif",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../output/art/rc-011/pilot-motion-sheet.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\shadeling\\delivery.md"
+    },
+    {
+      "check": "delivery link spark_tile.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../button/delivery.md",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../button/validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../button/material-review.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../button/material-alpha.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link raw/navy_material_r001.metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link raw/navy_material_r001.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../button/build_materials.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link geometry-contract.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\spark_tile\\material-delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-450x1000.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link pilot_review.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-360x640.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-360x640-controls.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-360x640-inspector.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-states.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-states-monochrome.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-type.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-reference-comparison.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-motion.gif",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-motion-frames/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-motion-timing.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/pilot-motion-sheet.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link shadeling.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link separation-masks.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link build_shadeling.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/shadeling.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link exports/shadeling_parts/",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/tile_spark.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/tile_empty.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/tile_spark.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/spark.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/spark-monochrome.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/spark-geometry-contract.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/button_cast.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/button_primary.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/button_secondary.ora",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/button_cast.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/build_ui.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/candidate-metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link build_review.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link render_review.cjs",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/fonts/NotoSerif-Variable.ttf",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/fonts/OFL.NotoSerif.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link type-geometry/font-provenance.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link raw/shadeling.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link raw/shadeling.prompt.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/candidate-metadata.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link validate_revision.py",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../output/art/rc-011/r002/revision-validation.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ui/file-checks.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\delivery.md"
+    },
+    {
+      "check": "delivery link ../../../../../output/art/rc-011/r002/type-geometry/type-spark-specimen.png",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link type-spark-specimen.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link spark.svg",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link fonts/NotoSerif-Variable.ttf",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link fonts/OFL.NotoSerif.txt",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link font-provenance.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link font-measurements.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    },
+    {
+      "check": "delivery link spark-geometry-contract.json",
+      "result": "pass",
+      "evidence": "source-assets\\pilot\\revisions\\r002\\type-geometry\\README.md"
+    }
+  ],
+  "check_count": 497,
+  "decoded_memory": {
+    "all_candidate_textures_bytes": 11403264,
+    "all_candidate_textures_MiB": 10.875,
+    "includes": "neutral plus all seven parts simultaneously, both button bases, all six optional raster state overlays, tile, all10SVG candidates at128",
+    "excludes": "ORA/raw generations/review PNGs/fonts/engine/render buffers; these are not runtime resources",
+    "items": [
+      {
+        "path": "source-assets/pilot/exports/button_primary_normal.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/exports/button_secondary_normal.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile.png",
+        "size": [
+          256,
+          256
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/body_cloak.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/flame.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/lantern_arm.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/lantern_glass_backing.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/lantern_glass_light.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/lantern_shell.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/exports/shadeling_parts/shoulder_underlap.png",
+        "size": [
+          512,
+          512
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 1048576
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/disabled.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/focused.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/invalid.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/pressed.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/selected.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/button/overlays/unavailable.png",
+        "size": [
+          512,
+          128
+        ],
+        "assumed_format": "RGBA8",
+        "decoded_bytes": 262144
+      },
+      {
+        "path": "source-assets/pilot/exports/spark-monochrome.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/temporary-marker.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/eligible.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/focused.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/invalid.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/powered.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/protected.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/selected.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      },
+      {
+        "path": "source-assets/pilot/exports/spark_tile_overlays/unavailable.svg",
+        "size": [
+          128,
+          128
+        ],
+        "assumed_format": "RGBA8 rasterization at128 square; estimate, not imported",
+        "decoded_bytes": 65536
+      }
+    ]
+  },
+  "limits": "Artifact structure and desktop preview evidence only; no owner approval, Godot pilot imports, gameplay integration, final rights clearance or device verification."
+}

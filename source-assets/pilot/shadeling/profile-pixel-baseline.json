@@ -1,0 +1,18 @@
+{
+  "source-assets\\pilot\\shadeling\\layers\\body_cloak.png": "2bd6f325638440e404086fc40b063536f926a27a0c26a6685a569f89920f6d3a",
+  "source-assets\\pilot\\shadeling\\layers\\flame.png": "ff0e236ebc341ffa1c9dfb8f87863fd0e6d80b036cb718c15e14f936e9efff2b",
+  "source-assets\\pilot\\shadeling\\layers\\lantern_arm.png": "35996f54cf4a5222328b11ba1fc284f5b8d6df16d71e37484e0155d55d5482c6",
+  "source-assets\\pilot\\shadeling\\layers\\lantern_glass_backing.png": "534dda00c7c79b106e510b2c862ea33bf6b4a5cee37a3b0dd631fbc07a743c16",
+  "source-assets\\pilot\\shadeling\\layers\\lantern_glass_light.png": "6f52f40802bb349b014bf5da0ed387db0f5d8c10c5bc70d97d596b9cde20be88",
+  "source-assets\\pilot\\shadeling\\layers\\lantern_shell.png": "9a8dce8acabd706ffb26177778986a0e5dc4a7523d1bf5a6570621482a2dedd6",
+  "source-assets\\pilot\\shadeling\\layers\\shoulder_underlap.png": "d384d9a28c5b1234fccc9bb6eb66d66e672694a2d4260f7cd2ac3fe6c9d15344",
+  "source-assets\\pilot\\exports\\shadeling_parts\\body_cloak.png": "aa040b061444b4429ba22bc615dd0d3f38101d8c0240a4285c13e42644da2e01",
+  "source-assets\\pilot\\exports\\shadeling_parts\\flame.png": "958b66549cd26a7e7d2c41202f85787eaa39793396e9997f1a8312c044a805ef",
+  "source-assets\\pilot\\exports\\shadeling_parts\\lantern_arm.png": "569438c49d659e6f16ea37753c04a5044f47a1cdc39212c7027e7b74db9c3bf1",
+  "source-assets\\pilot\\exports\\shadeling_parts\\lantern_glass_backing.png": "a32d047fa29b1a1b30e2148e15c4956c028aa0765af85b4e6ea0ad247e7364ff",
+  "source-assets\\pilot\\exports\\shadeling_parts\\lantern_glass_light.png": "296a687ad7b417af0216212b1b0c8e87e0b243df8b328e85280d6cf110254665",
+  "source-assets\\pilot\\exports\\shadeling_parts\\lantern_shell.png": "d189da78aacbec45b09391dcefcb0627942391d1ece06beaea7f5a9ebf1af81c",
+  "source-assets\\pilot\\exports\\shadeling_parts\\shoulder_underlap.png": "9e07d47c568612458886024180e3d07fa84f3bf50fe4cdaf2959dca9cbb475d6",
+  "source-assets\\pilot\\exports\\shadeling.png": "08cfbeceddb38a8ec561d7ad54323a3fdd1fb3c736653413e518f5777bfdb614",
+  "source-assets\\pilot\\shadeling\\neutral-reference.png": "bbd600b312c6427cdaf6166dae36a5810a07d59c5e8ae6102bb02e70a4fcd2bd"
+}

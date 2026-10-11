@@ -1,0 +1,1539 @@
+{
+  "fps": 8,
+  "frame_duration_ms": 125,
+  "frames": [
+    {
+      "frame": 0,
+      "t": 0.0,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 0,
+      "t": 0.0,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 1,
+      "t": 0.125,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        61,
+        87,
+        404,
+        448
+      ],
+      "alpha_bounds_all": [
+        59,
+        85,
+        406,
+        450
+      ]
+    },
+    {
+      "frame": 1,
+      "t": 0.125,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 2,
+      "t": 0.25,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        60,
+        86,
+        404,
+        447
+      ],
+      "alpha_bounds_all": [
+        58,
+        84,
+        406,
+        447
+      ]
+    },
+    {
+      "frame": 2,
+      "t": 0.25,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 3,
+      "t": 0.375,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        60,
+        86,
+        404,
+        447
+      ],
+      "alpha_bounds_all": [
+        58,
+        84,
+        406,
+        449
+      ]
+    },
+    {
+      "frame": 3,
+      "t": 0.375,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 4,
+      "t": 0.5,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        60,
+        86,
+        404,
+        447
+      ],
+      "alpha_bounds_all": [
+        58,
+        84,
+        406,
+        447
+      ]
+    },
+    {
+      "frame": 4,
+      "t": 0.5,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 5,
+      "t": 0.625,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        61,
+        87,
+        404,
+        448
+      ],
+      "alpha_bounds_all": [
+        59,
+        85,
+        406,
+        450
+      ]
+    },
+    {
+      "frame": 5,
+      "t": 0.625,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 6,
+      "t": 0.75,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 6,
+      "t": 0.75,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 7,
+      "t": 0.875,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        63,
+        89,
+        404,
+        450
+      ],
+      "alpha_bounds_all": [
+        61,
+        87,
+        406,
+        452
+      ]
+    },
+    {
+      "frame": 7,
+      "t": 0.875,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 8,
+      "t": 1.0,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        64,
+        89,
+        404,
+        450
+      ],
+      "alpha_bounds_all": [
+        62,
+        89,
+        406,
+        452
+      ]
+    },
+    {
+      "frame": 8,
+      "t": 1.0,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 9,
+      "t": 1.125,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        64,
+        90,
+        404,
+        451
+      ],
+      "alpha_bounds_all": [
+        62,
+        88,
+        406,
+        453
+      ]
+    },
+    {
+      "frame": 9,
+      "t": 1.125,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 10,
+      "t": 1.25,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        64,
+        89,
+        404,
+        450
+      ],
+      "alpha_bounds_all": [
+        62,
+        89,
+        406,
+        452
+      ]
+    },
+    {
+      "frame": 10,
+      "t": 1.25,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 11,
+      "t": 1.375,
+      "reduced": false,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        63,
+        89,
+        404,
+        450
+      ],
+      "alpha_bounds_all": [
+        61,
+        87,
+        406,
+        452
+      ]
+    },
+    {
+      "frame": 11,
+      "t": 1.375,
+      "reduced": true,
+      "state": "IDLE",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 12,
+      "t": 1.5,
+      "reduced": false,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 12,
+      "t": 1.5,
+      "reduced": true,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 13,
+      "t": 1.625,
+      "reduced": false,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        66,
+        88,
+        406,
+        450
+      ],
+      "alpha_bounds_all": [
+        66,
+        85,
+        408,
+        452
+      ]
+    },
+    {
+      "frame": 13,
+      "t": 1.625,
+      "reduced": true,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 14,
+      "t": 1.75,
+      "reduced": false,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        70,
+        87,
+        408,
+        451
+      ],
+      "alpha_bounds_all": [
+        68,
+        85,
+        410,
+        453
+      ]
+    },
+    {
+      "frame": 14,
+      "t": 1.75,
+      "reduced": true,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 15,
+      "t": 1.875,
+      "reduced": false,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        73,
+        87,
+        410,
+        453
+      ],
+      "alpha_bounds_all": [
+        70,
+        85,
+        412,
+        455
+      ]
+    },
+    {
+      "frame": 15,
+      "t": 1.875,
+      "reduced": true,
+      "state": "ATTACK / anticipation",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 16,
+      "t": 2.0,
+      "reduced": false,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        75,
+        87,
+        412,
+        454
+      ],
+      "alpha_bounds_all": [
+        73,
+        85,
+        414,
+        456
+      ]
+    },
+    {
+      "frame": 16,
+      "t": 2.0,
+      "reduced": true,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 17,
+      "t": 2.125,
+      "reduced": false,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        47,
+        89,
+        397,
+        449
+      ],
+      "alpha_bounds_all": [
+        45,
+        87,
+        399,
+        451
+      ]
+    },
+    {
+      "frame": 17,
+      "t": 2.125,
+      "reduced": true,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 18,
+      "t": 2.25,
+      "reduced": false,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        33,
+        91,
+        390,
+        454
+      ],
+      "alpha_bounds_all": [
+        33,
+        89,
+        392,
+        456
+      ]
+    },
+    {
+      "frame": 18,
+      "t": 2.25,
+      "reduced": true,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 19,
+      "t": 2.375,
+      "reduced": false,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        47,
+        89,
+        397,
+        449
+      ],
+      "alpha_bounds_all": [
+        45,
+        87,
+        399,
+        451
+      ]
+    },
+    {
+      "frame": 19,
+      "t": 2.375,
+      "reduced": true,
+      "state": "ATTACK / action",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 20,
+      "t": 2.5,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 20,
+      "t": 2.5,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 21,
+      "t": 2.625,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        68,
+        86,
+        408,
+        451
+      ],
+      "alpha_bounds_all": [
+        66,
+        84,
+        410,
+        453
+      ]
+    },
+    {
+      "frame": 21,
+      "t": 2.625,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 22,
+      "t": 2.75,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        72,
+        86,
+        411,
+        452
+      ],
+      "alpha_bounds_all": [
+        70,
+        84,
+        413,
+        454
+      ]
+    },
+    {
+      "frame": 22,
+      "t": 2.75,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 23,
+      "t": 2.875,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        73,
+        85,
+        412,
+        452
+      ],
+      "alpha_bounds_all": [
+        71,
+        83,
+        414,
+        454
+      ]
+    },
+    {
+      "frame": 23,
+      "t": 2.875,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 24,
+      "t": 3.0,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        71,
+        85,
+        411,
+        451
+      ],
+      "alpha_bounds_all": [
+        69,
+        83,
+        413,
+        453
+      ]
+    },
+    {
+      "frame": 24,
+      "t": 3.0,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 25,
+      "t": 3.125,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        68,
+        85,
+        409,
+        450
+      ],
+      "alpha_bounds_all": [
+        66,
+        83,
+        411,
+        452
+      ]
+    },
+    {
+      "frame": 25,
+      "t": 3.125,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 26,
+      "t": 3.25,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        65,
+        86,
+        406,
+        449
+      ],
+      "alpha_bounds_all": [
+        63,
+        84,
+        408,
+        451
+      ]
+    },
+    {
+      "frame": 26,
+      "t": 3.25,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 27,
+      "t": 3.375,
+      "reduced": false,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        63,
+        87,
+        405,
+        448
+      ],
+      "alpha_bounds_all": [
+        61,
+        85,
+        407,
+        450
+      ]
+    },
+    {
+      "frame": 27,
+      "t": 3.375,
+      "reduced": true,
+      "state": "HIT / recoil",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 28,
+      "t": 3.5,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 28,
+      "t": 3.5,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 29,
+      "t": 3.625,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        64,
+        91,
+        405,
+        450
+      ],
+      "alpha_bounds_all": [
+        62,
+        89,
+        408,
+        452
+      ]
+    },
+    {
+      "frame": 29,
+      "t": 3.625,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 30,
+      "t": 3.75,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        66,
+        95,
+        407,
+        451
+      ],
+      "alpha_bounds_all": [
+        64,
+        93,
+        409,
+        453
+      ]
+    },
+    {
+      "frame": 30,
+      "t": 3.75,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 31,
+      "t": 3.875,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        68,
+        99,
+        408,
+        452
+      ],
+      "alpha_bounds_all": [
+        66,
+        97,
+        410,
+        454
+      ]
+    },
+    {
+      "frame": 31,
+      "t": 3.875,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 32,
+      "t": 4.0,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        70,
+        103,
+        409,
+        453
+      ],
+      "alpha_bounds_all": [
+        67,
+        101,
+        411,
+        455
+      ]
+    },
+    {
+      "frame": 32,
+      "t": 4.0,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 33,
+      "t": 4.125,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        72,
+        107,
+        410,
+        454
+      ],
+      "alpha_bounds_all": [
+        69,
+        105,
+        413,
+        456
+      ]
+    },
+    {
+      "frame": 33,
+      "t": 4.125,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 34,
+      "t": 4.25,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        74,
+        111,
+        412,
+        455
+      ],
+      "alpha_bounds_all": [
+        71,
+        110,
+        414,
+        457
+      ]
+    },
+    {
+      "frame": 34,
+      "t": 4.25,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ]
+    },
+    {
+      "frame": 35,
+      "t": 4.375,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        75,
+        115,
+        413,
+        456
+      ],
+      "alpha_bounds_all": [
+        73,
+        114,
+        413,
+        457
+      ]
+    },
+    {
+      "frame": 35,
+      "t": 4.375,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 36,
+      "t": 4.5,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        77,
+        119,
+        414,
+        457
+      ],
+      "alpha_bounds_all": [
+        75,
+        118,
+        415,
+        458
+      ]
+    },
+    {
+      "frame": 36,
+      "t": 4.5,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 37,
+      "t": 4.625,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        79,
+        122,
+        415,
+        458
+      ],
+      "alpha_bounds_all": [
+        77,
+        120,
+        417,
+        460
+      ]
+    },
+    {
+      "frame": 37,
+      "t": 4.625,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 38,
+      "t": 4.75,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        81,
+        127,
+        416,
+        459
+      ],
+      "alpha_bounds_all": [
+        78,
+        124,
+        418,
+        461
+      ]
+    },
+    {
+      "frame": 38,
+      "t": 4.75,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 39,
+      "t": 4.875,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        83,
+        131,
+        417,
+        460
+      ],
+      "alpha_bounds_all": [
+        80,
+        130,
+        418,
+        460
+      ]
+    },
+    {
+      "frame": 39,
+      "t": 4.875,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 40,
+      "t": 5.0,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": [
+        83,
+        131,
+        417,
+        459
+      ],
+      "alpha_bounds_all": [
+        82,
+        130,
+        418,
+        460
+      ]
+    },
+    {
+      "frame": 40,
+      "t": 5.0,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 41,
+      "t": 5.125,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": [
+        82,
+        130,
+        418,
+        460
+      ]
+    },
+    {
+      "frame": 41,
+      "t": 5.125,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 42,
+      "t": 5.25,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 42,
+      "t": 5.25,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 43,
+      "t": 5.375,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 43,
+      "t": 5.375,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 44,
+      "t": 5.5,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 44,
+      "t": 5.5,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 45,
+      "t": 5.625,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 45,
+      "t": 5.625,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 46,
+      "t": 5.75,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 46,
+      "t": 5.75,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 47,
+      "t": 5.875,
+      "reduced": false,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    },
+    {
+      "frame": 47,
+      "t": 5.875,
+      "reduced": true,
+      "state": "DEFEAT",
+      "alpha_bounds_gt16": null,
+      "alpha_bounds_all": null
+    }
+  ]
+}

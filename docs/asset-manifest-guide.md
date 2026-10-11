@@ -1,5 +1,7 @@
 # Asset manifest, reuse and evidence
 
+**Current Combat reference:** `reference_combat` now points to [combat-final-v2-clean-board.png](../output/imagegen/approved/combat-final-v2-clean-board.png), the exact latest owner-approved attachment. [Current visual/control contract](gameplay-visual-contract.md) requires Begin/End board labels only, no board values/badges/TEMP and corrected Split/Join silhouettes. Earlier `combat.png`, `combat-final.png`, pilot sources and all15generated image/prompt pairs remain preserved. The approved image remains `reference_only`; source-production or runtime completion is not inferred. Historical counts below retain their dates.
+
 RC-010, October 9, 2026. [asset-inventory.csv](asset-inventory.csv) is the authoritative inventory; [asset-consumers.csv](asset-consumers.csv) maps reusable assets to screens and stable content IDs. Read both with the [production contracts](asset-production-spec.md), [pilot brief](style-pilot-brief.md) and [bounded roster](content-roster.md). This delivery plans assets; it supplies no final artwork, audio, licensed font acquisition or runtime integration.
 
 ## Reading and maintaining the CSV

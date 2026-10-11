@@ -1,0 +1,70 @@
+{
+  "task": "RC-011",
+  "revision": "r004",
+  "review_date": "2026-10-11",
+  "method": "Independent assistant directly viewed the actual exported PNGs listed below; not inferred from generator prompts or structural checks.",
+  "reviewed_artifacts": [
+    {
+      "path": "output/art/rc-011/r004/pilot-450x1000.png",
+      "sha256": "536300c2048d380bcf02022bcd27969b66be4f5a9519dcfdfb3c518f9ad0aec8"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-360x640.png",
+      "sha256": "c5c91cb0652b0a2bfbe61680744ae02a1441a5356c257f1ad684c5073a6c6239"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-360x640-controls.png",
+      "sha256": "e19c6a39efc034afdbc4b831712cf39838eb24da6a954ca663276c9a06dd183a"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-states.png",
+      "sha256": "75ae999c58327e73fa392a66cdd8559d3baf5345f6145bb5d775aef3fc5a8c96"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-tile-states.png",
+      "sha256": "1dbb8e1e1c7d44c1037a29a04203895c7e50d3aa7cdb4ae6aebdbfb51d928024"
+    },
+    {
+      "path": "output/art/rc-011/r004/pilot-type.png",
+      "sha256": "a01f1a8ee800e3044267f0639649e8874ed0bacc4d4270cd0013f8fe7c05549e"
+    }
+  ],
+  "findings": [
+    {
+      "criterion": "Complete painted composition and requested visible sections",
+      "result": "pass for presence",
+      "evidence": "Actual main preview has painted crypt and actor, complete board/materials, undirected visible circuit, Remove/Rotate, detailed cards, Draw/Discard, action log, info bar, Cast and navigation. No labelled blockout or missing-section substitute remains."
+    },
+    {
+      "criterion": "Header and main text rendering",
+      "result": "pass after correction",
+      "evidence": "Pause no longer overlaps the floor label. Infinity is vector geometry, with no font fallback boxes."
+    },
+    {
+      "criterion": "Native narrow study",
+      "result": "pass for desktop preview",
+      "evidence": "72px cells occupy a true360x640 viewport with a visible scroll boundary. Undirected route now agrees with CIRCUIT COMPLETE. Lower companion includes illustrated pile sections, a scrolling detailed hand card, controls, forecast and Cast. This does not verify actual touch scrolling."
+    },
+    {
+      "criterion": "Tile states and value visibility",
+      "result": "pass for desktop preview",
+      "evidence": "137/72 samples preserve cost/value. Powered has non-directional circular port collars absent on unpowered. Selection check, dashed focus, invalid cross and unavailable info cue are distinct. FreeSpark damage6 no longer hides under TEMP."
+    },
+    {
+      "criterion": "Button states, rotations and typography",
+      "result": "pass for shown specimens",
+      "evidence": "Nine button state/combination rows, four undirected Spark rotations with upright labels, finite0/6 inset, endpoints-only example,24/32/48glyphs, acquired NotoSerif text and FreeSpark sample are visible."
+    },
+    {
+      "criterion": "Pixel-identical reproduction or new owner acceptance",
+      "result": "not claimed",
+      "evidence": "This is a separated reconstruction. The retained actor painting, font letterforms and frame/icon execution are not pixel-identical to the approved flattened reference. Root owns the overall style review; no owner approval of r004 is inferred."
+    },
+    {
+      "criterion": "Runtime, Godot input, device verification",
+      "result": "not tested",
+      "evidence": "Separate preview files do not establish undirected evaluator behavior or control integration."
+    }
+  ],
+  "limitations": "Hashes identify the exact inspected versions. If a listed output changes, this record becomes prior evidence until that version is reviewed."
+}

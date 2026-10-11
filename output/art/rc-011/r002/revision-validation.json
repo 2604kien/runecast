@@ -1,0 +1,2554 @@
+{
+  "revision": "r002",
+  "structural_result": "pass",
+  "check_count": 509,
+  "failures": [],
+  "visual_result": "revise; improved pilot assets; full reference appearance not yet reproduced",
+  "checks": [
+    {
+      "check": "Export size/RGBA exports/shadeling.png",
+      "result": "pass",
+      "evidence": "(512, 512)"
+    },
+    {
+      "check": "sRGB exports/shadeling.png",
+      "result": "pass",
+      "evidence": "embedded ICC"
+    },
+    {
+      "check": "Export size/RGBA exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "(256, 256)"
+    },
+    {
+      "check": "sRGB exports/spark_tile.png",
+      "result": "pass",
+      "evidence": "embedded ICC"
+    },
+    {
+      "check": "Export size/RGBA exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "(512, 128)"
+    },
+    {
+      "check": "sRGB exports/button_primary_normal.png",
+      "result": "pass",
+      "evidence": "embedded ICC"
+    },
+    {
+      "check": "Export size/RGBA exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "(512, 128)"
+    },
+    {
+      "check": "sRGB exports/button_secondary_normal.png",
+      "result": "pass",
+      "evidence": "embedded ICC"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "shadeling.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/body_cloak"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/shoulder_underlap"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/lantern_arm"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/lantern_glass_backing"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/lantern_shell"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/lantern_glass_light"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "shadeling.ora/flame"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "shadeling.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "shadeling.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "button_cast.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Cast sculpted gold end plate"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Cast end plate light plane"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Cast sculpted gold end plate"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_cast.ora/Cast end plate light plane"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "button_cast.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "button_cast.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "button_primary.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 7"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Gold bevel facet 8"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_primary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "button_primary.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "button_primary.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "button_secondary.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 7"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Gold bevel facet 8"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "button_secondary.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "button_secondary.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "button_secondary.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "tile_empty.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 7"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Gold bevel facet 8"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_empty.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "tile_empty.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "tile_empty.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "tile_powered.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 7"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Gold bevel facet 8"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_powered.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "tile_powered.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "tile_powered.ora"
+    },
+    {
+      "check": "ORA format",
+      "result": "pass",
+      "evidence": "tile_spark.ora"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Dark sculpted silhouette"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Deep outer gold shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Painted inset material"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 1"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 2"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 3"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 4"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 5"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 6"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 7"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Gold bevel facet 8"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Upper gold catching edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Lower bevel shadow"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Dark recessed cut"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Matte inset color edge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "nonempty full-canvas layer",
+      "result": "pass",
+      "evidence": "tile_spark.ora/Sculpted corner wedge"
+    },
+    {
+      "check": "distinct genuine layers",
+      "result": "pass",
+      "evidence": "tile_spark.ora"
+    },
+    {
+      "check": "exact ORA recomposition",
+      "result": "pass",
+      "evidence": "tile_spark.ora"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "body_cloak"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "shoulder_underlap"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "lantern_arm"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "lantern_glass_backing"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "lantern_shell"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "lantern_glass_light"
+    },
+    {
+      "check": "shared part canvas",
+      "result": "pass",
+      "evidence": "flame"
+    },
+    {
+      "check": "part export recomposition",
+      "result": "pass",
+      "evidence": "seven independent parts"
+    },
+    {
+      "check": "foot anchor",
+      "result": "pass",
+      "evidence": "metadata and assembly source"
+    },
+    {
+      "check": "motion sequence with reduced counterpart",
+      "result": "pass",
+      "evidence": "48 frames / 96 records / 8fps"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "0/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "0/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "1/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "1/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "2/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "2/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "3/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "3/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "4/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "4/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "5/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "5/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "6/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "6/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "7/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "7/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "8/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "8/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "9/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "9/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "10/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "10/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "11/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "11/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "12/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "12/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "13/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "13/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "14/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "14/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "15/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "15/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "16/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "16/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "17/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "17/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "18/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "18/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "19/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "19/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "20/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "20/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "21/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "21/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "22/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "22/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "23/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "23/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "24/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "24/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "25/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "25/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "26/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "26/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "27/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "27/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "28/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "28/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "29/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "29/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "30/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "30/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "31/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "31/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "32/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "32/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "33/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "33/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "34/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "34/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "35/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "35/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "36/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "36/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "37/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "37/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "38/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "38/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "39/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "39/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "40/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "40/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "41/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "41/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "42/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "42/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "43/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "43/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "44/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "44/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "45/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "45/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "46/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "46/True"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "47/False"
+    },
+    {
+      "check": "motion envelope",
+      "result": "pass",
+      "evidence": "47/True"
+    },
+    {
+      "check": "preview dimensions pilot-720x1600.png",
+      "result": "pass",
+      "evidence": "(720, 1600)"
+    },
+    {
+      "check": "preview dimensions pilot-450x1000.png",
+      "result": "pass",
+      "evidence": "(450, 1000)"
+    },
+    {
+      "check": "preview dimensions pilot-360x640.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "preview dimensions pilot-360x640-controls.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "preview dimensions pilot-360x640-inspector.png",
+      "result": "pass",
+      "evidence": "(360, 640)"
+    },
+    {
+      "check": "preview dimensions pilot-states.png",
+      "result": "pass",
+      "evidence": "(1440, 2280)"
+    },
+    {
+      "check": "preview dimensions pilot-type.png",
+      "result": "pass",
+      "evidence": "(1100, 1230)"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_167x58_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_167x58_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_endpoints.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_inspector.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_inspector.svg: review_resources/button_secondary_296x64_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x58_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x58_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_77x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_103x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/spark_tile_142x92.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/spark_tile_142x92.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_primary_324x64_normal_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_narrow_controls.svg: review_resources/button_secondary_77x50_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: ../../../../output/imagegen/approved/home.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_primary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_secondary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: ../../../../output/imagegen/approved/combat.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_primary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_secondary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: ../../../../output/imagegen/approved/map.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_primary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_secondary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: ../../../../output/imagegen/approved/menu.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_primary_165x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_reference_comparison.svg: review_resources/button_secondary_165x58_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_review.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/shadeling.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_227x40_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_227x40_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_226x40_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/tile_empty_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x54_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x54_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x54_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x54_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_224x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/hand_0.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/hand_1.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/cast_main.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_review.svg: review_resources/button_secondary_167x50_normal_standard.png"
+    },
+    {
+      "check": "live editable text",
+      "result": "pass",
+      "evidence": "pilot_states.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_normal_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_pressed_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_pressed_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_focused_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_focused_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_selected_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_selected_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_disabled_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_disabled_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_invalid_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_invalid_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_unavailable_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_unavailable_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_focused+selected_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_focused+selected_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_212x58_focused+unavailable_cast.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_212x58_focused+unavailable_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/selected.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/focused.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/temporary-marker.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/selected.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/focused.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/invalid.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/unavailable.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/eligible.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_137.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/protected.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark-monochrome.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark-monochrome.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark-monochrome.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_66x50_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_145x58_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_330x64_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_primary_570x84_normal_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/button_secondary_385x64_focused+unavailable_standard.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_empty_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/tile_spark_72.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/spark_tile_overlays/powered.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/temporary-marker.svg"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/shadeling.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/shadeling.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/shadeling.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: exports/shadeling.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_normal.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_selected.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_focused.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_disabled.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_invalid.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "pilot_states.svg: review_resources/grayscale_unavailable.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "button_cast.svg: materials/turquoise.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "button_primary.svg: materials/turquoise.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "button_secondary.svg: materials/navy.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "tile_empty.svg: materials/navy.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "tile_powered.svg: materials/turquoise.png"
+    },
+    {
+      "check": "SVG linked file",
+      "result": "pass",
+      "evidence": "tile_spark.svg: materials/amber.png"
+    },
+    {
+      "check": "Spark viewBox",
+      "result": "pass",
+      "evidence": "128x128"
+    },
+    {
+      "check": "Spark vector only",
+      "result": "pass",
+      "evidence": "no live data or dependencies baked in"
+    },
+    {
+      "check": "exact ports",
+      "result": "pass",
+      "evidence": "{'N': [64, 0], 'E': [128, 64], 'S': [64, 128], 'W': [0, 64]}"
+    },
+    {
+      "check": "actual font hash",
+      "result": "pass",
+      "evidence": "Noto Serif2.015"
+    },
+    {
+      "check": "actual font licence",
+      "result": "pass",
+      "evidence": "official OFL acquired with font"
+    },
+    {
+      "check": "retained raw generation",
+      "result": "pass",
+      "evidence": "exact generated bytes"
+    },
+    {
+      "check": "approved Combat preserved",
+      "result": "pass",
+      "evidence": "original referenced bytes"
+    },
+    {
+      "check": "source exclusion",
+      "result": "pass",
+      "evidence": "main project not integrated"
+    }
+  ]
+}
