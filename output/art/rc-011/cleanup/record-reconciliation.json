@@ -1,0 +1,23 @@
+{
+  "documents_with_reconciled_retired_links": [
+    "docs/art-direction.md",
+    "docs/asset-production-spec.md",
+    "docs/project-plan.md",
+    "docs/style-pilot-brief.md",
+    "docs/verification.md",
+    "docs/visual-reference.md",
+    "source-assets/pilot/revisions/r002/delivery.md",
+    "source-assets/pilot/revisions/r003/delivery.md",
+    "source-assets/pilot/revisions/r004/cross-screen-review.md",
+    "source-assets/pilot/revisions/r004/delivery.md",
+    "source-assets/pilot/revisions/r005/delivery.md"
+  ],
+  "manifest_rows_with_cleanup_evidence": [
+    "reference_history",
+    "pilot_shadeling",
+    "pilot_spark_tile",
+    "pilot_button",
+    "pilot_review"
+  ],
+  "method": "Removed-file Markdown links identify retirement and point to authorized cleanup; dated historical prose and raw QA reports remain. Current-only index replaces rejected r001 preview index."
+}

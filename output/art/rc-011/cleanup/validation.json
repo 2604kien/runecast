@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "deleted_files": 603,
+  "deleted_bytes": 114739357,
+  "deleted_MiB": 109.42,
+  "selected_art_files_byte_identical": 24,
+  "selected_art_changes": [],
+  "removed_files_reappeared": [],
+  "source_artifact_checks": 1170,
+  "asset_plan_checks": 2799,
+  "preservation": {
+    "original_baseline": {
+      "preserved": 954,
+      "retired": 20,
+      "updated": 0,
+      "unexpected": 0
+    },
+    "prior_snapshot": {
+      "preserved": 130,
+      "retired": 268,
+      "updated": 6,
+      "unexpected": 0
+    }
+  },
+  "retained_markdown_documents_checked": 33,
+  "broken_local_links": [],
+  "documents_with_retired_asset_links": [
+    "docs/art-direction.md",
+    "docs/asset-production-spec.md",
+    "docs/project-plan.md",
+    "docs/style-pilot-brief.md",
+    "docs/verification.md",
+    "docs/visual-reference.md",
+    "source-assets/pilot/revisions/r002/delivery.md",
+    "source-assets/pilot/revisions/r003/delivery.md",
+    "source-assets/pilot/revisions/r004/cross-screen-review.md",
+    "source-assets/pilot/revisions/r004/delivery.md",
+    "source-assets/pilot/revisions/r005/delivery.md"
+  ],
+  "runtime_tests": "Not rerun; runtime and gameplay files unchanged",
+  "git_operations": "none"
+}

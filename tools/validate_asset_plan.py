@@ -12,6 +12,8 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 QA = ROOT / "output/qa/rc-010"
+CLEANUP_LEDGER = "output/art/rc-011/cleanup/deletion-manifest.json"
+BASELINE_SHA256 = "a9433d2eb4fa3a0a56b693574e5287ec5ce2b3517dbd04fa0a3004a6c1228a81"
 errors = []
 counts = Counter()
 
@@ -24,6 +26,101 @@ def check(ok, message, family):
 
 def read(path):
     return (ROOT / path).read_text(encoding="utf-8-sig")
+
+
+def cleanup_path_allowed(value, removal=False):
+    """Only canonical workspace art paths can receive cleanup exceptions."""
+    if not isinstance(value, str) or not value or "\\" in value or ":" in value:
+        return False
+    parts = value.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return False
+    try:
+        (ROOT / value).resolve().relative_to(ROOT.resolve())
+    except ValueError:
+        return False
+    art = value.startswith(("source-assets/pilot/", "output/art/rc-011/"))
+    study = removal and len(parts) == 3 and parts[:2] == ["output", "imagegen"]
+    # Approved references, runtime and QA paths are outside these exact scopes.
+    return art or bool(study and parts[2] != "approved")
+
+
+def load_cleanup():
+    """Missing ledger means the original strict preservation contract applies."""
+    result = {"path": CLEANUP_LEDGER, "present": False, "completed": False,
+              "removed": {}, "updated": {}, "errors": []}
+    ledger_path = ROOT / CLEANUP_LEDGER
+    if not ledger_path.exists():
+        return result
+    result["present"] = True
+    try:
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError) as exc:
+        result["errors"].append("Unreadable cleanup ledger: " + str(exc))
+        return result
+    if not isinstance(ledger, dict):
+        result["errors"].append("Cleanup ledger must be an object")
+        return result
+    if ledger.get("status") != "completed" or not isinstance(ledger.get("authorization"), str) or not ledger["authorization"].strip():
+        result["errors"].append("Cleanup requires completed status and recorded user authorization")
+    seen = set()
+    for kind in ("removed", "updated"):
+        rows = ledger.get(kind)
+        if not isinstance(rows, list):
+            result["errors"].append("Cleanup " + kind + " must be a list")
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                result["errors"].append("Invalid cleanup " + kind + " record")
+                continue
+            value = row.get("path")
+            hash_fields = ("sha256",) if kind == "removed" else ("before_sha256", "after_sha256")
+            valid = cleanup_path_allowed(value, removal=kind == "removed")
+            valid = valid and value.casefold() not in seen
+            valid = valid and isinstance(row.get("reason"), str) and bool(row["reason"].strip())
+            valid = valid and all(isinstance(row.get(field), str) and re.fullmatch(r"[0-9a-f]{64}", row[field]) for field in hash_fields)
+            if kind == "removed":
+                valid = valid and type(row.get("bytes")) is int and row["bytes"] >= 0
+            if not valid:
+                result["errors"].append("Invalid or duplicate cleanup " + kind + " path/hash/reason: " + str(value))
+                continue
+            seen.add(value.casefold())
+            path = ROOT / value
+            if kind == "removed":
+                actual_ok = not path.exists()
+            else:
+                actual_ok = path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == row["after_sha256"]
+            if not actual_ok:
+                result["errors"].append("Completed cleanup " + kind + " state does not match: " + value)
+                continue
+            result[kind][value] = row
+    result["completed"] = not result["errors"]
+    if not result["completed"]:
+        # A partial or invalid record cannot weaken any preservation check.
+        result["removed"].clear()
+        result["updated"].clear()
+    return result
+
+
+def preservation_partition(rows, cleanup, allow_updates=False):
+    result = {"total": len(rows), "preserved": [], "retired": [], "updated": [], "unexpected": []}
+    for row in rows:
+        value, expected = row["path"], row["sha256"]
+        path = ROOT / value
+        actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        removed = cleanup["removed"].get(value, {})
+        updated = cleanup["updated"].get(value, {})
+        if actual == expected:
+            state = "preserved"
+        elif not path.exists() and removed.get("sha256") == expected:
+            state = "retired"
+        elif allow_updates and actual and updated.get("before_sha256") == expected and updated.get("after_sha256") == actual:
+            state = "updated"
+        else:
+            state = "unexpected"
+        result[state].append(value)
+    result["counts"] = {key: len(result[key]) for key in ("preserved", "retired", "updated", "unexpected")}
+    return result
 
 
 def tokens(value):
@@ -198,25 +295,33 @@ for doc in docs:
         reference = reference.split(' "')[0].strip("<>")
         check(link_exists(reference, ROOT / doc), f"Broken local link: {doc} -> {reference}", "links")
 
-changed = []
+cleanup = load_cleanup()
+check(not cleanup["errors"], f"Invalid cleanup ledger: {cleanup['errors']}", "cleanup")
+baseline_path = ROOT / "output/qa/rc-010/preservation-baseline.json"
+check(hashlib.sha256(baseline_path.read_bytes()).hexdigest() == BASELINE_SHA256,
+      "Original preservation baseline bytes changed", "preservation")
 baseline = json.loads(read("output/qa/rc-010/preservation-baseline.json"))
-for item in baseline:
-    path = ROOT / item["path"]
-    actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else "missing"
-    if actual != item["sha256"]:
-        changed.append(item["path"])
-check(not changed, f"Protected files changed: {changed}", "preservation")
+preservation = preservation_partition(baseline, cleanup)
+changed = preservation["unexpected"]
+check(not changed, f"Unexpected protected-file changes: {changed}", "preservation")
 historical = sorted((ROOT / "output/imagegen").glob("*.prompt.txt"))
-# Later approved revisions append studies. Original pairs remain protected by
-# the exact baseline hashes above; require a matching PNG for every new prompt.
-check(len(historical) >= 10 and all(path.with_name(path.name.replace(".prompt.txt", ".png")).exists() for path in historical),
-      "Missing historical image/prompt pairs", "provenance")
+# Completed cleanup may retire studies, but every retained pair must be intact.
+# Original study removals still require the original baseline hash above.
+check((cleanup["completed"] or len(historical) >= 10)
+      and all(path.with_name(path.name.replace(".prompt.txt", ".png")).is_file() for path in historical)
+      and all(path.with_name(path.stem + ".prompt.txt").is_file() for path in (ROOT / "output/imagegen").glob("*.png")),
+      "Missing retained historical image/prompt pairs", "provenance")
 comparisons = {}
 for screen, stem in {"combat": "rune-cast-gameplay-reference-v5-navigation", "home": "rune-cast-home-reference-v1",
                      "map": "rune-cast-map-reference-v2-no-legend", "menu": "rune-cast-menu-reference-v2-blue-quit"}.items():
     approved = hashlib.sha256((ROOT / f"output/imagegen/approved/{screen}.png").read_bytes()).hexdigest()
-    history = hashlib.sha256((ROOT / f"output/imagegen/{stem}.png").read_bytes()).hexdigest()
-    comparisons[screen] = {"approved_sha256": approved, "historical_sha256": history, "identical": approved == history}
+    history_name = f"output/imagegen/{stem}.png"
+    history_path = ROOT / history_name
+    history = hashlib.sha256(history_path.read_bytes()).hexdigest() if history_path.is_file() else cleanup["removed"].get(history_name, {}).get("sha256")
+    check(bool(history), f"Historical comparison has neither retained bytes nor a recorded retirement: {history_name}", "provenance")
+    comparisons[screen] = {"approved_sha256": approved, "historical_sha256": history,
+                           "historical_state": "retained" if history_path.is_file() else "retired" if history else "missing",
+                           "identical": approved == history if history else None}
 
 report = {"task": "RC-010", "planning_date": "2026-10-09", "result": "PASS" if not errors else "FAIL",
           "asset_records": len(manifest), "consumer_records": len(consumers), "original_ids_preserved": len(original),
@@ -224,7 +329,10 @@ report = {"task": "RC-010", "planning_date": "2026-10-09", "result": "PASS" if n
           "readiness_counts": dict(sorted(Counter(row["readiness_status"] for row in manifest).items())),
           "consumer_kind_counts": dict(sorted(Counter(row["kind"] for row in consumers).items())),
           "roster_ids_mapped": len(roster_ids), "checks_by_family": dict(counts), "errors": errors,
-          "protected_files": len(baseline), "protected_changes": changed, "historical_prompt_pairs": len(historical),
+          "protected_files": len(baseline), "protected_changes": changed, "preservation": preservation,
+          "cleanup": {"path": CLEANUP_LEDGER, "present": cleanup["present"], "completed": cleanup["completed"],
+                      "removed_files": len(cleanup["removed"]), "updated_files": len(cleanup["updated"])},
+          "historical_prompt_pairs": len(historical),
           "approved_history_comparisons": comparisons,
           "limits": "Document/manifest checks only; no new Godot, artwork, import, licensing or device acceptance."}
 QA.mkdir(parents=True, exist_ok=True)

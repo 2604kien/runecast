@@ -1,20 +1,22 @@
 # Rune Cast visual reference
 
+**Asset cleanup:** All six approved images below remain. Superseded generated study images/prompts were removed at the owner's request; [the cleanup ledger](../output/art/rc-011/cleanup/deletion-manifest.json) retains their exact hashes and reasons. Dated history below records earlier states and no longer requires those alternate images to remain in the workspace.
+
 **Current owner-approved final:** [combat-final-v2-clean-board.png](../output/imagegen/approved/combat-final-v2-clean-board.png), preserved from the latest attachment exactly. [Approval record](../source-assets/pilot/revisions/r005/delivery.md). Its pixels match v10; this explicit approval supersedes the earlier final image and the r004 reconstruction's board treatment. Only Begin/End labels remain inside the board; all board values/cost badges/TEMP are absent; Split and Join use the corrected fork/trident silhouettes.
 
-Latest revision: [Combat v10 — clean board](../output/imagegen/rune-cast-gameplay-reference-v10-clean-board.png). Only Begin and End retain labels inside the board. Other slot names, rune values, cost badges and the TEMP tag are removed; rune symbols and connections remain. Cards, toolbar labels and the external combat summary retain their information. This supersedes the earlier board text treatment below and is a visual reference change only.
+Latest revision: [Combat v10 — clean board — retired in authorized cleanup](asset-cleanup.md). Only Begin and End retain labels inside the board. Other slot names, rune values, cost badges and the TEMP tag are removed; rune symbols and connections remain. Cards, toolbar labels and the external combat summary retain their information. This supersedes the earlier board text treatment below and is a visual reference change only.
 
-The latest symbol correction is [Combat v9](../output/imagegen/rune-cast-gameplay-reference-v9-restored-symbols.png): Split uses its sideways fork and Join its upright trident on both the board and toolbar. Circuit lines remain undirected, Remove remains, and the branch/End numbers removed in v8 remain absent.
+The latest symbol correction is [Combat v9 — retired in authorized cleanup](asset-cleanup.md): Split uses its sideways fork and Join its upright trident on both the board and toolbar. Circuit lines remain undirected, Remove remains, and the branch/End numbers removed in v8 remain absent.
 
 ## Latest requested visual edit
 
-[Combat v8: no path values](../output/imagegen/rune-cast-gameplay-reference-v8-no-path-values.png) applies the user's latest request to remove the two branch values (6 and 6) and End's value (12). Spark's own value and the damage summary remain visible. The earlier approved files below are preserved.
+[Combat v8: no path values — retired in authorized cleanup](asset-cleanup.md) applies the user's latest request to remove the two branch values (6 and 6) and End's value (12). Spark's own value and the damage summary remain visible. The earlier approved files below are preserved.
 
 ## Official final gameplay visual — October 11, 2026
 
 The owner approved the latest attached image as the **official final gameplay visual**. Its exact file bytes are preserved as [combat-final-v2-clean-board.png](../output/imagegen/approved/combat-final-v2-clean-board.png), at841×1870pixels. The prior [combat-final.png](../output/imagegen/approved/combat-final.png) remains unchanged historical evidence. The complete painted crypt and supporting UI remain required, without placeholders.
 
-The approved attachment keeps undirected circuits, Remove/Rotate, piles, detailed cards, action log and external forecast. It adds the clean board and corrected Split/Join symbols. No image edit was needed to preserve it. Decoded pixels match [Combat v10](../output/imagegen/rune-cast-gameplay-reference-v10-clean-board.png), although the PNG bytes differ. The [gameplay visual contract](gameplay-visual-contract.md) is authoritative.
+The approved attachment keeps undirected circuits, Remove/Rotate, piles, detailed cards, action log and external forecast. It adds the clean board and corrected Split/Join symbols. No image edit was needed to preserve it. Decoded pixels match [Combat v10 — retired in authorized cleanup](asset-cleanup.md), although the PNG bytes differ. The [gameplay visual contract](gameplay-visual-contract.md) is authoritative.
 
 Circuit validity must depend on connection geometry without directional requirements. Begin and End remain, and Rotate changes connection geometry. Flip, Undo, Inspect, Cancel selection and Details / Pass are removed from the requested editor UI. This owner-approved design change is not implemented by saving the image: the runtime still uses its older directed evaluator and controls. Split/Join resolution and repeat-trigger prevention for undirected networks need an explicit implementation update.
 
@@ -73,11 +75,11 @@ Names in the table identify components for documentation; only Begin/End names a
 | v3 | Expanded full-body boss arena and compact rune tiles |
 | v4 | Centered boss and removed forecast bar |
 | v5 | Added bottom navigation |
-| v6 | [Undirected circuits](../output/imagegen/rune-cast-gameplay-reference-v6-undirected.png), detailed hand cards, draw/discard piles, action log and info bar above Cast; superseded compact rune-only/no-summary Combat layout |
-| v7 | [Replaced Undo with Remove](../output/imagegen/rune-cast-gameplay-reference-v7-remove.png), retaining v6 layout and undirected circuit symbols |
+| v6 | [Undirected circuits — retired in authorized cleanup](asset-cleanup.md), detailed hand cards, draw/discard piles, action log and info bar above Cast; superseded compact rune-only/no-summary Combat layout |
+| v7 | [Replaced Undo with Remove — retired in authorized cleanup](asset-cleanup.md), retaining v6 layout and undirected circuit symbols |
 | October 11 first final | Earlier owner-supplied attachment preserved exactly as [combat-final.png](../output/imagegen/approved/combat-final.png); superseded board treatment |
-| v8 | Branch and End values removed; original [study](../output/imagegen/rune-cast-gameplay-reference-v8-no-path-values.png) preserved |
-| v9 | Split/Join silhouettes corrected; original [study](../output/imagegen/rune-cast-gameplay-reference-v9-restored-symbols.png) preserved |
+| v8 | Branch and End values removed; original [study — retired in authorized cleanup](asset-cleanup.md) preserved |
+| v9 | Split/Join silhouettes corrected; original [study — retired in authorized cleanup](asset-cleanup.md) preserved |
 | v10 / approved final v2 | Clean board: only Begin/End labels, no board values/cost badges/TEMP. Latest exact supplied attachment approved as [combat-final-v2-clean-board.png](../output/imagegen/approved/combat-final-v2-clean-board.png) |
 
 All images and their generation prompts are preserved in output/imagegen. These are design references, not layered or production-ready game assets.

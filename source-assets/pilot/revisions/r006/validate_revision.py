@@ -28,6 +28,9 @@ OUT.mkdir(parents=True, exist_ok=True)
 SVG = '{http://www.w3.org/2000/svg}'
 XLINK = '{http://www.w3.org/1999/xlink}'
 SNAPSHOT = OUT / 'preservation-snapshot-validation.json'
+CLEANUP_LEDGER = 'output/art/rc-011/cleanup/deletion-manifest.json'
+BASELINE_SHA256 = 'a9433d2eb4fa3a0a56b693574e5287ec5ce2b3517dbd04fa0a3004a6c1228a81'
+SNAPSHOT_SHA256 = '39e62614ed6f2a9d770f3ab841bb71d30406d28da8d879fc143e3c36277c06c4'
 checks = []
 resources = set()
 memory = []
@@ -47,6 +50,101 @@ def digest(path):
 def check(ok, name, evidence=''):
     checks.append({'check': name, 'result': 'pass' if ok else 'FAIL', 'evidence': evidence})
     return bool(ok)
+
+
+def cleanup_path_allowed(value, removal=False):
+    """Only canonical workspace art paths can receive cleanup exceptions."""
+    if not isinstance(value, str) or not value or "\\" in value or ":" in value:
+        return False
+    parts = value.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return False
+    try:
+        (ROOT / value).resolve().relative_to(ROOT.resolve())
+    except ValueError:
+        return False
+    art = value.startswith(("source-assets/pilot/", "output/art/rc-011/"))
+    study = removal and len(parts) == 3 and parts[:2] == ["output", "imagegen"]
+    # Approved references, runtime and QA paths are outside these exact scopes.
+    return art or bool(study and parts[2] != "approved")
+
+
+def load_cleanup():
+    """Missing ledger means the original strict preservation contract applies."""
+    result = {"path": CLEANUP_LEDGER, "present": False, "completed": False,
+              "removed": {}, "updated": {}, "errors": []}
+    ledger_path = ROOT / CLEANUP_LEDGER
+    if not ledger_path.exists():
+        return result
+    result["present"] = True
+    try:
+        ledger = json.loads(ledger_path.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError) as exc:
+        result["errors"].append("Unreadable cleanup ledger: " + str(exc))
+        return result
+    if not isinstance(ledger, dict):
+        result["errors"].append("Cleanup ledger must be an object")
+        return result
+    if ledger.get("status") != "completed" or not isinstance(ledger.get("authorization"), str) or not ledger["authorization"].strip():
+        result["errors"].append("Cleanup requires completed status and recorded user authorization")
+    seen = set()
+    for kind in ("removed", "updated"):
+        rows = ledger.get(kind)
+        if not isinstance(rows, list):
+            result["errors"].append("Cleanup " + kind + " must be a list")
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                result["errors"].append("Invalid cleanup " + kind + " record")
+                continue
+            value = row.get("path")
+            hash_fields = ("sha256",) if kind == "removed" else ("before_sha256", "after_sha256")
+            valid = cleanup_path_allowed(value, removal=kind == "removed")
+            valid = valid and value.casefold() not in seen
+            valid = valid and isinstance(row.get("reason"), str) and bool(row["reason"].strip())
+            valid = valid and all(isinstance(row.get(field), str) and re.fullmatch(r"[0-9a-f]{64}", row[field]) for field in hash_fields)
+            if kind == "removed":
+                valid = valid and type(row.get("bytes")) is int and row["bytes"] >= 0
+            if not valid:
+                result["errors"].append("Invalid or duplicate cleanup " + kind + " path/hash/reason: " + str(value))
+                continue
+            seen.add(value.casefold())
+            path = ROOT / value
+            if kind == "removed":
+                actual_ok = not path.exists()
+            else:
+                actual_ok = path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == row["after_sha256"]
+            if not actual_ok:
+                result["errors"].append("Completed cleanup " + kind + " state does not match: " + value)
+                continue
+            result[kind][value] = row
+    result["completed"] = not result["errors"]
+    if not result["completed"]:
+        # A partial or invalid record cannot weaken any preservation check.
+        result["removed"].clear()
+        result["updated"].clear()
+    return result
+
+
+def preservation_partition(rows, cleanup, allow_updates=False):
+    result = {"total": len(rows), "preserved": [], "retired": [], "updated": [], "unexpected": []}
+    for row in rows:
+        value, expected = row["path"], row["sha256"]
+        path = ROOT / value
+        actual = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        removed = cleanup["removed"].get(value, {})
+        updated = cleanup["updated"].get(value, {})
+        if actual == expected:
+            state = "preserved"
+        elif not path.exists() and removed.get("sha256") == expected:
+            state = "retired"
+        elif allow_updates and actual and updated.get("before_sha256") == expected and updated.get("after_sha256") == actual:
+            state = "updated"
+        else:
+            state = "unexpected"
+        result[state].append(value)
+    result["counts"] = {key: len(result[key]) for key in ("preserved", "retired", "updated", "unexpected")}
+    return result
 
 
 def load_json(path):
@@ -247,20 +345,17 @@ if args.snapshot:
     raise SystemExit(0)
 
 approved_hashes = {digest(p) for p in (ROOT / 'output/imagegen/approved').glob('*.png')}
+cleanup = load_cleanup()
+check(not cleanup['errors'], 'Cleanup ledger is complete, scoped and matches current files', cleanup['errors'])
+baseline_path = ROOT / 'output/qa/rc-010/preservation-baseline.json'
+check(baseline_path.is_file() and digest(baseline_path) == BASELINE_SHA256, 'Original preservation baseline bytes unchanged', BASELINE_SHA256)
 baseline = load_json(ROOT / 'output/qa/rc-010/preservation-baseline.json')
-protected_changes = []
-for row in baseline if isinstance(baseline, list) else []:
-    path = ROOT / row['path']
-    if not path.is_file() or digest(path) != row['sha256']:
-        protected_changes.append(row['path'])
-check(len(baseline) == 974 and not protected_changes, '974 protected runtime/reference/raw-evidence files preserved', protected_changes)
+protected = preservation_partition(baseline if isinstance(baseline, list) else [], cleanup)
+check(len(baseline) == 974 and not protected['unexpected'], 'Original 974-file baseline reconciles only exact authorized art retirements', protected)
+check(SNAPSHOT.is_file() and digest(SNAPSHOT) == SNAPSHOT_SHA256, 'Original 404-file snapshot bytes unchanged', SNAPSHOT_SHA256)
 snapshot = load_json(SNAPSHOT)
-prior_changes = []
-for row in snapshot.get('files', []):
-    path = ROOT / row['path']
-    if not path.is_file() or digest(path) != row['sha256']:
-        prior_changes.append(row['path'])
-check(bool(snapshot.get('files')) and not prior_changes, 'Prior r002/r003/r004/r005 sources, previews and approved references preserved', prior_changes)
+prior = preservation_partition(snapshot.get('files', []), cleanup, allow_updates=True)
+check(len(snapshot.get('files', [])) == 404 and not prior['unexpected'], 'Prior snapshot reconciles retained bytes and exact authorized cleanup changes', prior)
 
 for name, size in {
     'pilot-841x1870.png': (841, 1870), 'pilot-720x1600.png': (720, 1600),
@@ -301,7 +396,16 @@ reuse = load_json(P / 'ui/reuse-dependencies.json')
 for item in reuse.get('copied_painted_sources', []):
     current = (P / item['current']).resolve()
     origin = (P / item['origin']).resolve()
-    check(current.is_file() and origin.is_file() and digest(current) == digest(origin) == item.get('sha256'), 'Actual byte-preserved source copy: ' + item['current'], relative(origin))
+    source_hash = item.get('source_sha256', item.get('sha256'))
+    current_hash = item.get('current_sha256', item.get('sha256'))
+    check(current.is_file() and digest(current) == current_hash == item.get('sha256'), 'Current painted source matches its recorded hash: ' + item['current'], current_hash)
+    if item.get('origin_retired') is True:
+        origin_ok = not origin.exists() and cleanup['removed'].get(relative(origin), {}).get('sha256') == source_hash
+        check(origin_ok, 'Duplicate source origin retired with its exact original hash: ' + item['current'], relative(origin))
+    else:
+        check(origin.is_file() and digest(origin) == source_hash, 'Retained original painted source hash: ' + item['current'], relative(origin))
+    if item.get('byte_preserved') is True:
+        check(current_hash == source_hash, 'Byte-preserved copy claim matches original source hash: ' + item['current'])
 for name in reuse.get('retained_source_dependencies', []):
     check((P / name).resolve().is_file(), 'Retained editable dependency exists', name)
 current_reference = ROOT / 'output/imagegen/approved/combat-final-v2-clean-board.png'
@@ -352,9 +456,12 @@ for path in crypt_sources:
 crypt_meta = load_json(PAINT / 'crypt/metadata.json')
 generation_record = load_json(PAINT / 'raw/generation-record.json')
 for record in generation_record.get('records', []):
+    pair = [(PAINT / 'raw' / record[item], record.get(expected)) for item, expected in (('asset', 'asset_sha256'), ('prompt', 'prompt_sha256'))]
+    retired_pair = record.get('selected') is False and all(not path.exists() and cleanup['removed'].get(relative(path), {}).get('sha256') == expected for path, expected in pair)
     for item, expected in (('asset', 'asset_sha256'), ('prompt', 'prompt_sha256')):
         path = PAINT / 'raw' / record[item]
-        check(path.is_file() and digest(path) == record.get(expected), 'Retained generation record: ' + record[item], {'selected': record.get('selected'), 'sha256': record.get(expected)})
+        retained = path.is_file() and digest(path) == record.get(expected)
+        check(retained or retired_pair, 'Generation provenance retained or unused pair explicitly retired: ' + record[item], {'selected': record.get('selected'), 'sha256': record.get(expected), 'state': 'retained' if retained else 'retired' if retired_pair else 'missing-or-changed'})
 crypt_generation = crypt_meta.get('generation', {})
 crypt_raw = (PAINT / 'crypt' / crypt_generation.get('raw', '__missing__')).resolve()
 crypt_prompt = (PAINT / 'crypt' / crypt_generation.get('prompt', '__missing__')).resolve()
@@ -437,6 +544,9 @@ report = {
     'task': 'RC-011', 'revision': 'r006', 'date': '2026-10-11',
     'structural_result': 'PASS' if not failed else 'FAIL', 'check_count': len(checks),
     'failures': failed, 'checks': checks,
+    'preservation': {'original_baseline': protected, 'prior_snapshot': prior},
+    'cleanup': {'path': CLEANUP_LEDGER, 'present': cleanup['present'], 'completed': cleanup['completed'],
+                'removed_files': len(cleanup['removed']), 'updated_files': len(cleanup['updated'])},
     'linked_resources': [relative(path) for path in sorted(resources)],
     'review_file_sha256': {relative(path): digest(path) for path in sorted(OUT.glob('pilot-*.png'))},
     'decoded_candidate_pngs': {'bytes': sum(row['decoded_bytes'] for row in memory), 'MiB': sum(row['decoded_bytes'] for row in memory) / 1048576, 'items': memory, 'scope': 'Selected material/background paths declared by r006, plus retained r002 neutral and seven actor parts concurrently. Excludes superseded UI exports, source ORAs/raws/review PNGs, fonts, transient preview surfaces, SVG rasterizations, engine buffers. Not a runtime loading or device measurement.'},

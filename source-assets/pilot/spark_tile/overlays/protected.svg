@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="128" height="128" viewBox="0 0 128 128">
-  <title>Spark tile overlay: protected; no live label</title>
-  <metadata>{"asset_id": "pilot_spark_tile", "revision": "r1", "role": "Spark tile overlay: protected; no live label"}</metadata>
-<g id="protected-border" fill="none" stroke="#c19890" stroke-width="2"><path d="M 10 35 V 16 L 16 10 H 35 M 93 10 H 112 L 118 16 V 35 M 118 93 V 112 L 112 118 H 93 M 35 118 H 16 L 10 112 V 93"/></g><g id="protected-cross" stroke="#c19890" stroke-width="4"><path d="M 14 103 L 26 115 M 26 103 L 14 115"/></g>
-</svg>

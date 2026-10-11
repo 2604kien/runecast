@@ -5,49 +5,81 @@
       "current": "ui/painted_tile.ora",
       "origin": "../r004/ui/painted_tile.ora",
       "sha256": "9011309ca6237c338e72e33035e1d72815f622c91bf942b9006bd454d427e9aa",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "9011309ca6237c338e72e33035e1d72815f622c91bf942b9006bd454d427e9aa",
+      "current_sha256": "9011309ca6237c338e72e33035e1d72815f622c91bf942b9006bd454d427e9aa",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "ui/cast-button.ora",
       "origin": "../r004/ui/cast-button.ora",
       "sha256": "2adc5c3f7890ebcb8a0192aa9794f6fd7dc712e30f1097fb97e4d13adb47ec31",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "2adc5c3f7890ebcb8a0192aa9794f6fd7dc712e30f1097fb97e4d13adb47ec31",
+      "current_sha256": "2adc5c3f7890ebcb8a0192aa9794f6fd7dc712e30f1097fb97e4d13adb47ec31",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "ui/navy-panel.ora",
       "origin": "../r004/ui/navy-panel.ora",
       "sha256": "f5faefa4b428ba21d39b382dee49c8e00e8739260b60dd4ed928d32c4eaf0065",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "f5faefa4b428ba21d39b382dee49c8e00e8739260b60dd4ed928d32c4eaf0065",
+      "current_sha256": "f5faefa4b428ba21d39b382dee49c8e00e8739260b60dd4ed928d32c4eaf0065",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "exports/crypt-background.png",
       "origin": "../r004/exports/crypt-background.png",
       "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
+      "current_sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "exports/spark_tile.png",
       "origin": "../r004/exports/spark_tile.png",
       "sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20",
+      "current_sha256": "dfd45c919cacb11a3780164bc5f037ab5f8d9d92fb4a8b5c24c88863f510aa20",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "exports/button_primary.png",
       "origin": "../r004/exports/button_primary.png",
       "sha256": "0c1c2aa5052220686f74b3f4661adc1d477cc07be22625ca19b3381139639eea",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "0c1c2aa5052220686f74b3f4661adc1d477cc07be22625ca19b3381139639eea",
+      "current_sha256": "0c1c2aa5052220686f74b3f4661adc1d477cc07be22625ca19b3381139639eea",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "exports/button_secondary.png",
       "origin": "../r004/exports/button_secondary.png",
       "sha256": "875911d0cfd87a1da4858079b8a25d2491e923078707c22cf237ffe430fed485",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "875911d0cfd87a1da4858079b8a25d2491e923078707c22cf237ffe430fed485",
+      "current_sha256": "875911d0cfd87a1da4858079b8a25d2491e923078707c22cf237ffe430fed485",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     },
     {
       "current": "ui/spark.svg",
       "origin": "../r004/ui/spark.svg",
       "sha256": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873",
-      "byte_preserved": true
+      "byte_preserved": true,
+      "source_sha256": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873",
+      "current_sha256": "05bf07ec6bcd013fb61fdd2454b5e234111eb625ff961f319118085e2ba30873",
+      "origin_retired": true,
+      "origin_role": "Historical source location; retired from dependency closure by the authorized cleanup. Deletion is recorded separately in the completed cleanup ledger."
     }
   ],
   "retained_source_dependencies": [
@@ -62,6 +94,7 @@
     "../../button/build_materials.py"
   ],
   "composition_target": "../../../../output/imagegen/approved/combat-final-v2-clean-board.png",
-  "origin_provenance": "../r004/raw and ../r004/ui/*-metadata.json; original painting reference attribution unchanged",
-  "renderer_output": "../../../../output/art/rc-011/r006"
+  "origin_provenance": "Selected ../r004/raw inputs and original generation record; canonical paint metadata is retained under ui/*-metadata.json. Original painting reference attribution is unchanged.",
+  "renderer_output": "../../../../output/art/rc-011/r006",
+  "validation_basis": "Validate canonical current files against current_sha256 (sha256 alias). Preserve source_sha256 as the original retained hash. Retired origin paths are historical attribution, not rebuild inputs; completed removal hashes are recorded in output/art/rc-011/cleanup/deletion-manifest.json."
 }

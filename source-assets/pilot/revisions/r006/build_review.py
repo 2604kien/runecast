@@ -37,13 +37,19 @@ def document(w,h,s,title):
     return f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><title>{escape(title)}</title><metadata>RC-011 r006 original complete editable gameplay construction; candidate, no owner acceptance or runtime claim. Undirected ports; visual example values remain live-style text.</metadata><defs><filter id="amberGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter><filter id="tealGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>'+s+'</svg>'
 
 def prepare_materials():
-    # r006 uses byte-preserved r004 painted masters/exports. Only geometry and
-    # live composition change. Rebuild never re-generates or overwrites r004 art.
+    # r006 owns the retained canonical painted masters/exports. Historical r004
+    # duplicate locations are provenance only and may be retired by cleanup.
     needed=['painted_tile.ora','cast-button.ora','navy-panel.ora','spark.svg',
             'painted-frame.png','painted-face-amber.png','navy-panel-base.png',
             'cast-button-base.png','materials/navy.png']
     for name in needed:
-        if not (UI/name).is_file():raise FileNotFoundError('Copy preserved r004/ui source first: '+name)
+        if not (UI/name).is_file():raise FileNotFoundError('Missing retained canonical r006 source: '+name)
+    reuse=json.loads((UI/'reuse-dependencies.json').read_text(encoding='utf-8'))
+    for item in reuse['copied_painted_sources']:
+        canonical=P/item['current']
+        expected=item.get('current_sha256',item['sha256'])
+        if hashlib.sha256(canonical.read_bytes()).hexdigest()!=expected:
+            raise ValueError('Canonical source hash differs from its recorded revision: '+item['current'])
 
 def painted_component(x,y,w,h,name='navy-panel',border=7):
     raw=Image.open(UI/f'{name}-base.png').convert('RGBA')
@@ -452,7 +458,7 @@ def build():
           'slice_refinement':'Generated sculpted rims require larger fixed corner/end caps than r001. Main Cast uses 35 logical pixel endplates at 87 pixel height; tile/board and navy caps remain fixed during stretch. Pixel caps describe candidate exports; live hitboxes stay rectangular.',
           'circuit_semantics':'Undirected compatible port pairs. SVG circuit geometry has no arrowheads. Rotate action icon retains its action arrow.',
           'visual_example':'Main follows final-v2 composition: only BEGIN and END remain inside the board, with symbols and undirected connections. External BOSS, card costs/effects, stock, forecast and surrounding HUD are preserved. Illustrative values are not a guaranteed hand, balance commitment or implemented rules claim. Finite 0/6 inset remains in state sheet.',
-          'font':'../r002/type-geometry/fonts/NotoSerif-Variable.ttf','paint_method':'Byte-preserved copies of r004 original crypt, empty-tile, navy-panel and cast-button paintings and complementary material/rim ORA layers. Original generation prompts and hashes remain under ../r004/raw and its provenance records; their original reference attribution is unchanged. R006 changes live composition and Split/Join vector geometry against final-v2 only. No approved screenshot pixels or underlay are linked into gameplay source. R002 supplies the acquired font and selected character/Spark geometry.',
+          'font':'../r002/type-geometry/fonts/NotoSerif-Variable.ttf','paint_method':'Canonical retained crypt, tile, navy-panel and cast-button paintings and complementary material/rim ORA layers originate in r004. Current and historical source hashes are recorded separately in ui/reuse-dependencies.json; retired duplicate locations are not rebuild dependencies. Selected original prompts and generation hashes remain under ../r004/raw, with unchanged original reference attribution. R006 changes live composition and Split/Join vector geometry against final-v2. No approved screenshot pixels or underlay are linked into gameplay source. R002 supplies the acquired font and selected character/Spark geometry.',
           'composition_target':'output/imagegen/approved/combat-final-v2-clean-board.png','paint_origin_revision':'r004','reuse_dependencies':'ui/reuse-dependencies.json','board_allowed_text':['BEGIN','END'],'glyph_shapes':{'Split':'Left stem; symmetric upper-right and lower-right branches','Join':'Upright trident with upward side and center prongs, lower center stem'},
           'character_transform':{'canvas':512,'display_size':384,'top_left':[254,92],'foot_export':[256,448],'screen_foot':[446,428]},
           'remaining':'Owner review; full runtime import/theme, undirected model/controls and real device behavior not implemented by this source.'}

@@ -5,12 +5,12 @@ October 11, 2026. **Final visual reference established by the owner's explicit r
 ## Final files
 
 - [Official canonical image](../../../../output/imagegen/approved/combat-final.png),841×1870RGB PNG.
-- [Review copy](../../../../output/art/rc-011/r003/gameplay-final.png), identical bytes.
+- [Review copy — retired in authorized cleanup](../../../../docs/asset-cleanup.md), identical bytes.
 - [Verification and provenance](../../../../output/art/rc-011/r003/final-reference-validation.json).
 - [Asset-plan validation](../../../../output/art/rc-011/r003/asset-plan-validation.json) and [delivery/link checks](../../../../output/art/rc-011/r003/delivery-validation.json).
 - [Earlier October8 Combat reference](../../../../output/imagegen/approved/combat.png), preserved unchanged as historical evidence.
 
-The source is the user's `codex-clipboard-3239e11b-675a-4bd5-baae-050d1ecc125b.png` attachment. Its file SHA-256 is `c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4`. The final copies are byte-for-byte identical; no raster edit, new image-generation call, crop, resize or lossy conversion occurred. The attachment's decoded pixels match the preserved [v7Remove study](../../../../output/imagegen/rune-cast-gameplay-reference-v7-remove.png), although PNG file bytes differ. Its [historical prompt](../../../../output/imagegen/rune-cast-gameplay-reference-v7-remove.prompt.txt) remains generation history, not a newly executed prompt. No unknown model/version is invented.
+The source is the user's `codex-clipboard-3239e11b-675a-4bd5-baae-050d1ecc125b.png` attachment. Its file SHA-256 is `c753021b16fbe7af9fa57cadae5d32525f9283dbc1da0af883b8614965af2da4`. The final copies are byte-for-byte identical; no raster edit, new image-generation call, crop, resize or lossy conversion occurred. The attachment's decoded pixels match the preserved [v7Remove study — retired in authorized cleanup](../../../../docs/asset-cleanup.md), although PNG file bytes differ. Its [historical prompt — retired in authorized cleanup](../../../../docs/asset-cleanup.md) remains generation history, not a newly executed prompt. No unknown model/version is invented.
 
 ## Direct inspection
 

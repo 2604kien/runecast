@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="128" height="128" viewBox="0 0 128 128">
-  <title>PREVIEW ONLY — Spark exact ports rotation 1</title>
-  <metadata>{"asset_id": "pilot_spark_tile", "revision": "r1", "viewBox": [0, 0, 128, 128], "glyph_center": [64, 64], "essential_safe_bounds": [16, 16, 112, 112], "outline_units": 8, "internal_stroke_units": 6, "ports": {"N": [64, 0], "E": [128, 64], "S": [64, 128], "W": [0, 64]}, "rotation_zero": {"input": ["W"], "output": ["E"]}, "rotation_clockwise_degrees": [0, 90, 180, 270], "art_contains_ports": true, "art_contains_text": false, "live_text_rotation": "upright; never rotate with port geometry", "source": "original code-native geometry authored for RC-011; no image-generation provenance", "rotation": 1}</metadata>
-<g id="live-port-geometry" transform="rotate(90 64 64)" fill="none" stroke="#efb24d" stroke-width="4.672" stroke-linecap="butt"><path d="M 0 64 H 128"/></g>
-<g id="live-output-arrow" transform="rotate(90 64 64)"><path d="M 128 64 L 116.79 58.39 L 116.79 69.61 Z" fill="#ffe3a0"/></g>
-</svg>

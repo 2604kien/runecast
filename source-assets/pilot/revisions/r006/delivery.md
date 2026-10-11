@@ -25,7 +25,7 @@ October 11, 2026. This revision applies the owner's latest approved [final gamep
 
 ## Editable sources and provenance
 
-No new raster painting or image generation was needed for these changes. The new composition reuses the genuine layered painted sources from r004 and the selected r002 character and font. Earlier sources, previews, raw generations, prompts and approvals remain intact.
+No new raster painting or image generation was needed for these changes. The new composition reuses the genuine layered painted sources from r004 and the selected r002 character and font. The later [owner-authorized cleanup](../../../../docs/asset-cleanup.md) retains these selected sources, their raw generations/prompts, current previews and approved references; unused alternatives and superseded previews are removed with exact hashes recorded.
 
 | Component | Editable master / retained evidence | Dimensions and method |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ The unchanged canonical raster subset is approximately **7.75 MiB static**, or *
 
 ## Review outcome and handoff
 
-**Begin-symbol correction:** The owner identified an overlap missed in the initial review: the full-size Begin drew its check over an End diamond, while the narrow Begin showed a diamond. The builder now draws a single shared check for Begin and reserves the diamond for End. Main, native and endpoint-state previews were rebuilt and visually rechecked. The earlier source/previews/reports are preserved in [the before-fix archive](../../../../output/art/rc-011/r006/history/begin-overlap-before.zip).
+**Begin-symbol correction:** The owner identified an overlap missed in the initial review: the full-size Begin drew its check over an End diamond, while the narrow Begin showed a diamond. The builder now draws a single shared check for Begin and reserves the diamond for End. Main, native and endpoint-state previews were rebuilt and visually rechecked. The before-fix archive was subsequently removed in the [owner-authorized cleanup](../../../../docs/asset-cleanup.md); its original hash is recorded in the deletion ledger.
 
 Root and independent reviewers inspected all nine exported PNGs. [The visual review](cross-screen-review.md) records no remaining blocker for the latest changes. Source and asset-plan outcomes are recorded in the linked final reports, with actual output hashes. The four pilot manifest rows retain `source_ready`, `source_only`, `reference_guided` and unresolved generated-art rights. Other asset and reference records remain unchanged.
 
@@ -58,7 +58,7 @@ Root and independent reviewers inspected all nine exported PNGs. [The visual rev
 | Latest clean-board and corrected symbols | **Pass.** Actual main/native boards and all tile specimens show only allowed endpoint text; shared Split/Join geometry matches the approved silhouettes |
 | Complete crypt and supporting UI | **Pass for matching-style construction.** Painted environment and reusable components remain, with detailed cards/piles/forecast and no blockout symbols |
 | Desktop readability, states, rotations and scaling | **Pass.** Main841/720/450, native360 pair,137/72px states,24/32/48px glyphs, monochrome and actual-font specimen inspected |
-| Source integrity and preservation | **Pass.** Source dimensions/alpha/ICC, distinct ORA layers, linked SVG resources, actual font, retained motion/anchors and reuse hashes checked;974original protected files and404prior revision/reference files unchanged; RC-010report restored |
+| Source integrity and preservation | **Pass.** Source dimensions/alpha/ICC, distinct ORA layers, linked SVG resources, actual font, retained motion/anchors and reuse hashes checked. Original baselines remain unchanged; current reports distinguish preserved files, exact owner-authorized retirements and source-metadata updates. Runtime/QA and approved reference files remain protected; RC-010report is restored |
 | Typography and motion feasibility | **Pass for pilot method.** Acquired Noto Serif/OFL and retained six-second part-transform/reduced-motion evidence remain usable; production imports and final poses are separate |
 | Exact reference identity / owner approval of reconstructed assets | **Not claimed.** Reconstructed painted details, repeated frames and Noto letterforms differ; owner approval applies to the supplied target |
 | Godot integration and physical devices | **Not tested.** Runtime and gameplay files are unchanged |
