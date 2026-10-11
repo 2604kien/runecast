@@ -1,0 +1,15 @@
+config_version=5
+
+[application]
+config/name="RC-013 isolated theme specimens"
+run/main_scene="res://gallery.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=450
+window/size/viewport_height=1000
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.025,0.038,0.07,1)

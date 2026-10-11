@@ -1,0 +1,245 @@
+[gd_resource type="Theme" load_steps=28 format=3]
+
+[ext_resource type="FontVariation" path="res://assets/fonts/ui/labels.tres" id="labels"]
+[ext_resource type="FontVariation" path="res://assets/fonts/display/title.tres" id="title"]
+[ext_resource type="FontVariation" path="res://assets/fonts/ui/location.tres" id="location"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/panel.tres" id="panel"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/menu.tres" id="menu"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/secondary.tres" id="secondary"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/primary.tres" id="primary"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/socket.tres" id="socket"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/damage.tres" id="damage"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/shield.tres" id="shield"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/technique.tres" id="technique"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/mixed.tres" id="mixed"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/track.tres" id="track"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/health_fill.tres" id="health_fill"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/energy_fill.tres" id="energy_fill"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/shield_fill.tres" id="shield_fill"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/empty.tres" id="empty"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/focus.tres" id="focus"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/scroll_track.tres" id="scroll_track"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/scroll_grab.tres" id="scroll_grab"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/scroll_grab_highlight.tres" id="scroll_grab_highlight"]
+
+[ext_resource type="StyleBox" path="res://assets/ui/styles/primary_pressed.tres" id="primary_pressed"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/primary_disabled.tres" id="primary_disabled"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/primary_hover.tres" id="primary_hover"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/secondary_pressed.tres" id="secondary_pressed"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/secondary_disabled.tres" id="secondary_disabled"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/secondary_hover.tres" id="secondary_hover"]
+
+[resource]
+resource_name = "Rune Cast Painted UI / RC-013"
+default_font = ExtResource("labels")
+default_font_size = 16
+Label/colors/font_color = Color(1, 0.941, 0.773, 1)
+Label/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+Label/constants/outline_size = 2
+Label/fonts/font = ExtResource("labels")
+Label/font_sizes/font_size = 16
+Button/colors/font_color = Color(1, 0.941, 0.773, 1)
+Button/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+Button/constants/outline_size = 2
+Button/fonts/font = ExtResource("labels")
+Button/font_sizes/font_size = 16
+CheckButton/colors/font_color = Color(1, 0.941, 0.773, 1)
+CheckButton/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+CheckButton/constants/outline_size = 2
+CheckButton/fonts/font = ExtResource("labels")
+CheckButton/font_sizes/font_size = 16
+CheckBox/colors/font_color = Color(1, 0.941, 0.773, 1)
+CheckBox/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+CheckBox/constants/outline_size = 2
+CheckBox/fonts/font = ExtResource("labels")
+CheckBox/font_sizes/font_size = 16
+OptionButton/colors/font_color = Color(1, 0.941, 0.773, 1)
+OptionButton/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+OptionButton/constants/outline_size = 2
+OptionButton/fonts/font = ExtResource("labels")
+OptionButton/font_sizes/font_size = 16
+LineEdit/colors/font_color = Color(1, 0.941, 0.773, 1)
+LineEdit/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+LineEdit/constants/outline_size = 2
+LineEdit/fonts/font = ExtResource("labels")
+LineEdit/font_sizes/font_size = 16
+TextEdit/colors/font_color = Color(1, 0.941, 0.773, 1)
+TextEdit/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+TextEdit/constants/outline_size = 2
+TextEdit/fonts/font = ExtResource("labels")
+TextEdit/font_sizes/font_size = 16
+RichTextLabel/colors/font_color = Color(1, 0.941, 0.773, 1)
+RichTextLabel/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+RichTextLabel/constants/outline_size = 2
+RichTextLabel/fonts/font = ExtResource("labels")
+RichTextLabel/font_sizes/font_size = 16
+PopupMenu/colors/font_color = Color(1, 0.941, 0.773, 1)
+PopupMenu/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+PopupMenu/constants/outline_size = 2
+PopupMenu/fonts/font = ExtResource("labels")
+PopupMenu/font_sizes/font_size = 16
+TabContainer/colors/font_color = Color(1, 0.941, 0.773, 1)
+TabContainer/colors/font_outline_color = Color(0.025, 0.041, 0.064, 1)
+TabContainer/constants/outline_size = 2
+TabContainer/fonts/font = ExtResource("labels")
+TabContainer/font_sizes/font_size = 16
+Button/colors/font_hover_color = Color(1, 0.964, 0.84, 1)
+Button/colors/font_pressed_color = Color(1, 0.964, 0.84, 1)
+Button/colors/font_hover_pressed_color = Color(1, 0.964, 0.84, 1)
+Button/colors/font_focus_color = Color(1, 0.964, 0.84, 1)
+Button/colors/font_disabled_color = Color(0.76, 0.77, 0.73, 1)
+Button/constants/h_separation = 8
+Button/styles/normal = ExtResource("secondary")
+Button/styles/hover = ExtResource("secondary_hover")
+Button/styles/pressed = ExtResource("secondary_pressed")
+Button/styles/disabled = ExtResource("secondary_disabled")
+Button/styles/hover_pressed = ExtResource("secondary")
+Button/styles/focus = ExtResource("focus")
+RCPrimary/base_type = &"Button"
+RCPrimary/styles/normal = ExtResource("primary")
+RCPrimary/styles/hover = ExtResource("primary_hover")
+RCPrimary/styles/pressed = ExtResource("primary_pressed")
+RCPrimary/styles/disabled = ExtResource("primary_disabled")
+RCPrimary/styles/hover_pressed = ExtResource("primary")
+RCPrimary/styles/focus = ExtResource("focus")
+RCPrimary/fonts/font = ExtResource("title")
+RCPrimary/font_sizes/font_size = 18
+RCSecondary/base_type = &"Button"
+RCSecondary/styles/normal = ExtResource("secondary")
+RCSecondary/styles/hover = ExtResource("secondary_hover")
+RCSecondary/styles/pressed = ExtResource("secondary_pressed")
+RCSecondary/styles/disabled = ExtResource("secondary_disabled")
+RCSecondary/styles/hover_pressed = ExtResource("secondary")
+RCSecondary/styles/focus = ExtResource("focus")
+RCSecondary/fonts/font = ExtResource("title")
+RCSecondary/font_sizes/font_size = 18
+RCTool/base_type = &"Button"
+RCTool/styles/normal = ExtResource("secondary")
+RCTool/styles/hover = ExtResource("secondary_hover")
+RCTool/styles/pressed = ExtResource("secondary_pressed")
+RCTool/styles/disabled = ExtResource("secondary_disabled")
+RCTool/styles/hover_pressed = ExtResource("secondary")
+RCTool/styles/focus = ExtResource("focus")
+RCNav/base_type = &"Button"
+RCNav/styles/normal = ExtResource("secondary")
+RCNav/styles/hover = ExtResource("secondary_hover")
+RCNav/styles/pressed = ExtResource("secondary_pressed")
+RCNav/styles/disabled = ExtResource("secondary_disabled")
+RCNav/styles/hover_pressed = ExtResource("secondary")
+RCNav/styles/focus = ExtResource("focus")
+RCSetting/base_type = &"Button"
+RCSetting/styles/normal = ExtResource("secondary")
+RCSetting/styles/hover = ExtResource("secondary_hover")
+RCSetting/styles/pressed = ExtResource("secondary_pressed")
+RCSetting/styles/disabled = ExtResource("secondary_disabled")
+RCSetting/styles/hover_pressed = ExtResource("secondary")
+RCSetting/styles/focus = ExtResource("focus")
+RCSocket/base_type = &"Button"
+RCSocket/styles/normal = ExtResource("empty")
+RCSocket/styles/hover = ExtResource("empty")
+RCSocket/styles/pressed = ExtResource("empty")
+RCSocket/styles/disabled = ExtResource("empty")
+RCSocket/styles/hover_pressed = ExtResource("empty")
+RCSocket/styles/focus = ExtResource("focus")
+RCSocket/styles/focus = ExtResource("empty")
+RCCardLive/base_type = &"Button"
+RCCardLive/styles/normal = ExtResource("empty")
+RCCardLive/styles/hover = ExtResource("empty")
+RCCardLive/styles/pressed = ExtResource("empty")
+RCCardLive/styles/disabled = ExtResource("empty")
+RCCardLive/styles/hover_pressed = ExtResource("empty")
+RCCardLive/styles/focus = ExtResource("focus")
+RCCardLive/styles/focus = ExtResource("empty")
+RCPointed/base_type = &"Button"
+RCPointed/styles/normal = ExtResource("empty")
+RCPointed/styles/hover = ExtResource("empty")
+RCPointed/styles/pressed = ExtResource("empty")
+RCPointed/styles/disabled = ExtResource("empty")
+RCPointed/styles/hover_pressed = ExtResource("empty")
+RCPointed/styles/focus = ExtResource("focus")
+RCPointed/styles/focus = ExtResource("empty")
+RCPointed/fonts/font = ExtResource("title")
+RCPointed/font_sizes/font_size = 18
+RCSecondaryLive/base_type = &"Button"
+RCSecondaryLive/styles/normal = ExtResource("empty")
+RCSecondaryLive/styles/hover = ExtResource("empty")
+RCSecondaryLive/styles/pressed = ExtResource("empty")
+RCSecondaryLive/styles/disabled = ExtResource("empty")
+RCSecondaryLive/styles/hover_pressed = ExtResource("empty")
+RCSecondaryLive/styles/focus = ExtResource("focus")
+RCSecondaryLive/styles/focus = ExtResource("empty")
+RCSecondaryLive/fonts/font = ExtResource("title")
+RCSecondaryLive/font_sizes/font_size = 18
+RCTitle/base_type = &"Label"
+RCTitle/fonts/font = ExtResource("title")
+RCTitle/font_sizes/font_size = 28
+RCBody/base_type = &"Label"
+RCBody/fonts/font = ExtResource("labels")
+RCBody/font_sizes/font_size = 16
+RCMuted/base_type = &"Label"
+RCMuted/fonts/font = ExtResource("labels")
+RCMuted/font_sizes/font_size = 14
+RCLocation/base_type = &"Label"
+RCLocation/fonts/font = ExtResource("location")
+RCLocation/font_sizes/font_size = 16
+RCValue/base_type = &"Label"
+RCValue/fonts/font = ExtResource("labels")
+RCValue/font_sizes/font_size = 18
+RCMuted/colors/font_color = Color(0.78, 0.765, 0.714, 1)
+RCPanel/base_type = &"PanelContainer"
+RCPanel/styles/panel = ExtResource("panel")
+RCDialog/base_type = &"PanelContainer"
+RCDialog/styles/panel = ExtResource("panel")
+RCMenu/base_type = &"PanelContainer"
+RCMenu/styles/panel = ExtResource("menu")
+RCForecast/base_type = &"PanelContainer"
+RCForecast/styles/panel = ExtResource("secondary")
+RCCardDamage/base_type = &"PanelContainer"
+RCCardDamage/styles/panel = ExtResource("damage")
+RCCardShield/base_type = &"PanelContainer"
+RCCardShield/styles/panel = ExtResource("shield")
+RCCardTechnique/base_type = &"PanelContainer"
+RCCardTechnique/styles/panel = ExtResource("technique")
+RCCardMixed/base_type = &"PanelContainer"
+RCCardMixed/styles/panel = ExtResource("mixed")
+PanelContainer/styles/panel = ExtResource("panel")
+Panel/styles/panel = ExtResource("panel")
+RCHealth/base_type = &"ProgressBar"
+RCHealth/styles/background = ExtResource("track")
+RCHealth/styles/fill = ExtResource("health_fill")
+RCEnergy/base_type = &"ProgressBar"
+RCEnergy/styles/background = ExtResource("track")
+RCEnergy/styles/fill = ExtResource("energy_fill")
+RCShield/base_type = &"ProgressBar"
+RCShield/styles/background = ExtResource("track")
+RCShield/styles/fill = ExtResource("shield_fill")
+VScrollBar/styles/scroll = ExtResource("scroll_track")
+VScrollBar/styles/scroll_focus = ExtResource("focus")
+VScrollBar/styles/grabber = ExtResource("scroll_grab")
+VScrollBar/styles/grabber_highlight = ExtResource("scroll_grab_highlight")
+VScrollBar/styles/grabber_pressed = ExtResource("scroll_grab_highlight")
+HScrollBar/styles/scroll = ExtResource("scroll_track")
+HScrollBar/styles/scroll_focus = ExtResource("focus")
+HScrollBar/styles/grabber = ExtResource("scroll_grab")
+HScrollBar/styles/grabber_highlight = ExtResource("scroll_grab_highlight")
+HScrollBar/styles/grabber_pressed = ExtResource("scroll_grab_highlight")
+HSlider/styles/slider = ExtResource("track")
+HSlider/styles/grabber_area = ExtResource("energy_fill")
+HSlider/styles/grabber_area_highlight = ExtResource("energy_fill")
+HSlider/constants/grabber_offset = 0
+HSlider/constants/center_grabber = 0
+VSlider/styles/slider = ExtResource("track")
+VSlider/styles/grabber_area = ExtResource("energy_fill")
+VSlider/styles/grabber_area_highlight = ExtResource("energy_fill")
+VSlider/constants/grabber_offset = 0
+VSlider/constants/center_grabber = 0
+LineEdit/styles/normal = ExtResource("secondary")
+LineEdit/styles/read_only = ExtResource("secondary")
+LineEdit/styles/focus = ExtResource("focus")
+TextEdit/styles/normal = ExtResource("secondary")
+TextEdit/styles/read_only = ExtResource("secondary")
+TextEdit/styles/focus = ExtResource("focus")
+PopupMenu/styles/panel = ExtResource("panel")
+TabContainer/styles/panel = ExtResource("panel")
+VBoxContainer/constants/separation = 8
+HBoxContainer/constants/separation = 8

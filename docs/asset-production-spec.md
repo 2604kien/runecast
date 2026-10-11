@@ -162,6 +162,25 @@ Deliver SVG masters/runtime imports plus colour/monochrome specimens at **24,32,
 <a id="ui-typography"></a>
 ## UI and typography
 
+### RC-013 delivered source and resource contract — October 12, 2026
+
+The [UI theme guide](ui-theme.md), [production source delivery](../source-assets/ui/delivery.md), [exact source/export map](../source-assets/ui/source-export-map.json) and [Theme notes](../source-assets/ui/theme-notes.json) define the delivered RC-013 values below. They supersede the earlier proposed UI sizes/caps where different. The source audit verifies seven meaningful multi-layer ORAs, twelve independent vector overlays, custom editable wordmark geometry, exact recomposition, alpha/colour and source/export relationships. Actual isolated Godot evidence and readiness are recorded separately in the guide and verification log.
+
+| Delivered component | Source/export and scalable treatment |
+| --- | --- |
+| Shared socket, panel/pile and four detailed-card materials |512² masters to256² RGBA exports;24px source slices. The reusable skin renderer maps them to12px logical borders, leaving glyphs/live text separate. Native panel/dialog StyleBoxes use24px texture caps and20px content margins. |
+| Turquoise primary and navy secondary |1024×256 layered master to512×128 exports. Primary caps56/18/56/18 preserve tips at every width by multiplying destination caps by live height/128. Secondary caps38/20/38/20 map to19/10/19/10 logical pixels. |
+| Tracks and fills |512×128 layered master to256×64 RGBA exports, caps16/8/16/8. Health/energy/shield values remain live; one shared track, separate value-driven fills. |
+| State treatment |Twelve128² editable SVG/runtime overlays, no duplicated combinations; ORA editing atlas512×384. Selection notch, focus dashes, powered collar, invalid/unavailable/placement shapes and four Map rings remain separate from content. Card/detail upgrade marker never appears on board cells. |
+| Wordmark |1280×480 editable SVG and six-layer ORA to1024×384 transparent RGBA PNG, superseding the provisional768×384 format. Exact alpha bounds leave43/38/39/38px left/top/right/bottom padding. Original custom serif path lettering has no font dependency; use uniform aspect-preserving scale only. |
+| Scrim |Resolution-independent StyleBoxFlat, RGBA(0.018,0.026,0.048,0.72); static dim layer with no full-screen raster. Its decoration ignores input; a modal host owns background input blocking and focus. |
+
+Default local font sizes are title28, large action18, Cast26, body/location16, value18 and muted14, with2px dark outlines and the unchanged RC-012 weight700/600/500 width100 resources. Card name/value16, description14, type13 and marker12 stay live; card width is at least190px and height at least312px, growing with actual wrapped content plus32px margins and an independent76px-minimum effect scroll area. Button factories default to180×56 and preserve a rectangular44px minimum target floor; navigation68×80, stock80×100, piles90×144, forecast cells142×64 and Cast280×72 plus caption. Settings sliders keep44px input height, a12px visible track and an existing26px energy-crystal knob. These are logical component values, not verified physical-device density-independent measurements. The earlier142×92 compact-only card proposal is superseded by detailed cards and responsive hand scrolling.
+
+Native360 layouts scroll the page, hand and detail body instead of shrinking the whole design. Dialogs keep title and52px Close/confirmation actions outside their scroll body. In the delivered display library, unavailable/disabled Buttons suppress activation; visible sibling text explains unavailability, and forced focused/unavailable overlays demonstrate composition. Keyboard/touch inspection behavior remains an explicit integration decision. All input-capturing exceptions to pointer-transparent decoration are intentional scroll surfaces.
+
+The complete26-export RC-013 texture set is **4.75 MiB** at recorded PNG sizes and128² SVG rasterization. Pixel-identical socket/panel/pile exports reduce the theoretical unique-pixel subtotal to **4.25 MiB**, but separate file imports are not automatically one GPU allocation. Consumers should reuse a single Texture2D where possible; actual imports and shared references determine the conservative loaded estimate. RC-012's24 glyphs add6MiB if all loaded. Font atlases, engine buffers and review render targets are additional; none of these estimates is measured device memory. Inherited painted-art rights remain unresolved, so technical verification and the manifest's stricter runtime-ready label remain distinct.
+
 ### Reusable frames and margins
 
 RC-013 owns one reusable theme, not a separate illustration for every button/screen. Use editable SVG/painted masters, PNG/SVG export and Godot Theme/StyleBox resources. Stateful tint/overlays are preferred to seven copies of identical decoration where they preserve the intended appearance.

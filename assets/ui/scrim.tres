@@ -1,0 +1,5 @@
+[gd_resource type="StyleBoxFlat" format=3]
+
+[resource]
+resource_name = "Rune Cast modal dimming 72 percent"
+bg_color = Color(0.018, 0.026, 0.048, 0.72)

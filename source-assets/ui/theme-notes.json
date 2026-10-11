@@ -1,0 +1,276 @@
+{
+  "task": "RC-013",
+  "date": "2026-10-12",
+  "scope": "Reference-guided reusable Godot display components; isolated theme, no global theme switch, main scene integration, evaluator, persistence or navigation model.",
+  "theme": "assets/ui/rune_cast_theme.tres",
+  "component_sources": [
+    "scenes/ui/theme/components.gd",
+    "scenes/ui/theme/painted_skin.gd",
+    "scenes/ui/theme/state_layer.gd"
+  ],
+  "scrim": {
+    "source": "source-assets/ui/ui_dialog_scrim.json",
+    "runtime": "assets/ui/scrim.tres",
+    "type": "StyleBoxFlat",
+    "rgba": [
+      0.018,
+      0.026,
+      0.048,
+      0.72
+    ],
+    "mouse_policy": "Decorative underlay ignores input; an integrating modal host must block background input and manage focus."
+  },
+  "fonts": {
+    "title": {
+      "resource": "assets/fonts/display/title.tres",
+      "weight": 700,
+      "width": 100
+    },
+    "label": {
+      "resource": "assets/fonts/ui/labels.tres",
+      "weight": 600,
+      "width": 100
+    },
+    "location": {
+      "resource": "assets/fonts/ui/location.tres",
+      "weight": 500,
+      "width": 100
+    },
+    "provenance": "Unchanged RC-012 Noto Serif 2.015 binary/resources and OFL; no new font or reference-font-identification claim.",
+    "sizes_logical_px": {
+      "body": 16,
+      "muted": 14,
+      "location": 16,
+      "value": 18,
+      "title": 28,
+      "button": 18,
+      "cast": 26,
+      "card_name": 16,
+      "card_description": 14,
+      "card_type": 13,
+      "board_endpoint_at72": 11,
+      "board_endpoint_at137": 17
+    },
+    "outline": {
+      "colour": "#060a10",
+      "width_px": 2
+    }
+  },
+  "colours": {
+    "cream": "#fff0c5",
+    "muted": "#c7c3b6",
+    "turquoise": "#64f0dd",
+    "gold": "#edbc66",
+    "invalid": "#ffac88",
+    "ink": "#111b27"
+  },
+  "type_variations": {
+    "RCTitle": "Label",
+    "RCBody": "Label",
+    "RCMuted": "Label",
+    "RCLocation": "Label",
+    "RCValue": "Label",
+    "RCPrimary": "Button with raw StyleBoxTexture; helper action(primary=true) preferred for proportional tip sizing",
+    "RCSecondary": "Button",
+    "RCTool": "Button",
+    "RCNav": "Button",
+    "RCSetting": "Button",
+    "RCSocket": "Button without background; component adds independently sliced paint",
+    "RCCardLive": "Button without background; component adds independently sliced paint",
+    "RCPointed": "Button without background; component adds proportional-caps paint",
+    "RCSecondaryLive": "Button without background; component adds independently sliced paint",
+    "RCPanel": "PanelContainer",
+    "RCDialog": "PanelContainer",
+    "RCMenu": "PanelContainer with 36px content padding beyond 24px painted caps",
+    "RCForecast": "PanelContainer",
+    "RCCardDamage": "PanelContainer",
+    "RCCardShield": "PanelContainer",
+    "RCCardTechnique": "PanelContainer",
+    "RCCardMixed": "PanelContainer",
+    "RCHealth": "ProgressBar",
+    "RCEnergy": "ProgressBar",
+    "RCShield": "ProgressBar"
+  },
+  "slicing": {
+    "menu": {
+      "resource": "assets/ui/styles/menu.tres",
+      "source_caps_ltrb": [24, 24, 24, 24],
+      "content_margins_ltrb": [36, 36, 36, 36],
+      "painted_border_clearance": 12,
+      "title_alignment": "center",
+      "action_factory": "action(text, primary, minimum, states)",
+      "actions": "Pointed turquoise Resume uses primary=true; navy Options, Store and Quit use primary=false. See the primary and secondary slicing entries.",
+      "revision_evidence": "output/qa/rc-013/menu-padding/godot-render-results.json",
+      "revert_evidence": "output/qa/rc-013/menu-button-revert/godot-render-results.json",
+      "revert_validation": "output/qa/rc-013/menu-button-revert/validation.json",
+      "superseded_revision": {
+        "reason": "Owner requested reverting the shared button-frame change while retaining the corrected padding and centered title.",
+        "evidence": "output/qa/rc-013/menu-shared-frame/godot-render-results.json"
+      }
+    },
+    "panel_and_card": {
+      "source_caps_ltrb": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "helper_destination_caps_ltrb": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "content_margin": 16,
+      "panel_theme_content_margin": 20,
+      "note": "Theme StyleBoxTexture fallback draws source caps in logical pixels. Helpers use independently specified destination caps; square corners remain intact at 72 and 137 socket sizes."
+    },
+    "primary": {
+      "source_caps_ltrb": [
+        56,
+        18,
+        56,
+        18
+      ],
+      "helper_destination_rule": "Source caps multiplied by live control height /128. End tips retain uniform aspect while central face expands.",
+      "minimum": [
+        180,
+        56
+      ]
+    },
+    "secondary": {
+      "source_caps_ltrb": [
+        38,
+        20,
+        38,
+        20
+      ],
+      "helper_destination_caps_ltrb": [
+        19,
+        10,
+        19,
+        10
+      ]
+    },
+    "bars": {
+      "source_caps_ltrb": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "slider_track_min_height": 12
+    },
+    "texture_filter": "linear; no repeat",
+    "texture_sharing": "Resources use shared loaded textures. Piles draw frames/panel.png rather than loading the identical compatibility alias frames/pile.png."
+  },
+  "minimum_sizes_logical_px": {
+    "pointer_target": [
+      44,
+      44
+    ],
+    "default_action": [
+      180,
+      56
+    ],
+    "cast": [
+      280,
+      72
+    ],
+    "stock": [
+      80,
+      100
+    ],
+    "navigation": [
+      68,
+      80
+    ],
+    "pile": [
+      90,
+      144
+    ],
+    "board_preview": [
+      72,
+      72
+    ],
+    "detailed_card_width": 190,
+    "card_height": "Minimum 312; follows actual wrapped content minimum plus 32px margins when a long title needs more height.",
+    "modal_default": [
+      312,
+      430
+    ],
+    "modal_actions_height": 52,
+    "slider_height": 44,
+    "forecast_cell": [
+      142,
+      64
+    ]
+  },
+  "states": {
+    "keys": [
+      "pressed",
+      "focused",
+      "selected",
+      "disabled",
+      "invalid",
+      "unavailable",
+      "powered"
+    ],
+    "composable": "Independent state_layer draws shape cues after content. selected corner notch, dashed focused corners, double/corner powered collar, invalid cross, unavailable barred circle. Exact board port centers remain unobstructed.",
+    "actual_focus": "State overlay also observes Control focus_entered/focus_exited. focused=true independently forces a specimen or presentation focus ring.",
+    "activation": "disabled or unavailable disables the BaseButton and suppresses ordinary pressed callbacks. Disabled buttons are not ordinary tab targets; unavailable reason is visible in surrounding live text. Combined focused+unavailable is explicit display coverage, not an integration decision about inspection.",
+    "no_board_badges": "Only live BEGIN and END allowed inside sockets. Card temporary/upgraded text and markers never transfer to sockets."
+  },
+  "layout": {
+    "live_text": true,
+    "decorative_mouse_filter": "IGNORE for textures, paint, state overlays, layout-only containers and labels.",
+    "interactive_scrollers": "Card DescriptionScroll and modal BodyScroll retain scrolling input. They are intentional interactive surfaces, not decorative children.",
+    "cards": "Cost/name header, symbol, type, separate value label, scrollable effect, card-only temporary/upgraded markers. Larger hands belong in a horizontal ScrollContainer.",
+    "modal": "Title and fixed actions outside vertical BodyScroll; Close and optional confirmation remain present after scrolling.",
+    "native360": "Use actual native font sizes; scroll page/hand/details without uniformly shrinking the full 720 design layout.",
+    "unbounded_action_labels": "Default native Button text expands its minimum width; callers should supply concise live action labels or a wrapping compound control. Long descriptions and names are card/dialog content.",
+    "slider_knob": "Existing RC-012 energy SVG drawn at 26px over the default grabber position, inside 44px-high input control; follows live value."
+  },
+  "source_export_relationships": [
+    {
+      "source": "scenes/ui/theme/painted_skin.gd",
+      "runtime": "scenes/ui/theme/painted_skin.gd",
+      "method": "Editable code shipped unchanged; nine-slice drawing, no raster editing."
+    },
+    {
+      "source": "scenes/ui/theme/state_layer.gd",
+      "runtime": "scenes/ui/theme/state_layer.gd",
+      "method": "Editable geometric overlay code, no separate new icon library."
+    },
+    {
+      "source": "source-assets/ui/theme-notes.json",
+      "runtime": "assets/ui/rune_cast_theme.tres",
+      "method": "Hand-authored resource assembly using runtime font/texture references."
+    }
+  ],
+  "evidence_expected": [
+    "output/qa/rc-013/godot-import.log",
+    "output/qa/rc-013/godot-render-results.json",
+    "output/art/rc-013/states-full.png",
+    "output/art/rc-013/cards-full.png"
+  ],
+  "limitations": [
+    "Separate isolated Godot evidence required before readiness claim.",
+    "Inherited painted-art provenance/licence limitations remain those of source-export-map.json and retained r004.",
+    "Reference approval does not approve reconstructed assets.",
+    "No physical-device validation.",
+    "RC-016A owns evaluator, gameplay/control migration and no-cast/inspection choices; RC-016 and RC-042 own integration."
+  ],
+  "verification": {
+    "result": "PASS",
+    "date": "2026-10-12",
+    "render_report": "output/qa/rc-013/godot-render-results.json",
+    "focused_report": "output/qa/rc-013/validation-report.json",
+    "source_report": "output/qa/rc-013/source-validation.json",
+    "visual_review": "output/qa/rc-013/visual-review.json",
+    "sheets": 34,
+    "live_text_measurements": 793,
+    "main_game_integrated": false,
+    "device_verified": false
+  }
+}

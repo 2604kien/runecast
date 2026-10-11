@@ -1,0 +1,1027 @@
+{
+  "schema": 1,
+  "task": "RC-013",
+  "created": "2026-10-11",
+  "status": "Reference-guided production source and import candidates; approval and device integration separate.",
+  "builder": "tools/build_ui_assets.py",
+  "paint_origin": {
+    "revision": "r004",
+    "canonical_retained_copy": "source-assets/pilot/revisions/r006/ui/",
+    "raw_generation_record": "source-assets/pilot/revisions/r004/raw/generation-record.json",
+    "tool": "built-in image_gen.imagegen",
+    "model": null,
+    "seed": null,
+    "reference_actually_used": "output/imagegen/approved/combat-final.png",
+    "current_composition_target": "output/imagegen/approved/combat-final-v2-clean-board.png",
+    "reference_pixels_used": false,
+    "new_generation": false,
+    "licence_status": "unresolved",
+    "rights_note": "Retained paint inherits the explicit unresolved provenance/rights status from r004/r006. This promotion does not imply clearance."
+  },
+  "original_vector_work": {
+    "creator": "Codex for Rune Cast, RC-013",
+    "method": "Original deterministic geometry authored for this task. No third-party traced art, font outlines, linked art, or image generation for wordmark/state vectors.",
+    "wordmark_font": "None; custom hand-drawn serif paths. Live UI continues to use RC-012 Noto Serif."
+  },
+  "import_contract": {
+    "compression": "lossless",
+    "mipmaps": false,
+    "filter": "linear",
+    "repeat": "disabled",
+    "png_mode": "RGBA8 with straight alpha and sRGB",
+    "svg_scale": 1
+  },
+  "sources": [
+    {
+      "id": "board_cells",
+      "master": "source-assets/ui/board_cells.ora",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "abda6677cdda26b66c7297fe5146e9d5392aecd9f71008060f3c61cb7cc2cd43",
+      "layers": [
+        {
+          "name": "Navy painted stone face",
+          "visible": true,
+          "layer": "source-assets/ui/layers/board_cells/00-navy-painted-stone-face.png",
+          "mask": "source-assets/ui/masks/board_cells/00-navy-painted-stone-face-alpha.png",
+          "sha256": "480a835d469485df8f22248ef766409be955080fe3f8d77c5bd3167695508d61"
+        },
+        {
+          "name": "Sculpted gold and dark rim",
+          "visible": true,
+          "layer": "source-assets/ui/layers/board_cells/01-sculpted-gold-and-dark-rim.png",
+          "mask": "source-assets/ui/masks/board_cells/01-sculpted-gold-and-dark-rim-alpha.png",
+          "sha256": "849b6407715aaf7a87d1031486a6d686bd2debba733e28dd6ddaaa7a83b81e4e"
+        }
+      ]
+    },
+    {
+      "id": "ui_frames",
+      "master": "source-assets/ui/ui_frames.ora",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "ea67bc5ad6a71afdff79eab59dacb6927015736e23978f327934d78b159939eb",
+      "layers": [
+        {
+          "name": "Navy painted stone face",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_frames/00-navy-painted-stone-face.png",
+          "mask": "source-assets/ui/masks/ui_frames/00-navy-painted-stone-face-alpha.png",
+          "sha256": "480a835d469485df8f22248ef766409be955080fe3f8d77c5bd3167695508d61"
+        },
+        {
+          "name": "Sculpted gold and dark rim",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_frames/01-sculpted-gold-and-dark-rim.png",
+          "mask": "source-assets/ui/masks/ui_frames/01-sculpted-gold-and-dark-rim-alpha.png",
+          "sha256": "849b6407715aaf7a87d1031486a6d686bd2debba733e28dd6ddaaa7a83b81e4e"
+        }
+      ]
+    },
+    {
+      "id": "rune_frames",
+      "master": "source-assets/ui/rune_frames.ora",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "a7b4038222cf708d6cb0ad8134ef7301a949c9d9ce514b5d650223ae7ea5bc6b",
+      "layers": [
+        {
+          "name": "Damage painted face",
+          "visible": true,
+          "layer": "source-assets/ui/layers/rune_frames/00-damage-painted-face.png",
+          "mask": "source-assets/ui/masks/rune_frames/00-damage-painted-face-alpha.png",
+          "sha256": "7cce00615cad29fc85b3e0fd04171112c3c2408679158a3dcf1246dbd9702530"
+        },
+        {
+          "name": "Shield painted face",
+          "visible": false,
+          "layer": "source-assets/ui/layers/rune_frames/01-shield-painted-face.png",
+          "mask": "source-assets/ui/masks/rune_frames/01-shield-painted-face-alpha.png",
+          "sha256": "40b064c512d06558a167caabc1564ee406cf525ff28018d7a98180508ca457b7"
+        },
+        {
+          "name": "Technique painted face",
+          "visible": false,
+          "layer": "source-assets/ui/layers/rune_frames/02-technique-painted-face.png",
+          "mask": "source-assets/ui/masks/rune_frames/02-technique-painted-face-alpha.png",
+          "sha256": "3e4b1b21fafe019eae09937f9186d2e7e4ce97caf8725ad7931412e10b966ff3"
+        },
+        {
+          "name": "Mixed painted face",
+          "visible": false,
+          "layer": "source-assets/ui/layers/rune_frames/03-mixed-painted-face.png",
+          "mask": "source-assets/ui/masks/rune_frames/03-mixed-painted-face-alpha.png",
+          "sha256": "da6daaeb6f9b2bd0c909f841ce9e8ca23c7a481aa7009c680bf8a2e0a5ec3467"
+        },
+        {
+          "name": "Gold rim",
+          "visible": true,
+          "layer": "source-assets/ui/layers/rune_frames/04-gold-rim.png",
+          "mask": "source-assets/ui/masks/rune_frames/04-gold-rim-alpha.png",
+          "sha256": "849b6407715aaf7a87d1031486a6d686bd2debba733e28dd6ddaaa7a83b81e4e"
+        },
+        {
+          "name": "Shield green rim",
+          "visible": false,
+          "layer": "source-assets/ui/layers/rune_frames/05-shield-green-rim.png",
+          "mask": "source-assets/ui/masks/rune_frames/05-shield-green-rim-alpha.png",
+          "sha256": "2b441f09b1aa88c8cd03077acfff74d788cf67571387de2fe6508e5f3096f94d"
+        },
+        {
+          "name": "Technique violet rim",
+          "visible": false,
+          "layer": "source-assets/ui/layers/rune_frames/06-technique-violet-rim.png",
+          "mask": "source-assets/ui/masks/rune_frames/06-technique-violet-rim-alpha.png",
+          "sha256": "c445ef17a453beb608cee66cb01760e183c5609b71f99d30e24ec5604964bf20"
+        }
+      ]
+    },
+    {
+      "id": "button_frames",
+      "master": "source-assets/ui/button_frames.ora",
+      "size": [
+        1024,
+        256
+      ],
+      "sha256": "a77eab7ceaf5830f6b76ed33322d4f1c11e4840d554d21dca636c6abc164f56f",
+      "layers": [
+        {
+          "name": "Turquoise Cast face",
+          "visible": true,
+          "layer": "source-assets/ui/layers/button_frames/00-turquoise-cast-face.png",
+          "mask": "source-assets/ui/masks/button_frames/00-turquoise-cast-face-alpha.png",
+          "sha256": "6eb5570ccc350b407f274d6e133d7572d0e4c314cc617d07a2e43cf1846248e6"
+        },
+        {
+          "name": "Pointed Cast gold rim",
+          "visible": true,
+          "layer": "source-assets/ui/layers/button_frames/01-pointed-cast-gold-rim.png",
+          "mask": "source-assets/ui/masks/button_frames/01-pointed-cast-gold-rim-alpha.png",
+          "sha256": "afef4e0a6e473357087c57a56db07812c54bb85d763da4acd59d6f284a831991"
+        },
+        {
+          "name": "Navy secondary face",
+          "visible": false,
+          "layer": "source-assets/ui/layers/button_frames/02-navy-secondary-face.png",
+          "mask": "source-assets/ui/masks/button_frames/02-navy-secondary-face-alpha.png",
+          "sha256": "0e6b2ded4202617f68abea4308778377fb1fc3ce0514bee31ff80aeaa8855349"
+        },
+        {
+          "name": "Navy secondary gold rim",
+          "visible": false,
+          "layer": "source-assets/ui/layers/button_frames/03-navy-secondary-gold-rim.png",
+          "mask": "source-assets/ui/masks/button_frames/03-navy-secondary-gold-rim-alpha.png",
+          "sha256": "79da7c3ecf0224cb079ac63d04bc82539f7cff9fa1f822728f771fc2a6cd4398"
+        }
+      ]
+    },
+    {
+      "id": "ui_bars",
+      "master": "source-assets/ui/ui_bars.ora",
+      "size": [
+        512,
+        128
+      ],
+      "sha256": "c82d1248e6dfc4226b8efd8285f59a31878878b201b6b27369f97eac3f80a3ee",
+      "layers": [
+        {
+          "name": "Painted track with gold rim",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_bars/00-painted-track-with-gold-rim.png",
+          "mask": "source-assets/ui/masks/ui_bars/00-painted-track-with-gold-rim-alpha.png",
+          "sha256": "b61c0ba14effa18e49f0a3662244845e5abb8dd476d126c5162dadd483547bba"
+        },
+        {
+          "name": "health painted fill",
+          "visible": false,
+          "layer": "source-assets/ui/layers/ui_bars/01-health-painted-fill.png",
+          "mask": "source-assets/ui/masks/ui_bars/01-health-painted-fill-alpha.png",
+          "sha256": "a6422c235a8905aa8f36a4c3bb37b948ba1f6699dea5bfc3a835f75babff6ad6"
+        },
+        {
+          "name": "energy painted fill",
+          "visible": false,
+          "layer": "source-assets/ui/layers/ui_bars/02-energy-painted-fill.png",
+          "mask": "source-assets/ui/masks/ui_bars/02-energy-painted-fill-alpha.png",
+          "sha256": "f1adbc50d9cdddfbca3582a9a9e041f21b31a6379dc80c3da43eee3a2d913074"
+        },
+        {
+          "name": "shield painted fill",
+          "visible": false,
+          "layer": "source-assets/ui/layers/ui_bars/03-shield-painted-fill.png",
+          "mask": "source-assets/ui/masks/ui_bars/03-shield-painted-fill-alpha.png",
+          "sha256": "8394ee741be46ed497eb040c1e4977e0f189b2e8b5e24439ade81c05509ed73b"
+        }
+      ]
+    },
+    {
+      "id": "ui_state_overlays",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "5d46662a0912eb10c2d3a5a70e184366e2340992638c43288c68da156e9b7f94",
+      "layers": [
+        {
+          "name": "focused vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/00-focused-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/00-focused-vector-raster-preview-alpha.png",
+          "sha256": "64ea93a83f2e325dd70285e937c03ab725427f442c1953be5b4f1549ef90a589"
+        },
+        {
+          "name": "selected vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/01-selected-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/01-selected-vector-raster-preview-alpha.png",
+          "sha256": "f84d9c089e4f0ab724670005c44b5caa3d7b9c5998c1e72a42a548ff79673ef2"
+        },
+        {
+          "name": "powered vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/02-powered-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/02-powered-vector-raster-preview-alpha.png",
+          "sha256": "dd959710a73bd8018ab2823df095f444e74f7fc6a8fb0579a3c9ada77a1233c0"
+        },
+        {
+          "name": "invalid vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/03-invalid-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/03-invalid-vector-raster-preview-alpha.png",
+          "sha256": "83652dcbabc653bab7b3c31dd600aa86fd1472069e27b7f4292c56f8038ccf3a"
+        },
+        {
+          "name": "unavailable vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/04-unavailable-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/04-unavailable-vector-raster-preview-alpha.png",
+          "sha256": "2fd1cfa79e612cb10bf11bd43836c142d46b5f4cab0951212aaa26e019631132"
+        },
+        {
+          "name": "eligible vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/05-eligible-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/05-eligible-vector-raster-preview-alpha.png",
+          "sha256": "e262350c828e64c27c77ea580742324c0974f44edce14996a602cb2363248921"
+        },
+        {
+          "name": "protected vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/06-protected-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/06-protected-vector-raster-preview-alpha.png",
+          "sha256": "58d4e1e7145c3676ad7258ffd438bfe4916e42c23532623e77d1fe3ea314f8f8"
+        },
+        {
+          "name": "upgrade vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/07-upgrade-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/07-upgrade-vector-raster-preview-alpha.png",
+          "sha256": "223dc380dfe3696592b22e9d56337325557369e0c81af7ae12e873a96112af24"
+        },
+        {
+          "name": "node current vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/08-node-current-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/08-node-current-vector-raster-preview-alpha.png",
+          "sha256": "5a76711cfd91cbd31d61772295ceae2868367b165957137cddbf832ac56f4b1c"
+        },
+        {
+          "name": "node available vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/09-node-available-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/09-node-available-vector-raster-preview-alpha.png",
+          "sha256": "1f743648d319da1caeea902564b8bf4c92698501f853a5258e77a0a9834c514a"
+        },
+        {
+          "name": "node completed vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/10-node-completed-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/10-node-completed-vector-raster-preview-alpha.png",
+          "sha256": "f032b9d535f49310f9277cc1a93e30d0aab160654553da930a944e5327c97756"
+        },
+        {
+          "name": "node locked vector raster preview",
+          "visible": true,
+          "layer": "source-assets/ui/layers/ui_state_overlays/11-node-locked-vector-raster-preview.png",
+          "mask": "source-assets/ui/masks/ui_state_overlays/11-node-locked-vector-raster-preview-alpha.png",
+          "sha256": "dfad4a008b0328dfeabd344b6a9562a3fa315e63e25aec7c510a692e2ee463d4"
+        }
+      ]
+    },
+    {
+      "id": "wordmark",
+      "master": "source-assets/ui/wordmark.ora",
+      "size": [
+        1280,
+        480
+      ],
+      "sha256": "849b3296617232013b61a771b435403ce63df8597ed4537980802c85b2ee3014",
+      "layers": [
+        {
+          "name": "Indigo sculpted stone backing",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/00-indigo-sculpted-stone-backing.png",
+          "mask": "source-assets/ui/masks/wordmark/00-indigo-sculpted-stone-backing-alpha.png",
+          "sha256": "c81d13ce040bb2393bd31486098d3c1cbda3b9e7be0df31024f77b3cb5764bfa"
+        },
+        {
+          "name": "Gold architecture and crest",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/01-gold-architecture-and-crest.png",
+          "mask": "source-assets/ui/masks/wordmark/01-gold-architecture-and-crest-alpha.png",
+          "sha256": "25cbe5153841a1eb31579ba9e77f018cf312292f98879a5225814409d436f4be"
+        },
+        {
+          "name": "Letter dark extrusion",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/02-letter-dark-extrusion.png",
+          "mask": "source-assets/ui/masks/wordmark/02-letter-dark-extrusion-alpha.png",
+          "sha256": "a685a850e5e2dd083c2d3d6e04b783c508139e80af7ba3bbe08cde10684ee075"
+        },
+        {
+          "name": "Custom gold serif lettering",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/03-custom-gold-serif-lettering.png",
+          "mask": "source-assets/ui/masks/wordmark/03-custom-gold-serif-lettering-alpha.png",
+          "sha256": "9b74250a83970fa304a7eb0a77772c626ae2f8ef667df9f7c7948d341c39b586"
+        },
+        {
+          "name": "Letter facets and engraved fractures",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/04-letter-facets-and-engraved-fractures.png",
+          "mask": "source-assets/ui/masks/wordmark/04-letter-facets-and-engraved-fractures-alpha.png",
+          "sha256": "3c3d19b22fad836c65668f47f8db97d60314ba0997d9b7184e6394cc2dffd44b"
+        },
+        {
+          "name": "Three faceted identity diamonds",
+          "visible": true,
+          "layer": "source-assets/ui/layers/wordmark/05-three-faceted-identity-diamonds.png",
+          "mask": "source-assets/ui/masks/wordmark/05-three-faceted-identity-diamonds-alpha.png",
+          "sha256": "2b0b8b240c6c986e53e45e4bc2f4f8cc2ed5f37f25505b98ed922a9e18d94345"
+        }
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "runtime": "assets/ui/board/socket.png",
+      "master": "source-assets/ui/board_cells.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "fb839be0d64b98fcb03faf00ccab6f6e7a0a2de4158d918babd5e293a50405e5"
+    },
+    {
+      "runtime": "assets/ui/frames/panel.png",
+      "master": "source-assets/ui/ui_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "fb839be0d64b98fcb03faf00ccab6f6e7a0a2de4158d918babd5e293a50405e5"
+    },
+    {
+      "runtime": "assets/ui/frames/pile.png",
+      "master": "source-assets/ui/ui_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "fb839be0d64b98fcb03faf00ccab6f6e7a0a2de4158d918babd5e293a50405e5"
+    },
+    {
+      "runtime": "assets/ui/runes/damage.png",
+      "master": "source-assets/ui/rune_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-amber.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "154025af4114061a4fa16029c938a30e1a7a715d7ce402f9604aba26aa6a1b13"
+    },
+    {
+      "runtime": "assets/ui/runes/shield.png",
+      "master": "source-assets/ui/rune_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-green.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame-green.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "b826904163c9894f96c096d67ba615efd561071ac9bd6a0acb3d825c7d922255"
+    },
+    {
+      "runtime": "assets/ui/runes/technique.png",
+      "master": "source-assets/ui/rune_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-violet.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame-violet.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "178649932b8667dd9efb5211ecce6b24262ab524b48d736e6b3a3048991a0ca5"
+    },
+    {
+      "runtime": "assets/ui/runes/mixed.png",
+      "master": "source-assets/ui/rune_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-turquoise.png",
+        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "6d1fe52181b9858241891b5e743c15cfaa8392e27d157ad2cc46141a507a4705"
+    },
+    {
+      "runtime": "assets/ui/buttons/primary.png",
+      "master": "source-assets/ui/button_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/cast-button-face.png",
+        "source-assets/pilot/revisions/r006/ui/cast-button-rim.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        512,
+        128
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        56,
+        18,
+        56,
+        18
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        128
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "a5cb632bbdd16d75d19297cdcaef6d98eecd030fb877726e9ec94617fea7b68e"
+    },
+    {
+      "runtime": "assets/ui/buttons/secondary.png",
+      "master": "source-assets/ui/button_frames.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/navy-panel-face.png",
+        "source-assets/pilot/revisions/r006/ui/navy-panel-rim.png"
+      ],
+      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
+      "size": [
+        512,
+        128
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        38,
+        20,
+        38,
+        20
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        128
+      ],
+      "decoded_bytes": 262144,
+      "sha256": "026cce9e0bae24ade3ae15258370d8fcbe3df3b5a0e4a253fd5cea44fcbff525"
+    },
+    {
+      "runtime": "assets/ui/bars/track.png",
+      "master": "source-assets/ui/ui_bars.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/navy-panel-base.png"
+      ],
+      "method": "Nine-slice retained navy panel into 512x128 bar master, then half-size export.",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        64
+      ],
+      "decoded_bytes": 65536,
+      "sha256": "c08370df857f1831b042cc56576bb8e24be010e5c0298b368b53f4a8db7c01f9"
+    },
+    {
+      "runtime": "assets/ui/bars/health.png",
+      "master": "source-assets/ui/ui_bars.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png"
+      ],
+      "method": "Recolour retained painted luminance; separate value-driven fill with polygon alpha.",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "alpha_bbox": [
+        0,
+        3,
+        256,
+        61
+      ],
+      "decoded_bytes": 65536,
+      "sha256": "0fa3a575fb5104237f72e85f79db7c6e6ed2ecebba8e5be3cbf38499a9525bf7"
+    },
+    {
+      "runtime": "assets/ui/bars/energy.png",
+      "master": "source-assets/ui/ui_bars.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png"
+      ],
+      "method": "Recolour retained painted luminance; separate value-driven fill with polygon alpha.",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "alpha_bbox": [
+        0,
+        3,
+        256,
+        61
+      ],
+      "decoded_bytes": 65536,
+      "sha256": "cf05936df2ef7540e9f1f7fd02ee85f5ebc7c633f930b35eb14032baa9021a8c"
+    },
+    {
+      "runtime": "assets/ui/bars/shield.png",
+      "master": "source-assets/ui/ui_bars.ora",
+      "upstream": [
+        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png"
+      ],
+      "method": "Recolour retained painted luminance; separate value-driven fill with polygon alpha.",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "alpha_bbox": [
+        0,
+        3,
+        256,
+        61
+      ],
+      "decoded_bytes": 65536,
+      "sha256": "3782df3ac6602536bad7eadc069f88019386e5d5eb8d6f737da0a403cdea9e73"
+    },
+    {
+      "runtime": "assets/ui/states/focused.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/focused.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "2f11e2d3fcf4c66a4edf9eba9b71e5c9344f5c4bb08cc5b5e0a8e0699958531a",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/selected.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/selected.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "d7e674126688ef19f70de04a16f8560d663c35a756adda35b207e65b6b805375",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/powered.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/powered.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "ac731ae49ac35e6d21e1ac107294f0a3a0b093be1b4ba3ac0847830bd56775dc",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/invalid.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/invalid.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "efecaa57e48402237c0f9445cd9b30be12f488f77fa833712cfcd5b78a74dfcc",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/unavailable.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/unavailable.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "bd34962486d381421a8562cec46b2916c4e19398c69d66501dd19c7b5a36daa5",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/eligible.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/eligible.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "31a5caa1361bd2bebb8bb26359f506dcd3e295a15bd13ed29a83e9f9947e0c93",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/protected.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/protected.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "c68336082fc71d5edbb77d0af1b129c1d3c6067d9e8bda8a023bebafd8546ef6",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/upgrade.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/upgrade.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "7e606f4f5a08ba026971474d2a4f9bbca2d2e771ccb51ef19a0e3d353e782173",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/node_current.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/node_current.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "a0b547a10049192c1e75a1344b53739975989e2608baf04ed024e25247b91208",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/node_available.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/node_available.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "0610d913060214b9532f3bb20310f43cc91de4e41cd76bf45daafd4075b4a0c5",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/node_completed.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/node_completed.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "d11119ea70e5560757627d9706b5fbabcd6028726298c235ef33e75d2e3c50e9",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/states/node_locked.svg",
+      "master": "source-assets/ui/ui_state_overlays.ora",
+      "editable_vector": "source-assets/ui/states/node_locked.svg",
+      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "SVG",
+      "alpha": "transparent",
+      "sha256": "89262a586ec3858f197effc17c5f22dea0a5fe2309d08e325d4c7aacd40427f7",
+      "decoded_bytes": 65536,
+      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
+    },
+    {
+      "runtime": "assets/ui/wordmark.png",
+      "master": "source-assets/ui/wordmark.ora",
+      "upstream": [],
+      "method": "Composite six original vector-defined parts; transparent 1280x480 master reduced proportionally to 1024x384, with at least32px clear outer padding.",
+      "size": [
+        1024,
+        384
+      ],
+      "mode": "RGBA8",
+      "alpha": "straight",
+      "colour": "embedded sRGB",
+      "slice_caps_LTRB": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alpha_bbox": [
+        43,
+        38,
+        985,
+        346
+      ],
+      "decoded_bytes": 1572864,
+      "sha256": "3242d9004370a208b0b73e018f4ab590f1fff7164f02aabd9e45eb3e0ca34294",
+      "editable_vector": "source-assets/ui/wordmark.svg",
+      "lettering": "Original eight editable hand-drawn serif letter paths, large R/C capitals; no font binary or traced reference pixels."
+    }
+  ],
+  "retained_inputs": [
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/cast-button-face.png",
+      "sha256": "6d1dd6bc97d705ce56749843b89c4db892ba6f77c23005b7dec871f2b12103e7"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/cast-button-rim.png",
+      "sha256": "69fa7608066f9f310f32f8f4d35cc1a5ac84470e04c8fbeba7a136631d944367"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/navy-panel-base.png",
+      "sha256": "cb8432cacc20823be517353ea81ed3e6a4c4bb27133230f4dddecee2362982b4"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/navy-panel-face.png",
+      "sha256": "9d97b6d490f898454562537331541804e6d3a345022332b9b73aa20a94a2bbcf"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/navy-panel-rim.png",
+      "sha256": "30770d26a4dd0b0d65c8956c841ea1b0b3527a1a741cb196a6c7ec296801a8ef"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-face-amber.png",
+      "sha256": "f3ddda797d6116d4511b8b80a0aa2891c1298c80f487aee80848d69ccfd88bd6"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-face-green.png",
+      "sha256": "b665b69d882e2fc656cfe3602022d23267194fe4e9e569affcd826eaeb5a04e3"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-face-navy.png",
+      "sha256": "1c9db3b891c58109b8c043bb899bc23ff749c828bfb968c022eeb1b7d5c2936a"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-face-turquoise.png",
+      "sha256": "5a4f4e746a500aad5ad3e014ce1a80368bf6eb914b9c04126d5ad7a86d8a6826"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-face-violet.png",
+      "sha256": "74badfba1d3a761ec5b84472e994c07b9eb7f2b24d53299bd218c74a66c09173"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-frame-green.png",
+      "sha256": "c94d66356161fcc62d4087989bc19cd3e2ed20972fd0d44fffda8b108675fe80"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-frame-violet.png",
+      "sha256": "cbeb4b91e8652417f037a8029b0fd26b2246827739c69e3522421412f82b5327"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r006/ui/painted-frame.png",
+      "sha256": "773f84e0ed88a7f919d9782c958f3af8b1e0dde1e8e09b732b6a7771f04d05fa"
+    }
+  ],
+  "unique_decoded_rgba8_bytes": 4456448,
+  "all_export_decoded_rgba8_bytes": 4980736,
+  "sharing": "panel.png and pile.png are byte-identical aliases; consumers should share panel texture for actual residency. States remain SVG geometry rather than a runtime ORA atlas. Font atlases and engine buffers excluded.",
+  "editing_limit": "Retained brush strokes are flattened within complementary face/rim regions. ORAs and layer PNGs support repaint/recolour/replacement; they do not fabricate brush history. SVG wordmark layers remain fully geometric."
+}

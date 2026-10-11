@@ -6,7 +6,7 @@ The latest approved board has **Begin and End labels only**, with no other slot 
 
 The current matching-preview scope covers the **entire Combat screen**, including the painted crypt and all supporting UI, with no placeholders. The previous three-asset pilot scope and blockout allowance are superseded. Follow the [gameplay visual contract](gameplay-visual-contract.md) for the full-screen composition and the distinction between approved design and implemented runtime behavior.
 
-Preserve the Menu's turquoise Resume button and matching navy Options, Shop, and Quit buttons. Preserve the Map's parchment route without a legend strip and its Menu, Map, Guide, Sound navigation. The Home screen uses the illustrated moonlit tower and Continue, New Run, Options buttons.
+Preserve the Menu's turquoise Resume button and matching navy Options, Store, and Quit buttons. The owner's October 12 clarification renames the reference's Shop label to **Store**: this opens the separate item Store, not a shop room. Entering a shop room displays that room as the main screen. Preserve the Map's parchment route without a legend strip and its Menu, Map, Guide, Sound navigation. The Home screen uses the illustrated moonlit tower and Continue, New Run, Options buttons.
 
 ## Visual language
 
@@ -19,6 +19,8 @@ The board must stay readable at phone size. Keep cell boundaries, connecting por
 Use Remove and Rotate as the only circuit editing actions. Remove Flip, Undo, Inspect, Cancel selection and Details / Pass from the requested editor UI. Preserve the detailed hand cards, flanking draw/discard piles, action log, damage/shield/cost/incoming info bar above Cast, pointed turquoise Cast button and illustrated bottom navigation shown in the final reference.
 
 ## Asset production
+
+The [RC-013 theme and wordmark guide](ui-theme.md) records the production adoption of those painted materials into reusable frames, detailed cards, pointed primary controls, shared states, dialogs and the separate in-game Rune Cast logo. The final [Theme resource](../assets/ui/rune_cast_theme.tres), [live component factories](../scenes/ui/theme/components.gd), [transparent wordmark](../assets/ui/wordmark.png) and [editable production sources](../source-assets/ui/delivery.md) are delivered and isolated imports/renders are verified. Ordinary text remains live and RC-012 fonts/icons are reused. Its isolated Home/Menu/Map/Options specimens establish presentation coverage; the guide and [verification record](verification.md#october-12-2026--rc-013-reusable-theme-and-wordmark) distinguish technical import results, inherited generated-art rights, main-game integration and physical-device acceptance. RC-016A remains the gameplay/control migration gate.
 
 The [RC-012 production symbol and typography library](core-symbols-and-typography.md) adopts24 editable SVGs and the actual Noto Serif 2.015 variable font from the retained pilot: width 100, weight 700 for headings/large actions,600 for labels/values and500 for location. [Editable symbol sources](../source-assets/icons/), [runtime symbols](../assets/icons/), [font role resources](../assets/fonts/) and isolated Godot evidence are linked by the guide. The library keeps outlined serif text live, clean board cells, the exact fork/trident silhouettes, Remove/Rotate and separate supporting pile/Pause/navigation symbols. It does not create the game logo or change the main game's theme.
 

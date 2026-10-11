@@ -1,5 +1,13 @@
 # Rune Cast decisions
 
+## October 12, 2026 — separate Store and permanent rune progression
+
+The owner clarified that the menu's Shop option means a separate **Store**, where players buy in-game items such as runes, perks and relics. Use **Store** for that menu label. A route's **shop room** instead becomes the main screen when entered; the Store is not a shortcut to that room and is not restricted by being in one.
+
+The owner also selected the direction that players can permanently obtain new runes by conquering a map or defeating a hard boss. This supersedes the October 8 proposals for no across-run rune progression, all twelve definitions being eligible from the first run, and Menu Shop opening only an unresolved shop room. Existing run-owned card instances and generated temporary runes retain their separate combat lifecycles.
+
+This establishes intent, not an implemented Store or persistence contract. Store currency/payment, catalogue, availability, purchase ownership and account requirements remain undecided. Which maps/bosses qualify, rewards, duplicates, whether permanent acquisition grants a definition unlock or owned copies, effects on starter/reward/shop pools, and saving/migration also remain undecided. Perks are a Store example, not an authored mechanic or approved content count. No monetization model is inferred. [RC-024A](project-plan.md#phase-4--complete-run-systems) records the design work needed before dependent implementation; shop-room behavior remains RC-029 and navigation remains RC-032.
+
 ## October 11, 2026 — official final Combat visual and undirected design
 
 The owner explicitly requested the supplied complete gameplay image become the **official final visual**, expanded the scope to include the crypt and supporting UI, and required no placeholders. [Exact approved image](../output/imagegen/approved/combat-final.png); [accepted visual/interaction contract](gameplay-visual-contract.md).
@@ -56,6 +64,8 @@ Independent implementation adds validated kit definitions, optional all-four fin
 These defaults allow playtesting. They are not claims that balance or the full game's rules are final.
 
 ## RC-002 proposed release defaults — October 8, 2026
+
+**Historical proposal:** the October 12 decision above supersedes this snapshot's no-persistent-progression and room-gated Menu Shop rows. Keep the original proposals below as dated history, not current requirements.
 
 The owner confirmed RC-001 complete; its checkpoint is `64930fc` (`Initial commit`). RC-002 defines a release proposal in [v1-design-spec.md](v1-design-spec.md) and [content-roster.md](content-roster.md). It does not implement gameplay or confer owner approval on new functional decisions.
 

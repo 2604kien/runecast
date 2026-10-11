@@ -12,7 +12,9 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-010 complete, October 9, 2026:** the [asset manifest](docs/asset-inventory.csv), [consumer mapping and audit guide](docs/asset-manifest-guide.md), [production specification](docs/asset-production-spec.md) and [matching pilot brief](docs/style-pilot-brief.md) define the bounded asset set, proposed technical contracts and separate production/integration ownership. No final art or runtime integration is delivered by this task. Document/manifest validation passes; **RC-011 is next**, with RC-024 and RC-033 also ready under the [plan](docs/project-plan.md).
 
-**RC-012 complete, October 11, 2026:** the [core symbol and typography library](docs/core-symbols-and-typography.md) provides editable source/runtime paths and isolated Godot verification for the clean-board visual contract. Current main-game mechanics and controls remain the earlier baseline. [RC-016A](docs/project-plan.md#rc-016a--undirected-evaluator-and-control-migration-gate) owns their explicit migration before full integration; **RC-013, the reusable UI theme, is the next numbered task**.
+**RC-012 complete, October 11, 2026:** the [core symbol and typography library](docs/core-symbols-and-typography.md) provides editable source/runtime paths and isolated Godot verification for the clean-board visual contract. Current main-game mechanics and controls remain the earlier baseline. [RC-016A](docs/project-plan.md#rc-016a--undirected-evaluator-and-control-migration-gate) owns their explicit migration before full integration; the reusable UI theme is delivered by RC-013 below.
+
+**RC-013 complete, October 12, 2026:** the [reusable UI theme and wordmark](docs/ui-theme.md) provide layered painted sources, live Godot controls, a separate editable logo and verified isolated screen/state previews. Inherited painted-art rights remain unresolved; technical imports, main-game integration and physical-device acceptance are recorded separately. **RC-014, the production Shadeling character pack, is next.**
 
 ## Start the project
 
@@ -139,6 +141,7 @@ The experiment panel selects scenarios/variants, displays rules and seed, provid
 - [Asset consumers, readiness vocabulary and source audit](docs/asset-manifest-guide.md)
 - [Asset production contracts and provisional budgets](docs/asset-production-spec.md)
 - [RC-012 core symbols and typography — editable sources, shared fonts and actual Godot previews](docs/core-symbols-and-typography.md)
+- [RC-013 reusable UI theme and wordmark — components, states and integration guide](docs/ui-theme.md)
 - [RC-011 matching Shadeling, Spark and button pilot](docs/style-pilot-brief.md)
 
 ## Structure

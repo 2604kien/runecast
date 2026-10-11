@@ -28,9 +28,10 @@ For the detailed task sequence, asset preparation, dependencies, completion crit
 
 ## Short run milestone
 
+- [ ] Define and implement the separate menu Store and permanent rune acquisition from map conquest or hard-boss victories; settle ownership, eligibility, economy and persistence in RC-024A before dependent implementation.
 - [ ] Build branching routes, encounter rewards, and rune collection.
 - [ ] Implement saving and resuming between encounters.
-- [ ] Add shops, recovery rooms, events, and a final guardian.
+- [ ] Add shop rooms as the main screen on entry, recovery rooms, events, and a final guardian; keep shop rooms separate from the menu Store.
 - [ ] Add relics and upgrades after the core balance is stable.
 - [ ] Test the 15–25 minute run target.
 
