@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<image href="hit-reference.png" width="1024" height="1024"/>
+<polygon id="head_hood" points="626,171 717,217 702,255 712,307 714,342 676,372 631,397 590,411 557,395 527,351 518,303 506,277 544,239 568,215" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="lantern_arm" points="232,445 287,437 306,415 367,394 394,407 381,452 335,475 313,496 283,516 244,511 227,481" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="lantern" points="186,507 228,496 245,514 272,510 291,493 309,502 293,535 303,561 323,593 302,654 296,706 274,741 209,734 174,701 174,665 191,605 183,600 181,577" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="window" points="219,594 301,612 276,687 195,674" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="free_arm" points="490,330 525,325 558,360 564,397 603,438 639,456 631,493 595,481 562,445 536,419 506,400 488,378 476,351" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<path d="M496 896H528M512 880V912" stroke="#ffc760"/>
+</svg>

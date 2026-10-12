@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<image href="attack-reference.png" width="1024" height="1024"/>
+<polygon id="head_hood" points="506,170 588,202 577,238 593,274 623,322 586,372 551,399 519,422 472,403 424,345 392,311 415,262 431,235" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="lantern_arm" points="157,192 217,183 259,225 294,266 341,285 379,324 399,371 427,440 437,535 406,542 357,488 331,412 289,367 257,323 237,287 197,281 148,259" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="lantern" points="66,247 148,240 150,258 182,267 207,246 228,257 230,284 211,315 237,358 214,434 204,485 177,515 109,503 64,470 59,417 83,360 90,346 67,353" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="window" points="114,348 217,368 183,455 90,436" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<path d="M496 896H528M512 880V912" stroke="#ffc760"/>
+</svg>

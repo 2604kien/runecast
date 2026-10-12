@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<image href="neutral-reference.png" width="1024" height="1024"/>
+<polygon id="head_hood" points="460,160 554,192 555,219 527,246 579,297 579,345 550,391 484,439 418,420 365,352 371,296 401,213" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="shoulder_underlap" points="309,326 407,317 443,374 432,426 399,498 353,552 318,561 289,510 290,450 301,396" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<polygon id="neck_underlap" points="400,319 516,315 552,286 584,291 597,338 566,402 514,448 470,465 413,434 379,387" fill="none" stroke="#29e6d0" stroke-width="2"/>
+<path d="M496 896H528M512 880V912" stroke="#ffc760"/>
+</svg>

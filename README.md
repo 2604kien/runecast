@@ -14,7 +14,7 @@ This repository contains a playable **single encounter sandbox** with validated 
 
 **RC-012 complete, October 11, 2026:** the [core symbol and typography library](docs/core-symbols-and-typography.md) provides editable source/runtime paths and isolated Godot verification for the clean-board visual contract. Current main-game mechanics and controls remain the earlier baseline. [RC-016A](docs/project-plan.md#rc-016a--undirected-evaluator-and-control-migration-gate) owns their explicit migration before full integration; the reusable UI theme is delivered by RC-013 below.
 
-**RC-013 complete, October 12, 2026:** the [reusable UI theme and wordmark](docs/ui-theme.md) provide layered painted sources, live Godot controls, a separate editable logo and verified isolated screen/state previews. Inherited painted-art rights remain unresolved; technical imports, main-game integration and physical-device acceptance are recorded separately. **RC-014, the production Shadeling character pack, is next.**
+**RC-013 complete, October 12, 2026:** the [reusable UI theme and wordmark](docs/ui-theme.md) provide layered painted sources, live Godot controls, a separate editable logo and verified isolated screen/state previews. Inherited painted-art rights remain unresolved; technical imports, main-game integration and physical-device acceptance are recorded separately. **RC-014 is complete for production and isolated desktop verification:** the [Shadeling delivery](source-assets/characters/shadeling/delivery.md) preserves the boss pack for one designated map encounter, with the current dodge-like pose retained for possible later boss behavior. **RC-015, the layered crypt and separate Home tower illustration, is next.**
 
 ## Start the project
 

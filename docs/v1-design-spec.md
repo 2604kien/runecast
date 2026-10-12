@@ -37,7 +37,7 @@ Use portrait presentation with the existing 720 by 1600 design canvas as the lay
 | --- | --- | --- |
 | Player and tower | One spellcaster/loadout; one tower theme, Ashen Crypt (working name); no rendered player actor | RC-024, RC-036 |
 | Run | Default nine visited rooms, including guardian; retain the 8–10 planning envelope | RC-025, RC-036, RC-045 |
-| Enemies | Five designs: three normal including Shadeling, one elite, one guardian | RC-034; packs RC-014, RC-037–RC-040 |
+| Enemies | Five designs: two normals, one elite, Shadeling as boss for one map encounter, and Bell Keeper as proposed final guardian | RC-034; packs RC-014, RC-037–RC-040 |
 | Boards | Four stable 4 by 4 board identities, introductory through guardian; all share unrestricted random endpoints, no blocked cells, straight effects and the same kit policy. Distinct construction examples and teaching/content roles do not imply different mechanical difficulty | RC-009 |
 | Permanent definitions | Twelve total runes/techniques, including `spark`, `shield`, `focus`, `conjure` | RC-004, RC-035 |
 | Generated definitions | One additional `free_spark`; excluded from twelve and from permanent ownership | RC-007, RC-035 |
@@ -196,3 +196,15 @@ The October 12 Store and permanent rune direction is accepted; its unresolved co
 ### Explicit deferrals
 
 Multiple simultaneous enemies/target selection; poison/armour/status families; additional characters, biomes or generated-rune families; crafting/consumables; cloud saves; multiplayer; online analytics; ads; daily/endless modes; translation production; desktop release; landscape/separate tablet layouts; trailer and extra music tracks. Permanent rune acquisition is now selected direction, while Store payment/currency, accounts and exact catalogue/ownership remain undecided in RC-024A; no IAP or other monetization model is selected. Mid-turn disk resume is deferred in favor of the stated replay policy. Experimental alternatives above remain historical opt-in fixtures. Production follows the accepted RC-007 contract; those alternatives do not authorize extra mechanics or content.
+
+## October 12, 2026 — Shadeling map-encounter boss correction
+
+Owner direction: Shadeling is a boss for one gameplay encounter on the map. This supersedes the historical RC-002 introductory-normal proposal. The five-actor budget is two normals (Wickling, Stone Sentinel), one elite (Chain Warden), Shadeling as the encounter boss, and Bell Keeper as the proposed final guardian. No sixth actor, extra environment, new phase or automatic permanent reward is implied.
+
+RC-014 remains complete for its recorded asset scope. Reuse its artwork, anchors and isolated scene; follow-up work checks role consistency and only justified refinements. Preserve `shadeling`, `training_shadeling`, existing launch behavior and training/development stats. RC-023 can validate the isolated encounter without making Shadeling the opening/tutorial enemy.
+
+RC-025/RC-034 must settle the designated boss node, board, encounter tuning and node representation, excluding Shadeling from normal random pools. RC-036 must reconcile the earlier room table, Gold arithmetic, rewards and difficulty within the nine-room default and 8–10-room budget. Do not silently add a visit or seventh room family. RC-041/RC-042 must communicate the boss role in map/encounter presentation, distinct from the final guardian. RC-024A determines whether this boss qualifies for permanent acquisition rewards.
+
+This documentation correction does not implement runtime changes or establish new art approval, device results or release rights. Prior verification remains historical evidence. RC-015 remains next numerically.
+
+**Later October 12 pose direction:** retain the current dodge-like hit artwork and four-state pack. Record dodging as a possible Shadeling boss mechanic for RC-034, with any required RC-033 framework work and RC-017 distinct outcome feedback deferred until rules/adoption are settled. This does not implement dodge behavior, alter combat values or add an animation state. See the [preservation and dodge decision](decisions.md#october-12-2026--preserve-shadeling-pose-and-consider-dodging).

@@ -29,7 +29,7 @@ Saving this image does not implement those changes in Godot. The current core ev
 
 Older documentation remains evidence of the implemented baseline, but conflicting design requirements—direction arrows, Flip/Undo/Inspect/Cancel/Details-Pass buttons, compact-only hand and no permanent forecast—must not be reintroduced into the new visual target. Existing affordance, affordability and terminal-state checks are not removed merely because circuits are undirected.
 
-The latest image retains the yellow BOSS label above Shadeling's name/health. BOSS, infinity stock, the particular board layout, HP, Turn2, Draw8/Discard5 and external12damage/1cost are illustrative values. The user did not separately request infinite connector supply, a guaranteed opening arrangement, new balance values or a roster-role change. Removing board values does not remove their underlying gameplay data or the external forecast. Keep live state separate; do not bake this screen into the game as a replacement for controls.
+The latest image retains the yellow BOSS label above Shadeling's name/health. October 12 owner direction establishes Shadeling as a boss for one map encounter, with BOSS supplied by live role UI. Infinity stock, the particular board layout, HP, Turn2, Draw8/Discard5 and external12damage/1cost are illustrative values. The user did not separately request infinite connector supply, a guaranteed opening arrangement, or new balance values. The boss role does not establish final-guardian status, extra phases or permanent rewards. Removing board values does not remove their underlying gameplay data or the external forecast. Keep live state separate; do not bake this screen into the game as a replacement for controls.
 
 ## Scope and acceptance
 

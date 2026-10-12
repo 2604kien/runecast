@@ -1,0 +1,1337 @@
+{
+  "asset_id": "shadeling",
+  "revision": "r001",
+  "task": "RC-014",
+  "date": "2026-10-12",
+  "roster_role": "designated_map_encounter_boss",
+  "role_context": "Boss for one designated map encounter, not introductory normal enemy or automatically final guardian. Preserve shadeling and training_shadeling IDs and existing development fixtures. RC-025/RC-034 own encounter placement and behavior.",
+  "pose_feedback": {
+    "date": "2026-10-12",
+    "owner_decision": "Keep the pose; document future dodging",
+    "hit_reading": "Owner observed a dodge-like lean. Retain the delivered hit pose and four-state interface without repainting or renaming.",
+    "possible_mechanic": "Dodging is a candidate for RC-034 boss design, not an implemented or committed mechanic. No chance, timing, balance, new state or phase is specified.",
+    "downstream": "If adopted, RC-017 must distinguish resolved damage, dodge and zero-damage feedback without inferring outcomes from the pose. RC-016 owns live labels and illustration integration.",
+    "decision_record": "docs/decisions.md#october-12-2026--preserve-shadeling-pose-and-consider-dodging"
+  },
+  "source_size": [
+    1024,
+    1024
+  ],
+  "export_size": [
+    512,
+    512
+  ],
+  "source_foot": [
+    512,
+    896
+  ],
+  "export_foot": [
+    256,
+    448
+  ],
+  "colour": {
+    "space": "sRGB",
+    "alpha": "straight/unassociated",
+    "profile": "embedded standard sRGB ICC; no pixel recolour"
+  },
+  "poses": {
+    "neutral": {
+      "master": "shadeling.ora",
+      "layers": {
+        "shoulder_underlap": {
+          "alpha_gt16_pixels": 25091,
+          "rgba_sha256": "8cfbaba8c401c0043747efe253238392b85cfbd8fb52480992a0d241491030bc",
+          "bounds_gt16": [
+            289,
+            317,
+            444,
+            562
+          ]
+        },
+        "neck_underlap": {
+          "alpha_gt16_pixels": 25090,
+          "rgba_sha256": "46a74c347e1ff0d23e765fc9394ab00f7fdee92d808365561fbc6a0c3b2edc55",
+          "bounds_gt16": [
+            379,
+            286,
+            598,
+            466
+          ]
+        },
+        "body_cloak": {
+          "alpha_gt16_pixels": 181286,
+          "rgba_sha256": "faeb0c1d77468977ca5c00e464da08d439f359acd69cc63b66580ddee50af618",
+          "bounds_gt16": [
+            225,
+            281,
+            807,
+            897
+          ]
+        },
+        "head_hood": {
+          "alpha_gt16_pixels": 36340,
+          "rgba_sha256": "7bcbf6be93dbf1215f97a38b6006dd7938b43e3853dcc125abd1a6c748f6201f",
+          "bounds_gt16": [
+            368,
+            177,
+            580,
+            440
+          ]
+        },
+        "lantern_arm": {
+          "alpha_gt16_pixels": 24243,
+          "rgba_sha256": "d20c7c1d2806971a6f42cb7f897794125600a211bb20a50d5bd7a1fc6008385b",
+          "bounds_gt16": [
+            160,
+            281,
+            402,
+            515
+          ]
+        },
+        "lantern_glass_backing": {
+          "alpha_gt16_pixels": 8209,
+          "rgba_sha256": "ae16d2efb0d0f6ea61f4ef029d4a6ac9c28f65968a2eebdce3a00d19a0ae8035",
+          "bounds_gt16": [
+            167,
+            455,
+            259,
+            561
+          ]
+        },
+        "lantern_shell": {
+          "alpha_gt16_pixels": 19121,
+          "rgba_sha256": "7f7ebad1c423425de76146da51b12afa6caeee76b5d48a398c6c87f7fbd592e5",
+          "bounds_gt16": [
+            125,
+            334,
+            279,
+            615
+          ]
+        },
+        "lantern_glass_light": {
+          "alpha_gt16_pixels": 5023,
+          "rgba_sha256": "b8bf71df556321f902105057f612d44348eb677c48012bb1ee1b69dbae767564",
+          "bounds_gt16": [
+            154,
+            455,
+            259,
+            561
+          ]
+        },
+        "flame": {
+          "alpha_gt16_pixels": 4256,
+          "rgba_sha256": "ce121824865eafc5a6f23282a3a1ef22e9ca97bb582d3723bd0855ca1d089d87",
+          "bounds_gt16": [
+            161,
+            460,
+            256,
+            559
+          ]
+        }
+      },
+      "draw_order": [
+        "shoulder_underlap",
+        "neck_underlap",
+        "body_cloak",
+        "head_hood",
+        "lantern_arm",
+        "lantern_glass_backing",
+        "lantern_shell",
+        "lantern_glass_light",
+        "flame"
+      ],
+      "source_size": [
+        1024,
+        1024
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "alpha_bounds_all": [
+        60,
+        86,
+        406,
+        451
+      ],
+      "alpha_bounds_gt16": [
+        62,
+        88,
+        404,
+        449
+      ],
+      "alpha_bounds_opaque": [
+        63,
+        89,
+        402,
+        447
+      ],
+      "runtime_sha256": "032e69688e74ed244b6122e5fca33d35360bb277bfb665421d7c3f712414bf9f"
+    },
+    "attack": {
+      "master": "poses/attack.ora",
+      "layers": {
+        "body_cloak": {
+          "alpha_gt16_pixels": 214585,
+          "rgba_sha256": "c4a4cb7a964d8299a7f5c14620cd7a8174ac6bdc427c9e929cd10381d61d5f35",
+          "bounds_gt16": [
+            69,
+            185,
+            947,
+            896
+          ]
+        },
+        "head_hood": {
+          "alpha_gt16_pixels": 34675,
+          "rgba_sha256": "59360a58dd32cd41c32299a8928240c4789e76e639ad1597dc259b40c774c583",
+          "bounds_gt16": [
+            392,
+            176,
+            624,
+            423
+          ]
+        },
+        "lantern_arm": {
+          "alpha_gt16_pixels": 31904,
+          "rgba_sha256": "5b5547fb9793b4985bc22b90f80d98d86c2ca132ee32d955030ef5a89a65ab69",
+          "bounds_gt16": [
+            150,
+            186,
+            438,
+            543
+          ]
+        },
+        "lantern_shell": {
+          "alpha_gt16_pixels": 21003,
+          "rgba_sha256": "9d19aa8828d28fdedb6cbfedd6b37b65976e1ca568071c695620156c486bf088",
+          "bounds_gt16": [
+            64,
+            240,
+            238,
+            514
+          ]
+        },
+        "lantern_glass_light": {
+          "alpha_gt16_pixels": 4234,
+          "rgba_sha256": "85b0cd581e31604552fbf08201900cf66da764834543c12ce81adbc041c9bcc2",
+          "bounds_gt16": [
+            90,
+            348,
+            218,
+            456
+          ]
+        },
+        "flame": {
+          "alpha_gt16_pixels": 5014,
+          "rgba_sha256": "c0f2b29d83b5235dbdacd3b0d6ad229da47da77f70e2e47f9c858416a280a3c2",
+          "bounds_gt16": [
+            98,
+            349,
+            202,
+            455
+          ]
+        }
+      },
+      "draw_order": [
+        "body_cloak",
+        "head_hood",
+        "lantern_arm",
+        "lantern_shell",
+        "lantern_glass_light",
+        "flame"
+      ],
+      "source_masks": {
+        "head_hood": [
+          [
+            506,
+            170
+          ],
+          [
+            588,
+            202
+          ],
+          [
+            577,
+            238
+          ],
+          [
+            593,
+            274
+          ],
+          [
+            623,
+            322
+          ],
+          [
+            586,
+            372
+          ],
+          [
+            551,
+            399
+          ],
+          [
+            519,
+            422
+          ],
+          [
+            472,
+            403
+          ],
+          [
+            424,
+            345
+          ],
+          [
+            392,
+            311
+          ],
+          [
+            415,
+            262
+          ],
+          [
+            431,
+            235
+          ]
+        ],
+        "lantern_arm": [
+          [
+            157,
+            192
+          ],
+          [
+            217,
+            183
+          ],
+          [
+            259,
+            225
+          ],
+          [
+            294,
+            266
+          ],
+          [
+            341,
+            285
+          ],
+          [
+            379,
+            324
+          ],
+          [
+            399,
+            371
+          ],
+          [
+            427,
+            440
+          ],
+          [
+            437,
+            535
+          ],
+          [
+            406,
+            542
+          ],
+          [
+            357,
+            488
+          ],
+          [
+            331,
+            412
+          ],
+          [
+            289,
+            367
+          ],
+          [
+            257,
+            323
+          ],
+          [
+            237,
+            287
+          ],
+          [
+            197,
+            281
+          ],
+          [
+            148,
+            259
+          ]
+        ],
+        "lantern": [
+          [
+            66,
+            247
+          ],
+          [
+            148,
+            240
+          ],
+          [
+            150,
+            258
+          ],
+          [
+            182,
+            267
+          ],
+          [
+            207,
+            246
+          ],
+          [
+            228,
+            257
+          ],
+          [
+            230,
+            284
+          ],
+          [
+            211,
+            315
+          ],
+          [
+            237,
+            358
+          ],
+          [
+            214,
+            434
+          ],
+          [
+            204,
+            485
+          ],
+          [
+            177,
+            515
+          ],
+          [
+            109,
+            503
+          ],
+          [
+            64,
+            470
+          ],
+          [
+            59,
+            417
+          ],
+          [
+            83,
+            360
+          ],
+          [
+            90,
+            346
+          ],
+          [
+            67,
+            353
+          ]
+        ],
+        "window": [
+          [
+            114,
+            348
+          ],
+          [
+            217,
+            368
+          ],
+          [
+            183,
+            455
+          ],
+          [
+            90,
+            436
+          ]
+        ]
+      },
+      "part_motion": "Editable paint regions, not a separate runtime rig. Full-pose switching/transforms avoid revealed hidden anatomy.",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "alpha_bounds_all": [
+        29,
+        86,
+        476,
+        450
+      ],
+      "alpha_bounds_gt16": [
+        32,
+        88,
+        474,
+        448
+      ],
+      "alpha_bounds_opaque": [
+        33,
+        89,
+        472,
+        447
+      ],
+      "runtime_sha256": "368d326adef26556b6778986ff02e7c9438a88c8ab47711623155cfd000f58c1"
+    },
+    "hit": {
+      "master": "poses/hit.ora",
+      "layers": {
+        "body_cloak": {
+          "alpha_gt16_pixels": 174476,
+          "rgba_sha256": "f8f8c5f29399933d8f391c97cfbd49f1b575088870a4961ac94da4f7fdd91fbe",
+          "bounds_gt16": [
+            187,
+            222,
+            842,
+            896
+          ]
+        },
+        "head_hood": {
+          "alpha_gt16_pixels": 32091,
+          "rgba_sha256": "aac7603fd3f55962e98c8ae60e92a9f6f64c8bfe4c92cacb36defcac8baa2317",
+          "bounds_gt16": [
+            506,
+            176,
+            716,
+            412
+          ]
+        },
+        "lantern_arm": {
+          "alpha_gt16_pixels": 9435,
+          "rgba_sha256": "e9756433354eab15960221519c05f1375b31796bd81349613ce974b330773244",
+          "bounds_gt16": [
+            234,
+            394,
+            395,
+            512
+          ]
+        },
+        "free_arm": {
+          "alpha_gt16_pixels": 8308,
+          "rgba_sha256": "97e46df158bd0340cd3e7eeebaaadc39d564bf8d3c24bc7b78273045f7a2b3aa",
+          "bounds_gt16": [
+            476,
+            326,
+            640,
+            494
+          ]
+        },
+        "lantern_shell": {
+          "alpha_gt16_pixels": 15537,
+          "rgba_sha256": "5980434f6713c3e7df4b32803bbb3b1b9a424557131780a6fadffc6b624fcf4a",
+          "bounds_gt16": [
+            175,
+            493,
+            317,
+            738
+          ]
+        },
+        "lantern_glass_light": {
+          "alpha_gt16_pixels": 3144,
+          "rgba_sha256": "d11c24bdc3a1d5d8a8118f73d75dc5609cba46df80ffe3aeb5a7779dbd657bed",
+          "bounds_gt16": [
+            195,
+            594,
+            302,
+            688
+          ]
+        },
+        "flame": {
+          "alpha_gt16_pixels": 3642,
+          "rgba_sha256": "0b29f00d73853385bea678b899f5c956947e22d59f596659856bab96bf4ae5cb",
+          "bounds_gt16": [
+            203,
+            597,
+            298,
+            687
+          ]
+        }
+      },
+      "draw_order": [
+        "body_cloak",
+        "head_hood",
+        "lantern_arm",
+        "free_arm",
+        "lantern_shell",
+        "lantern_glass_light",
+        "flame"
+      ],
+      "source_masks": {
+        "head_hood": [
+          [
+            626,
+            171
+          ],
+          [
+            717,
+            217
+          ],
+          [
+            702,
+            255
+          ],
+          [
+            712,
+            307
+          ],
+          [
+            714,
+            342
+          ],
+          [
+            676,
+            372
+          ],
+          [
+            631,
+            397
+          ],
+          [
+            590,
+            411
+          ],
+          [
+            557,
+            395
+          ],
+          [
+            527,
+            351
+          ],
+          [
+            518,
+            303
+          ],
+          [
+            506,
+            277
+          ],
+          [
+            544,
+            239
+          ],
+          [
+            568,
+            215
+          ]
+        ],
+        "lantern_arm": [
+          [
+            232,
+            445
+          ],
+          [
+            287,
+            437
+          ],
+          [
+            306,
+            415
+          ],
+          [
+            367,
+            394
+          ],
+          [
+            394,
+            407
+          ],
+          [
+            381,
+            452
+          ],
+          [
+            335,
+            475
+          ],
+          [
+            313,
+            496
+          ],
+          [
+            283,
+            516
+          ],
+          [
+            244,
+            511
+          ],
+          [
+            227,
+            481
+          ]
+        ],
+        "lantern": [
+          [
+            186,
+            507
+          ],
+          [
+            228,
+            496
+          ],
+          [
+            245,
+            514
+          ],
+          [
+            272,
+            510
+          ],
+          [
+            291,
+            493
+          ],
+          [
+            309,
+            502
+          ],
+          [
+            293,
+            535
+          ],
+          [
+            303,
+            561
+          ],
+          [
+            323,
+            593
+          ],
+          [
+            302,
+            654
+          ],
+          [
+            296,
+            706
+          ],
+          [
+            274,
+            741
+          ],
+          [
+            209,
+            734
+          ],
+          [
+            174,
+            701
+          ],
+          [
+            174,
+            665
+          ],
+          [
+            191,
+            605
+          ],
+          [
+            183,
+            600
+          ],
+          [
+            181,
+            577
+          ]
+        ],
+        "window": [
+          [
+            219,
+            594
+          ],
+          [
+            301,
+            612
+          ],
+          [
+            276,
+            687
+          ],
+          [
+            195,
+            674
+          ]
+        ],
+        "free_arm": [
+          [
+            490,
+            330
+          ],
+          [
+            525,
+            325
+          ],
+          [
+            558,
+            360
+          ],
+          [
+            564,
+            397
+          ],
+          [
+            603,
+            438
+          ],
+          [
+            639,
+            456
+          ],
+          [
+            631,
+            493
+          ],
+          [
+            595,
+            481
+          ],
+          [
+            562,
+            445
+          ],
+          [
+            536,
+            419
+          ],
+          [
+            506,
+            400
+          ],
+          [
+            488,
+            378
+          ],
+          [
+            476,
+            351
+          ]
+        ]
+      },
+      "part_motion": "Editable paint regions, not a separate runtime rig. Full-pose switching/transforms avoid revealed hidden anatomy.",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "alpha_bounds_all": [
+        85,
+        86,
+        423,
+        450
+      ],
+      "alpha_bounds_gt16": [
+        87,
+        88,
+        421,
+        448
+      ],
+      "alpha_bounds_opaque": [
+        89,
+        90,
+        418,
+        447
+      ],
+      "runtime_sha256": "2b0fafc76f10aa576b7963ef3bbf15cc735a85d03049f275fdd88bc69952d549"
+    }
+  },
+  "normalization": {
+    "attack": {
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "scale": 0.77502691065662,
+      "translate": [
+        21.3735199138859,
+        29.51991388589886
+      ],
+      "removed_alpha_lte": 3,
+      "residue_pixels": 13671
+    },
+    "hit": {
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "scale": 0.8117249154453213,
+      "translate": [
+        -32.667418263810646,
+        7.16121758737313
+      ],
+      "removed_alpha_lte": 3,
+      "residue_pixels": 11808
+    }
+  },
+  "underlap_normalization": {
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "scale": 0.8144796380090498,
+    "translate": [
+      6.375565610859724,
+      0.8868778280542529
+    ],
+    "removed_alpha_lte": 3,
+    "residue_pixels": 10165
+  },
+  "neutral_masks": {
+    "head_hood": [
+      [
+        460,
+        160
+      ],
+      [
+        554,
+        192
+      ],
+      [
+        555,
+        219
+      ],
+      [
+        527,
+        246
+      ],
+      [
+        579,
+        297
+      ],
+      [
+        579,
+        345
+      ],
+      [
+        550,
+        391
+      ],
+      [
+        484,
+        439
+      ],
+      [
+        418,
+        420
+      ],
+      [
+        365,
+        352
+      ],
+      [
+        371,
+        296
+      ],
+      [
+        401,
+        213
+      ]
+    ],
+    "shoulder_underlap": [
+      [
+        309,
+        326
+      ],
+      [
+        407,
+        317
+      ],
+      [
+        443,
+        374
+      ],
+      [
+        432,
+        426
+      ],
+      [
+        399,
+        498
+      ],
+      [
+        353,
+        552
+      ],
+      [
+        318,
+        561
+      ],
+      [
+        289,
+        510
+      ],
+      [
+        290,
+        450
+      ],
+      [
+        301,
+        396
+      ]
+    ],
+    "neck_underlap": [
+      [
+        400,
+        319
+      ],
+      [
+        516,
+        315
+      ],
+      [
+        552,
+        286
+      ],
+      [
+        584,
+        291
+      ],
+      [
+        597,
+        338
+      ],
+      [
+        566,
+        402
+      ],
+      [
+        514,
+        448
+      ],
+      [
+        470,
+        465
+      ],
+      [
+        413,
+        434
+      ],
+      [
+        379,
+        387
+      ]
+    ]
+  },
+  "neutral_part_pivots": {
+    "foot": [
+      256,
+      448
+    ],
+    "head_hood": [
+      237,
+      208
+    ],
+    "lantern_arm": [
+      183.20951509606584,
+      176.92955169258917
+    ],
+    "held_item": [
+      114.37145471180236,
+      177.58828911253426
+    ],
+    "flame": [
+      106.13723696248854,
+      260.259835315645
+    ]
+  },
+  "part_envelope_degrees": {
+    "head_hood": [
+      -2,
+      2
+    ],
+    "lantern_arm": [
+      -4,
+      4
+    ],
+    "held_item_relative_to_arm": [
+      -3,
+      3
+    ]
+  },
+  "attachments": {
+    "neutral": {
+      "head": [
+        224.05123513266238,
+        156.5086916742909
+      ],
+      "body_center": [
+        238.5434583714547,
+        278.37511436413536
+      ],
+      "attack_origin": [
+        108.4428179322964,
+        176.92955169258917
+      ],
+      "lantern_pivot": [
+        114.37145471180236,
+        177.58828911253426
+      ]
+    },
+    "attack": {
+      "head": [
+        246.682,
+        154.265
+      ],
+      "body_center": [
+        267.996,
+        299.582
+      ],
+      "attack_origin": [
+        97.877,
+        119.001
+      ],
+      "lantern_pivot": [
+        104.853,
+        134.889
+      ]
+    },
+    "hit": {
+      "head": [
+        302.674,
+        146.038
+      ],
+      "body_center": [
+        277.511,
+        278.755
+      ],
+      "attack_origin": [
+        138.706,
+        238.169
+      ],
+      "lantern_pivot": [
+        144.794,
+        249.533
+      ]
+    }
+  },
+  "presentation": {
+    "reference_composition": [
+      841,
+      1870
+    ],
+    "sprite_top_left": [
+      254,
+      92
+    ],
+    "sprite_display": [
+      384,
+      384
+    ],
+    "texture_scale": 0.75,
+    "foot_composition": [
+      446,
+      428
+    ],
+    "arena_crop": [
+      0,
+      60,
+      841,
+      450
+    ],
+    "foot_crop": [
+      446,
+      368
+    ],
+    "design_width": 720,
+    "design_scale": 0.6420927467300832,
+    "desktop_width": 450,
+    "desktop_scale": 0.40130796670630203,
+    "native_width": 360,
+    "native_texture_scale": 0.3210463733650416,
+    "native_foot": [
+      190.9155766944114,
+      157.52675386444707
+    ],
+    "allowed_alpha_envelope": [
+      24,
+      32,
+      488,
+      480
+    ],
+    "padding_revision": "RC-014 wide painted attack keeps significant-alpha X32..474 and filtered alpha X29..476. Explicit24px horizontal safety border replaces32 for this pack; no canvas, origin or actor downscaling.",
+    "native_viewport": [
+      360,
+      193
+    ],
+    "native_mapping": "Proportional arena-only preview: same Rect(0,60,841,450) crop and W/841 transform as 720/450; rounded viewport height does not alter uniform art scale. Not full native-phone acceptance.",
+    "historical_r006_native": {
+      "sprite_top_left": [
+        90,
+        60
+      ],
+      "sprite_display": [
+        180,
+        180
+      ],
+      "texture_scale": 0.3515625,
+      "foot": [
+        180,
+        217.5
+      ],
+      "isolated_preview_viewport": [
+        360,
+        280
+      ],
+      "status": "Preserved historical separate r006 native layout; superseded for RC-014 proportional arena previews by owner framing correction on 2026-10-12."
+    }
+  },
+  "generation": [
+    {
+      "name": "attack",
+      "tool": "image_gen.imagegen",
+      "mode": "built-in edit",
+      "model_version": null,
+      "seed": null,
+      "model_seed_status": "not exposed by tool",
+      "date": "2026-10-12",
+      "prompt": "raw/attack.prompt.txt",
+      "raw": "raw/attack.png",
+      "sha256": "ad4d8a3a926691f64f9bb9da30344b526bc2b2752f3ea2d995ab1d44e0ab8598",
+      "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-4f9ff55e-c0a4-40e9-b9a0-d89f0aa2f5dc.png",
+      "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+      "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+      "transparent_background": true
+    },
+    {
+      "name": "hit",
+      "tool": "image_gen.imagegen",
+      "mode": "built-in edit",
+      "model_version": null,
+      "seed": null,
+      "model_seed_status": "not exposed by tool",
+      "date": "2026-10-12",
+      "prompt": "raw/hit.prompt.txt",
+      "raw": "raw/hit.png",
+      "sha256": "68f7346f37ce247ee79d9c6c109ed879b8d053c7252b268fddf2e3ca4c2da272",
+      "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-76047cb4-7dc2-4550-967a-704c13b0207e.png",
+      "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+      "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+      "transparent_background": true
+    },
+    {
+      "name": "underlap",
+      "tool": "image_gen.imagegen",
+      "mode": "built-in edit",
+      "model_version": null,
+      "seed": null,
+      "model_seed_status": "not exposed by tool",
+      "date": "2026-10-12",
+      "prompt": "raw/underlap.prompt.txt",
+      "raw": "raw/underlap.png",
+      "sha256": "70e5d27f4a0ee75a8554e421d1063d4053830a5765ae29aa016fcd31d7d0dd76",
+      "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-400f73d4-5e26-4ea7-96fd-91f813375fee.png",
+      "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+      "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+      "transparent_background": true
+    }
+  ],
+  "reuse": [
+    {
+      "path": "source-assets/pilot/revisions/r002/shadeling.ora",
+      "sha256": "b2c6e4fcc5f3961696a441ee4812ab28b39770dbf7b19dbcabbe004ebc19d089"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/neutral-reference.png",
+      "sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/raw/shadeling.png",
+      "sha256": "5a56ca7280f5672b1946f25b0a6762a3c6f76433c73b9a300748529f0d519f85"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/raw/shadeling.prompt.txt",
+      "sha256": "4a479cb67462c3fb4918e7c8ae7e564742479f11a70a515895881eb9c5b2e78c"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/metadata.json",
+      "sha256": "78bc38852651080fab69a55ca302b0d28e183f3346152aee828e9d96c45846ab"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/body_cloak.png",
+      "sha256": "7a128f4e2de374bb6ef8cdd4c447dafb358e9926876f1895d3d2a4ff3711b09e"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/flame.png",
+      "sha256": "0ac6cb17af2ba087ae09694588a409fbe1c5db6e37c07326dc67a4acede5ae2d"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_arm.png",
+      "sha256": "ef4791262cabba5b06fefe1c9d7a0cbba533e1b1e39dcce5cd1f0c1e42252e6f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_glass_backing.png",
+      "sha256": "78572f418db0ebb9eb5c4e038becefa037b157ed38c1180f34cb536976351889"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_glass_light.png",
+      "sha256": "1f54913fca5d6cec9f3049f1a61366615f524632519cb5f824b9665d2448538f"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/lantern_shell.png",
+      "sha256": "b9288a74a5e31c369ff3d76b158d753fd7f66dd1504e51aa281afd63daa17385"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r002/layers/shoulder_underlap.png",
+      "sha256": "6a285858c915c254882eb15017cf9b20b8e614fc8725dabfd695023c3cb5dd32"
+    }
+  ],
+  "source_method": "Neutral retained paint, separate extracted hood, generated shoulder/neck underlaps. Attack/hit are newly generated paintings with disjoint semantic masks. No flattened duplicate layers. Brush stroke history unavailable; ORA is authoritative editable pixel-layer interchange.",
+  "memory": {
+    "rgba8_single_pose_bytes": 1048576,
+    "rgba8_three_poses_bytes": 3145728,
+    "rgba8_neutral_parts_bytes": 9437184,
+    "rgba8_all_poses_and_parts_bytes": 12582912,
+    "default_active": "One full pose, no part textures; transient old/new overlap may reach 2MiB while swapping. Optional warm cache retains3MiB. Nine part textures are9MiB only in part stress/optional alternate rig.",
+    "excludes": "import compression, mipmaps (off), font atlases, environment, UI, renderer buffers, allocator/cache overhead; estimates not measured device memory"
+  },
+  "readiness_status": "source_ready",
+  "technical_status": "PASS: isolated source/import/render/behavior verification; rights unresolved",
+  "visual_direction_status": "reference_guided",
+  "licence_status": "unresolved",
+  "rights_note": "Inherited generated-art/reference rights remain unresolved. No owner acceptance or release clearance inferred from reference approval.",
+  "verification": {
+    "source_import_checks": 359,
+    "godot_behavior_checks": 194,
+    "full_pose_samples": 136,
+    "part_stress_samples": 17,
+    "full_motion_alpha_union": [
+      29,
+      84,
+      476,
+      456
+    ],
+    "part_motion_alpha_union": [
+      53,
+      86,
+      406,
+      451
+    ],
+    "godot_version": "4.7.2.stable.official.ed1daf0bf",
+    "renderer": "OpenGL Compatibility",
+    "adapter": "NVIDIA GeForce RTX 5070 Ti",
+    "evidence": [
+      "output/qa/rc-014/validation-report.json",
+      "output/qa/rc-014/godot-render-results.json",
+      "output/qa/rc-014/visual-review.json",
+      "output/qa/rc-014/preservation-validation.json"
+    ],
+    "limits": "Desktop-only; host shader-cache/user-directory and root-certificate-store diagnostics retained; no missing texture/script/import failures; rights unresolved."
+  }
+}

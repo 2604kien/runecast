@@ -72,7 +72,7 @@ The owner confirmed RC-001 complete; its checkpoint is `64930fc` (`Initial commi
 | Proposal | Reason and owning task |
 | --- | --- |
 | Retain the original content budget; default nine rooms inside 8–10 | One loadout/theme, five enemies, four boards, twelve permanent definitions plus Free Spark, six relics/four events/eight single-rank upgrades keeps production bounded. RC-009/RC-034–RC-036 author it; RC-045 measures the 15–25 minute target. |
-| Shadeling is an introductory normal enemy | Reuses the training encounter and first style pilot; simple telegraphed attacks teach circuits. The reference's BOSS label is illustrative. A separate guardian supplies the climax. Preserve `training_shadeling` and existing `shadeling` asset ID. RC-014/RC-034. |
+| Historical Shadeling introductory-normal proposal — superseded October 12 | Reuses the training encounter and first style pilot; simple telegraphed attacks teach circuits. The reference's BOSS label is illustrative. A separate guardian supplies the climax. Preserve `training_shadeling` and existing `shadeling` asset ID. RC-014/RC-034. |
 | One local active run; offline English; no persistent power progression | Start each run with the existing eight-card loadout, 30 health, three energy/draw, zero relics/Gold. Gold is run-only. No extra currency/account system. RC-024/RC-036. |
 | Interrupted combat replays the committed battle entry | Avoid partial-turn serialization while preserving completed-room progress and seeded offers. Save terminal outcomes and room transactions exactly once. RC-028/RC-047. |
 | Menu Quit returns Home and keeps progress | Confirm loss of current battle preparation/replay when relevant. Separate confirmed Abandon action belongs in Map run details. RC-032. |
@@ -140,3 +140,21 @@ After playing both B1 stock variants and reporting each worked as expected, the 
 This selects those kits as the current provisional rule, with equal chances as the starting tuning distribution and repeats allowed. A new kit is supplied at each playable turn; pieces are limited within that turn, erase returns installed pieces to available supply, and unused stock cannot accumulate. Split/Join arrive as matched pairs. The selected empty-board/random-endpoint reset and normal rune discard/draw remain intact. No extra economy or reward source is implied.
 
 This is an owner-directed design choice; the earlier one-/two-pair Casts do not test random kits, finite basic connectors or their interaction with moving endpoints. Counts and probabilities remain tunable, with particular uncertainty about whether the second pair dominates extra routing pieces. No further confirmation of this direction is required. B2 costs, other unresolved rule questions and final integration remain open; no testing waiver exists. Normal gameplay and existing experiments do not yet implement these kits. RC-006 stays partial; RC-007 awaits the full contract. See [selection and follow-up](rc-006-playtest-results.md#limited-circuit-kits--selected-for-now-awaiting-implementation) and [stock accounting/acceptance cases](production-rules-spec.md#b--circuit-piece-stock-and-energy).
+
+## October 12, 2026 — Shadeling map-encounter boss correction
+
+Owner direction: Shadeling is a boss for one gameplay encounter on the map. This supersedes the historical RC-002 introductory-normal proposal. The five-actor budget is two normals (Wickling, Stone Sentinel), one elite (Chain Warden), Shadeling as the encounter boss, and Bell Keeper as the proposed final guardian. No sixth actor, extra environment, new phase or automatic permanent reward is implied.
+
+RC-014 remains complete for its recorded asset scope. Reuse its artwork, anchors and isolated scene; follow-up work checks role consistency and only justified refinements. Preserve `shadeling`, `training_shadeling`, existing launch behavior and training/development stats. RC-023 can validate the isolated encounter without making Shadeling the opening/tutorial enemy.
+
+RC-025/RC-034 must settle the designated boss node, board, encounter tuning and node representation, excluding Shadeling from normal random pools. RC-036 must reconcile the earlier room table, Gold arithmetic, rewards and difficulty within the nine-room default and 8–10-room budget. Do not silently add a visit or seventh room family. RC-041/RC-042 must communicate the boss role in map/encounter presentation, distinct from the final guardian. RC-024A determines whether this boss qualifies for permanent acquisition rewards.
+
+This documentation correction does not implement runtime changes or establish new art approval, device results or release rights. Prior verification remains historical evidence. RC-015 remains next numerically.
+
+## October 12, 2026 — Preserve Shadeling pose and consider dodging
+
+Owner feedback: the delivered hit animation reads as dodging instead of getting hit. The owner explicitly directs keeping that pose and recording dodging as a possible mechanic for this boss. This supersedes the earlier description of the current study as readable recoil; it does not require repainting satisfactory art or confer broader art/release/device approval.
+
+Preserve the current `hit` source/export names, common foot anchor, measured r006 mapping, four-state isolated interface and original generation/provenance evidence. RC-014 remains complete. This review adds no animation state and makes no change to the `shadeling` / `training_shadeling` IDs, combat values, training/development fixtures or shared gameplay.
+
+RC-034 owns consideration and adoption of possible boss dodging. No probability, trigger, timing, damage-negation rule, phase or tuning is selected here. Any required framework work belongs to RC-033 after that decision. RC-017 owns event-driven presentation, completion/cancellation, reduced motion and clear actual-hit versus zero-damage feedback; if dodge is adopted, its outcome must also be distinguishable. RC-025/RC-034 retain encounter/node/board ownership, RC-036 retains route/economy/reward reconciliation, and RC-024A determines permanent-reward eligibility.

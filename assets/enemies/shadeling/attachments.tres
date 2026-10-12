@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/coordinate_system = "512 x 512 runtime canvas pixels; subtract foot (256,448) for scene-local values"
+metadata/canvas = Vector2i(512, 512)
+metadata/foot = Vector2(256, 448)
+metadata/poses = {
+"neutral": {"head": [224.05123513266238,156.5086916742909], "body_center": [238.5434583714547,278.37511436413536], "attack_origin": [108.4428179322964,176.92955169258917], "lantern_pivot": [114.37145471180236,177.58828911253426]},
+"attack": {"head": [246.682,154.265], "body_center": [267.996,299.582], "attack_origin": [97.877,119.001], "lantern_pivot": [104.853,134.889]},
+"hit": {"head": [302.674,146.038], "body_center": [277.511,278.755], "attack_origin": [138.706,238.169], "lantern_pivot": [144.794,249.533]}
+}

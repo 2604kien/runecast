@@ -1,0 +1,50 @@
+[
+  {
+    "name": "attack",
+    "tool": "image_gen.imagegen",
+    "mode": "built-in edit",
+    "model_version": null,
+    "seed": null,
+    "model_seed_status": "not exposed by tool",
+    "date": "2026-10-12",
+    "prompt": "raw/attack.prompt.txt",
+    "raw": "raw/attack.png",
+    "sha256": "ad4d8a3a926691f64f9bb9da30344b526bc2b2752f3ea2d995ab1d44e0ab8598",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-4f9ff55e-c0a4-40e9-b9a0-d89f0aa2f5dc.png",
+    "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+    "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+    "transparent_background": true
+  },
+  {
+    "name": "hit",
+    "tool": "image_gen.imagegen",
+    "mode": "built-in edit",
+    "model_version": null,
+    "seed": null,
+    "model_seed_status": "not exposed by tool",
+    "date": "2026-10-12",
+    "prompt": "raw/hit.prompt.txt",
+    "raw": "raw/hit.png",
+    "sha256": "68f7346f37ce247ee79d9c6c109ed879b8d053c7252b268fddf2e3ca4c2da272",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-76047cb4-7dc2-4550-967a-704c13b0207e.png",
+    "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+    "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+    "transparent_background": true
+  },
+  {
+    "name": "underlap",
+    "tool": "image_gen.imagegen",
+    "mode": "built-in edit",
+    "model_version": null,
+    "seed": null,
+    "model_seed_status": "not exposed by tool",
+    "date": "2026-10-12",
+    "prompt": "raw/underlap.prompt.txt",
+    "raw": "raw/underlap.png",
+    "sha256": "70e5d27f4a0ee75a8554e421d1063d4053830a5765ae29aa016fcd31d7d0dd76",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a12b4e-e815-7710-afd5-0cd606deb26f/exec-400f73d4-5e26-4ea7-96fd-91f813375fee.png",
+    "edit_target": "source-assets/pilot/revisions/r002/neutral-reference.png",
+    "edit_target_sha256": "ec7d83c491078018aaf03e440b772ac8ab7c429766964a358482c8c8217e029e",
+    "transparent_background": true
+  }
+]

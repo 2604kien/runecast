@@ -44,7 +44,7 @@ Approval establishes the visual target and the explicitly requested undirected-c
 ## Layout to preserve
 
 1. Slim title and floor header.
-2. Enemy-only side-view arena; intent above the centered enemy, yellow BOSS label, name and health below. BOSS is illustrative reference text; Shadeling's roster role remains unchanged.
+2. Enemy-only side-view arena; intent above the centered enemy, yellow BOSS label, name and health below. October 12 owner direction supersedes the earlier illustrative-only role interpretation: Shadeling is boss for one designated map encounter, with BOSS supplied by live UI. This does not make Shadeling the final guardian; the approved reference image remains unchanged.
 3. Player health, energy, and turn.
 4. Circuit status and a square4×4board; only Begin/End text, no board values, cost badges or TEMP. Symbols and connections remain.
 5. Reusable wiring tools with plain, undirected symbols; Remove and Rotate are the only editing actions.

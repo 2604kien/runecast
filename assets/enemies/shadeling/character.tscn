@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://assets/enemies/shadeling/character.gd" id="1_character"]
+[ext_resource type="Resource" path="res://assets/enemies/shadeling/attachments.tres" id="2_attachments"]
+
+[node name="Shadeling" type="Node2D"]
+texture_filter = 2
+texture_repeat = 1
+script = ExtResource("1_character")
+attachment_data = ExtResource("2_attachments")
+metadata/asset_id = "shadeling"
+metadata/source_canvas = Vector2i(1024, 1024)
+metadata/runtime_canvas = Vector2i(512, 512)
+metadata/runtime_foot_anchor = Vector2(256, 448)
+metadata/roster_role = "designated_map_encounter_boss"
+metadata/states = PackedStringArray("idle", "attack", "hit", "defeat")
+metadata/presentation_only = true
+
+[node name="ContactShadow" type="Polygon2D" parent="."]
+visible = false
+z_index = -20
+color = Color(0.025, 0.019, 0.065, 0.32)
+polygon = PackedVector2Array(-64, 0, -55, -6, -32, -10, 0, -12, 32, -10, 55, -6, 64, 0, 55, 6, 32, 10, 0, 12, -32, 10, -55, 6)
+
+[node name="PoseRoot" type="Node2D" parent="."]
+z_index = 0
+
+[node name="FullPose" type="Sprite2D" parent="PoseRoot"]
+position = Vector2(-256, -448)
+z_index = 0
+centered = false
+
+[node name="Head" type="Marker2D" parent="PoseRoot"]
+z_index = 10
+metadata/attachment = "head"
+
+[node name="BodyCenter" type="Marker2D" parent="PoseRoot"]
+z_index = 10
+metadata/attachment = "body_center"
+
+[node name="AttackOrigin" type="Marker2D" parent="PoseRoot"]
+z_index = 10
+metadata/attachment = "attack_origin"
+
+[node name="LanternPivot" type="Marker2D" parent="PoseRoot"]
+z_index = 10
+metadata/attachment = "lantern_pivot"
