@@ -1,0 +1,212 @@
+{
+  "asset_id": "crypt",
+  "revision": "r001",
+  "date": "2026-10-13",
+  "source_dimensions": [
+    1682,
+    1140
+  ],
+  "export_dimensions": [
+    841,
+    570
+  ],
+  "source_to_export_scale": 0.5,
+  "origin": [
+    0,
+    0
+  ],
+  "coordinate_basis": "Retained r006 full composition, 841x1870; only y0..570 environment arena retained. Source coordinates are 2x this basis.",
+  "resolution_note": "2x editing canvas is resampled from retained native 841-wide paint, not a claim of newly synthesized detail.",
+  "layers": [
+    {
+      "name": "Rear architecture and painted hidden chamber",
+      "path": "layers/background.png",
+      "runtime": "assets/environments/crypt/background.png",
+      "sha256": "de5f75a8d1125cf4ab8573bc68e15750c6a910ec77912abdcdf10327d34142c3"
+    },
+    {
+      "name": "Cobblestone platform, steps and near rocks",
+      "path": "layers/floor.png",
+      "runtime": "assets/environments/crypt/floor.png",
+      "sha256": "52ac0ae288ca9541a7f3068b3464a93654054c9f5caa6358b9bdd95261f80d06"
+    }
+  ],
+  "floor_contact": [
+    446,
+    428
+  ],
+  "floor_contact_source": [
+    892,
+    856
+  ],
+  "floor_overlap": {
+    "horizon_points": [
+      [
+        0,
+        348
+      ],
+      [
+        124,
+        379
+      ],
+      [
+        243,
+        364
+      ],
+      [
+        339,
+        381
+      ],
+      [
+        486,
+        370
+      ],
+      [
+        616,
+        374
+      ],
+      [
+        695,
+        352
+      ],
+      [
+        797,
+        372
+      ],
+      [
+        840,
+        340
+      ]
+    ],
+    "alpha_ramp_above_horizon": 24,
+    "background_opaque_everywhere": true,
+    "background_new_underpaint_blend_y": [
+      396,
+      432
+    ],
+    "minimum_hidden_original_paint_below_horizon": 15,
+    "new_hidden_paint_continues_to_bottom": 570,
+    "full_opaque_under_floor_overlap": true
+  },
+  "review_crop": [
+    0,
+    60,
+    841,
+    450
+  ],
+  "mapping": "runtime = source * 0.5; preview = (runtime - (0,60)) * W/841; character root=(446,368)*W/841, texture scale=0.75*W/841",
+  "preview_sizes": [
+    [
+      720,
+      385
+    ],
+    [
+      450,
+      241
+    ],
+    [
+      360,
+      193
+    ]
+  ],
+  "overscan": {
+    "left": 0,
+    "right": 0,
+    "top": 60,
+    "bottom": 60,
+    "art_only_450_high_crop_origin_y": [
+      0,
+      120
+    ],
+    "accepted_actor_and_ui_crop": [
+      0,
+      60,
+      841,
+      450
+    ],
+    "restriction": "Only default crop is accepted with current actor/live UI. Other art-only stress crops prove opaque coverage, not alternate layout approval. RC-016 owns responsive integration."
+  },
+  "transform_contract": "Common top-left, common canvas, uniform positive scale and one translation for all layers. No independent transform, rotation or parallax. Rounded viewport height does not change scale.",
+  "actor": {
+    "texture_dimensions": [
+      512,
+      512
+    ],
+    "foot_texture": [
+      256,
+      448
+    ],
+    "texture_scale_in_composition": 0.75,
+    "foot_composition": [
+      446,
+      428
+    ],
+    "declared_motion_envelope_composition": [
+      272,
+      116,
+      620,
+      452
+    ],
+    "measured_rc014_motion_union_composition": [
+      275.75,
+      155,
+      611,
+      434
+    ]
+  },
+  "overlay_reservations_composition": {
+    "intent": [
+      390,
+      76,
+      500,
+      144
+    ],
+    "role_name_health": [
+      285,
+      436,
+      600,
+      508
+    ]
+  },
+  "foreground": {
+    "delivered": false,
+    "reason": "Existing edge stone/candles already frame the actor. A front layer adds occlusion and texture cost without a composition benefit."
+  },
+  "color_space": "sRGB embedded ICC",
+  "alpha": "background RGB opaque; floor RGBA straight alpha",
+  "import": "lossless; linear; no mipmaps; repeat disabled; alpha border fix",
+  "reuse": [
+    {
+      "path": "source-assets/pilot/revisions/r006/exports/crypt-background.png",
+      "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5"
+    },
+    {
+      "path": "source-assets/pilot/revisions/r004/crypt/crypt.ora",
+      "sha256": "b176b94a1efb82cfd99406d02420f45b8b0d9711724c241f1c5e1b866d5cb554"
+    }
+  ],
+  "generation": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in edit",
+    "model": null,
+    "seed": null,
+    "unknown_note": "Tool did not expose model version or seed",
+    "prompt": "raw/underpaint.prompt.txt",
+    "raw": "raw/underpaint.png",
+    "raw_sha256": "019f1f1e0f5e5f35d3687db57b2d9266bf4448101c1c28cd249b29a438c93637",
+    "edit_target": "raw/retained-arena.png",
+    "original_tool_output": "C:/Users/nguye/.codex/generated_images/01a13059-c8ac-7e43-ba59-ee48e1c6c3e9/exec-a12a3d87-bedb-4219-b527-f619c629debe.png"
+  },
+  "editability": "Two overlapping full-canvas semantic paint layers. The rear chamber remains fully painted when floor is hidden; newly generated hidden substrate replaces the old raised platform below y432. Visible architecture/floor reuse the clean generated pilot, never the approved screenshot. Brush history unavailable.",
+  "memory": {
+    "rgba8_layer_bytes": 1917480,
+    "two_layers_bytes": 3834960,
+    "two_layers_mib": 3.6573028564453125,
+    "mipmaps": false,
+    "measurement": "dimension estimate, excludes engine, fonts and render buffers"
+  },
+  "readiness_status": "source_ready",
+  "visual_direction_status": "reference_guided",
+  "licence_status": "unresolved",
+  "rights_note": "Inherited reference/generated-art rights remain unresolved; no approval or release clearance inferred."
+}

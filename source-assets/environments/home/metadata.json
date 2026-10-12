@@ -1,0 +1,295 @@
+{
+  "asset_id": "home_tower",
+  "task": "RC-015",
+  "revision": "r001",
+  "date": "2026-10-13",
+  "creator": "Codex using built-in image_gen and deterministic semantic layer/export authoring",
+  "source_size": [
+    1440,
+    3200
+  ],
+  "export_size": [
+    720,
+    1600
+  ],
+  "source": "home_tower.ora",
+  "export": "assets/environments/home/home_tower.png",
+  "origin": [
+    0,
+    0
+  ],
+  "color_space": "sRGB ICC",
+  "alpha": "RGB opaque runtime; straight-alpha RGBA source regions",
+  "export_recipe": "Visible ORA stack src-over in bottom-to-top order; resize to720x1600 with Pillow LANCZOS; convert RGB; embed sRGB ICC.",
+  "generation_input_size": [
+    841,
+    1870
+  ],
+  "generation_to_master": {
+    "mode": "uniform center cover",
+    "scale": 1.7122473246135552,
+    "raw_crop_rect": [
+      0,
+      0.5555555555555556,
+      841,
+      1868.888888888889
+    ]
+  },
+  "source_to_export_scale": 0.5,
+  "layers": [
+    {
+      "name": "Indigo sky and cloud atmosphere",
+      "path": "layers/00-sky.png",
+      "mask": "masks/00-sky.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        0,
+        0,
+        1440,
+        1294
+      ],
+      "sha256": "b6bf36f1a065d380c8c5005f7479064ccac70d55e48dfa9eb033451b361fe4fe",
+      "ora_src": "data/layer00.png"
+    },
+    {
+      "name": "Distant mountains bridges and mist",
+      "path": "layers/01-distance.png",
+      "mask": "masks/01-distance.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        0,
+        754,
+        1440,
+        2641
+      ],
+      "sha256": "d827877fd6fc61c7c9f930a18430fb22b3378f2a6d601b88b4d639d9f1897364",
+      "ora_src": "data/layer01.png"
+    },
+    {
+      "name": "Tower architecture and rocky approach",
+      "path": "layers/02-tower.png",
+      "mask": "masks/02-tower.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        505,
+        788,
+        1223,
+        2627
+      ],
+      "sha256": "74ef9df6f06330c426ce38a3ff998e3bd5550fd7a01178137258da5675c0a3e9",
+      "ora_src": "data/layer02.png"
+    },
+    {
+      "name": "Foreground stone control backing",
+      "path": "layers/03-paving.png",
+      "mask": "masks/03-paving.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        0,
+        2119,
+        1440,
+        3200
+      ],
+      "sha256": "613d74b2b50a7beff2aa964770f7eb692c236ed3dfe4b9557113b78d6bac8cc9",
+      "ora_src": "data/layer03.png"
+    },
+    {
+      "name": "Left edge brazier and rock dressing",
+      "path": "layers/04-left_brazier.png",
+      "mask": "masks/04-left_brazier.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        0,
+        2122,
+        226,
+        2591
+      ],
+      "sha256": "1e95aaa7b01621311874e5be93289aa3cdb4b609b777307b9077eef22129ad32",
+      "ora_src": "data/layer04.png"
+    },
+    {
+      "name": "Right edge brazier and rock dressing",
+      "path": "layers/05-right_brazier.png",
+      "mask": "masks/05-right_brazier.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        1231,
+        2210,
+        1440,
+        2648
+      ],
+      "sha256": "56e09fcc81cfbfa413f4d90b831ddbb6092c67ec9e37f132330f360bc2deeb46",
+      "ora_src": "data/layer05.png"
+    },
+    {
+      "name": "Moon disk and blue light halo",
+      "path": "layers/06-moon.png",
+      "mask": "masks/06-moon.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        937,
+        396,
+        1298,
+        768
+      ],
+      "sha256": "06638f15d983ec800d34ab4b0bef5a3747400ff6755958c9b786f4ea0c837781",
+      "ora_src": "data/layer06.png"
+    },
+    {
+      "name": "Adjustable quiet live-control backing grade",
+      "path": "layers/07-control-backing-grade.png",
+      "mask": "masks/07-control-backing-grade.png",
+      "visible": true,
+      "origin": [
+        0,
+        0
+      ],
+      "bbox": [
+        51,
+        1879,
+        1390,
+        3107
+      ],
+      "sha256": "3823d57c86050cb9718a67e91f075898c64d21895d185f980a1bd83b78dd4768",
+      "ora_src": "data/layer07.png"
+    }
+  ],
+  "semantic_recomposition_exact_before_grade": true,
+  "editability": "Seven complementary semantic paint regions plus separate adjustable grading layer. Repaint, recolour and replace regions independently. Generated brushwork is flattened within each region; no brush history or hidden geometry is claimed. This is a static illustration, not a parallax or freely relocatable cutout rig.",
+  "not_reference_screenshot_pixels": true,
+  "crop_contract": {
+    "mode": "center-cropped cover; uniform scaling only",
+    "runtime_source_rects": {
+      "9:16": [
+        0,
+        160,
+        720,
+        1280
+      ],
+      "9:20": [
+        0,
+        0,
+        720,
+        1600
+      ],
+      "9:21.5": [
+        25.116279069767415,
+        0,
+        669.7674418604652,
+        1600
+      ]
+    },
+    "formula": "k=max(viewport_width/720,viewport_height/1600); display=(runtime_point-(crop_x,crop_y))*k",
+    "max_loss_runtime": {
+      "left": 25.1162790698,
+      "right": 25.1162790698,
+      "top": 160,
+      "bottom": 160
+    },
+    "accepted_aspects": [
+      "9:16",
+      "9:20",
+      "9:21.5"
+    ],
+    "declared_edge_allowance_runtime": {
+      "left": 36,
+      "right": 36,
+      "top": 160,
+      "bottom": 160
+    },
+    "revision_reason": "The older80px top/bottom allowance was insufficient for center-cover9:16, which removes160px each. Framing was revised before delivery to preserve moon and tower throughout."
+  },
+  "focal_regions_runtime": {
+    "horizontal_safe": [
+      36,
+      684
+    ],
+    "intersection_of_all_crops": [
+      36,
+      160,
+      648,
+      1280
+    ],
+    "moon_visible_disc": [
+      485,
+      214,
+      146,
+      150
+    ],
+    "primary_tower": [
+      285,
+      394,
+      278,
+      459
+    ],
+    "tower_approach": [
+      248,
+      801,
+      364,
+      490
+    ],
+    "separate_logo_reservation": [
+      36,
+      70,
+      648,
+      330
+    ],
+    "quiet_live_controls": [
+      100,
+      1010,
+      520,
+      440
+    ]
+  },
+  "preview_layout_guidance": "RC013 wordmark remains separate and uniformly scaled; live controls are responsive screen elements, never cropped as part of the illustration. Short-screen previews may position the wordmark higher relative to the cropped painting; protect the tower roof.",
+  "runtime_import": {
+    "lossless": true,
+    "mipmaps": false,
+    "premultiply_alpha": false,
+    "filter": "linear",
+    "repeat": false,
+    "size_limit": 0
+  },
+  "memory": {
+    "runtime_rgb_bytes": 3456000,
+    "runtime_rgba8_conservative_bytes": 4608000,
+    "runtime_rgba8_conservative_mib": 4.39453125,
+    "master_layer_rgba8_mib": 17.578125,
+    "all_source_layers_rgba8_mib": 140.625,
+    "scope": "Dimension estimates, not measured device/GPU memory. Source masters excluded from runtime."
+  },
+  "provenance": "raw/generation-record.json",
+  "rights_status": "unresolved",
+  "approval_status": "reference_guided; no owner approval inferred",
+  "runtime_sha256": "ff7859dabf87c16ca7f67b55599213d732e7d7bc92adc2d7a58e135398dc7971",
+  "source_sha256": "8ab4bf3f18f9f28579efcfe2333098adbf2325c2f9253a1c8ecd39f5270ec176",
+  "scope": "Assets and isolated previews only. RC032 functional Home, RC042 full presentation integration, RC044 final supported responsive layouts. No physical-device acceptance."
+}

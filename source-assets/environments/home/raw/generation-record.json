@@ -1,0 +1,66 @@
+{
+  "asset": "home_tower",
+  "task": "RC-015",
+  "date": "2026-10-13",
+  "tool": "built-in image_gen.imagegen",
+  "model": null,
+  "model_version": null,
+  "seed": null,
+  "unknown_fields": "Tool did not expose model/version or seed. No invented values.",
+  "reference_approval": "The supplied Home reference is owner-approved. These new reconstructed paintings are reference_guided, not independently owner-approved.",
+  "rights_status": "unresolved; retained generation records do not establish shipping rights clearance",
+  "source_audit": "No clean Home/tower production artwork was retained under source-assets or output/imagegen. Approved Home is a flattened reference with UI. Selected r004 pilot paint is Combat/crypt/UI, not a reusable Home painting. October13 cleanup does not establish a missing required Home source.",
+  "generations": [
+    {
+      "id": "home-clean",
+      "purpose": "Fresh clean original Home illustration using the approved reference for visual direction; no reference screenshot crops used as production pixels",
+      "use_case": "stylized-concept",
+      "prompt": "home-clean.prompt.txt",
+      "inputs": [
+        {
+          "path": "output/imagegen/approved/home.png",
+          "sha256": "5dcac9f327f25de8350c193ad0618530e12c041ec4c42ce97ce703c99ff71fc6",
+          "role": "style/composition reference only"
+        }
+      ],
+      "output": "home-clean.png",
+      "sha256": "0218d818dbda27c4612ae3067a962fb2e2cf8cbb4af94bd4c44f5f3cfae2dfde",
+      "dimensions": [
+        841,
+        1870
+      ],
+      "transparent_background": false,
+      "original_tool_path": "C:/Users/nguye/.codex/generated_images/01a1305a-91f6-7ad2-9eb9-7a60c503a13d/exec-f918be78-9300-4d98-afdb-cccfb194c8d0.png",
+      "selected": false,
+      "reason": "Moon/top framing did not survive the required short9:16 center cover; retained as immediate edit input"
+    },
+    {
+      "id": "home-framed",
+      "purpose": "Targeted downward composition correction to protect moon/tower in9:16 cover",
+      "use_case": "precise-object-edit",
+      "prompt": "home-reframe.prompt.txt",
+      "inputs": [
+        {
+          "path": "home-clean.png",
+          "sha256": "0218d818dbda27c4612ae3067a962fb2e2cf8cbb4af94bd4c44f5f3cfae2dfde",
+          "role": "edit target"
+        }
+      ],
+      "output": "home-framed.png",
+      "sha256": "db961a0da9e84a383ce0e508ae76c2e2f937c6fe01df8bb6c689b8fc2683798d",
+      "dimensions": [
+        841,
+        1870
+      ],
+      "transparent_background": false,
+      "original_tool_path": "C:/Users/nguye/.codex/generated_images/01a1305a-91f6-7ad2-9eb9-7a60c503a13d/exec-ef4b7422-fc51-4648-8d6a-804515dc549f.png",
+      "selected": true,
+      "reason": "Complete moon disc and tower survive all three required center-cover crops"
+    }
+  ],
+  "subsequent_authoring": "Pillow/NumPy under the user-requested asset production/export scope: aspect-preserving center cover to1440\u00d73200; explicitly editable semantic region masks; eight-layer OpenRaster packaging; separate adjustable quiet-control tone; opaque720\u00d71600 runtime export. No new typography, wordmark or UI was painted.",
+  "brush_history": "Generated brushwork is flattened within semantic paint regions. Source provides regional repaint/recolour editability, not arbitrary object relocation or brush stroke history.",
+  "retained_approved_references_unchanged": true,
+  "approval_claim": false,
+  "device_test_claim": false
+}

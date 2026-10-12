@@ -1,5 +1,28 @@
 # Rune Cast verification record
 
+## October 13, 2026 — RC-015 shared crypt and separate Home illustration
+
+**Pass for scoped asset production and isolated desktop verification.** [Crypt delivery](../source-assets/environments/crypt/delivery.md), [Home delivery](../source-assets/environments/home/delivery.md) and [preview overview](../output/art/rc-015/overview.png) provide the source, coordinate and usage contracts. Main gameplay and existing character/UI libraries were not modified.
+
+| Evidence | Observed result |
+| --- | --- |
+| [Focused validator](../output/qa/rc-015/validation-report.json) |1,094 checks pass: two crypt/eight Home layers, ORA structure and exact recomposition, external layers/masks, exact source/export correspondence, dimensions/colour/alpha, painted overlap, crops/focal bounds, imports/staged identity, budgets and671 unchanged protected files |
+| [Actual Godot run](../output/qa/rc-015/godot-render-results.json) |780 checks pass;40 PNGs rendered using Godot4.7.2 Standard, OpenGL Compatibility, NVIDIA GeForce RTX5070Ti.136 normal/reduced-motion samples retain texture-space union `[29,84,476,456)` |
+| [Independent visual review](../output/qa/rc-015/visual-review.json) |23 actual renders,4 source images and3 references inspected with hashes; no final scoped blocker. Root additionally inspected source recomposition, lighting, narrow framing, attack/retained hit/defeat and Home specimens |
+| [Manifest/plan audit](../output/qa/rc-015/asset-plan-validation.json) |92 stable records and74 consumer mappings retained; source/evidence paths and dependencies verified; five RC-015 rows reconciled |
+
+Crypt source1682×1140 exports aligned841×570 background/floor, origin(0,0). Visible clean r006 paint is reused with newly painted hidden chamber coverage; no approved screenshot is sliced into production layers. Source coordinates are2× runtime. Default cropRect(0,60,841,450), uniformW/841, viewports720×385/450×241/360×193, foot(446,368) in crop coordinates and character texture scale0.75 before viewport scaling preserve RC-014. Overscan is0 horizontal/60 top/60 bottom. Art-onlyY0/Y120 stress crops prove opaque coverage, not alternate live layouts. Foreground is explicitly omitted. Exactly base cool, warm candle and dark presets share two textures and leave character/UI untinted.
+
+Home source1440×3200 exports720×1600 opaqueRGB. Center-cover source rectangles are9:16 `(0,160,720,1280)`,9:20 full, and9:21.5 `(25.116279,0,669.767442,1600)`. All retain moon/tower. The old80px vertical tolerance is revised to160px for9:16. Six clean/composed Home captures use the unchanged RC-013 wordmark/theme and live controls. Editable semantic regions support repaint/recolour; hidden geometry for movable Home cutouts is not claimed.
+
+Visual iteration fixed a compact crypt name/health overlap and a short-Home logo/tower-apex overlap. The final short Home deliberately partly covers the moon with the separate wordmark, following reference hierarchy; its clean crop keeps the whole painted moon. Feet, lantern and broad attack fit. Retained hit remains unchanged; no dodge behavior is added. Defeat includes the transparent endpoint. [Lighting/scale](../output/art/rc-015/lighting-and-scale.png), [motion](../output/art/rc-015/crypt-motion-contact.png) and overview are three derived sheets, with [source hashes/placements](../output/art/rc-015/contact-sheet-record.json), not extra engine renders.
+
+ConservativeRGBA8 estimates: crypt3.6573MiB, Home4.3945MiB; Combat subtotal19.4073MiB includes three actor poses, full4.75MiB UI,6MiB glyphs and2MiB futureVFX allowance. Transition subtotal including Home/provisionalMap is27.7579MiB, below32/48MiB planning targets. These exclude fonts, engine/render buffers, caches and allocation overhead and are not device measurements.
+
+Reproduction: `tools/preview_environments.ps1`, bundled Python `tools/validate_environments.py`, `tools/rc015_contact_sheets.py`, and `tools/validate_asset_plan.py --report output/qa/rc-015/asset-plan-validation.json`. Only the disposableRC-015 stage is recreated; only environment PNG import recipes are promoted. No unrelated gameplay suite was run. The engine log retains a host shader-cache-directory diagnostic, with no script/import/resource failures.
+
+One initial read-only `git status --short` ran before the pasted prohibition was read and was disclosed immediately; no subsequent Git operation or checkpoint occurred. Model versions/seeds were not exposed; prompts/raw outputs are retained. Painted assets remain`source_ready` with unresolved inherited rights; original lighting code/settings are separately`runtime_ready`. Reference approval does not approve reconstructed assets. Physical-device acceptance, full responsive layout, gameplay binding and event-driven animation remain unverified and assigned downstream. **RC-016A is the next gameplay prerequisite before fullRC-016 acceptance.**
+
 ## October 13, 2026 — Project-wide unnecessary asset cleanup
 
 At the owner's explicit whole-project request, removed2,685 exact audited files totaling150,959,491 bytes (143.97 MiB):227 superseded/duplicate previews,20 source raster intermediates,2,437 generated staging/cache files and one Python bytecode file. [Removal receipt](../output/qa/asset-cleanup-2026-10-13/deletion-manifest.json) records every path/hash/size/reason and documented replacements. No backup copies were kept. All authored masters, canonical layers, runtime assets, generation provenance, approved references, current previews and gameplay remain.

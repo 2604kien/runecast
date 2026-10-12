@@ -1,0 +1,367 @@
+{
+  "purpose": "Mechanical derived Godot contact sheets; no artwork/UI retouching",
+  "outputs": [
+    "overview.png",
+    "crypt-motion-contact.png",
+    "lighting-and-scale.png"
+  ],
+  "sources": [
+    {
+      "file": "crypt-base_cool-720.png",
+      "sha256": "c3759e6fcdc0c1a9219c7c9298561b133aa3009adfbccd4275ba34b823be5bb9",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        359,
+        192
+      ],
+      "placed_at": [
+        30,
+        133
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "crypt-warm_candle-720.png",
+      "sha256": "c48860cbbbd02c8f4cd1b86be0291e1ae776ae0bb635944159b629ba0522a86f",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        359,
+        192
+      ],
+      "placed_at": [
+        420,
+        133
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "crypt-dark-720.png",
+      "sha256": "eefa5879f48476e4a1246a3f66757178a1b26e3fc0a0c42423c8183c01a5a4c1",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        359,
+        192
+      ],
+      "placed_at": [
+        810,
+        133
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "home-1280-composed.png",
+      "sha256": "099f0c005cea05a9333bbf49a832ce2abf729ca1c4a8d120cd595793543bbfa2",
+      "original_size": [
+        720,
+        1280
+      ],
+      "placed_size": [
+        360,
+        640
+      ],
+      "placed_at": [
+        30,
+        432
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "home-1600-composed.png",
+      "sha256": "cc55bb6406f8882ff0baa0895f53e1c48259507bc3c942f2a2a4ab49bf8c81b2",
+      "original_size": [
+        720,
+        1600
+      ],
+      "placed_size": [
+        360,
+        800
+      ],
+      "placed_at": [
+        420,
+        432
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "home-1720-composed.png",
+      "sha256": "7446564130d97e69f71b86c2d9de608d909bac1f21fc09e34f087b4b1e949b90",
+      "original_size": [
+        720,
+        1720
+      ],
+      "placed_size": [
+        360,
+        860
+      ],
+      "placed_at": [
+        810,
+        432
+      ],
+      "process": "proportional LANCZOS thumbnail"
+    },
+    {
+      "file": "crypt-motion-720-idle-060.png",
+      "sha256": "e5a5f423f87127283da4a3d7e7d19b6cfa62757d1807f639e6c97106ba21f532",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        20,
+        132
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-motion-720-attack-046.png",
+      "sha256": "d2a48a44156b1c23b7b123cb7709e81d281560e54a6eece16e28698523c4876a",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        758,
+        132
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-motion-720-hit-018.png",
+      "sha256": "471fd2222696f3c88a4c21b687a7d4c475d04da461ed33b0ec0e00fd83d06dfa",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        20,
+        572
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-motion-720-defeat-068.png",
+      "sha256": "9834f74856aded4b6daff71d70446a865b131aa9c215afcf16413750b157e632",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        758,
+        572
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-motion-720-defeat-125.png",
+      "sha256": "39aa6d7ea207958f4dd18485ef8aaabc9da2411ce1c10b9db62296d6313ed385",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        20,
+        1012
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-motion-guides-720.png",
+      "sha256": "f53ecf1c983f9fe63d81ecd0514130b946a872dd6b4a9f2cee026f6cff6e266c",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        758,
+        1012
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-base_cool-720.png",
+      "sha256": "c3759e6fcdc0c1a9219c7c9298561b133aa3009adfbccd4275ba34b823be5bb9",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        24,
+        135
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-base_cool-450.png",
+      "sha256": "62bc4782a0a4ebd9a3116ea225c1a264ac54353bdce2af72993585302f26942f",
+      "original_size": [
+        450,
+        241
+      ],
+      "placed_size": [
+        450,
+        241
+      ],
+      "placed_at": [
+        768,
+        135
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-base_cool-360.png",
+      "sha256": "48744e35a910e165846f971bab0d1fbe645701d7de4df7f0c8ba2e2ad8c998c4",
+      "original_size": [
+        360,
+        193
+      ],
+      "placed_size": [
+        360,
+        193
+      ],
+      "placed_at": [
+        1242,
+        135
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-warm_candle-720.png",
+      "sha256": "c48860cbbbd02c8f4cd1b86be0291e1ae776ae0bb635944159b629ba0522a86f",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        24,
+        575
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-warm_candle-450.png",
+      "sha256": "d809f8011b14f80273513e31ff9ac65bd9e817eee0bd6971907161909b69aba5",
+      "original_size": [
+        450,
+        241
+      ],
+      "placed_size": [
+        450,
+        241
+      ],
+      "placed_at": [
+        768,
+        575
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-warm_candle-360.png",
+      "sha256": "59086e586e2e52756b3157f3a6a9b2024902d9ed49c42b937ee555d7195496e8",
+      "original_size": [
+        360,
+        193
+      ],
+      "placed_size": [
+        360,
+        193
+      ],
+      "placed_at": [
+        1242,
+        575
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-dark-720.png",
+      "sha256": "eefa5879f48476e4a1246a3f66757178a1b26e3fc0a0c42423c8183c01a5a4c1",
+      "original_size": [
+        720,
+        385
+      ],
+      "placed_size": [
+        720,
+        385
+      ],
+      "placed_at": [
+        24,
+        1015
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-dark-450.png",
+      "sha256": "3ef089020fea97e7e28d916cc234def9d4c1a65af92a2ba95926e56e72b96f84",
+      "original_size": [
+        450,
+        241
+      ],
+      "placed_size": [
+        450,
+        241
+      ],
+      "placed_at": [
+        768,
+        1015
+      ],
+      "process": "native pixel paste"
+    },
+    {
+      "file": "crypt-dark-360.png",
+      "sha256": "2198c307051f858787372b687cab5e18f6e15825cd03434a3f62286d7da9fe76",
+      "original_size": [
+        360,
+        193
+      ],
+      "placed_size": [
+        360,
+        193
+      ],
+      "placed_at": [
+        1242,
+        1015
+      ],
+      "process": "native pixel paste"
+    }
+  ]
+}

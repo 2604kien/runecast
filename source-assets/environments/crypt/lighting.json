@@ -1,0 +1,15 @@
+{
+  "asset_id": "crypt_lighting",
+  "task": "RC-015",
+  "revision": "r001",
+  "color_operation": "Per-channel RGB multiplication then clamp [0,1]; straight alpha unchanged. Shader applies to environment layers only.",
+  "presets": {
+    "base_cool": {"tone": [1.0, 1.0, 1.0], "use": "training/gallery shared indigo painting"},
+    "warm_candle": {"tone": [1.12, 1.03, 0.93], "use": "ossuary/recovery shared warm candle variation"},
+    "dark": {"tone": [0.74, 0.80, 0.92], "use": "belfry/dark variation, retaining actor and live UI readability"}
+  },
+  "runtime_resource": "assets/environments/crypt/lighting.tres",
+  "runtime_scene": "assets/environments/crypt/environment.tscn",
+  "artwork": ["assets/environments/crypt/background.png", "assets/environments/crypt/floor.png"],
+  "exclusions": "No character, UI or global CanvasModulate tint; no duplicated backgrounds; no new biome. These scene specimens are not main-game integration."
+}

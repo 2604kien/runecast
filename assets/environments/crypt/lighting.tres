@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/environments/crypt/lighting.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+base_cool = Vector3(1, 1, 1)
+warm_candle = Vector3(1.12, 1.03, 0.93)
+dark = Vector3(0.74, 0.8, 0.92)
