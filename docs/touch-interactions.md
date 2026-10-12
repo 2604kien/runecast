@@ -1,31 +1,30 @@
 # Touch inspection and board editing
 
-**October 11 final visual/control direction:** [The owner-approved gameplay contract](gameplay-visual-contract.md) replaces the gameplay editing toolbar with **Remove and Rotate only**; Flip, Undo, Inspect, Cancel selection and Details / Pass are removed from that visible area. Detailed cards, draw/discard piles and an information bar above Cast replace the compact-only/no-summary design. The RC-008 text below remains documentation of the current runtime, not the future visual target. No input bindings were changed by finalizing the image.
-
-**October 9, 2026 — RC-008 interaction contract.** This describes the implemented screen controls. The dated [verification record](verification.md) and [project handoff](project-plan.md) own final results and completion status. Production gameplay, balance, ownership, random streams and historical experiment rules are unchanged.
+**October 13, 2026 — current production interaction contract.** RC-016A migrates the RC-008 interaction foundation to the [accepted gameplay contract](gameplay-visual-contract.md): **Remove and Rotate only** for editing, detailed cards, live draw/discard counts and a persistent information bar above Cast. The visible **Pass turn** action occupies the former WIRING-label position beside the connector tools, as the owner requested. The dated [verification record](verification.md) and [project handoff](project-plan.md) own final results and completion status. Explicit historical profiles retain their older controls and directed rules; the full RC-016 art integration and physical-device testing remain separate.
 
 ## Tap, inspect and cancel
 
 | Action | Result |
 | --- | --- |
-| Tap an effect rune in hand | Select that card instance. Tap an eligible board cell to install it. Its casting cost is not paid by inspection, selection or placement. |
-| Tap a connector tool | Select Straight, Corner, Split or Join. Its button remains selected while placing multiple pieces. |
-| Tap an installed piece with no placement selected | Select the cell for Rotate or Flip. A bright outline marks the selected cell. |
+| Tap an effect rune in hand | Select that card instance. Tap an eligible board cell to install it. Tap the selected card again to clear selection. Its casting cost is not paid by inspection, selection or placement. |
+| Tap a connector tool | Select Straight, Corner, Split or Join. Its button remains selected while placing multiple pieces; tap it again to clear selection. |
+| Tap an installed piece with no placement selected | Select the cell for Rotate. A bright outline marks the selected cell. |
 | Tap a production endpoint while a card/tool is selected | Safely select the endpoint and clear placement. The status explains its protection and current direction. |
 | Hold a hand card, board piece or connector button | Open its inspector without the corresponding tap action. This works for techniques as well as effect runes. |
-| Turn **Inspect: ON**, then tap an item | Open the same inspector. This discoverable alternative needs no hold timing and never places a card or activates a technique. Changing Inspect mode clears the prior placement/cell selection. |
-| **Close** or Escape while inspecting | Close the panel. Inspect mode stays on if it was enabled. The closing gesture cannot activate a background control. |
-| **Cancel selection** (shortened to **Cancel** on narrow screens) or Escape outside the inspector | Clear the selected card, tool and cell, remove placement previews and turn Inspect mode off. |
+| Tap or keyboard-activate a hand card's **Info** button | Open that card's inspector without using the card. This separate focusable control needs no hold timing, including for techniques. |
+| Press **I** on a focused piece/tool, or right-click it | Open its inspector without selecting, placing, rotating or activating it. |
+| **Close** or Escape while inspecting | Close the panel and restore available originating focus. The closing gesture cannot activate a background control. |
+| Escape outside the inspector, or tap the selected card/tool again | Clear the selected card, tool and cell and remove placement previews. There is no visible Cancel selection button in production. |
 
-Normal short taps on **Focus** and **Conjure Spark** still activate the technique immediately through the guarded controller. There is no activation button inside a card inspector. To read a technique safely, hold it or enable Inspect before tapping it. Inspection never spends energy, consumes cards, creates cards, changes random streams or adds an Undo entry.
+Normal short taps on **Focus** and **Conjure Spark** still activate the technique immediately through the guarded controller. There is no activation button inside a card inspector. To read a technique safely, use Info or hold it. Inspection never spends energy, consumes cards, creates cards, changes random streams or adds an edit-history entry.
 
-Rune cards retain their compact name/symbol/value faces. Costs and longer explanations belong in the dismissible panel; desktop tooltips remain supplementary. The enemy arena and board composition remain substantial, and there is no permanent forecast strip above Cast.
+Production hand cards use the existing RC-013 detailed component with live cost, name, symbol, type and short effect text, alongside RC-012 icons. Draw and Discard controls show live counts and open pile details. A live action log sits above the hand. The persistent damage/shield/cost/incoming bar above Cast opens circuit details and states invalid or unaffordable previews; it scrolls with the page rather than staying fixed to the viewport. Desktop tooltips remain supplementary.
 
 ## Inspector content
 
-The inspector reads a fresh detached controller snapshot. It shows the current name, kind, effect/value, energy cost and payment time; real input/output directions including rotation and wire reversal; permanent or temporary ownership; and the active profile's Cast/Pass cleanup. Connector inspection includes available/total stock or the historical unlimited-wire rule. Begin/End inspection includes their direction and whether the active profile permits Rotate.
+The inspector reads a fresh detached controller snapshot. It shows the current name, kind, effect/value, energy cost and payment time; rotated logical port directions without input/output polarity in production; permanent or temporary ownership; and the active profile's Cast/Pass cleanup. Connector inspection includes available/total stock or the historical unlimited-wire rule. Begin/End inspection includes their port direction and whether the active profile permits Rotate. Split has W/E/S and Join N/E/S before rotation; decorative glyph tips do not add ports.
 
-Installed pieces report **powered from Begin**, **partially connected** when a Join still lacks an input, or **disconnected**. A powered upstream piece can coexist with an incomplete circuit: the inspector says that the circuit cannot Cast yet. This connection description does not change the model's Cast validity or cost calculation.
+Production pieces report their connection to Begin using the evaluator's reached component, even when construction is incomplete. A reached piece can coexist with an invalid circuit: the inspector says that the circuit cannot Cast yet. A valid circuit's active pieces and aggregation order come from the same evaluator. Disconnected pieces contribute no spell effect or cost. Historical Join descriptions retain the old partially-connected/input language only in their directed profiles.
 
 Descriptions honor the historical profiles. Locked endpoints remain locked, corner effect ports keep their actual shape, and persistent/consumed effects or temporary replacement wires use that profile's cleanup semantics. Production descriptions explain that all connectors clear, all installed permanent runes discard and all temporaries disappear after Cast/Pass, including disconnected pieces.
 
@@ -40,16 +39,16 @@ An eligible cell means the construction step is legal; it does not promise a com
 | Control | Availability and behavior |
 | --- | --- |
 | **Rotate** | Enabled for a selected occupied editable piece, including endpoints only where the active profile permits it. Turns clockwise; endpoint feedback names the new direction. |
-| **Flip** | Enabled only for selected Straight or Corner wires. Reverses their input/output direction. |
-| **Undo** | Enabled only when actual edit history exists. Restores board, hand and derived stock together, then clears selection. It cannot cross technique or turn boundaries. |
-| **Erase** | Select the tool and tap an eligible occupied cell. Runes return to hand; connectors refund stock. Empty cells, endpoints and blocked cells reject it. |
-| Connector stock | Buttons show available / total and visually mute exhausted stock while remaining inspectable. Erase, replacement, rune-over-connector placement and Undo update the quantities immediately. Replacing a connector with its own kind is permitted even with no spare stock. |
+| **Remove** | Select the tool and tap an eligible occupied cell. Runes return to hand; connectors refund stock. Empty cells and endpoints reject it. Tap Remove again to clear selection. |
+| Connector stock | Buttons show available / total and visually mute exhausted stock while remaining inspectable. Removal, replacement and rune-over-connector placement update the quantities immediately. Replacing a connector with its own kind is permitted even with no spare stock. |
 
-Rotate, Flip, Undo and Erase use labeled controls, with enlarged editing targets. Disabled appearance communicates availability; view handlers and the combat controller still validate commands. **Details / Pass** includes reasons for unavailable editing actions on the selected cell.
+Remove and Rotate use labeled controls and RC-012 icons, with enlarged editing targets. Disabled appearance communicates availability; view handlers and the combat controller still validate commands. Circuit details include reasons for unavailable editing actions on the selected cell. Production has no visible Flip, Undo, Inspect-mode, Cancel selection or Details / Pass control.
 
 ## Circuit details and Pass
 
-**Details / Pass** opens the current circuit message, available energy, casting cost, damage/shield and expected incoming attack. It remains usable with an incomplete circuit or empty hand. **Pass turn…** first opens a confirmation explaining the enemy attack and applicable cleanup; only **Confirm Pass / enemy acts** sends the guarded Pass command. Close/Escape cancels that confirmation. The existing Menu Pass path remains available.
+Activate the persistent forecast above Cast to open the current circuit message, available energy, casting cost, damage/shield and expected incoming attack. Invalid and unaffordable forecasts remain inspectable while preparation is available; an unaffordable preview cannot Cast.
+
+The visible **Pass turn** control is first in the wiring row, beside Straight, Corner, Split and Join. It opens a confirmation with the live enemy attack, no spell/shield, full board/hand cleanup and next-turn behavior. Only **Confirm Pass / enemy acts** sends the guarded Pass command. Cancel/Escape dismisses it. It remains available with an incomplete circuit or empty hand. Production does not depend on Menu or the circuit-details panel to end a turn without casting.
 
 ## Scrolling and gesture thresholds
 
@@ -69,15 +68,17 @@ Mouse presses use the same tap/hold/drag arbitration. Keyboard focus/activation 
 
 ## Lifecycle and state ownership
 
-Selection, inspector visibility, Inspect mode, placement borders and gesture timing live only in the UI. [`inspection_data.gd`](../scripts/ui/inspection_data.gd) owns read-only descriptions and availability explanations; [`main.gd`](../scripts/ui/main.gd) owns selection/modal state; the router owns one pending pointer gesture. The existing controller remains the authoritative command guard.
+Selection, inspector visibility, placement borders and gesture timing live only in the UI; Inspect mode is retained for explicit historical screens. [`inspection_data.gd`](../scripts/ui/inspection_data.gd) owns read-only descriptions and availability explanations; [`main.gd`](../scripts/ui/main.gd) owns selection/modal state; the router owns one pending pointer gesture. The existing controller remains the authoritative command guard.
 
 Every screen refresh cancels pending gesture callbacks. Any changed snapshot or busy presentation closes the inspector and clears old feedback; consumed hand UIDs are removed from selection. Turn, encounter generation or battle-state changes and presentation start clear all selection and Inspect mode. Undo, Restart, Exact replay and experiment relaunch explicitly clear them too. Startup failure closes inspection and disables gameplay. Focus loss, presentation cancellation/refresh and scene teardown invalidate pending gestures; teardown also disposes the controller.
 
 Cancellation advances a generation counter and clears callbacks while retaining ownership of the physical stream until release. On application or native-window focus loss, the router also clears tracked pointers because the OS may omit their releases; a fresh foreground gesture can then start normally, while an old emulated release remains suppressed. Stale holds, old controls, duplicate releases and a release after modal dismissal cannot target a new card, place a piece or unlock presentation. Opening or closing a modal also invalidates its pending callbacks. Inspection panels close when their source state changes instead of keeping an obsolete UID or board description actionable.
 
-## Verification and remaining device work
+## Historical controls and verification
 
-The fresh pre-edit baseline passed **1063 core checks and 333 UI checks**. Final verification passes **1063 core / 503 UI checks**, plus **82 rendered interaction/capture checks** (73 repeated scene checks and nine screenshot saves), all with zero failures. Current command results, representative normal/smaller portrait captures and RC-008 completion are recorded in the dated [verification entry](verification.md#october-9-2026--rc-008-touch-inspection-complete); historical logs, screenshots and raw experiment records are preserved separately from new RC-008 output.
+Explicit historical training/experiment screens retain compact cards, Rotate/Flip/Undo/Erase, Inspect mode, Cancel selection and Details / Pass plus Menu Pass. Inspect-mode taps never activate techniques; Close retains that mode, and Cancel selection clears it. Those profiles keep directed port descriptions and their original cleanup behavior. Their UI and fixtures are not instructions for current production controls.
+
+The October 9 RC-008 pre-edit baseline passed **1063 core checks and 333 UI checks**. Its final verification passed **1063 core / 503 UI checks**, plus **82 rendered interaction/capture checks** (73 repeated scene checks and nine screenshot saves), all with zero failures. These historical counts describe the prior controls, not RC-016A completion. Their command results and captures remain in the dated [RC-008 verification entry](verification.md#october-9-2026--rc-008-touch-inspection-complete); current migration evidence belongs in the separate RC-016A entry.
 
 [`inspection_data_tests.gd`](../tests/inspection_data_tests.gd) checks live content, stock, directions, power status, historical permissions/cleanup and purity including all three random streams and Undo. [`touch_router_tests.gd`](../tests/touch_router_tests.gd) checks arbitration and cancellation with deterministic time. [`ui_touch_tests.gd`](../tests/ui_touch_tests.gd) routes **synthetic** touch/mouse events through the actual scene/viewport; [`ui_touch_capture.gd`](../tests/ui_touch_capture.gd) runs that coverage with separate capture destinations. Tests disable automatic timing and advance the same hold path explicitly rather than waiting for fragile wall-clock delays.
 

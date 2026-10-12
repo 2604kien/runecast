@@ -5,7 +5,7 @@ extends RefCounted
 # No search, reroll, free card, stock override or board mutation occurs here.
 const Loader = preload("res://scripts/core/content_loader.gd")
 const PATH := "res://data/board_examples.json"
-const VERSION := "rc009_board_examples_v1"
+const VERSION := "rc016a_board_examples_v1"
 const BOARD_IDS := ["board_training", "board_gallery", "board_ossuary", "board_belfry"]
 const EDIT_COMMANDS := ["place_wire", "place_rune", "rotate", "flip", "undo", "technique"]
 

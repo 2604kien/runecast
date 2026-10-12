@@ -51,12 +51,24 @@ func _inspection(scene: Control, viewport: SubViewport, tree: SceneTree, check: 
 		check.call(not scene.inspector.visible and _state(scene) == before, "Closing the %s inspector through touch does not click through." % type)
 	var technique := _uid(scene.game, "technique")
 	var before := _state(scene)
-	await _reveal(scene, scene.inspect_button, tree)
-	_tap(viewport, scene.inspect_button)
-	await _layout(tree)
+	await _reveal(scene, scene.info_buttons[technique], tree)
+	_tap(viewport, scene.info_buttons[technique])
+	check.call(not scene.inspect_mode and scene.inspector.visible and _state(scene) == before, "The technique's visible Info control opens read-only details without activating the card or selecting a mode.")
+	await _close(scene, viewport, tree)
+	await _reveal(scene, scene.info_buttons[technique], tree)
+	scene.info_buttons[technique].grab_focus()
+	_key(viewport, KEY_ENTER)
+	check.call(scene.inspector.visible and _state(scene) == before, "Keyboard Enter on a card's Info button opens details without playing the technique.")
+	await _close(scene, viewport, tree)
+	check.call(viewport.gui_get_focus_owner() == scene.info_buttons[technique], "Closing details restores keyboard focus to the originating Info button.")
 	await _reveal(scene, _card(scene, technique), tree)
-	_tap(viewport, _card(scene, technique))
-	check.call(scene.inspect_mode and scene.inspector.visible and _state(scene) == before, "Discoverable Inspect mode turns a technique's short tap into read-only inspection.")
+	_card(scene, technique).grab_focus()
+	_key(viewport, KEY_I)
+	check.call(scene.inspector.visible and _state(scene) == before, "The I shortcut inspects a focused technique card through real routed keyboard input.")
+	await _close(scene, viewport, tree)
+	await _reveal(scene, _card(scene, technique), tree)
+	_right_click(viewport, _point(_card(scene, technique)))
+	check.call(scene.inspector.visible and _state(scene) == before, "A real right-click on a technique card opens details without using or selecting it.")
 	await _close(scene, viewport, tree)
 	scene._cancel_selection()
 	await _layout(tree)
@@ -87,14 +99,20 @@ func _editing(scene: Control, viewport: SubViewport, tree: SceneTree, check: Cal
 	await _reveal(scene, scene.cells[empty[0]], tree)
 	_tap(viewport, scene.cells[empty[0]])
 	check.call(scene.game.board[empty[0]].get("kind") == "straight" and scene.game.stock.straight == before.snapshot.stock.straight - 1 and not scene.game.forecast.valid, "Touch placement accepts a legal construction step while the circuit is incomplete.")
-	await _reveal(scene, scene.cancel_button, tree)
-	_tap(viewport, scene.cancel_button)
-	check.call(scene.selected_tool == "" and scene.selected_uid == -1 and scene.selected_cell == -1 and scene.cells.all(func(cell): return cell.preview == 0), "Touch Cancel clears the card/tool/cell selection and all candidate overlays.")
+	await _reveal(scene, scene.stock_buttons.straight, tree)
+	_tap(viewport, scene.stock_buttons.straight)
+	check.call(scene.selected_tool == "" and scene.selected_uid == -1 and scene.selected_cell == -1 and scene.cells.all(func(cell): return cell.preview == 0), "Tapping the selected tool again clears selection and all candidate overlays without a Cancel control.")
 	var uid := _uid(scene.game, "rune")
 	await _layout(tree)
 	await _reveal(scene, _card(scene, uid), tree)
 	_tap(viewport, _card(scene, uid))
 	check.call(scene.selected_uid == uid and _card(scene, uid).button_pressed, "A short rune tap visibly selects its exact UID.")
+	await _layout(tree)
+	check.call(viewport.gui_get_focus_owner() == _card(scene, uid), "Rebuilding the detailed hand preserves keyboard focus on the selected surviving UID.")
+	_tap(viewport, _card(scene, uid))
+	check.call(scene.selected_uid == -1 and scene.selected_tool == "", "Tapping the selected rune again clears its selection without playing or installing it.")
+	await _layout(tree)
+	_tap(viewport, _card(scene, uid))
 	await _layout(tree)
 	await _reveal(scene, scene.cells[empty[0]], tree)
 	_tap(viewport, scene.cells[empty[0]])
@@ -117,14 +135,13 @@ func _editing(scene: Control, viewport: SubViewport, tree: SceneTree, check: Cal
 	await _reveal(scene, scene.cells[endpoints.begin], tree)
 	_tap(viewport, scene.cells[endpoints.begin])
 	before = _state(scene)
-	check.call(scene.selected_cell == endpoints.begin and scene.cells[endpoints.begin].chosen and not scene.action_buttons.rotate.disabled and scene.action_buttons.flip.disabled, "Touch selects Begin visibly; Rotate is enabled and unsupported Flip is disabled.")
+	check.call(scene.selected_cell == endpoints.begin and scene.cells[endpoints.begin].chosen and not scene.action_buttons.rotate.disabled and not scene.action_buttons.has("flip") and not scene.action_buttons.has("undo"), "Touch selects Begin visibly with Rotate enabled and no Flip or Undo controls.")
 	await _reveal(scene, scene.action_buttons.rotate, tree)
 	_tap(viewport, scene.action_buttons.rotate)
-	check.call(scene.game.board[endpoints.begin].rotation == (int(before.snapshot.board[endpoints.begin].rotation) + 1) % 4 and scene.status.text.contains("Undo restores") and scene.game.stock == before.snapshot.stock, "The touch-sized Rotate control changes the selected endpoint and explains its direction without spending stock.")
+	check.call(scene.game.board[endpoints.begin].rotation == (int(before.snapshot.board[endpoints.begin].rotation) + 1) % 4 and scene.status.text.contains("Rotate") and scene.game.stock == before.snapshot.stock, "The touch-sized Rotate control changes the selected endpoint and explains its direction without spending stock.")
 	await _capture(viewport, tree, directory, "selected-rotated-endpoint.png", check)
-	await _reveal(scene, scene.action_buttons.undo, tree)
-	_tap(viewport, scene.action_buttons.undo)
-	check.call(scene.game.board == before.snapshot.board and scene.selected_cell == -1, "Touch Undo restores endpoint geometry and clears stale selection.")
+	for _quarter in range(3): _tap(viewport, scene.action_buttons.rotate)
+	check.call(scene.game.board == before.snapshot.board and scene.selected_cell == endpoints.begin and scene.game.stock == before.snapshot.stock, "Four Rotate touches restore endpoint geometry while preserving its selection and finite stock.")
 	for tool in ["straight", "erase"]:
 		before = _state(scene)
 		scene._select_tool(tool)
@@ -148,8 +165,11 @@ func _editing(scene: Control, viewport: SubViewport, tree: SceneTree, check: Cal
 	await _reveal(scene, scene.cells[empty[0]], tree)
 	_tap(viewport, scene.cells[empty[0]])
 	check.call(scene.game.stock.straight == 1 and scene.game.board[empty[0]].is_empty() and scene.stock_buttons.straight.text.contains("1 /"), "Touch Erase refunds one connector and refreshes finite-stock feedback immediately.")
-	scene._undo()
-	check.call(scene.game.stock.straight == 0 and scene.game.board[empty[0]].get("kind") == "straight" and scene.selected_tool == "", "Undo of Erase reinstalls the reserved connector and cancels the erase tool.")
+	await _reveal(scene, scene.stock_buttons.straight, tree)
+	_tap(viewport, scene.stock_buttons.straight)
+	await _reveal(scene, scene.cells[empty[0]], tree)
+	_tap(viewport, scene.cells[empty[0]])
+	check.call(scene.game.stock.straight == 0 and scene.game.board[empty[0]].get("kind") == "straight" and scene.selected_tool == "straight", "Reinstalling a removed connector reserves the refunded stock exactly once through visible controls.")
 
 func _details_and_modal(scene: Control, viewport: SubViewport, tree: SceneTree, check: Callable, directory: String) -> void:
 	scene._exact_replay()
@@ -168,19 +188,24 @@ func _details_and_modal(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	check.call(not scene.inspector.visible and scene.selected_tool == "straight" and _state(scene) == before, "Keyboard Escape dismisses the inspector without executing or clearing the underlying tool.")
 	_escape(viewport)
 	check.call(scene.selected_tool == "" and scene.selected_cell == -1 and _state(scene) == before, "A second keyboard Escape cancels the active selection without changing combat.")
-	var details: Button = scene.inspect_button.get_parent().get_child(2)
-	await _reveal(scene, details, tree)
-	_tap(viewport, details)
+	await _reveal(scene, scene.forecast_button, tree)
+	_tap(viewport, scene.forecast_button)
 	await _layout(tree)
-	check.call(scene.inspector.visible and scene.inspector_pass.visible and scene.inspector_text.text.contains(scene.game.forecast.message) and _state(scene) == before, "The actual Details / Pass control explains an incomplete circuit without a permanent forecast strip or model changes.")
-	_tap(viewport, scene.inspector_pass)
+	check.call(scene.inspector.visible and not scene.inspector_pass.visible and scene.inspector_text.text.contains(scene.game.forecast.message) and _state(scene) == before, "The persistent forecast opens read-only incomplete-circuit details without restoring Details / Pass.")
+	await _close(scene, viewport, tree)
+	await _reveal(scene, scene.turn_pass_button, tree)
+	_tap(viewport, scene.turn_pass_button)
 	await _layout(tree)
-	check.call(scene.inspector_confirm_pass.visible and not scene.inspector_pass.visible and _state(scene) == before, "The first Pass touch only opens an explicit consequence confirmation.")
+	check.call(scene.inspector_confirm_pass.visible and not scene.inspector_pass.visible and scene.inspector_text.text.contains(str(scene.game.intent)) and _state(scene) == before, "Visible Pass turn opens an explicit live enemy-consequence confirmation without committing a turn.")
+	await _close(scene, viewport, tree)
+	check.call(_state(scene) == before and not scene.inspector.visible, "Cancelling Pass confirmation leaves all combat state and random streams unchanged.")
+	await _reveal(scene, scene.turn_pass_button, tree)
+	_tap(viewport, scene.turn_pass_button)
+	await _layout(tree)
 	await _capture(viewport, tree, directory, "pass-confirmation.png", check)
 	_tap(viewport, scene.inspector_confirm_pass)
 	check.call(scene.game.turn == int(before.snapshot.turn) + 1 and scene.game.player_hp == int(before.snapshot.player_hp) - int(before.snapshot.intent) and not scene.inspector.visible and scene.selected_tool == "", "Confirm Pass advances exactly one turn, applies the unshielded enemy attack and closes the modal.")
-	scene._show_details()
-	scene._confirm_pass_details()
+	scene.turn_pass_button.pressed.emit()
 	scene._restart()
 	before = _state(scene)
 	scene._accept_pass_details()
@@ -191,7 +216,7 @@ func _gesture_conflicts(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	await _layout(tree)
 	var technique := _uid(scene.game, "technique")
 	await _reveal(scene, _card(scene, technique), tree)
-	var point: Vector2 = _card(scene, technique).get_global_rect().get_center()
+	var point: Vector2 = _point(_card(scene, technique))
 	var before := _state(scene)
 	_touch(viewport, point, true)
 	_drag(viewport, point + Vector2(-Router.MOVE_THRESHOLD - 12, 1), Vector2(-Router.MOVE_THRESHOLD - 12, 1))
@@ -204,7 +229,7 @@ func _gesture_conflicts(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	check.call(_state(scene) == before and not scene.inspector.visible, "A cancelled pointer on the real hand cannot execute later.")
 	var uid := _uid(scene.game, "rune")
 	await _reveal(scene, _card(scene, uid), tree)
-	point = _card(scene, uid).get_global_rect().get_center()
+	point = _point(_card(scene, uid))
 	_touch(viewport, point, true)
 	_touch(viewport, point, true, 1)
 	_touch(viewport, point, false, 1)
@@ -215,7 +240,7 @@ func _gesture_conflicts(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	scene._cancel_selection()
 	await _layout(tree)
 	await _reveal(scene, _card(scene, technique), tree)
-	point = _card(scene, technique).get_global_rect().get_center()
+	point = _point(_card(scene, technique))
 	var card_id: String = _card_id(scene.game, technique)
 	var cost: int = scene.game.catalog[card_id].cost
 	_touch(viewport, point, true)
@@ -255,7 +280,7 @@ func _lifecycle(scene: Control, viewport: SubViewport, tree: SceneTree, check: C
 	await _layout(tree)
 	var uid := _uid(scene.game, "rune")
 	await _reveal(scene, _card(scene, uid), tree)
-	var point: Vector2 = _card(scene, uid).get_global_rect().get_center()
+	var point: Vector2 = _point(_card(scene, uid))
 	_touch(viewport, point, true)
 	scene._restart()
 	var before := _state(scene)
@@ -268,7 +293,7 @@ func _lifecycle(scene: Control, viewport: SubViewport, tree: SceneTree, check: C
 	scene.controller.set_presenter(delayed)
 	uid = _uid(scene.game, "rune")
 	await _reveal(scene, _card(scene, uid), tree)
-	point = _card(scene, uid).get_global_rect().get_center()
+	point = _point(_card(scene, uid))
 	_touch(viewport, point, true)
 	scene._pass()
 	before = _state(scene)
@@ -304,7 +329,8 @@ func _large_hand(scene: Control, viewport: SubViewport, tree: SceneTree, check: 
 	_touch(viewport, start - Vector2(440, 0), false)
 	await _layout(tree)
 	check.call(scene.hand_scroll.scroll_horizontal > 0 and _state(scene) == before and scene.selected_uid == -1 and not scene.inspector.visible, "Dragging the actual fourteen-card hand scrolls horizontally without playing or selecting any card.")
-	for attempt in range(4):
+	# The migrated detailed cards are wider than the original compact cards.
+	for attempt in range(8):
 		_touch(viewport, start, true)
 		_drag(viewport, start - Vector2(440, 0), Vector2(-440, 0))
 		_touch(viewport, start - Vector2(440, 0), false)
@@ -324,7 +350,7 @@ func _small_inspector(scene: Control, viewport: SubViewport, tree: SceneTree, ch
 	scene._cancel_selection()
 	viewport.size = Vector2i(360, 640)
 	await _layout(tree)
-	var controls: Array = [scene.encounter_title, scene.stats, scene.hand_scroll, scene.status, scene.cast_button, scene.inspect_button, scene.cancel_button]
+	var controls: Array = [scene.encounter_title, scene.stats, scene.hand_scroll, scene.status, scene.cast_button, scene.turn_pass_button, scene.forecast_button, scene.draw_button, scene.discard_button, scene.hand_count]
 	controls.append_array(scene.cells)
 	controls.append_array(scene.edit_buttons)
 	var outside: Array[String] = []
@@ -403,7 +429,7 @@ func _teardown(scene: Control, viewport: SubViewport, tree: SceneTree, check: Ca
 	await _layout(tree)
 	var uid: int = scene.game.hand[0].uid
 	await _reveal(scene, _card(scene, uid), tree)
-	var point: Vector2 = _card(scene, uid).get_global_rect().get_center()
+	var point: Vector2 = _point(_card(scene, uid))
 	_touch(viewport, point, true)
 	var controller = scene.controller
 	var before: Dictionary = controller.snapshot()
@@ -516,6 +542,8 @@ func _layout(tree: SceneTree) -> void:
 	await tree.process_frame
 
 func _reveal(scene: Control, control: Control, tree: SceneTree) -> void:
+	if scene.hand_box.is_ancestor_of(control):
+		scene.hand_scroll.ensure_control_visible(control)
 	scene.page_scroll.ensure_control_visible(control)
 	await _layout(tree)
 
@@ -525,15 +553,37 @@ func _close(scene: Control, viewport: SubViewport, tree: SceneTree) -> void:
 	await _layout(tree)
 
 func _tap(viewport: SubViewport, control: Control) -> void:
-	var point := control.get_global_rect().get_center()
+	var point := _point(control)
 	_touch(viewport, point, true)
 	_touch(viewport, point, false)
 
 func _hold(viewport: SubViewport, scene: Control, control: Control) -> void:
-	var point := control.get_global_rect().get_center()
+	var point := _point(control)
 	_touch(viewport, point, true)
 	scene.gestures.advance_time(Router.LONG_PRESS_SECONDS + 0.01)
 	_touch(viewport, point, false)
+
+func _point(control: Control) -> Vector2:
+	var rect := control.get_global_rect()
+	# Detailed cards contain independent description scrolling and Info controls.
+	# Target the card's header for card selection/hold rather than those children.
+	return Vector2(rect.get_center().x, rect.position.y + 30) if control.has_meta("uid") else rect.get_center()
+
+func _key(viewport: SubViewport, keycode: Key) -> void:
+	for down in [true, false]:
+		var event := InputEventKey.new()
+		event.keycode = keycode
+		event.pressed = down
+		viewport.push_input(event, true)
+
+func _right_click(viewport: SubViewport, point: Vector2) -> void:
+	for down in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.position = point
+		event.global_position = point
+		event.button_index = MOUSE_BUTTON_RIGHT
+		event.pressed = down
+		viewport.push_input(event, true)
 
 func _touch(viewport: Viewport, point: Vector2, down: bool, index: int = 0, cancelled: bool = false) -> void:
 	var event := InputEventScreenTouch.new()

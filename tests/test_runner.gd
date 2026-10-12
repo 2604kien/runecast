@@ -92,6 +92,7 @@ func _initialize() -> void:
 	preload("res://tests/free_endpoint_tests.gd").new().run(check)
 	preload("res://tests/experiment_record_tests.gd").new().run(check)
 	preload("res://tests/production_rules_tests.gd").new().run(check)
+	preload("res://tests/undirected_circuit_tests.gd").new().run(check)
 	preload("res://tests/connector_geometry_tests.gd").new().run(check)
 	preload("res://tests/production_content_tests.gd").new().run(check)
 	preload("res://tests/production_combat_tests.gd").new().run(check)

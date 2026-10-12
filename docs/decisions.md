@@ -1,5 +1,17 @@
 # Rune Cast decisions
 
+## October 13, 2026 — RC-016A undirected graph and controls accepted
+
+After reviewing the unresolved choices against the code, the owner replied: **“Let's change the WIRING button to Pass turn button instead of going to menu. I approve everything else”**. This accepts the following contract before dependent implementation. It supersedes conflicting RC-007/RC-008 production behavior; historical directed experiments remain separate.
+
+- Logical geometry at rotation zero: Split **W/E/S**, Join **N/E/S**; three ports each. Rotate turns all ports clockwise. Connections have no input/output polarity. Begin remains the source, End the sink. In the complete graph Split must branch one incoming route into two, and Join merge two into one; any of their geometric ports can serve the inferred role. Decorative glyph tips add no ports.
+- Preserve signal amplification: Spark6 before a Split/rejoin contributes12; a shared Spark6 after Join contributes6 once. Each physical rune executes once after its predecessor signals combine; each physical rune/Split/Join pays its cost once. Costs remain definition cost / Split1 / Join0. End emits one aggregate damage event.
+- Permit ordinary branch/rejoin loops. Reject open ports in Begin's connected component, powered branches that cannot reach End, and feedback/cross-links that traverse an edge in conflicting directions among simple Begin–End routes. Disconnected pieces have no effects or costs. No revisiting/retriggering a rune, partial spell, or infinite traversal.
+- The visible **Pass turn** control occupies the WIRING label's position alongside the four connector tools. It opens a confirmation showing the live incoming attack and cleanup. Confirmation invokes existing no-spell/no-shield Pass semantics, including incomplete circuits and empty hands. It is not relegated to Menu and is a turn action, not a third editing action.
+- Keep450ms hold-to-inspect. Add a separate focusable info button for each hand card; keyboard **I** and right-click inspect focused/pointed board pieces and connector tools. The persistent forecast opens circuit details. Escape or tapping an already selected card/tool clears selection. Techniques still activate by ordinary card tap; their info button never activates them.
+
+Implementation choices (not additional owner rules): use the existing evaluator entry point with a production-only graph branch; enumerate simple paths on the bounded16-cell board, infer a consistent acyclic flow, then aggregate once per physical node. Deterministic cell/direction ordering supplies stable invalid feedback. Keep historical no-options/experiment evaluation, IDs, fixtures and recordings unchanged. The dated RC-016A verification/handoff records completion separately from this acceptance.
+
 ## October 12, 2026 — separate Store and permanent rune progression
 
 The owner clarified that the menu's Shop option means a separate **Store**, where players buy in-game items such as runes, perks and relics. Use **Store** for that menu label. A route's **shop room** instead becomes the main screen when entered; the Store is not a shortcut to that room and is not restricted by being in one.

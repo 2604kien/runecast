@@ -11,6 +11,7 @@ const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 const InspectionData = preload("res://scripts/ui/inspection_data.gd")
 const TouchRouter = preload("res://scripts/ui/touch_router.gd")
 const BoardExamples = preload("res://scripts/dev/board_examples.gd")
+const Ui = preload("res://scenes/ui/theme/components.gd")
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -84,6 +85,18 @@ var inspector_pass: Button
 var inspector_confirm_pass: Button
 var inspector_panel: PanelContainer
 var guide_text: Label
+var wiring: GridContainer
+var turn_pass_button: Button
+var forecast_button: Button
+var forecast_grid: GridContainer
+var forecast_reason: Label
+var forecast_values := {}
+var draw_button: Button
+var discard_button: Button
+var hand_count: Label
+var action_log: Label
+var info_buttons := {}
+var inspector_origin: WeakRef
 
 func _ready() -> void:
 	if setup_path == "" and board_example_id == "":
@@ -212,6 +225,12 @@ func _button(value: String, action: Callable, parent: Node) -> Button:
 		gestures.register_target(button, action)
 	return button
 
+func _icon_texture(icon_name: String) -> Texture2D:
+	var sample := Ui.icon(icon_name)
+	var texture := sample.texture
+	sample.free()
+	return texture
+
 func _build_ui() -> void:
 	gestures = TouchRouter.new()
 	add_child(gestures)
@@ -234,9 +253,19 @@ func _build_ui() -> void:
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation", 6)
 	margin.add_child(column)
+	var heading := HBoxContainer.new()
+	column.add_child(heading)
 	encounter_title = _label("", 28)
 	encounter_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(encounter_title)
+	encounter_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.add_child(encounter_title)
+	if game.has("production"):
+		var pause_button := _button("", _open_menu, heading)
+		pause_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		pause_button.icon = _icon_texture("pause")
+		pause_button.expand_icon = true
+		pause_button.add_theme_constant_override("icon_max_width", 28)
+		pause_button.tooltip_text = "Pause / Menu"
 	if experiment_mode:
 		_build_experiment_controls(column)
 	arena = Control.new()
@@ -264,9 +293,16 @@ func _build_ui() -> void:
 		cell.pressed.connect(_cell_pressed.bind(index))
 		grid.add_child(cell)
 		gestures.register_target(cell, _cell_pressed.bind(index), _inspect_cell.bind(index))
+		cell.set_meta("inspect_shortcuts", game.has("production"))
 		cells.append(cell)
-	var wiring := HBoxContainer.new()
+	wiring = GridContainer.new()
+	wiring.columns = 5 if game.has("production") else 4
 	column.add_child(wiring)
+	if game.has("production"):
+		turn_pass_button = _button("Pass turn", _request_pass, wiring)
+		turn_pass_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		turn_pass_button.add_theme_font_size_override("font_size", 15)
+		turn_pass_button.tooltip_text = "End this turn without a spell. Review the enemy attack before confirming."
 	for kind in ["straight", "corner", "split", "join"]:
 		var button := _button(kind.capitalize(), _select_tool.bind(kind), wiring)
 		button.add_theme_font_size_override("font_size", 15)
@@ -274,14 +310,27 @@ func _build_ui() -> void:
 		button.toggle_mode = true
 		gestures.register_target(button, _select_tool.bind(kind), _inspect_tool.bind(kind))
 		edit_buttons.append(button)
+		if game.has("production"):
+			button.icon = _icon_texture(kind)
+			button.expand_icon = true
+			button.add_theme_constant_override("icon_max_width", 24)
+			button.set_meta("inspect_action", _inspect_tool.bind(kind))
+			button.set_meta("inspect_shortcuts", true)
 	var editing := HBoxContainer.new()
 	column.add_child(editing)
-	for entry in [["Rotate", _rotate], ["Flip", _flip], ["Undo", _undo], ["Erase", _select_tool.bind("erase")]]:
+	var editing_entries := [["Rotate", _rotate], ["Flip", _flip], ["Undo", _undo], ["Erase", _select_tool.bind("erase")]]
+	if game.has("production"):
+		editing_entries = [["Remove", _select_tool.bind("erase")], ["Rotate", _rotate]]
+	for entry in editing_entries:
 		var button := _button(entry[0], entry[1], editing)
 		button.add_theme_font_size_override("font_size", 15)
 		button.custom_minimum_size.y = 58
-		action_buttons[str(entry[0]).to_lower()] = button
-		if entry[0] == "Erase": button.toggle_mode = true
+		action_buttons["erase" if entry[0] == "Remove" else str(entry[0]).to_lower()] = button
+		if entry[0] in ["Erase", "Remove"]: button.toggle_mode = true
+		if game.has("production"):
+			button.icon = _icon_texture(str(entry[0]).to_lower())
+			button.expand_icon = true
+			button.add_theme_constant_override("icon_max_width", 28)
 		edit_buttons.append(button)
 	var inspection_actions := HBoxContainer.new()
 	column.add_child(inspection_actions)
@@ -291,9 +340,29 @@ func _build_ui() -> void:
 	_button("Details / Pass", _show_details, inspection_actions)
 	for button in inspection_actions.get_children():
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	inspection_actions.visible = not game.has("production")
 	var hand_hint := _label("RUNES / tap to use · hold to inspect · drag to scroll", 17)
+	if game.has("production"):
+		hand_hint.text = "Tap to use · Info or hold for details · I / right-click on pieces · tap selected item to clear"
 	hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(hand_hint)
+	if game.has("production"):
+		action_log = _label("", 17)
+		action_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		column.add_child(action_log)
+		var piles := HBoxContainer.new()
+		column.add_child(piles)
+		draw_button = _button("Draw", _inspect_pile.bind("draw_pile"), piles)
+		draw_button.icon = _icon_texture("draw_pile")
+		hand_count = _label("", 15)
+		hand_count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		piles.add_child(hand_count)
+		discard_button = _button("Discard", _inspect_pile.bind("discard_pile"), piles)
+		discard_button.icon = _icon_texture("discard_pile")
+		for pile in [draw_button, discard_button]:
+			pile.add_theme_font_size_override("font_size", 14)
+			pile.expand_icon = true
+			pile.add_theme_constant_override("icon_max_width", 24)
 	hand_scroll = ScrollContainer.new()
 	hand_scroll.custom_minimum_size.y = 104
 	hand_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -306,6 +375,13 @@ func _build_ui() -> void:
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.custom_minimum_size.y = 46
 	column.add_child(status)
+	if game.has("production"):
+		forecast_button = _button("", _show_details, column)
+		forecast_button.tooltip_text = "Spell forecast — activate for circuit details"
+		forecast_button.custom_minimum_size.y = 136
+		forecast_reason = _label("", 15)
+		forecast_reason.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		column.add_child(forecast_reason)
 	cast_button = _button("CAST", _cast, column)
 	cast_button.custom_minimum_size.y = 64
 	cast_button.add_theme_font_size_override("font_size", 28)
@@ -318,6 +394,7 @@ func _build_ui() -> void:
 	sound_button = _button("Sound: On", _toggle_sound, navigation)
 	for button in navigation.get_children():
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		if game.has("production"): button.add_theme_font_size_override("font_size", 15)
 	dialog = AcceptDialog.new()
 	dialog.min_size = Vector2i(550, 360)
 	dialog.dialog_autowrap = true
@@ -354,8 +431,9 @@ func _build_ui() -> void:
 	menu.confirmed.connect(_restart)
 	menu.custom_action.connect(func(action):
 		if action == "pass":
-			_pass()
 			menu.hide()
+			if game.has("production"): _request_pass()
+			else: _pass()
 		elif action == "exact_replay":
 			_exact_replay()
 			menu.hide()
@@ -397,17 +475,23 @@ func _fit_layout() -> void:
 	for cell in cells:
 		cell.custom_minimum_size = Vector2(side, side)
 	dialog.min_size = Vector2i(mini(550, int(width) - 32), 300)
+	if game.has("production"):
+		wiring.columns = 5 if width >= 600 else 3
+		if forecast_grid != null:
+			forecast_grid.columns = 4 if width >= 640 else 2
+			forecast_button.custom_minimum_size.y = 68 if forecast_grid.columns == 4 else 136
 
 func _refresh() -> void:
 	gestures.cancel_pending()
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
+	if game.has("production"): sound_button.text = "Sound\nOn" if sound_enabled else "Sound\nOff"
 	if controller == null:
 		_refresh_startup_error()
 		return
 	var previous := game
 	game = controller.snapshot()
 	if previous != game or controller.is_busy():
-		_close_inspector()
+		_close_inspector(false)
 		help_text = ""
 		if previous.get("turn") != game.turn or previous.get("encounter_id") != game.encounter_id or previous.get("state") != game.state or controller.is_busy():
 			_clear_selection()
@@ -445,6 +529,7 @@ func _refresh() -> void:
 	for index in range(cells.size()):
 		var cell: Button = cells[index]
 		cell.piece = game.board[index]
+		cell.clean_board = game.has("production")
 		cell.catalog = game.catalog
 		cell.split_cost = int(_rule_options().get("split_cost", 1))
 		cell.disabled = not editable or (experiment_mode and cell.piece.get("kind") == "blocked")
@@ -467,6 +552,7 @@ func _refresh() -> void:
 	for button in edit_buttons:
 		button.disabled = not editable
 	for action in ["rotate", "flip", "undo"]:
+		if not action_buttons.has(action): continue
 		var availability: Dictionary = InspectionData.edit_action(game, selected_cell, action)
 		action_buttons[action].disabled = not editable or not availability.allowed
 		action_buttons[action].tooltip_text = availability.reason
@@ -475,26 +561,65 @@ func _refresh() -> void:
 	inspect_button.text = "Inspect: ON" if inspect_mode else "Inspect"
 	inspect_button.disabled = not editable
 	cancel_button.disabled = not editable or (selected_tool == "" and selected_uid == -1 and selected_cell == -1 and not inspect_mode)
+	var focused := get_viewport().gui_get_focus_owner()
+	var focus_uid := -1
+	var focus_info := false
 	for child in hand_box.get_children():
+		if child == focused or (focused != null and child.is_ancestor_of(focused)):
+			focus_uid = int(child.get_meta("uid", -1))
+			focus_info = focused == info_buttons.get(focus_uid)
 		hand_box.remove_child(child)
 		child.queue_free()
+	info_buttons.clear()
 	for card in game.hand:
 		var rune: Dictionary = game.catalog[card.id]
-		var button := _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
-		button.custom_minimum_size = Vector2(142, 92)
+		var button: Button
+		if game.has("production"):
+			var icon_name: String = rune.effect if rune.type == "technique" else ("shield" if rune.effect == "shield" else "spark")
+			if icon_name == "draw": icon_name = "focus"
+			button = Ui.card({"name": rune.name, "cost": rune.cost, "icon": icon_name,
+				"kind": "technique" if rune.type == "technique" else rune.effect,
+				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false)}, {"selected": card.uid == selected_uid}, 202)
+			hand_box.add_child(button)
+			button.pressed.connect(_select_card.bind(card.uid))
+			gestures.register_target(button, _select_card.bind(card.uid), _inspect_hand.bind(card.uid))
+			var content: VBoxContainer = button.get_node("Content").get_child(0)
+			var info := _button("Info", _inspect_hand.bind(card.uid), content)
+			info.tooltip_text = "Read " + str(rune.name) + " without using it"
+			info.disabled = not editable
+			info_buttons[int(card.uid)] = info
+			button.set_meta("inspect_action", _inspect_hand.bind(card.uid))
+			button.set_meta("inspect_shortcuts", true)
+		else:
+			button = _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
+			button.custom_minimum_size = Vector2(142, 92)
 		button.toggle_mode = true
 		button.set_pressed_no_signal(card.uid == selected_uid)
 		button.set_meta("uid", int(card.uid))
 		gestures.register_target(button, _select_card.bind(card.uid), _inspect_hand.bind(card.uid))
-		button.modulate = Color(rune.color)
+		if game.has("production"):
+			# Child Info must win hit testing over its encompassing card.
+			gestures.register_target(info_buttons[int(card.uid)], _inspect_hand.bind(card.uid))
+		else:
+			button.modulate = Color(rune.color)
 		button.disabled = not editable
 		button.tooltip_text = _rune_description(rune) + " | %d energy%s" % [rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
+		if editable and int(card.uid) == focus_uid:
+			if focus_info and info_buttons.has(focus_uid): info_buttons[focus_uid].grab_focus()
+			else: button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
 	cast_button.disabled = not spell.valid or spell.cost > game.energy or not editable
 	var incoming: int = 0 if spell.damage >= game.enemy_hp else maxi(0, game.intent - spell.shield)
+	if game.state != "playing": incoming = 0
 	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, incoming] if spell.valid else spell.message
 	status.text = help_text if help_text != "" else game.log_text
 	if game.has("production"):
+		action_log.text = game.log_text
+		draw_button.text = "Draw %d" % game.draw_pile.size()
+		discard_button.text = "Discard %d" % game.discard_pile.size()
+		hand_count.text = "Hand %d" % game.hand.size()
+		turn_pass_button.disabled = not editable
+		_refresh_forecast(spell, incoming, editable)
 		status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
 		if help_text == "": status.text = "Need %d energy; %d available. Edit the circuit or open Details / Pass." % [spell.cost, game.energy]
@@ -502,9 +627,47 @@ func _refresh() -> void:
 		status.text = spell.message + "\nKeep building, or open Details / Pass."
 		if game.has("production"): status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	pass_button.disabled = not editable
+	pass_button.visible = not game.has("production")
+	if game.has("production"):
+		status.text = status.text.replace("open Details / Pass", "use Pass turn").replace("Erase", "Remove")
 
 func _rule_options() -> Dictionary:
 	return game.get("production", game.get("experiment", {}))
+
+func _refresh_forecast(spell: Dictionary, incoming: int, editable: bool) -> void:
+	forecast_values = {"damage": spell.damage, "shield": spell.shield, "cost": spell.cost, "incoming": incoming}
+	if forecast_grid != null:
+		forecast_button.remove_child(forecast_grid)
+		forecast_grid.queue_free()
+	var values := forecast_values.duplicate()
+	if not spell.valid:
+		for key in ["damage", "shield", "cost"]: values[key] = "—"
+	forecast_grid = Ui.forecast(values, 4 if size.x >= 640 else 2)
+	forecast_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	forecast_button.add_child(forecast_grid)
+	forecast_grid.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	forecast_button.custom_minimum_size.y = 68 if forecast_grid.columns == 4 else 136
+	forecast_button.disabled = not editable
+	forecast_reason.text = ("Cast preview · tap for details" if spell.cost <= game.energy else "Preview only · need %d energy, have %d" % [spell.cost, game.energy]) if spell.valid else spell.message + " Pass turn remains available."
+	if game.state != "playing": forecast_reason.text = "Battle ended"
+
+func _inspect_pile(zone: String) -> void:
+	if not _can_edit(): return
+	var cards: Array = game.get(zone, [])
+	var names: Array[String] = []
+	var counts := {}
+	for card in cards:
+		var name_text: String = game.catalog[card.id].name
+		counts[name_text] = int(counts.get(name_text, 0)) + 1
+	var sorted_names: Array = counts.keys()
+	sorted_names.sort()
+	for name_text in sorted_names: names.append("%s × %d" % [name_text, counts[name_text]])
+	_open_inspector({"title": "Draw pile" if zone == "draw_pile" else "Discard pile", "text": "%d cards\n\n%s" % [cards.size(), "\n".join(names) if not names.is_empty() else "Empty"]})
+
+func _request_pass() -> void:
+	if not _can_edit(): return
+	_open_inspector({"title": "Pass this turn?", "text": ""})
+	_confirm_pass_details()
 
 func _build_inspector() -> void:
 	inspector = Control.new()
@@ -557,7 +720,10 @@ func _build_inspector() -> void:
 func _open_inspector(detail: Dictionary) -> void:
 	if detail.is_empty() or not _can_edit(): return
 	gestures.cancel_pending()
+	var origin := get_viewport().gui_get_focus_owner()
+	inspector_origin = weakref(origin) if origin != null else null
 	inspector_title.text = detail.title
+	inspector_close.text = "Close"
 	inspector_text.text = detail.text
 	inspector_scroll.scroll_vertical = 0
 	inspector_pass.hide()
@@ -566,11 +732,15 @@ func _open_inspector(detail: Dictionary) -> void:
 	gestures.set_modal(inspector)
 	inspector_close.grab_focus()
 
-func _close_inspector() -> void:
+func _close_inspector(restore_focus: bool = true) -> void:
 	if inspector == null or not inspector.visible: return
 	inspector.hide()
 	gestures.set_modal(null)
 	inspector_close.release_focus()
+	var origin: Control = inspector_origin.get_ref() if inspector_origin != null else null
+	inspector_origin = null
+	if restore_focus and is_instance_valid(origin) and not origin.is_queued_for_deletion() and origin.is_visible_in_tree() and not (origin is BaseButton and origin.disabled):
+		origin.grab_focus()
 
 func _inspect_hand(uid: int) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_hand(controller.snapshot(), uid))
@@ -582,7 +752,7 @@ func _inspect_tool(kind: String) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_tool(controller.snapshot(), kind))
 
 func _toggle_inspect_mode() -> void:
-	if not _can_edit(): return
+	if not _can_edit() or game.has("production"): return
 	var enabled := not inspect_mode
 	_clear_selection()
 	inspect_mode = enabled
@@ -612,10 +782,11 @@ func _show_details() -> void:
 		text += "\n\nThis circuit cannot Cast yet. Legal construction steps remain allowed."
 	if selected_cell >= 0:
 		for action in ["rotate", "flip", "erase", "undo"]:
+			if game.has("production") and action in ["flip", "undo"]: continue
 			var availability: Dictionary = InspectionData.edit_action(game, selected_cell, action)
 			text += "\n%s: %s" % [action.capitalize(), availability.reason]
 	_open_inspector({"title": "Circuit details", "text": text})
-	inspector_pass.show()
+	inspector_pass.visible = not game.has("production")
 
 func _confirm_pass_details() -> void:
 	if controller == null or not controller.can_edit() or not inspector.visible: return
@@ -623,12 +794,13 @@ func _confirm_pass_details() -> void:
 	inspector_text.text = "The enemy attacks for %d damage. No spell or shield is used.\n\n%s" % [game.intent, "All non-endpoint pieces clear, permanent runes discard and temporaries expire. A surviving player gets a new turn, hand and kit." if game.has("production") else "Normal turn cleanup and the active profile's board rules apply."]
 	inspector_pass.hide()
 	inspector_confirm_pass.show()
+	inspector_close.text = "Cancel" if game.has("production") else "Close"
 	inspector_scroll.scroll_vertical = 0
 	gestures.cancel_pending()
 
 func _accept_pass_details() -> void:
 	if controller == null or not controller.can_edit() or not inspector.visible or not inspector_confirm_pass.visible: return
-	_close_inspector()
+	_close_inspector(false)
 	_pass()
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -652,7 +824,7 @@ func _rune_description(rune: Dictionary) -> String:
 	return ""
 
 func _refresh_startup_error() -> void:
-	_close_inspector()
+	_close_inspector(false)
 	_clear_selection()
 	inspect_button.disabled = true
 	cancel_button.disabled = true
@@ -693,7 +865,7 @@ func _clear_selection() -> void:
 	help_text = ""
 	inspect_mode = false
 	if gestures != null: gestures.cancel_pending()
-	_close_inspector()
+	_close_inspector(false)
 
 func _select_tool(kind: String) -> void:
 	if not _can_edit():
@@ -701,14 +873,18 @@ func _select_tool(kind: String) -> void:
 	if inspect_mode:
 		_inspect_tool(kind)
 		return
+	if game.has("production") and selected_tool == kind:
+		_cancel_selection()
+		return
 	selected_tool = kind
 	selected_uid = -1
 	selected_cell = -1
 	help_text = "Tap a socket to place %s. Then Rotate or Flip if needed." % kind
+	if game.has("production"): help_text = "Tap a socket to place %s. Rotate changes its connections; hold or I/right-click for details." % kind
 	if game.stock_totals.has(kind) and int(game.stock[kind]) == 0:
 		help_text = "No %s available. Erase one to refund it, or replace the same kind." % kind
 	elif kind == "erase":
-		help_text = "Erase selected. Tap an eligible piece to return it; endpoints are protected."
+		help_text = "Remove selected. Tap an eligible piece to return it; endpoints are protected." if game.has("production") else "Erase selected. Tap an eligible piece to return it; endpoints are protected."
 	_refresh()
 
 func _select_card(uid: int) -> void:
@@ -716,6 +892,9 @@ func _select_card(uid: int) -> void:
 		return
 	if inspect_mode:
 		_inspect_hand(uid)
+		return
+	if game.has("production") and selected_uid == uid:
+		_cancel_selection()
 		return
 	for card in game.hand:
 		if card.uid != uid:
@@ -784,11 +963,11 @@ func _rotate() -> void:
 		return
 	if selected_cell >= 0:
 		if controller.command("rotate", {"index": selected_cell}) and game.board[selected_cell].get("kind") in ["begin", "end"]:
-			help_text = _endpoint_direction(selected_cell) + " Use Rotate to turn clockwise; Undo restores the previous direction."
+			help_text = _endpoint_direction(selected_cell) + (" Use Rotate to turn clockwise." if game.has("production") else " Use Rotate to turn clockwise; Undo restores the previous direction.")
 	_refresh()
 
 func _flip() -> void:
-	if not _can_edit():
+	if not _can_edit() or game.has("production"):
 		return
 	var availability: Dictionary = InspectionData.edit_action(game, selected_cell, "flip")
 	if not availability.allowed:
@@ -800,7 +979,7 @@ func _flip() -> void:
 	_refresh()
 
 func _undo() -> void:
-	if not _can_edit():
+	if not _can_edit() or game.has("production"):
 		return
 	_clear_selection()
 	controller.command("undo")
@@ -845,7 +1024,7 @@ func _next_production_encounter() -> void:
 	controller.command("next_encounter")
 
 func _open_menu() -> void:
-	menu.popup_centered(Vector2i(660, 250) if game.has("production") else Vector2i(540, 220))
+	menu.popup_centered(Vector2i(mini(int(size.x) - 32, 660), 250) if game.has("production") else Vector2i(540, 220))
 
 func _show_map() -> void:
 	dialog.title = "Tower map"
@@ -855,6 +1034,10 @@ func _show_map() -> void:
 func _show_guide() -> void:
 	dialog.title = "Circuit guide"
 	var context: String = startup_error if controller == null else game.encounter.help_text
+	if game.has("production"):
+		dialog.dialog_text = "Every playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again or press Escape to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info on a card or a hold opens details safely; keyboard I or right-click also inspects pieces/tools. Tap the forecast for circuit details. Close/Escape dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
+		dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
+		return
 	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
 	if game.has("production"):
 		dialog.dialog_text = context + "\n\nEvery playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its direction. Undo restores edits. Endpoints may be adjacent and may initially face outward; they cannot be replaced, erased, flipped or dragged.\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected Joins are invalid. Effect runes have straight ports. Split copies output and costs 1 energy per powered piece; Join costs 0. Each physical rune pays once. Cast deals one total damage hit, then shields against a surviving enemy's retaliation.\n\nCast or Pass clears every non-endpoint piece, including disconnected pieces. Permanent runes go to discard; all temporary runes disappear. Unplayed permanent cards also go to discard. The next turn moves both endpoints, replaces the ten-piece kit, refreshes energy and draws normally; repeats are allowed. A finished battle does not draw another hand or kit.\n\nTap a rune to install it; techniques resolve immediately. Menu offers Pass, Restart with continuing randomness, and Exact replay of the original seed. Kit balance is provisional."

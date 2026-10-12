@@ -1,19 +1,19 @@
 # Board catalog
 
-RC-009, October 9, 2026. The four stable identities below use the same accepted [production rules](production-rules-spec.md#october-9-2026--accepted-rc-007-implementation-contract). A **board identity** is a content/encounter reference. A **runtime layout** is the sampled endpoints and the player's current construction. An **authored example** is a reproducible witness for one sampled setup. These definitions do not create mechanically different difficulty.
+RC-009 identities, updated October 13, 2026 for RC-016A. The four stable identities below use the same accepted [production rules](production-rules-spec.md), including undirected logical ports and Remove/Rotate controls. A **board identity** is a content/encounter reference. A **runtime layout** is the sampled endpoints and the player's current construction. An **authored example** is a reproducible witness for one sampled setup. These definitions do not create mechanically different difficulty. The original directed witness document remains [historical evidence](../output/qa/rc-016a/rc009-board-examples-directed.json).
 
 | Identity / display name | Teaching/content role | Future assignment and presentation |
 | --- | --- | --- |
-| `board_training` / First Circuit | Introductory rune-bearing route; endpoint Rotate, replacement and Undo. | First Shadeling/onboarding, RC-043; shared crypt and circuit feedback, RC-012/RC-016. |
+| `board_training` / First Circuit | Introductory rune-bearing route; endpoint Rotate and replacement/refund. | First Shadeling/onboarding, RC-043; shared crypt and circuit feedback, RC-012/RC-016. |
 | `board_gallery` / Long Gallery | Longer routing and placement of damage/shield runes within stock. | Early/middle normal encounters, RC-034/RC-036; proposed cool crypt lighting, RC-010/RC-015/RC-042. |
-| `board_ossuary` / Ossuary Turn | Turns, directional reversal and Undo. | Middle/late normals and elite, RC-034/RC-036; proposed warm candle treatment, RC-010/RC-015/RC-042. |
+| `board_ossuary` / Ossuary Turn | Corner routing and rotation with undirected ports. | Middle/late normals and elite, RC-034/RC-036; proposed warm candle treatment, RC-010/RC-015/RC-042. |
 | `board_belfry` / Belfry Circuit | Split/Join amplification versus physical-piece cost. | Guardian assignment, RC-034/RC-036; proposed darker crypt/guardian accent, RC-010/RC-015/RC-042. |
 
-The current four development scenes all use the same placeholder crypt and existing Shadeling. Final enemies, progression, environment art and lighting are future work. `dev_entry_board` remains a separate preserved development fixture, outside the four production identities.
+The current four development scenes all use the same placeholder crypt and existing Shadeling. Full Combat art integration, encounter-specific presentation and progression remain outside this migration. `dev_entry_board` remains a separate preserved development fixture, outside the four production identities.
 
 ## Shared generation policy
 
-[`production_boards.json`](../data/production_boards.json) uses the unchanged board schema: 4×4, exactly one Begin and End and fourteen empty cells. Its canonical endpoint coordinates are loader/reset placeholders, replaced before the first playable snapshot. They do not constrain runtime geometry. Every playable entry, including encounter entry, starts endpoints-only. The first pair is uniform among all 240 ordered distinct-cell pairs; subsequent turns select among 211 pairs moving both endpoints from their own previous cell, allowing cross-swaps and adjacency. Each endpoint independently starts at rotation 0–3 and supports player Rotate/Undo.
+[`production_boards.json`](../data/production_boards.json) uses the unchanged board schema: 4×4, exactly one Begin and End and fourteen empty cells. Its canonical endpoint coordinates are loader/reset placeholders, replaced before the first playable snapshot. They do not constrain runtime geometry. Every playable entry, including encounter entry, starts endpoints-only. The first pair is uniform among all 240 ordered distinct-cell pairs; subsequent turns select among 211 pairs moving both endpoints from their own previous cell, allowing cross-swaps and adjacency. Each endpoint independently starts at rotation 0–3 and supports player Rotate.
 
 There are no obstacles, alternate effect ports, prefills, board-specific weighting, route-length requirements or mandatory runes. All identities use the same independent card/endpoint/kit streams and one uniformly selected ten-piece kit per playable turn. Kit totals in Straight/Corner/Split/Join order are **6/2/1/1**, **4/4/1/1**, or **4/2/2/2**. Editing and presentation do not consume randomness. Kits replace old stock without banking. Ordinary Restart continues streams; Exact replay restores the selected seed's opening.
 
@@ -23,7 +23,7 @@ The original four fixed-coordinate proposals are retained in the [roster's histo
 
 All four witnesses are **natural starter draws at deliberately selected, recorded seeds**. Seed selection happened during authoring; neither launch nor gameplay searches/rerolls a seed or inserts resources. These particular hands are not guaranteed random openings. Each fixture reuses `starter` and `shadeling` through the production loader: player **30/30 HP**, **3 energy**, three normal opening draws, eight permanent instances (two each of Spark, Shield, Focus and Conjure Spark), enemy **32 HP**, intents **8 → 12 → 6**, first intent **8**.
 
-[`board_examples.json`](../data/board_examples.json) is the executable source of truth: exact commands and complete expected initial/built/after-Cast boards, hand/piles, UIDs, endpoint rotations, stock, forecast, energy and health. [`board_examples.gd`](../scripts/dev/board_examples.gd) validates the witness then sends every action through the real controller. It never assigns model geometry, cards, stock, HP or energy. All commands must be accepted and observations must match. A mismatch produces a startup error.
+[`board_examples.json`](../data/board_examples.json), version `rc016a_board_examples_v1`, is the executable source of truth: exact commands and complete expected initial/built/after-Cast boards, hand/piles, UIDs, endpoint rotations, stock, forecast, energy and health. The migration removes Flip/Undo from the construction commands and updates undirected forecast/reached facts while retaining the four natural seeds and gameplay totals. [`board_examples.gd`](../scripts/dev/board_examples.gd) validates the witness then sends every action through the real controller. It never assigns model geometry, cards, stock, HP or energy. All commands must be accepted and observations must match. A mismatch produces a startup error.
 
 Cell indices below are zero-based, row-major:
 
@@ -34,7 +34,7 @@ Cell indices below are zero-based, row-major:
 12 13 14 15
 ```
 
-Rotations are clockwise quarter turns. Begin's rotation0 output is east; End's rotation0 input is north. `R(c)` means `rotate {index:c}`; `F(c)` means `flip {index:c}`; `U` means `undo {}`; `W(c,kind)` means `place_wire {index:c,kind:kind}`; `P(c,uid)` means `place_rune {index:c,uid:uid}`; `T(uid)` means `technique {uid:uid}`. Repeated `R` commands are individually executed. New wires start at rotation0 and unreversed; a rune on an empty cell starts at rotation0, while a rune replacing a piece inherits its rotation. Append the normal `cast {}` command to any completed sequence below.
+Rotations are clockwise quarter turns. Begin's rotation-zero port is east; End's is north. Straight/rune ports are W/E, Corner W/S, Split W/E/S and Join N/E/S before rotation, without input/output polarity. `R(c)` means `rotate {index:c}`; `W(c,kind)` means `place_wire {index:c,kind:kind}`; `P(c,uid)` means `place_rune {index:c,uid:uid}`; `T(uid)` means `technique {uid:uid}`. Repeated `R` commands are individually executed. New wires start at rotation0; a rune on an empty cell starts at rotation0, while a rune replacing a piece inherits its rotation. Append the normal `cast {}` command to any completed sequence below.
 
 | Identity | Seed | Sampled opening Begin / End (`cell:rotation`) | Actual opening hand, in order | Kit (S/C/Split/Join) |
 | --- | --- | --- | --- | --- |
@@ -45,10 +45,10 @@ Rotations are clockwise quarter turns. Begin's rotation0 output is east; End's r
 
 ### First Circuit — introductory rune
 
-Purpose: rotate Begin, install one paid Spark and inspect replacement/refund/Undo. Final route **0 → 1 → 2**; Begin0 rotation0, End2 rotation3. The temporary Straight reservation is refunded when Spark replaces it; Undo restores the wire and returns the same Spark to hand, then the last command installs it again.
+Purpose: rotate Begin, install one paid Spark and inspect replacement/refund. Final route **0 → 1 → 2**; Begin0 rotation0, End2 rotation3. The temporary Straight reservation is refunded when Spark replaces it.
 
 ```text
-R(0), U, R(0), R(0), W(1,straight), P(1,0), U, P(1,0)
+R(0), R(0), W(1,straight), P(1,0)
 ```
 
 ### Long Gallery — longer routing
@@ -61,15 +61,15 @@ P(7,1), R(7), W(11,straight), R(11), W(15,corner), R(15),
 W(14,straight), R(14), R(14)
 ```
 
-### Ossuary Turn — turns and reversal
+### Ossuary Turn — turns and undirected routing
 
-Purpose: orient a northbound Spark, undo a trial Flip and retain a required final corner reversal. Final route **12 → 8 → 4 → 5 → 6 → 10 → 14 → 15**; Begin12 rotation3, End15 rotation3. Spark occupies8 at rotation3. Corner4 ends at rotation3/unreversed; Corner14 at rotation2/reversed.
+Purpose: orient a northbound Spark and route around corners using Rotate. Final route **12 → 8 → 4 → 5 → 6 → 10 → 14 → 15**; Begin12 rotation3, End15 rotation3. Spark occupies8 at rotation3. Corner4 ends at rotation3; Corner14 at rotation2. Their matching ports work in either traversal direction without reversal.
 
 ```text
 R(12), R(12), R(12), P(8,3), R(8), R(8), R(8),
-W(4,corner), R(4), R(4), R(4), F(4), U,
+W(4,corner), R(4), R(4), R(4),
 W(5,straight), W(6,corner), W(10,straight), R(10),
-W(14,corner), R(14), R(14), F(14)
+W(14,corner), R(14), R(14)
 ```
 
 ### Belfry Circuit — legal Split/Join
@@ -92,7 +92,7 @@ All four completed circuits are valid and affordable. Construction edits cost no
 | Ossuary Turn | 2/3/0/0 | 1 Spark | 2 | 6 / 0 | 22 / 26 |
 | Belfry Circuit | 1/2/1/1 | 1 Free Spark, 1 Shield | 2 (Split1 + Shield1) | 12 / 5 | 27 / 20 |
 
-Each enemy survives. One aggregate damage event resolves, followed by shield/retaliation. All connectors clear; installed permanents discard exactly once, installed Free Spark disappears, remaining permanent hand cards discard, and Undo clears. Every permanent UID0–7 remains exactly once across ownership zones; amplification creates no card copies. A new kit and endpoints are sampled and turn2 begins with **3 energy**, three normal draws, zero installed runes/connectors, full new stock, and next enemy intent **12**. Unspent old energy/stock does not bank. The exact next samples are:
+Each enemy survives. One aggregate damage event resolves, followed by shield/retaliation. All connectors clear; installed permanents discard exactly once, installed Free Spark disappears, remaining permanent hand cards discard, and internal edit history clears. Every permanent UID0–7 remains exactly once across ownership zones; amplification creates no card copies. A new kit and endpoints are sampled and turn2 begins with **3 energy**, three normal draws, zero installed runes/connectors, full new stock, and next enemy intent **12**. Unspent old energy/stock does not bank. The exact next samples are:
 
 | Identity | Next Begin / End (`cell:rotation`) | New kit | Turn2 hand, in order |
 | --- | --- | --- | --- |
@@ -101,7 +101,7 @@ Each enemy survives. One aggregate damage event resolves, followed by shield/ret
 | Ossuary Turn | `6:2 / 12:1` | extra_branches | Focus6, Conjure7, Shield1 |
 | Belfry Circuit | `13:1 / 12:2` | extra_straights | Shield4, Spark3, Spark0 |
 
-The suffixes in the last table are UIDs. Complete draw/discard order and built rotations are retained in the machine-readable witness. Pass remains available through **Details / Pass** even when construction is incomplete; it attacks without shield, clears the board/hand and starts the next turn if the player survives.
+The suffixes in the last table are UIDs. Complete draw/discard order and built rotations are retained in the machine-readable witness. The visible **Pass turn** control beside the wiring tools opens confirmation even when construction is incomplete; confirmation attacks without shield, clears the board/hand and starts the next turn if the player survives.
 
 ## Exact launch commands
 
@@ -128,14 +128,14 @@ Add `-ExampleStep opening` for validated starting resources or `-ExampleStep cas
 Capture an example using a fresh destination:
 
 ```powershell
-.\tools\godot.ps1 -Action capture -BoardExample board_belfry -ExampleStep built -CapturePath res://output/qa/rc-009/review-belfry.png -LogDirectory output/qa/rc-009/review
+.\tools\godot.ps1 -Action capture -BoardExample board_belfry -ExampleStep built -CapturePath res://output/qa/rc-016a/review-belfry.png -LogDirectory output/qa/rc-016a/review
 ```
 
 Run the standalone machine witness or scene/capture verification with the pinned engine (use `--headless` on the scene runner to omit screenshots):
 
 ```powershell
-& .\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --path . --headless --log-file C:\Dev\RuneCast\output\qa\rc-009\review-examples.log --script res://tests/board_example_runner.gd
-& .\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --path . --log-file C:\Dev\RuneCast\output\qa\rc-009\review-scenes.log --script res://tests/ui_board_catalog_capture.gd
+& .\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --path . --headless --log-file C:\Dev\RuneCast\output\qa\rc-016a\review-examples.log --script res://tests/board_example_runner.gd
+& .\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe --path . --log-file C:\Dev\RuneCast\output\qa\rc-016a\review-scenes.log --script res://tests/ui_board_catalog_capture.gd
 ```
 
 The ordinary `-Action test` and `-Action smoke` include RC-009 checks. Rendered captures use a new timestamp/process directory per run. `-LogDirectory` isolates launcher logs; existing screenshot paths are not implicitly protected, so select a new path when retaining evidence.
@@ -144,7 +144,7 @@ The ordinary `-Action test` and `-Action smoke` include RC-009 checks. Rendered 
 
 The existing [geometry suite](../tests/connector_geometry_tests.gd) runs **240 ordered endpoint pairs × 3 kits = 720 cases**, supplying one straight Spark explicitly. RC-009 reuses this solver and verifies that all four identities select the same tested profile. The [catalog checks](../tests/board_catalog_tests.gd) cover actual encounter references, invalid/missing/duplicate IDs and malformed geometry; 64 seeded comparisons per identity over opening, Pass and continuing-stream Restarts verify unchanged endpoint/rotation/kit/card samples and RNG states, including changed presentation strings and legal template coordinates. They also verify all four encounter-entry targets using a clearly controlled, validated **one-HP predecessor**. That isolates transfer and does not demonstrate winning the ordinary Shadeling encounter.
 
-The [example checks](../tests/board_example_tests.gd) execute exact controller commands and validate stock, costs/effects, rotations, Flip, replacement/Undo, temporary cleanup, permanent conservation and rejection purity. [Scene checks](../tests/ui_board_catalog_tests.gd) execute the witnesses, actual Cast controls and reused RC-008 synthetic touch inspection, endpoint editing, stock feedback and small-screen scrolling on Belfry. Dated counts, command exit statuses, captures, initial failures/fixes and preservation audits are in [verification](verification.md).
+The [example checks](../tests/board_example_tests.gd) execute the migrated controller commands and validate stock, costs/effects, rotations, replacement/refund, temporary cleanup, permanent conservation and rejection purity. [Scene checks](../tests/ui_board_catalog_tests.gd) execute the witnesses, actual Cast controls and synthetic touch inspection, endpoint editing, stock feedback and small-screen scrolling on Belfry. The earlier directed RC-009 commands and evidence retain their historical meaning. Dated counts, command exit statuses, captures and preservation audits are in [verification](verification.md); this catalog does not independently declare RC-016A complete.
 
 Keep these claims separate:
 

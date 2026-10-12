@@ -49,10 +49,10 @@ func _live_values(check: Callable) -> void:
 	snapshot.catalog.free_spark.name = "Fleeting Ember"
 	var rune := Inspect.describe_hand(snapshot, 1001)
 	check.call(rune.title == "Live Ember" and rune.text.contains("17 damage") and rune.text.contains("Energy: 9") and rune.text.contains("paid once on a valid Cast"), "Hand rune inspection displays supplied live name, value, cost and casting payment time.")
-	check.call(rune.text.contains("input West; output East") and rune.text.contains("Permanent") and rune.text.contains("even if disconnected"), "Hand rune inspection explains unrotated ports, permanent ownership and full-reset cleanup.")
+	check.call(rune.text.contains("ports: East / West") and rune.text.contains("Undirected") and rune.text.contains("Permanent") and rune.text.contains("even if disconnected"), "Hand rune inspection explains undirected unrotated ports, permanent ownership and full-reset cleanup.")
 	check.call(Inspect.describe_hand(snapshot, 1002).text.contains("13 shield"), "Shield inspection reads its live effect value.")
 	var focus := Inspect.describe_hand(snapshot, 1003)
-	check.call(focus.text.contains("7 cards") and focus.text.contains("Energy: 4") and focus.text.contains("paid immediately") and focus.text.contains("Ports: none") and focus.text.contains("clears Undo"), "Technique inspection describes draw value, immediate payment, no board ports and its Undo boundary.")
+	check.call(focus.text.contains("7 cards") and focus.text.contains("Energy: 4") and focus.text.contains("paid immediately") and focus.text.contains("Ports: none") and focus.text.contains("commits preparation") and not focus.text.contains("Undo"), "Technique inspection describes draw value, immediate payment, no board ports and its preparation boundary without advertising a retired control.")
 	var conjure := Inspect.describe_hand(snapshot, 1004)
 	check.call(conjure.text.contains("3 temporary Fleeting Ember") and conjure.text.contains("Inspection does not activate"), "Conjure inspection reads its live count and generated rune name without activating it.")
 	check.call(Inspect.describe_hand(snapshot, 1005).text.contains("Temporary") and Inspect.describe_hand(snapshot, 1005).text.contains("Unused in hand, it disappears"), "Temporary hand inspection explains its lifetime and absence from permanent piles.")
@@ -62,11 +62,13 @@ func _live_values(check: Callable) -> void:
 	snapshot.stock_totals.split = 5
 	check.call(Inspect.describe_tool(snapshot, "split").text.contains("Energy: 4") and Inspect.describe_tool(snapshot, "split").text.contains("1 available / 5 total"), "Connector inspection reads current profile costs and both stock quantities.")
 	check.call(Inspect.describe_tool(snapshot, "join").text.contains("Energy: 3"), "Join inspection reads the configured cost rather than assuming zero.")
+	check.call(Inspect.describe_tool(snapshot, "split").text.contains("any logical port") and Inspect.describe_tool(snapshot, "join").text.contains("Shared downstream runes trigger once"), "Production connector details explain inferred direction and one shared downstream rune trigger.")
 	snapshot.board[5] = {"kind": "rune", "rune_id": "spark", "uid": 1001, "rotation": 1}
 	var installed := Inspect.describe_cell(snapshot, 5)
-	check.call(installed.text.contains("17 damage") and installed.text.contains("Energy: 9") and installed.text.contains("input North; output South"), "Installed rune inspection uses the current piece rotation and current card definition.")
+	check.call(installed.text.contains("17 damage") and installed.text.contains("Energy: 9") and installed.text.contains("ports: North / South"), "Installed rune inspection uses current undirected rotation and current card definition.")
 	snapshot.board[6] = {"kind": "corner", "rotation": 1, "reversed": true}
-	check.call(Inspect.describe_cell(snapshot, 6).text.contains("input West; output North"), "Wire inspection includes both rotation and Flip when computing actual ports.")
+	check.call(Inspect.describe_cell(snapshot, 6).text.contains("ports: North / West"), "Production wire inspection reports rotated geometry without assigning input/output roles to a retained reversal bit.")
+	check.call(not Inspect.describe_tool(snapshot, "corner").text.contains("Flip") and not Inspect.describe_tool(snapshot, "erase").text.contains("Undo"), "Production tool descriptions advertise Remove/Rotate without retired Flip or Undo actions.")
 	var hand_before: Array = snapshot.hand.duplicate(true)
 	check.call(not Inspect.technique_action(snapshot, 1003).allowed and Inspect.technique_action(snapshot, 1003).reason.contains("Need 4"), "Technique activation availability reads live energy.")
 	snapshot.energy = 4
@@ -110,9 +112,9 @@ func _availability(check: Callable) -> void:
 	check.call(Inspect.placement(snapshot, empty, "straight").allowed and not snapshot.forecast.valid, "A legal construction step remains eligible while the production circuit is incomplete.")
 	check.call(not Inspect.placement(snapshot, endpoint, "straight").allowed and not Inspect.edit_action(snapshot, endpoint, "erase").allowed and not Inspect.edit_action(snapshot, endpoint, "flip").allowed, "Protected endpoints reject replacement, erase and Flip previews.")
 	check.call(Inspect.edit_action(snapshot, endpoint, "rotate").allowed and not Inspect.edit_action(snapshot, empty, "rotate").allowed, "Production endpoints support Rotate but empty cells do not.")
-	check.call(not Inspect.edit_action(snapshot, empty, "undo").allowed and not Inspect.edit_action(snapshot, empty, "erase").allowed, "Undo reflects actual history and erase avoids an empty-cell no-op.")
+	check.call(not Inspect.edit_action(snapshot, empty, "undo").allowed and not Inspect.edit_action(snapshot, empty, "erase").allowed, "Internal compatibility Undo reflects history, and Remove avoids an empty-cell no-op.")
 	model.rotate(endpoint)
-	check.call(Inspect.edit_action(model.snapshot(), endpoint, "undo").allowed, "A real endpoint rotation immediately makes Undo available.")
+	check.call(Inspect.edit_action(model.snapshot(), endpoint, "undo").allowed, "A real endpoint rotation records internal compatibility Undo history without implying a visible production control.")
 	model.undo()
 	check.call(not Inspect.edit_action(model.snapshot(), endpoint, "undo").allowed and model.snapshot().board == snapshot.board, "Endpoint Undo restores geometry and the availability boundary.")
 	var capacity: int = snapshot.stock.split

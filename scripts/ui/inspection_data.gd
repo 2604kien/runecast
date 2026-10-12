@@ -16,10 +16,10 @@ static func describe_hand(snapshot: Dictionary, uid: int) -> Dictionary:
 	if technique:
 		lines.append("Energy: %d, paid immediately when activated. Inspection does not activate it." % int(rune.cost))
 		lines.append("Ports: none; techniques do not occupy board cells.")
-		lines.append("Permanent card. Activation sends it to discard and clears Undo. If unplayed, Cast/Pass sends it to discard.")
+		lines.append("Permanent card. Activation sends it to discard and commits preparation. If unplayed, Cast/Pass sends it to discard." if snapshot.has("production") else "Permanent card. Activation sends it to discard and clears Undo. If unplayed, Cast/Pass sends it to discard.")
 	else:
 		lines.append("Energy: %d, paid once on a valid Cast if powered. Placement costs no energy." % int(rune.cost))
-		lines.append("Unrotated " + _ports({"kind": "rune", "port_shape": rune.get("port_shape", "straight")}))
+		lines.append("Unrotated " + _ports({"kind": "rune", "port_shape": rune.get("port_shape", "straight")}, snapshot.has("production")))
 		lines.append("Placement keeps the target's rotation. Use Rotate after placing.")
 		lines.append(_rune_cleanup(snapshot, rune, {}, false))
 	return {"title": str(rune.name), "text": "\n\n".join(lines), "uid": uid, "kind": str(rune.type)}
@@ -51,11 +51,11 @@ static func describe_cell(snapshot: Dictionary, index: int) -> Dictionary:
 		lines.append("Rotate is available." if _rules(snapshot).get("endpoint_rotation", "fixed") == "player" else "Rotation is locked in this profile.")
 		lines.append("Moves to a new position and direction next turn." if _rules(snapshot).get("endpoint_policy", "fixed") in ["random_any_cells", "random_each_turn"] else "Stays in its socket after Cast/Pass.")
 	else:
-		lines.append(_connector_effect(kind))
+		lines.append(_connector_effect(kind, snapshot.has("production")))
 		lines.append("Energy: %d, paid once on a valid Cast if powered. Editing costs no energy." % connector_cost(snapshot, kind))
 		lines.append(_stock_text(snapshot, kind))
 		lines.append(_connector_cleanup(snapshot))
-	lines.append(_ports(piece))
+	lines.append(_ports(piece, snapshot.has("production")))
 	lines.append(power_text(snapshot, index))
 	return {"title": title, "text": "\n\n".join(lines), "index": index, "kind": kind}
 
@@ -63,11 +63,13 @@ static func describe_tool(snapshot: Dictionary, kind: String) -> Dictionary:
 	if not TOOL_NAMES.has(kind) or snapshot.is_empty():
 		return {}
 	if kind == "erase":
+		if snapshot.has("production"):
+			return {"title": "Remove", "text": "Editing tool. Tap an occupied editable cell to remove its piece.\n\nNo energy cost. Runes return to hand; connectors refund their stock. Begin and End are protected.", "kind": kind}
 		return {"title": "Erase", "text": "Editing tool. Tap an occupied editable cell to remove its piece.\n\nNo energy cost. Runes return to hand; connectors refund their stock. Begin, End and blocked cells are protected. Undo can restore an erase.", "kind": kind}
-	var lines: Array[String] = ["Connector tool. " + _connector_effect(kind),
+	var lines: Array[String] = ["Connector tool. " + _connector_effect(kind, snapshot.has("production")),
 		"Energy: %d, paid once on a valid Cast if powered. Placement costs no energy." % connector_cost(snapshot, kind),
-		_stock_text(snapshot, kind), "New placement " + _ports({"kind": kind}),
-		"Rotate changes direction." + (" Flip reverses input and output." if kind in ["straight", "corner"] else " Flip is unavailable for this piece."),
+		_stock_text(snapshot, kind), "New placement " + _ports({"kind": kind}, snapshot.has("production")),
+		"Rotate changes connection geometry." if snapshot.has("production") else "Rotate changes direction." + (" Flip reverses input and output." if kind in ["straight", "corner"] else " Flip is unavailable for this piece."),
 		_connector_cleanup(snapshot)]
 	return {"title": str(TOOL_NAMES[kind]), "text": "\n\n".join(lines), "kind": kind}
 
@@ -149,6 +151,13 @@ static func power_text(snapshot: Dictionary, index: int) -> String:
 	var board: Array = snapshot.get("board", [])
 	if index < 0 or index >= board.size() or board[index].is_empty():
 		return ""
+	if snapshot.has("production"):
+		var forecast: Dictionary = snapshot.get("forecast", {})
+		if forecast.get("valid", false) and forecast.get("active", []).has(index):
+			return "Powered from Begin. Each physical piece executes and pays once; Split copies its arriving signal."
+		if forecast.get("reached", []).has(index):
+			return "Connected from Begin; cannot Cast yet. " + str(forecast.get("message", "Circuit incomplete."))
+		return "Disconnected from Begin; contributes no effect or casting cost."
 	# Forecast.active is empty on an incomplete circuit. This monotonic walk
 	# reports actual matched input connectivity without rejecting intermediate
 	# construction or propagating through a Join with a missing input.
@@ -203,7 +212,11 @@ static func _effect(snapshot: Dictionary, rune: Dictionary) -> String:
 			return "Creates %d temporary %s in hand immediately." % [value, generated.get("name", "runes")]
 	return "Effect unavailable."
 
-static func _ports(piece: Dictionary) -> String:
+static func _ports(piece: Dictionary, undirected: bool = false) -> String:
+	if undirected:
+		var directions: Array[String] = []
+		for direction in Circuit.logical_ports(piece): directions.append(DIRECTIONS[direction])
+		return "ports: " + " / ".join(directions) + ". Undirected connections; Rotate changes geometry."
 	var ports := Circuit.ports(piece)
 	var inputs: Array[String] = []
 	var outputs: Array[String] = []
@@ -234,7 +247,12 @@ static func _rune_cleanup(snapshot: Dictionary, rune: Dictionary, piece: Diction
 		return text + " On a valid Cast, a powered rune enters discard and leaves a matching wire. Disconnected runes and Pass keep it installed."
 	return text + " Installed, it remains after Cast/Pass in this profile."
 
-static func _connector_effect(kind: String) -> String:
+static func _connector_effect(kind: String, undirected: bool = false) -> String:
+	if undirected:
+		match kind:
+			"split": return "Branches one arriving route into two. Copies the combined signal to each branch; any logical port may receive it."
+			"join": return "Merges two arriving routes into one. Shared downstream runes trigger once; any logical port may carry the combined signal."
+			_: return "Connects compatible neighboring ports in either direction."
 	match kind:
 		"split": return "Copies the incoming signal into both outgoing branches."
 		"join": return "Adds arriving signals. Both inputs must be powered."

@@ -68,6 +68,9 @@ func advance_time(seconds: float) -> void:
 func _input(event: InputEvent) -> void:
 	if _disposed:
 		return
+	if _route_inspect_shortcut(event):
+		get_viewport().set_input_as_handled()
+		return
 	if _route_modal_keys(event):
 		get_viewport().set_input_as_handled()
 		return
@@ -108,6 +111,25 @@ func _input(event: InputEvent) -> void:
 	# viewport input rather than leaving a path through to its ordinary Buttons.
 	if handled or _suspended:
 		get_viewport().set_input_as_handled()
+
+func _route_inspect_shortcut(event: InputEvent) -> bool:
+	if _suspended or _modal != null or not _gesture.is_empty() or not _touches.is_empty(): return false
+	var entry := {}
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and event.device != EMULATED_DEVICE:
+		entry = _target_at(event.position)
+	elif event is InputEventKey and event.keycode == KEY_I and event.pressed and not event.echo and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed:
+		var focused := get_viewport().gui_get_focus_owner()
+		for target in _targets:
+			if target.control.get_ref() == focused and _valid_target(target.control):
+				entry = target.duplicate()
+				entry.control_node = focused
+				break
+	var control: Control = entry.get("control_node")
+	var inspect: Callable = entry.get("inspect", Callable())
+	if control == null or not control.get_meta("inspect_shortcuts", false) or not inspect.is_valid(): return false
+	cancel_pending()
+	inspect.call()
+	return true
 
 func _touch(event: InputEventScreenTouch) -> bool:
 	if event.pressed:

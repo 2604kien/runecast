@@ -5,48 +5,27 @@
       "commands": [
         {
           "arguments": {
-            "index": 0
-          },
-          "command": "rotate"
-        },
-        {
-          "arguments": {},
-          "command": "undo"
-        },
-        {
-          "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 1,
+            "index": 1.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 1,
-            "uid": 0
-          },
-          "command": "place_rune"
-        },
-        {
-          "arguments": {},
-          "command": "undo"
-        },
-        {
-          "arguments": {
-            "index": 1,
-            "uid": 0
+            "index": 1.0,
+            "uid": 0.0
           },
           "command": "place_rune"
         }
@@ -119,6 +98,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 1, column 2.",
+            "reached": [
+              1
+            ],
             "shield": 0,
             "valid": false
           },
@@ -236,6 +218,11 @@
             "cost": 2,
             "damage": 6,
             "message": "Circuit complete",
+            "reached": [
+              0,
+              1,
+              2
+            ],
             "shield": 0,
             "valid": true
           },
@@ -340,6 +327,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 1, column 1.",
+            "reached": [
+              0
+            ],
             "shield": 0,
             "valid": false
           },
@@ -384,8 +374,8 @@
           "undo_count": 0
         }
       },
-      "purpose": "Introductory three-cell Spark route; endpoint Rotate/Undo and rune-over-wire replacement/Undo.",
-      "seed": 294,
+      "purpose": "Rotate endpoints, place Spark over a reserved Straight and refund its stock.",
+      "seed": 294.0,
       "setup_kind": "natural_starter_draw"
     },
     {
@@ -393,98 +383,98 @@
       "commands": [
         {
           "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 13
+            "index": 13.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 1,
-            "uid": 0
+            "index": 1.0,
+            "uid": 0.0
           },
           "command": "place_rune"
         },
         {
           "arguments": {
-            "index": 2,
+            "index": 2.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 3,
+            "index": 3.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 7,
-            "uid": 1
+            "index": 7.0,
+            "uid": 1.0
           },
           "command": "place_rune"
         },
         {
           "arguments": {
-            "index": 7
+            "index": 7.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 11,
+            "index": 11.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 11
+            "index": 11.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 15,
+            "index": 15.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 15
+            "index": 15.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 14,
+            "index": 14.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 14
+            "index": 14.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 14
+            "index": 14.0
           },
           "command": "rotate"
         }
@@ -557,6 +547,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 1, column 4.",
+            "reached": [
+              3
+            ],
             "shield": 0,
             "valid": false
           },
@@ -700,6 +693,17 @@
             "cost": 3,
             "damage": 6,
             "message": "Circuit complete",
+            "reached": [
+              0,
+              1,
+              2,
+              3,
+              7,
+              11,
+              13,
+              14,
+              15
+            ],
             "shield": 5,
             "valid": true
           },
@@ -800,6 +804,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 1, column 1.",
+            "reached": [
+              0
+            ],
             "shield": 0,
             "valid": false
           },
@@ -845,7 +852,7 @@
         }
       },
       "purpose": "Long nine-cell route with Spark and Shield, using the real three-energy opening.",
-      "seed": 39,
+      "seed": 39.0,
       "setup_kind": "natural_starter_draw"
     },
     {
@@ -853,133 +860,117 @@
       "commands": [
         {
           "arguments": {
-            "index": 12
+            "index": 12.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 12
+            "index": 12.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 12
+            "index": 12.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 8,
-            "uid": 3
+            "index": 8.0,
+            "uid": 3.0
           },
           "command": "place_rune"
         },
         {
           "arguments": {
-            "index": 8
+            "index": 8.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 8
+            "index": 8.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 8
+            "index": 8.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 4,
+            "index": 4.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 4
+            "index": 4.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 4
+            "index": 4.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 4
+            "index": 4.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 4
-          },
-          "command": "flip"
-        },
-        {
-          "arguments": {},
-          "command": "undo"
-        },
-        {
-          "arguments": {
-            "index": 5,
+            "index": 5.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 6,
+            "index": 6.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 10,
+            "index": 10.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 10
+            "index": 10.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 14,
+            "index": 14.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 14
+            "index": 14.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 14
+            "index": 14.0
           },
           "command": "rotate"
-        },
-        {
-          "arguments": {
-            "index": 14
-          },
-          "command": "flip"
         }
       ],
       "encounter_path": "res://data/development/rc009_ossuary_encounter.json",
@@ -1050,6 +1041,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 2, column 3.",
+            "reached": [
+              6
+            ],
             "shield": 0,
             "valid": false
           },
@@ -1131,7 +1125,6 @@
             {},
             {
               "kind": "corner",
-              "reversed": true,
               "rotation": 2
             },
             {
@@ -1188,6 +1181,16 @@
             "cost": 2,
             "damage": 6,
             "message": "Circuit complete",
+            "reached": [
+              4,
+              5,
+              6,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
             "shield": 0,
             "valid": true
           },
@@ -1225,7 +1228,7 @@
             "straight": 4
           },
           "turn": 1,
-          "undo_count": 19
+          "undo_count": 18
         },
         "initial": {
           "board": [
@@ -1292,6 +1295,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 4, column 1.",
+            "reached": [
+              12
+            ],
             "shield": 0,
             "valid": false
           },
@@ -1336,8 +1342,8 @@
           "undo_count": 0
         }
       },
-      "purpose": "Eight-cell turning route with three Corners; reversed elbow, Rotate and Flip/Undo restore real ports.",
-      "seed": 474,
+      "purpose": "Route around corners with undirected ports using Rotate only.",
+      "seed": 474.0,
       "setup_kind": "natural_starter_draw"
     },
     {
@@ -1345,92 +1351,92 @@
       "commands": [
         {
           "arguments": {
-            "uid": 7
+            "uid": 7.0
           },
           "command": "technique"
         },
         {
           "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 0
+            "index": 0.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 14
+            "index": 14.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 1,
-            "uid": 8
+            "index": 1.0,
+            "uid": 8.0
           },
           "command": "place_rune"
         },
         {
           "arguments": {
-            "index": 2,
+            "index": 2.0,
             "kind": "split"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 3,
+            "index": 3.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 6,
-            "uid": 1
+            "index": 6.0,
+            "uid": 1.0
           },
           "command": "place_rune"
         },
         {
           "arguments": {
-            "index": 6
+            "index": 6.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 7,
+            "index": 7.0,
             "kind": "straight"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 7
+            "index": 7.0
           },
           "command": "rotate"
         },
         {
           "arguments": {
-            "index": 10,
+            "index": 10.0,
             "kind": "join"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 11,
+            "index": 11.0,
             "kind": "corner"
           },
           "command": "place_wire"
         },
         {
           "arguments": {
-            "index": 11
+            "index": 11.0
           },
           "command": "rotate"
         }
@@ -1503,6 +1509,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 4, column 2.",
+            "reached": [
+              13
+            ],
             "shield": 0,
             "valid": false
           },
@@ -1641,8 +1650,8 @@
               0,
               1,
               2,
-              6,
               3,
+              6,
               7,
               11,
               10,
@@ -1651,6 +1660,17 @@
             "cost": 2,
             "damage": 12,
             "message": "Circuit complete",
+            "reached": [
+              0,
+              1,
+              2,
+              3,
+              6,
+              7,
+              10,
+              11,
+              14
+            ],
             "shield": 5,
             "valid": true
           },
@@ -1751,6 +1771,9 @@
             "cost": 0,
             "damage": 0,
             "message": "Open connection at row 1, column 1.",
+            "reached": [
+              0
+            ],
             "shield": 0,
             "valid": false
           },
@@ -1796,9 +1819,9 @@
         }
       },
       "purpose": "Natural Conjure creates Free Spark upstream of Split/Join; the branches amplify damage and add Shield within finite stock.",
-      "seed": 2149,
+      "seed": 2149.0,
       "setup_kind": "natural_starter_draw"
     }
   ],
-  "version": "rc009_board_examples_v1"
+  "version": "rc016a_board_examples_v1"
 }

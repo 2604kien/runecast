@@ -20,7 +20,7 @@ func run(check: Callable) -> void:
 	var original_rules: Dictionary = rules.rules.duplicate(true)
 	for kit in rules.rules.kits:
 		var failures: Array = []
-		var counts := {"pairs": 0, "adjacent": 0, "begin_outward": 0, "end_outward": 0, "flips": 0}
+		var counts := {"pairs": 0, "adjacent": 0, "begin_outward": 0, "end_outward": 0, "reverse_routes": 0}
 		for begin in range(16):
 			for end in range(16):
 				if begin == end:
@@ -37,7 +37,7 @@ func run(check: Callable) -> void:
 		check.call(counts.adjacent == 48, "Kit %s covers all 48 ordered horizontal/vertical adjacencies with a rune-bearing detour, without requiring a direct path or a minimum runtime route length." % kit.id)
 		check.call(counts.begin_outward == 180 and counts.end_outward == 180,
 			"Kit %s repairs outward initial ports through player Rotate for every boundary endpoint: 180 Begin and 180 End placements." % kit.id)
-		check.call(counts.flips > 0, "Kit %s constructs routes using actual directional-wire Flip as well as Rotate and checks resulting ports." % kit.id)
+		check.call(counts.reverse_routes > 0, "Kit %s constructs undirected routes against historical input/output labels using only Rotate, with independently checked connection sides." % kit.id)
 	check.call(loaded.setup == original_setup and rules.rules == original_rules,
 		"All 720 geometry cases leave the production setup and validated kit definitions detached and unchanged.")
 
@@ -122,24 +122,29 @@ func _rotate_to(game: Combat, cell: int, rotation: int, totals: Dictionary) -> b
 	return int(game.board[cell].rotation) == rotation
 
 func _ports_match(game: Combat, cell: int, input: int, output: int) -> bool:
-	var ports := Circuit.ports(game.board[cell])
-	return ports.input == [input] and ports.output == [output]
+	var piece: Dictionary = game.board[cell]
+	var base := [3, 2] if piece.get("kind") == "corner" else [3, 1]
+	var sides: Array = base.map(func(side): return (side + int(piece.get("rotation", 0))) % 4)
+	return sides.has(input) and sides.has(output) and input != output
 
 func _place_connector(game: Combat, cell: int, input: int, output: int, totals: Dictionary, counts: Dictionary) -> bool:
 	var straight := output == (input + 2) % 4
 	var kind := "straight" if straight else "corner"
-	# Straight direction can use either representation. Alternating it ensures
-	# that the actual Flip command is exercised for both wire shapes.
-	var reversed: bool = (cell % 2 == 0) if straight else output == (input + 1) % 4
-	var rotation := (input + 3) % 4 if straight and reversed else (input + 1) % 4
-	if not straight and reversed:
-		rotation = (input + 2) % 4
+	# An independent geometry table chooses the quarter-turn without assigning
+	# input/output roles. The first matching geometry includes reverse traversal.
+	var base := [3, 1] if straight else [3, 2]
+	var rotation := -1
+	for quarter in range(4):
+		var sides: Array = base.map(func(side): return (side + quarter) % 4)
+		if sides.has(input) and sides.has(output):
+			rotation = quarter
+			break
+	if rotation < 0:
+		return false
 	if not _edit(game, "place_wire", {"index": cell, "kind": kind}, totals) or not _rotate_to(game, cell, rotation, totals):
 		return false
-	if reversed:
-		if not _edit(game, "flip", {"index": cell}, totals):
-			return false
-		counts.flips += 1
+	if (base[0] + rotation) % 4 != input:
+		counts.reverse_routes += 1
 	return _ports_match(game, cell, input, output)
 
 func _snapshot_without_feedback(game: Combat) -> Dictionary:
@@ -217,7 +222,7 @@ func _exercise_pair(source: Dictionary, totals: Dictionary, path: Array, counts:
 			continue
 		var cell: int = path[offset]
 		if not _place_connector(game, cell, _direction(cell, path[offset - 1]), _direction(cell, path[offset + 1]), totals, counts):
-			return "connector placement/Rotate/Flip failed at %d" % cell
+			return "connector placement/Rotate failed at %d" % cell
 	var forecast := game.forecast()
 	if not forecast.valid or forecast.damage != int(game.catalog.spark.value) or forecast.active.size() != path.size():
 		return "command-built route did not carry the supplied Spark to End"
