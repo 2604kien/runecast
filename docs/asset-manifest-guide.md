@@ -1,5 +1,7 @@
 # Asset manifest, reuse and evidence
 
+**October 13 project-wide cleanup:** the owner authorized removal of unnecessary assets across the project. The [new cleanup ledger](asset-cleanup.md#october-13-2026--project-wide-follow-up-cleanup) retires exact superseded previews, staging/cache copies and source raster intermediates. Current inventory links use retained deliveries. Historical evidence counts and old JSON path lists below describe their original dates; the exact ledger explains later removals without rewriting them.
+
 **RC-012 current delivery:** [Core symbols and typography](core-symbols-and-typography.md) supplies the current 24-symbol scope, source/export mapping, one shared Noto Serif 2.015 binary and role resources. Remove/Rotate are the only editing glyphs; temporary distinction is card/detail-only, and no circuit flow arrows are exported. The table now separately assigns supporting piles, top Pause and forecast consumers. Readiness follows actual isolated Godot evidence; original RC-010 audit statements below retain their historical date.
 
 **Current cleanup policy:** The owner authorized removing unused/rejected artwork while retaining the current pilot, its editable dependencies, approved references and runtime work. [The cleanup record](asset-cleanup.md) supersedes preservation-of-every-study requirements below for its enumerated files. Historical counts describe their original audit dates; current validation distinguishes retained files from exact recorded removals.

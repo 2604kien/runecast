@@ -19,8 +19,8 @@ from PIL import Image, ImageChops, ImageStat
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'source-assets/characters/shadeling'
 PACK = ROOT / 'assets/enemies/shadeling'
-QA = ROOT / 'output/qa/rc-014'
-ART = ROOT / 'output/art/rc-014'
+QA = ROOT / 'output/qa/rc-014/framing-360'
+ART = ROOT / 'output/art/rc-014/framing-360'
 errors, checks = [], []
 
 
@@ -137,9 +137,9 @@ def package_gifs(render):
 def main():
     global QA, ART
     parser = argparse.ArgumentParser()
-    parser.add_argument('--report', default='output/qa/rc-014/validation-report.json')
-    parser.add_argument('--qa-dir', default='output/qa/rc-014', help='Godot report and staged preview directory, relative to the project root')
-    parser.add_argument('--art-dir', default='output/art/rc-014', help='Rendered sheets and motion frames, relative to the project root')
+    parser.add_argument('--report', default='output/qa/rc-014/framing-360/validation-report.json')
+    parser.add_argument('--qa-dir', default='output/qa/rc-014/framing-360', help='Godot report and staged preview directory, relative to the project root')
+    parser.add_argument('--art-dir', default='output/art/rc-014/framing-360', help='Rendered sheets and motion frames, relative to the project root')
     parser.add_argument('--package-gifs', action='store_true')
     args = parser.parse_args()
     QA = (ROOT/args.qa_dir).resolve()

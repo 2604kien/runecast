@@ -1,5 +1,6 @@
 """RC-013 focused source/import/layout/packaging audit. Never uses Git."""
 from pathlib import Path
+import argparse
 import csv
 import hashlib
 import json
@@ -8,6 +9,11 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 QA = ROOT / 'output/qa/rc-013'
+MENU_QA = QA / 'menu-button-revert'
+MENU_ART = ROOT / 'output/art/rc-013/menu-button-revert'
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--report', default='output/qa/rc-013/validation-report.json', help='Write the current audit separately from retained historical reports')
+args = parser.parse_args()
 errors = []
 counts = {}
 
@@ -50,8 +56,9 @@ for row in mapping['exports']:
         with Image.open(path) as img:
             check(list(img.size) == row['size'] and img.mode == 'RGBA', 'Wrong dimensions/alpha: ' + row['runtime'], 'exports')
 
-# The specimen consumes exact copies of production resources, not hand-drawn approximations.
-staged = QA / 'preview-project'
+# The latest Menu correction staged the complete current resource set.
+# Recreate this strict identity input with the current Menu preview wrapper.
+staged = MENU_QA / 'preview-project'
 for folder in ['assets/ui', 'assets/icons', 'assets/fonts', 'scenes/ui/theme']:
     for path in (ROOT / folder).rglob('*'):
         if path.suffix not in ['.png', '.svg', '.ttf', '.gd', '.tres']:
@@ -77,6 +84,13 @@ for relative, weight in [('display/title', 700), ('ui/labels', 600), ('ui/locati
 
 render = data('output/qa/rc-013/godot-render-results.json')
 check(render['result'] == 'PASS' and not render['errors'], 'Godot layout/input report failed', 'renders')
+menu_render = data('output/qa/rc-013/menu-button-revert/godot-render-results.json')
+check(menu_render['result'] == 'PASS' and not menu_render['errors'], 'Current retained Menu layout/input report failed', 'renders')
+menu_modes = {'menu-open', 'menu-locked'}
+check(len(menu_render['sheets']) == 6 and all(sheet['mode'] in menu_modes for sheet in menu_render['sheets']),
+      'Current Menu report must contain both states at three sizes', 'renders')
+current_sheets = [(sheet, ROOT / 'output/art/rc-013') for sheet in render['sheets'] if sheet['mode'] not in menu_modes]
+current_sheets += [(sheet, MENU_ART) for sheet in menu_render['sheets']]
 imported = {row['path'].removeprefix('res://'): row for row in render.get('imported_resources', [])}
 for row in mapping['exports']:
     result = imported.get(row['runtime'], {})
@@ -85,15 +99,15 @@ for row in mapping['exports']:
 for role, weight in [('display/title', 700), ('ui/labels', 600), ('ui/location', 500)]:
     font = next((f for f in render['fonts'] if f['path'].endswith(role + '.tres')), {})
     check(font.get('axes') == {'weight': weight, 'width': 100}, 'Actual font RID axes wrong: ' + role, 'fonts')
-check(len(render['sheets']) >= 33, 'Screen/state coverage incomplete', 'renders')
+check(len(current_sheets) >= 33, 'Screen/state coverage incomplete', 'renders')
 last_hand = next((s for s in render['sheets'] if s['file'] == 'cards-native-hand-end.png'), {})
 check(last_hand.get('hand_scroll', 0) > 0, 'Eight-card hand end inaccessible', 'layout')
 text_count = 0
 preview_evidence = []
 dimensions = set()
 modes = set()
-for sheet in render['sheets']:
-    path = ROOT / 'output/art/rc-013' / sheet['file']
+for sheet, art_directory in current_sheets:
+    path = art_directory / sheet['file']
     check(path.is_file(), 'Missing actual render: ' + sheet['file'], 'renders')
     if path.is_file():
         with Image.open(path) as img:
@@ -115,13 +129,15 @@ for key in ['pointed_edge_click','keyboard_callback','unavailable_suppressed','m
 # Logs are authoritative too: a script can fail without making Godot's exit code nonzero.
 allowed = ["Failed to read the root certificate store", "Can't create shader cache folder", "Could not open 'user://' directory"]
 host_warnings = []
-for log in ['godot-import.log','godot-render.log','interactive-gallery.log']:
-    for line in (QA / log).read_text(encoding='utf-8-sig').splitlines():
+logs = [QA / name for name in ['godot-import.log','godot-render.log','interactive-gallery.log']]
+logs += [MENU_QA / name for name in ['godot-import.log','godot-render.log']]
+for log in logs:
+    for line in log.read_text(encoding='utf-8-sig').splitlines():
         if line.startswith(('ERROR:', 'SCRIPT ERROR:')):
             if any(item in line for item in allowed):
                 host_warnings.append(line)
             else:
-                check(False, log + ': ' + line, 'engine_errors')
+                check(False, str(log.relative_to(ROOT)) + ': ' + line, 'engine_errors')
 check(True, 'Engine logs audited', 'engine_errors')
 
 check((ROOT / 'source-assets/.gdignore').is_file(), 'Source exclusion lost', 'packaging')
@@ -135,8 +151,13 @@ report = {
     'task':'RC-013', 'result':'PASS' if not errors else 'FAIL', 'counts':counts,
     'checks':sum(counts.values()), 'live_text_measurements':text_count, 'errors':errors,
     'preview_hashes':preview_evidence, 'host_warnings':sorted(set(host_warnings)),
-    'scope':'Production sources/imported resources/isolated desktop layouts and input. Not gameplay integration, owner approval, rights clearance or physical-device validation.'
+    'retained_render_reports':['output/qa/rc-013/godot-render-results.json','output/qa/rc-013/menu-button-revert/godot-render-results.json'],
+    'staged_resource_directory':str(staged.relative_to(ROOT)).replace('\\', '/'),
+    'measurement_status':'Layout, font RID and interaction measurements are reused from retained Godot reports; this audit does not execute Godot or claim new rendering.',
+    'scope':'Current production sources/import recipes and retained isolated desktop evidence. Not gameplay integration, owner approval, rights clearance or physical-device validation.'
 }
-(QA / 'validation-report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+report_path = ROOT / args.report
+report_path.parent.mkdir(parents=True, exist_ok=True)
+report_path.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
 print(json.dumps({k: report[k] for k in ['result','checks','counts','errors']}, indent=2))
 raise SystemExit(0 if not errors else 1)

@@ -1,7 +1,7 @@
 param(
     [switch]$ImportOnly,
-    [string]$QaDirectory = 'output/qa/rc-014',
-    [string]$ArtDirectory = 'output/art/rc-014'
+    [string]$QaDirectory = 'output/qa/rc-014/framing-360',
+    [string]$ArtDirectory = 'output/art/rc-014/framing-360'
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent

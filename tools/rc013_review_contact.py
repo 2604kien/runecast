@@ -9,7 +9,7 @@ sheet = Image.new('RGB', (720, 1352), '#0c1524')
 draw = ImageDraw.Draw(sheet)
 for index, (name, label) in enumerate([
     ('home-save-360x640.png', 'Home · saved run'),
-    ('menu-locked-360x640.png', 'Menu · unavailable Shop'),
+    ('menu-button-revert/menu-locked-360x640.png', 'Menu · unavailable Store'),
     ('components-bottom-360x640.png', 'Live forecast / Cast / navigation'),
     ('map-360x640.png', 'Map · four node states'),
 ]):

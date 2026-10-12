@@ -12,5 +12,5 @@
   "dimensions": "Resolution-independent rectangular modal underlay",
   "mouse_filter": "IGNORE for decorative underlay; integrating modal host is responsible for blocking background input and focus containment",
   "reduced_motion": "Static opacity, no required animation",
-  "evidence": "output/art/rc-013/menu-locked-360x640.png"
+  "evidence": "output/art/rc-013/menu-button-revert/menu-locked-360x640.png"
 }

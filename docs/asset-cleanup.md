@@ -1,5 +1,34 @@
 # Asset cleanup — retained current set
 
+## October 13, 2026 — Project-wide follow-up cleanup
+
+The owner explicitly requested deletion of unnecessary assets across the **whole RuneCast project**, with no Git operations. This later authorization supersedes preserve-every-preview requirements only for the exact files in the [project-wide deletion manifest](../output/qa/asset-cleanup-2026-10-13/deletion-manifest.json). The October 11 cleanup below remains a separate historical record.
+
+**Completed: 2,685 files removed, freeing150,959,491 bytes (143.97 MiB).** [Post-cleanup validation](../output/qa/asset-cleanup-2026-10-13/validation.json) and [manifest/reference validation](../output/qa/asset-cleanup-2026-10-13/asset-plan-validation.json) record actual results. All403 guarded current runtime/gameplay/reference/preview files remain byte-identical. The retained UI evidence audit passed1,813 checks and the Shadeling source/evidence audit passed359 before disposable staging was removed; their prior engine measurements were not rerun or relabelled as new.
+
+The audit identified 227 superseded/duplicate preview images and GIFs, 20 regenerable source PNG intermediates, nine generated preview-project trees, disposable child caches/staged character copies and one Python bytecode cache. The manifest records each path, byte size, SHA-256, reason and replacement where one exists. No rejected-art backup is retained. Old compact QA reports and preservation snapshots keep their original dates and bytes; a listed retirement explains why their historical paths are no longer present. Byte-identical previews link to the retained copy; differing retired previews link to this record rather than being presented as current evidence.
+
+Retained current entry points:
+
+- [Corrected Shadeling pack and 360 framing](../source-assets/characters/shadeling/delivery.md#360-wide-framing-correction), with its complete102-image/frame/GIF set under [framing-360](../output/art/rc-014/framing-360/).
+- [Current Store menu](../output/art/rc-013/menu-button-revert/), plus the30 other RC-013 screen/component captures and current RC-012 symbol/type previews. Current Menu evidence replaces the superseded Shop/padding/shared-frame review copies.
+- All runtime assets, editable ORA/SVG masters, canonical layers/masks, selected generation images/prompts/records, fonts/licences and all six approved references. Retained r002/r004/r006 inputs and r002 motion frames remain real production/validation dependencies.
+- Gameplay scripts/scenes/data/tests, project/export settings, root `.godot`, pinned tools/SDKs and the unique font-probe sources. Only isolated generated QA staging and caches are removed.
+
+Seven small r006 renderer intermediates remain because both current RC-012/RC-013 preservation validators require their exact bytes. Their external SVG references resolve against the r006 root, as specified by the retained render helper, not against the intermediate `ui/render` directory. They are documented dependencies rather than orphan artwork.
+
+### Recreate isolated validation stages
+
+Staged projects are generated working copies, not source masters. Recreate them before running focused validators or opening a staged gallery:
+
+```powershell
+.\tools\preview_core_assets.ps1
+.\tools\preview_ui_theme.ps1 -EvidenceName menu-button-revert -MenuOnly
+.\tools\preview_shadeling.ps1
+```
+
+The Shadeling wrapper and validator now default to `output/{qa,art}/rc-014/framing-360`, so reruns use the corrected canonical preview set. The UI validator uses retained non-menu results and current menu-button-revert results, with strict staged identity checks; it does not claim that old layout measurements were newly executed. Pass a separate `--report` path when recording a later audit. Source builders may recreate their raster intermediates when explicitly run.
+
 October 11, 2026. The owner authorized removal of unused and unapproved artwork/files while keeping the corrected current pilot, approved reference images and runtime dependencies. This instruction supersedes earlier preserve-all-history instructions **for the files enumerated by this cleanup**. It does not authorize deleting runtime work or unrelated project evidence. No Git operations are part of this cleanup.
 
 ## Current assets retained
