@@ -1,0 +1,13 @@
+[gd_resource type="FontVariation" load_steps=2 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/ui/NotoSerif-Variable.ttf" id="font"]
+
+[resource]
+resource_name = "Combat Noto Serif 600 width 100"
+base_font = ExtResource("font")
+variation_opentype = {
+"width": 100.0,
+"weight": 600.0
+}
+spacing_top = -2
+spacing_bottom = -2

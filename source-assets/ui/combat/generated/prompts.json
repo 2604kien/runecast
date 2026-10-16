@@ -1,0 +1,118 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "model": null,
+  "model_note": "The built-in tool does not expose a model/version identifier.",
+  "date": "2026-10-14",
+  "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "method": "18 distinct reference-guided image-generation calls; runtime PNGs are unchanged tool outputs; Godot alone selects normalized regions and import scaling.",
+  "assets": [
+    {
+      "id": "board",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI board panel. Input image 1 is the approved exact art reference. Isolate and faithfully recreate ONLY the large gold-edged dark blue stone board enclosure surrounding the 4 by 4 grid (below the stats row and above the wiring toolbar). Remove ALL grid tiles, glyphs, wires, text and green banner, reconstructing an empty dark indigo/slate stone interior. Preserve the reference's chunky asymmetric hand-painted angular gold edge, side diamond joints, corner facets, dark stone recess and lighting. Single panel, front-on, width:height 793:683, occupies canvas tightly with ~1% transparent margin. Transparent outside silhouette, opaque stone inside. No typography, symbols, grids, extra decorations or background. Painterly game art, NOT vector-like geometry. Faithful extraction of the reference design, no redesign.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-77e17198-cbf2-4f51-9fa8-4c474d752a73.png",
+      "runtime": "assets/ui/combat/generated/board.png"
+    },
+    {
+      "id": "socket",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI empty board socket. Input image 1 is the approved exact art reference. Isolate and faithfully recreate ONE EMPTY socket like the unoccupied lower-left board tile: a squat rectangular 160:142 panel, narrow irregular gold rim broken into sharp painted facets, black inset bevel and blue-gray rough stone face with broad diagonal polygonal cracks. Preserve the exact reference palette and painterly brushwork, thin rim weight, clipped corners, no ornate decoration. Single tile front-on filling canvas tightly with ~1% transparent margin; true transparent outside clipped corners, opaque slate center. No text, glyphs, wires, state glow or other tiles. This is a faithful reference extraction, not a new design.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-1cce711c-b2f4-494b-99dc-227081a871f3.png",
+      "runtime": "assets/ui/combat/generated/socket.png"
+    },
+    {
+      "id": "stats",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI. Image 1 is the approved exact art reference. Faithfully isolate/recreate only the requested single blank asset, preserving the reference brushwork, faceted planes and colors. Front-on, no perspective. TRUE transparent exterior. No text, letters, numbers, symbols, icons, extra elements or watermark. Subject: the long shallow three-section HUD stats strip immediately under the boss health bar. Produce the strip EMPTY with NO internal dividers (live dividers added by engine). Narrow uneven hammered-gold outer edge, dark indigo stone face, angular clipped ends. Match reference width:height 780:63. Long thin panel centered with minimal transparent padding on a landscape canvas. No parchment tab. Keep narrow rim, no ornaments.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-0712d248-0c60-469a-8a67-8a7da8f079f9.png",
+      "runtime": "assets/ui/combat/generated/stats.png"
+    },
+    {
+      "id": "toolbar",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI. Image 1 is the approved exact art reference. Faithfully isolate/recreate only the requested single blank asset, preserving the reference brushwork, faceted planes and colors. Front-on, no perspective. TRUE transparent exterior. No text, letters, numbers, symbols, icons, extra elements or watermark. Subject: the long wiring toolbar enclosure immediately below the grid. Empty interior with no individual toolslots, no parchment, no controls. Asymmetric gold corner pieces and side wings with thin gold top/bottom edges, dark indigo rough stone face. Match reference width:height 789:123. Single wide shallow panel centered with minimal transparent padding. Preserve the reference large flared corners and subtle dark stone. No ornaments.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-94d27579-4bbf-4bf2-8c62-26460e9ec473.png",
+      "runtime": "assets/ui/combat/generated/toolbar.png"
+    },
+    {
+      "id": "forecast",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI. Image 1 is the approved exact art reference. Faithfully isolate/recreate only the requested single blank asset, preserving the reference brushwork, faceted planes and colors. Front-on, no perspective. TRUE transparent exterior. No text, letters, numbers, symbols, icons, extra elements or watermark. Subject: the forecast results panel directly under the three hand cards. Empty interior no dividers. Clipped angular corners with broad muted gold outer bevel, thin bright gold inner seam and dark indigo stone face. Match reference width:height748:76, single long shallow panel centered with minimal transparent padding. Reference-faithful outer silhouette. No ornaments.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-a68a6853-a2d6-419b-a093-f578692711c4.png",
+      "runtime": "assets/ui/combat/generated/forecast.png"
+    },
+    {
+      "id": "nav",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI. Image 1 is the approved exact art reference. Faithfully isolate/recreate only the requested single blank asset, preserving the reference brushwork, faceted planes and colors. Front-on, no perspective. TRUE transparent exterior. No text, letters, numbers, symbols, icons, extra elements or watermark. Subject: the bottom navigation bar panel below Cast ends turn. One empty horizontal panel with no internal dividers. Dark indigo/slate stone face and thin asymmetric muted gold border; top left/right corners diagonally cut, lower corners diagonally cut, broader facets at corner turns. Match reference width:height746:85. Single long shallow panel centered with minimal transparent padding. No ornaments.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-5cd70351-3d65-41d8-8d6a-6b88dbfbfca7.png",
+      "runtime": "assets/ui/combat/generated/nav.png"
+    },
+    {
+      "id": "card-damage",
+      "prompt": "Use case: background-extraction. Asset type: single production 2D fantasy game card background. Input image 1 is the approved exact art reference. Faithfully isolate/recreate ONLY one blank card frame and opaque face from the hand near the bottom. Preserve reference hand-painted faceted chipped edges, brushwork, shadows and color. Card is nearly square width:height174:170, tiny clipped corners, narrow colorful metallic bevel (about5%width), inset shadow and mottled broad painted planes. Front-on tightly filling canvas with <=2% transparent exterior margin. All text, icon, energy cost badge and horizontal dividers REMOVED; smooth uninterrupted face. TRUE transparent outside corners, opaque interior. No text, number, glyph, badge, character, ornament or watermark. Subject: amber/gold Spark card background: bright yellow/orange gold beveled border, warm dark burnt amber face, subtly lit toward upper left. Match the existing gold damage card exactly.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-6e544881-4c57-446e-b524-07a478023523.png",
+      "runtime": "assets/ui/combat/generated/card-damage.png"
+    },
+    {
+      "id": "card-shield",
+      "prompt": "Use case: background-extraction. Asset type: single production 2D fantasy game card background. Input image 1 is the approved exact art reference. Faithfully isolate/recreate ONLY one blank card frame and opaque face from the hand near the bottom. Preserve reference hand-painted faceted chipped edges, brushwork, shadows and color. Card is nearly square width:height174:170, tiny clipped corners, narrow colorful metallic bevel (about5%width), inset shadow and mottled broad painted planes. Front-on tightly filling canvas with <=2% transparent exterior margin. All text, icon, energy cost badge and horizontal dividers REMOVED; smooth uninterrupted face. TRUE transparent outside corners, opaque interior. No text, number, glyph, badge, character, ornament or watermark. Subject: green Shield card background: luminous moss/lime green beveled border, deep forest green face with broad irregular paint patches. Match the existing green shield card exactly.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-cb9097cd-4ae4-43f2-9f59-76ec65bff0e9.png",
+      "runtime": "assets/ui/combat/generated/card-shield.png"
+    },
+    {
+      "id": "card-technique",
+      "prompt": "Use case: background-extraction. Asset type: single production 2D fantasy game card background. Input image 1 is the approved exact art reference. Faithfully isolate/recreate ONLY one blank card frame and opaque face from the hand near the bottom. Preserve reference hand-painted faceted chipped edges, brushwork, shadows and color. Card is nearly square width:height174:170, tiny clipped corners, narrow colorful metallic bevel (about5%width), inset shadow and mottled broad painted planes. Front-on tightly filling canvas with <=2% transparent exterior margin. All text, icon, energy cost badge and horizontal dividers REMOVED; smooth uninterrupted face. TRUE transparent outside corners, opaque interior. No text, number, glyph, badge, character, ornament or watermark. Subject: violet Focus card background: bright purple/lavender beveled border, deep violet face with broad irregular paint patches. Match the existing purple technique card exactly.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-77dd3f9e-d8dd-42c8-907b-2dab68147b96.png",
+      "runtime": "assets/ui/combat/generated/card-technique.png"
+    },
+    {
+      "id": "card-mixed",
+      "prompt": "Use case: background-extraction. Asset type: single production 2D fantasy game card background. Input image 1 is the approved exact art reference. Faithfully isolate/recreate ONLY one blank card frame and opaque face from the hand near the bottom. Preserve reference hand-painted faceted chipped edges, brushwork, shadows and color. Card is nearly square width:height174:170, tiny clipped corners, narrow colorful metallic bevel (about5%width), inset shadow and mottled broad painted planes. Front-on tightly filling canvas with <=2% transparent exterior margin. All text, icon, energy cost badge and horizontal dividers REMOVED; smooth uninterrupted face. TRUE transparent outside corners, opaque interior. No text, number, glyph, badge, character, ornament or watermark. Subject: mixed rune card variant: muted burnished gold beveled border, midnight indigo blue stone face. Keep precisely the same shape and narrow border weight as the reference colored cards, with the navy/gold palette of its board frame. No multicolor rainbow.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-c3d6bf08-8253-4a5a-9bb4-b72f16382632.png",
+      "runtime": "assets/ui/combat/generated/card-mixed.png"
+    },
+    {
+      "id": "ribbon",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference; faithfully isolate/recreate ONLY the requested element, matching painterly facets, brushwork and color. Single asset, front-on, actual transparent exterior. No text, labels, numbers, icons, watermark or extra elements. Subject: the green CIRCUIT COMPLETE ribbon above the grid, but EMPTY. Jagged torn edges, irregular dark emerald green parchment/cloth, green edging and black shadow. Width:height577:54. Preserve its simple torn silhouette exactly; no gold edging, no curling scroll ends, no checkmark. Wide shallow strip, minimize transparent padding.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-54f5c8cc-5d4f-470b-9d3e-fc3783174d21.png",
+      "runtime": "assets/ui/combat/generated/ribbon.png"
+    },
+    {
+      "id": "parchment",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference; faithfully isolate/recreate ONLY the requested element, matching painterly facets, brushwork and color. Single asset, front-on, actual transparent exterior. No text, labels, numbers, icons, watermark or extra elements. Subject: the warm gold parchment WIRING tab to the left of the tool row, but EMPTY. Tan yellow parchment with slightly torn irregular short edges and subtle folds, dark thin outline, flat center, no scroll curls. Width:height128:55. Match reference muted buttery warm yellow, broad painted patches. Center tightly on transparent canvas.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-93466fb2-5f93-45b3-94fa-71dbedd378a4.png",
+      "runtime": "assets/ui/combat/generated/parchment.png"
+    },
+    {
+      "id": "deck",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference; faithfully isolate/recreate ONLY the requested element, matching painterly facets, brushwork and color. Single asset, front-on, actual transparent exterior. No text, labels, numbers, icons, watermark or extra elements. Subject: the gray draw-pile stack beside the three colored cards. Single vertical stack of five navy/slate playing-card backs offset upward and right to show thin blue-gray page edges. Front card has clipped corners, a narrow gray metallic bevel, dark slate center. Include the small EMPTY dark count plaque with thin bronze outline near bottom center of face; plaque roughly35%of width by18%of frontcardheight. No star emblem, skull, label, numbers or other icon. Match reference width:height89:122. Entire stack fills canvas tightly. Painterly gray deck, not gold. Transparent exterior.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-b8fac6b4-8e74-45a7-b9e0-e2431573a8b9.png",
+      "runtime": "assets/ui/combat/generated/deck.png"
+    },
+    {
+      "id": "button",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference; faithfully isolate/recreate ONLY the requested element, matching painterly facets, brushwork and color. Single asset, front-on, actual transparent exterior. No text, labels, numbers, icons, watermark or extra elements. Subject: the small gray octagonal Remove/Rotate button backing in toolbar, but EMPTY. A squat nearly-square dark slate stone plate, clipped large diagonal corners, faceted blue-gray metallic raised edge with desaturated pale highlight at upper-left, warm subtle reflected light lower-right. Thin dark outer outline, broad clean navy center, no gold rim. Match reference shape and style, width:height82:68. Center tightly on transparent canvas, no eraser/arrows/pause glyph.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-f3505aec-b1f5-4962-a48b-9fbcb94105c3.png",
+      "runtime": "assets/ui/combat/generated/button.png"
+    },
+    {
+      "id": "cast",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference. Faithfully isolate/recreate only the requested blank element, preserving painterly faceted edges, brushwork and palette. Front-on, single asset, true transparent exterior, no text, numbers, icons, watermark or extra objects. Subject: the large turquoise CAST button near bottom. Remove CAST text, blue crystal and 1. Preserve exactly the long horizontal hexagonal shape with pointed ends and broad orange-gold metal endcaps, thin turquoise bevel along top and bottom, brilliant dark teal/turquoise mottled stone center, thin black inset shadow. Width:height584:87. One EMPTY button, tightly centered on transparent canvas. Bright cyan upper seam, muted warm bronze-gold pointed ends. No ornaments or extra rims.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-728c26ac-a676-4e04-b5d8-37c525919af3.png",
+      "runtime": "assets/ui/combat/generated/cast.png"
+    },
+    {
+      "id": "heading",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference. Faithfully isolate/recreate only the requested blank element, preserving painterly faceted edges, brushwork and palette. Front-on, single asset, true transparent exterior, no text, numbers, icons, watermark or extra objects. Subject: ONLY the slim jagged gold horizontal underline beneath Rune Cast title. A single uneven burnished gold metallic seam, roughly width:height660:12, a little bent and chipped, small angular tips at ends, warm highlight on upper edge, black lower shadow. No panel face, no title, no pause button. Transparent everywhere except the narrow painted seam. Very long thin horizontal asset, centered. Match the reference, do not make a decorative sword or ornate scroll.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-b58ae006-3fd8-4e8e-9638-ac2145241366.png",
+      "runtime": "assets/ui/combat/generated/heading.png"
+    },
+    {
+      "id": "caption",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference. Faithfully isolate/recreate only the requested blank element, preserving painterly faceted edges, brushwork and palette. Front-on, single asset, true transparent exterior, no text, numbers, icons, watermark or extra objects. Subject: the very shallow caption strip behind Cast ends turn, immediately beneath the Cast button and above navigation. Empty thin dark navy stone band with thin uneven gold lower edge and short angular end caps, top edge also narrow gold except no raised center. Reference width:height746:36. One extremely wide and shallow strip; clipped corners, flat uninterrupted center. Transparent exterior, no text. Keep modest border weight.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-948fbc50-f39a-43b2-adfa-74a67b07cf9c.png",
+      "runtime": "assets/ui/combat/generated/caption.png"
+    },
+    {
+      "id": "health",
+      "prompt": "Use case: background-extraction. Asset type: production 2D fantasy game UI artwork. Image1 is the approved exact reference. Faithfully isolate/recreate only the requested blank element, preserving painterly faceted edges, brushwork and palette. Front-on, single asset, true transparent exterior, no text, numbers, icons, watermark or extra objects. Subject: the small red boss health bar under Shadeling. Isolate the FULL red bar with EMPTY face. Long shallow horizontal hexagonal silhouette, clipped/pointed ends, narrow black outer outline, warm gold upper rim, bright scarlet painted red center, coral upper highlight and crimson lower shade. Width:height218:28. No numbers, no name, no boss label. No glow outside the silhouette. Match exactly the reference boss HP artwork, one bar centered with minimal padding.",
+      "source": "C:\\Users\\nguye\\.codex\\generated_images\\01a130b6-98d7-77a0-b65a-b40c2cb47436\\exec-c06a0577-dba8-4762-8a7d-35b0489981d9.png",
+      "runtime": "assets/ui/combat/generated/health.png"
+    }
+  ]
+}

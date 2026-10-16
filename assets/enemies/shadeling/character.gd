@@ -12,23 +12,41 @@ const MARKERS := {
 	&"head": "Head", &"body_center": "BodyCenter",
 	&"attack_origin": "AttackOrigin", &"lantern_pivot": "LanternPivot",
 }
+## The approved neutral uses original atlas pixels behind a shared silhouette
+## mask. The arena's scenery excludes that same outline, keeping this actor a
+## separate foot-local layer without regenerating its face, cloak or lantern.
+const REFERENCE_ATLAS = preload("res://assets/ui/combat/reference/approved-atlas.png")
+const REFERENCE_SHADER = preload("res://assets/enemies/shadeling/reference/approved_actor.gdshader")
+const REFERENCE_NEUTRAL_SIZE := Vector2(841, 1870)
+const REFERENCE_SOURCE_RECT := Rect2(285, 145, 295, 290)
+const REFERENCE_FOOT := Vector2(446, 428)
+const REFERENCE_TEXTURE_SCALE := 1.0 / 0.75
+const REFERENCE_TEXTURE_POSITION := (REFERENCE_SOURCE_RECT.position - REFERENCE_FOOT) * REFERENCE_TEXTURE_SCALE
+const REFERENCE_ATTACHMENTS := {
+	&"head": Vector2(425, 199), &"body_center": Vector2(432, 290),
+	&"attack_origin": Vector2(327, 211), &"lantern_pivot": Vector2(332, 233),
+}
 
 ## Opt-in feasibility playback. Scene instances otherwise start as static neutral.
 @export var autoplay_preview := false
 @export var reduced_motion := false
 ## A separate optional vector contact shadow, never baked into the pose alpha.
 @export var show_contact_shadow := false
+## Normal Combat opts into this neutral; isolated RC-014 specimens keep theirs.
+@export var reference_neutral := false
 ## Resource metadata is exportable without adding a nonresource JSON filter.
 @export var attachment_data: Resource
 
 var _state: StringName = &"idle"
 var _elapsed := 0.0
 var _active_pose: StringName = &""
+var _active_reference_neutral := false
 var _pose_cache: Dictionary = {}
 var _attachments: Dictionary = {}
 var _base_path := ""
 var _last_sample: Dictionary = {}
 var _completed := false
+var _reference_material: ShaderMaterial
 
 @onready var pose_root: Node2D = $PoseRoot
 @onready var pose_sprite: Sprite2D = $PoseRoot/FullPose
@@ -125,7 +143,7 @@ func warm_poses(pose_names: Array[StringName] = [&"neutral", &"attack", &"hit"])
 		var texture := _load_pose(pose_name)
 		if texture == null:
 			return false
-		_pose_cache[pose_name] = texture
+		_pose_cache[_texture_key(pose_name)] = texture
 	return true
 
 func clear_pose_cache() -> void:
@@ -134,22 +152,33 @@ func clear_pose_cache() -> void:
 func get_retained_pose_names() -> Array[StringName]:
 	var result: Array[StringName] = []
 	for pose_name in POSES:
-		if pose_name == _active_pose or _pose_cache.has(pose_name):
+		if pose_name == _active_pose or _pose_cache.has(_texture_key(pose_name)):
 			result.append(pose_name)
 	return result
 
 func _load_pose(pose_name: StringName) -> Texture2D:
-	if _pose_cache.has(pose_name):
-		return _pose_cache[pose_name]
-	return ResourceLoader.load(_base_path.path_join(String(pose_name) + ".png"),
+	var key := _texture_key(pose_name)
+	if _pose_cache.has(key):
+		return _pose_cache[key]
+	if key == &"reference_neutral":
+		return REFERENCE_ATLAS
+	var relative_path := String(pose_name) + ".png"
+	return ResourceLoader.load(_base_path.path_join(relative_path),
 		"Texture2D", ResourceLoader.CACHE_MODE_REUSE) as Texture2D
 
+func _texture_key(pose_name: StringName) -> StringName:
+	return &"reference_neutral" if reference_neutral and pose_name == &"neutral" else pose_name
+
 func _set_pose(pose_name: StringName) -> bool:
-	if _active_pose == pose_name:
+	var use_reference := reference_neutral and pose_name == &"neutral"
+	if _active_pose == pose_name and _active_reference_neutral == use_reference:
 		return true
 	var texture := _load_pose(pose_name)
-	if texture == null or texture.get_size() != Vector2(CANVAS):
-		push_error("Shadeling requires a 512 x 512 texture: " + String(pose_name))
+	if texture == null or (not use_reference and texture.get_size() != Vector2(CANVAS)):
+		push_error("Shadeling pose texture has unexpected dimensions: " + String(pose_name))
+		return false
+	if use_reference and (texture.get_width() <= 0 or texture.get_height() <= 0):
+		push_error("Shadeling approved neutral requires its atlas texture")
 		return false
 	var points: Dictionary = _attachments.get(String(pose_name), {})
 	for attachment in MARKERS:
@@ -157,11 +186,28 @@ func _set_pose(pose_name: StringName) -> bool:
 			push_error("Shadeling missing attachment " + String(attachment) + " in " + String(pose_name))
 			return false
 	pose_sprite.texture = texture
+	pose_sprite.position = REFERENCE_TEXTURE_POSITION if use_reference else -FOOT
+	pose_sprite.region_enabled = use_reference
+	pose_sprite.region_filter_clip_enabled = use_reference
+	if use_reference:
+		var import_ratio := texture.get_size() / REFERENCE_NEUTRAL_SIZE
+		pose_sprite.region_rect = Rect2(REFERENCE_SOURCE_RECT.position * import_ratio, REFERENCE_SOURCE_RECT.size * import_ratio)
+		if _reference_material == null:
+			_reference_material = ShaderMaterial.new()
+			_reference_material.shader = REFERENCE_SHADER
+		pose_sprite.material = _reference_material
+	else:
+		pose_sprite.material = null
+	# Import limits may resize the unchanged source PNG. Normalize its source
+	# coordinates to the imported texture so foot/visible geometry stays fixed.
+	pose_sprite.scale = REFERENCE_NEUTRAL_SIZE / texture.get_size() * REFERENCE_TEXTURE_SCALE if use_reference else Vector2.ONE
 	_active_pose = pose_name
+	_active_reference_neutral = use_reference
 	for attachment in MARKERS:
 		var point: Array = points[String(attachment)]
 		var marker: Marker2D = pose_root.get_node(MARKERS[attachment])
-		marker.position = Vector2(float(point[0]), float(point[1])) - FOOT
+		marker.position = ((REFERENCE_ATTACHMENTS[attachment] - REFERENCE_FOOT) * REFERENCE_TEXTURE_SCALE
+			if use_reference else Vector2(float(point[0]), float(point[1])) - FOOT)
 	return true
 
 func _apply_sample(state_name: StringName, seconds: float, restrained: bool) -> bool:

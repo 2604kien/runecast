@@ -12,6 +12,7 @@ const InspectionData = preload("res://scripts/ui/inspection_data.gd")
 const TouchRouter = preload("res://scripts/ui/touch_router.gd")
 const BoardExamples = preload("res://scripts/dev/board_examples.gd")
 const Ui = preload("res://scenes/ui/theme/components.gd")
+const CombatSurface = preload("res://scenes/ui/theme/combat_surface.gd")
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -87,7 +88,8 @@ var inspector_panel: PanelContainer
 var guide_text: Label
 var wiring: GridContainer
 var turn_pass_button: Button
-var forecast_button: Button
+# Retain the shared layout reference; this is a display, never an action.
+var forecast_button: Control
 var forecast_grid: GridContainer
 var forecast_reason: Label
 var forecast_values := {}
@@ -97,6 +99,21 @@ var hand_count: Label
 var action_log: Label
 var info_buttons := {}
 var inspector_origin: WeakRef
+var combat_column: VBoxContainer
+var page_margin: MarginContainer
+var board_frame: PanelContainer
+var hand_row: HBoxContainer
+var editing_row: HBoxContainer
+var cast_cost: Label
+var stat_values := {}
+var stat_icons := {}
+var combat_stats: HBoxContainer
+var pile_values := {}
+var completion_ribbon: Control
+var combat_backdrop: Control
+var combat_heading: HBoxContainer
+var combat_identity: Control
+var combat_navigation: HBoxContainer
 
 func _ready() -> void:
 	if setup_path == "" and board_example_id == "":
@@ -142,6 +159,10 @@ func _ready() -> void:
 		printerr(startup_error)
 	_build_theme()
 	_build_ui()
+	if game.has("production"):
+		_track_page_focus(combat_column)
+		_apply_mobile_ui_policy(self)
+		get_tree().node_added.connect(_mobile_node_added)
 	_load_settings()
 	if controller != null:
 		controller.changed.connect(_refresh)
@@ -159,7 +180,9 @@ func _ready() -> void:
 				_cast()
 			elif capture_step == "inspect":
 				_inspect_experiment_record()
-		await get_tree().process_frame
+		# Allow nested card/forecast containers to finish their minimum-size
+		# passes before recording the normal launch composition.
+		for frame in 4: await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		var capture_path := _argument_value("--capture-path=", "res://output/qa/foundation-screen.png")
 		DirAccess.make_dir_recursive_absolute(capture_path.get_base_dir())
@@ -190,6 +213,11 @@ func _presentation_started(result: Dictionary) -> void:
 		player.play()
 
 func _build_theme() -> void:
+	if game.has("production"):
+		theme = Ui.THEME
+		texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		texture_repeat = CanvasItem.TEXTURE_REPEAT_DISABLED
+		return
 	theme = Theme.new()
 	theme.default_font_size = 20
 	theme.set_color("font_color", "Label", Color("#eee0bf"))
@@ -215,7 +243,7 @@ func _label(value: String, font_size: int = 20) -> Label:
 	return label
 
 func _button(value: String, action: Callable, parent: Node) -> Button:
-	var button := Button.new()
+	var button := Ui.action(value, false, Vector2(66, 50)) if game.has("production") else Button.new()
 	button.text = value
 	button.custom_minimum_size = Vector2(66, 50)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -240,37 +268,93 @@ func _build_ui() -> void:
 	add_child(background)
 	var scroll := ScrollContainer.new()
 	page_scroll = scroll
+	scroll.follow_focus = game.has("production")
 	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
 	gestures.register_scroll(scroll)
 	var margin := MarginContainer.new()
+	page_margin = margin
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for side in ["left", "right", "top", "bottom"]:
 		margin.add_theme_constant_override("margin_" + side, 18)
 	scroll.add_child(margin)
 	var column := VBoxContainer.new()
+	combat_column = column
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	column.add_theme_constant_override("separation", 6)
+	column.add_theme_constant_override("separation", 0 if game.has("production") else 6)
 	margin.add_child(column)
+	if game.has("production"):
+		combat_backdrop = preload("res://scenes/ui/theme/reference_backdrop.gd").new()
+		combat_backdrop.name = "CombatBackdrop"
+		combat_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		margin.add_child(combat_backdrop)
+		margin.move_child(combat_backdrop, 0)
+		margin.sort_children.connect(func():
+			combat_backdrop.set_deferred("position", Vector2.ZERO)
+			combat_backdrop.set_deferred("size", margin.size)
+		)
 	var heading := HBoxContainer.new()
-	column.add_child(heading)
+	combat_heading = heading
+	if game.has("production"):
+		# The content column is inset; the header spans the viewport independently.
+		var heading_slot := Control.new()
+		heading_slot.name = "CombatHeaderSlot"
+		heading_slot.custom_minimum_size.y = 52
+		column.add_child(heading_slot)
+		heading_slot.add_child(heading)
+		heading.custom_minimum_size.y = 52
+		heading.add_theme_constant_override("separation", 0)
+		_surface(heading, "heading")
+		var heading_inset := Control.new()
+		heading_inset.name = "HeaderStartInset"
+		heading_inset.custom_minimum_size.x = 44
+		heading.add_child(heading_inset)
+	else:
+		column.add_child(heading)
 	encounter_title = _label("", 28)
+	if game.has("production"):
+		encounter_title.theme_type_variation = "RCLocation"
+		Ui.style_combat_label(encounter_title, "location", 26)
+		encounter_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		encounter_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	encounter_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if game.has("production"):
+		encounter_title.autowrap_mode = TextServer.AUTOWRAP_OFF
+		encounter_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	encounter_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_child(encounter_title)
 	if game.has("production"):
-		var pause_button := _button("", _open_menu, heading)
-		pause_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		pause_button.icon = _icon_texture("pause")
-		pause_button.expand_icon = true
-		pause_button.add_theme_constant_override("icon_max_width", 28)
-		pause_button.tooltip_text = "Pause / Menu"
+		var title_gap := Control.new()
+		title_gap.name = "HeaderTitleGap"
+		title_gap.custom_minimum_size.x = 12
+		heading.add_child(title_gap)
+		var wordmark := TextureRect.new()
+		wordmark.name = "RuneCastWordmark"
+		var title_art := AtlasTexture.new()
+		title_art.atlas = CombatSurface.ATLAS
+		title_art.region = Rect2(56, 1, 245, 46)
+		title_art.filter_clip = true
+		wordmark.texture = title_art
+		wordmark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		wordmark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		wordmark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		wordmark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		wordmark.set_meta("accessible_title", "Rune Cast")
+		heading.add_child(wordmark)
+		heading.move_child(wordmark, 1)
+		heading.move_child(title_gap, 2)
+		combat_identity = wordmark
+		var title_end_inset := Control.new()
+		title_end_inset.custom_minimum_size.x = 16
+		heading.add_child(title_end_inset)
+		heading.minimum_size_changed.connect(_fit_combat_header)
 	if experiment_mode:
 		_build_experiment_controls(column)
 	arena = Control.new()
 	arena.set_script(Arena)
 	arena.compact = experiment_mode
+	arena.reference_art = game.has("production")
 	arena.custom_minimum_size.y = 90 if experiment_mode else 310
 	column.add_child(arena)
 	stats = _label("")
@@ -280,14 +364,38 @@ func _build_ui() -> void:
 	column.add_child(banner)
 	var center := CenterContainer.new()
 	column.add_child(center)
+	if game.has("production"):
+		board_frame = PanelContainer.new()
+		board_frame.theme_type_variation = "RCPanel"
+		_combat_panel(board_frame, 14, "board")
+		var board_spacing := board_frame.get_theme_stylebox("panel")
+		board_spacing.content_margin_top = 6
+		board_spacing.content_margin_bottom = 20
+		column.remove_child(banner)
+		column.remove_child(center)
+		column.add_child(board_frame)
+		var board_content := VBoxContainer.new()
+		board_content.add_theme_constant_override("separation", 2)
+		board_frame.add_child(board_content)
+		board_content.add_child(banner)
+		banner.custom_minimum_size.y = 54
+		Ui.style_combat_label(banner, "label", 26)
+		banner.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		completion_ribbon = _surface(banner, "ribbon")
+		board_content.add_child(center)
 	var grid := GridContainer.new()
 	grid.columns = 4
-	grid.add_theme_constant_override("h_separation", 6)
-	grid.add_theme_constant_override("v_separation", 6)
+	grid.add_theme_constant_override("h_separation", 4 if game.has("production") else 6)
+	grid.add_theme_constant_override("v_separation", 4 if game.has("production") else 6)
 	center.add_child(grid)
 	for index in range(16):
 		var cell := Button.new()
 		cell.set_script(Cell)
+		if game.has("production"):
+			cell.theme_type_variation = "RCSocket"
+			cell.set_meta("rc_board", true)
+			_replace_surface(cell, "socket").socket_variant = index
+			Ui.apply_states(cell, {})
 		cell.custom_minimum_size = Vector2(137, 137)
 		cell.catalog = game.get("catalog", {})
 		cell.pressed.connect(_cell_pressed.bind(index))
@@ -296,41 +404,89 @@ func _build_ui() -> void:
 		cell.set_meta("inspect_shortcuts", game.has("production"))
 		cells.append(cell)
 	wiring = GridContainer.new()
-	wiring.columns = 5 if game.has("production") else 4
-	column.add_child(wiring)
+	wiring.columns = 7 if game.has("production") else 4
+	wiring.add_theme_constant_override("h_separation", 6 if game.has("production") else 8)
 	if game.has("production"):
-		turn_pass_button = _button("Pass turn", _request_pass, wiring)
+		var toolbar := PanelContainer.new()
+		_combat_panel(toolbar, 6, "toolbar")
+		toolbar.custom_minimum_size.y = 112
+		column.add_child(toolbar)
+		toolbar.add_child(wiring)
+	else:
+		column.add_child(wiring)
+	if game.has("production"):
+		turn_pass_button = _button("Pass Turn", _request_pass, wiring)
 		turn_pass_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		turn_pass_button.add_theme_font_size_override("font_size", 15)
 		turn_pass_button.tooltip_text = "End this turn without a spell. Review the enemy attack before confirming."
+		_replace_surface(turn_pass_button, "parchment")
+		turn_pass_button.add_theme_color_override("font_color", Color("1e1721"))
+		turn_pass_button.add_theme_constant_override("outline_size", 0)
+		Ui.style_combat_label(turn_pass_button, "label", 16)
 	for kind in ["straight", "corner", "split", "join"]:
-		var button := _button(kind.capitalize(), _select_tool.bind(kind), wiring)
+		var button: Button
+		if game.has("production"):
+			button = Ui.stock_tool(kind, kind.capitalize(), 1, 1)
+			wiring.add_child(button)
+			button.pressed.connect(_select_tool.bind(kind))
+			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var content: VBoxContainer = button.get_node("Content").get_child(0)
+			button.set_meta("stock_label", content.get_child(2))
+			Ui.style_combat_label(content.get_child(0), "label", 15)
+			Ui.style_combat_label(content.get_child(2), "value", 18)
+			var tool_title_font: FontVariation = Ui.COMBAT_LABEL_FONT.duplicate()
+			tool_title_font.spacing_top = -2
+			tool_title_font.spacing_bottom = -2
+			content.get_child(0).add_theme_font_override("font", tool_title_font)
+			var tool_count_font: FontVariation = Ui.COMBAT_VALUE_FONT.duplicate()
+			tool_count_font.spacing_top = -4
+			tool_count_font.spacing_bottom = -4
+			content.get_child(2).add_theme_font_override("font", tool_count_font)
+			Ui.apply_combat_icon(content.get_child(1), kind)
+			if kind == "straight":
+				var glyph: TextureRect = content.get_child(1)
+				content.remove_child(glyph)
+				var lane := CenterContainer.new()
+				lane.custom_minimum_size = Vector2(52, 40)
+				content.add_child(lane)
+				content.move_child(lane, 1)
+				lane.add_child(glyph)
+				glyph.stretch_mode = TextureRect.STRETCH_SCALE
+				glyph.custom_minimum_size = Vector2(52, 9)
+			_replace_surface(button, "slot")
+		else:
+			button = _button(kind.capitalize(), _select_tool.bind(kind), wiring)
 		button.add_theme_font_size_override("font_size", 15)
 		stock_buttons[kind] = button
 		button.toggle_mode = true
 		gestures.register_target(button, _select_tool.bind(kind), _inspect_tool.bind(kind))
 		edit_buttons.append(button)
 		if game.has("production"):
-			button.icon = _icon_texture(kind)
-			button.expand_icon = true
-			button.add_theme_constant_override("icon_max_width", 24)
 			button.set_meta("inspect_action", _inspect_tool.bind(kind))
 			button.set_meta("inspect_shortcuts", true)
 	var editing := HBoxContainer.new()
+	editing_row = editing
 	column.add_child(editing)
+	if game.has("production"): editing.hide()
 	var editing_entries := [["Rotate", _rotate], ["Flip", _flip], ["Undo", _undo], ["Erase", _select_tool.bind("erase")]]
 	if game.has("production"):
 		editing_entries = [["Remove", _select_tool.bind("erase")], ["Rotate", _rotate]]
 	for entry in editing_entries:
-		var button := _button(entry[0], entry[1], editing)
+		var button := _button(entry[0], entry[1], wiring if game.has("production") else editing)
 		button.add_theme_font_size_override("font_size", 15)
 		button.custom_minimum_size.y = 58
 		action_buttons["erase" if entry[0] == "Remove" else str(entry[0]).to_lower()] = button
 		if entry[0] in ["Erase", "Remove"]: button.toggle_mode = true
 		if game.has("production"):
 			button.icon = _icon_texture(str(entry[0]).to_lower())
+			button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
 			button.expand_icon = true
 			button.add_theme_constant_override("icon_max_width", 28)
+			Ui.style_combat_label(button, "display", 18)
+			_stacked_button_icon(button, str(entry[0]).to_lower(), 36, 54)
+			button.get_meta("stacked_icon").position.y = 10
+			_replace_surface(button, "button")
 		edit_buttons.append(button)
 	var inspection_actions := HBoxContainer.new()
 	column.add_child(inspection_actions)
@@ -346,47 +502,108 @@ func _build_ui() -> void:
 		hand_hint.text = "Tap to use · Info or hold for details · I / right-click on pieces · tap selected item to clear"
 	hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(hand_hint)
+	if game.has("production"): hand_hint.hide() # Guide and Info retain the full instructions.
 	if game.has("production"):
 		action_log = _label("", 17)
-		action_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		Ui.style_combat_label(action_log, "body", 16)
+		action_log.custom_minimum_size.y = 23
+		action_log.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		action_log.autowrap_mode = TextServer.AUTOWRAP_OFF
+		action_log.clip_text = true
+		action_log.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		column.add_child(action_log)
-		var piles := HBoxContainer.new()
-		column.add_child(piles)
-		draw_button = _button("Draw", _inspect_pile.bind("draw_pile"), piles)
-		draw_button.icon = _icon_texture("draw_pile")
+		hand_row = HBoxContainer.new()
+		hand_row.add_theme_constant_override("separation", 32)
+		column.add_child(hand_row)
+		draw_button = _combat_pile("Draw", "draw_pile", hand_row)
 		hand_count = _label("", 15)
-		hand_count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		piles.add_child(hand_count)
-		discard_button = _button("Discard", _inspect_pile.bind("discard_pile"), piles)
-		discard_button.icon = _icon_texture("discard_pile")
-		for pile in [draw_button, discard_button]:
-			pile.add_theme_font_size_override("font_size", 14)
-			pile.expand_icon = true
-			pile.add_theme_constant_override("icon_max_width", 24)
+		column.add_child(hand_count)
+		hand_count.hide() # Counts also live on both flanking piles; hand remains inspectable.
 	hand_scroll = ScrollContainer.new()
 	hand_scroll.custom_minimum_size.y = 104
 	hand_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	column.add_child(hand_scroll)
+	if game.has("production"):
+		hand_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		# Drag/focus still scroll the hand. A conditional scrollbar must not
+		# change the hand height and trigger a page/arena width feedback loop.
+		hand_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		hand_row.add_child(hand_scroll)
+		discard_button = _combat_pile("Discard", "discard_pile", hand_row)
+	else:
+		column.add_child(hand_scroll)
+	hand_scroll.follow_focus = true
 	gestures.register_scroll(hand_scroll)
 	hand_box = HBoxContainer.new()
-	hand_box.add_theme_constant_override("separation", 8)
+	hand_box.add_theme_constant_override("separation", 12 if game.has("production") else 8)
 	hand_scroll.add_child(hand_box)
 	status = _label("", 17)
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status.custom_minimum_size.y = 46
+	status.custom_minimum_size.y = 23 if game.has("production") else 46
+	if game.has("production"):
+		Ui.style_combat_label(status, "body", 16)
+		status.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		status.autowrap_mode = TextServer.AUTOWRAP_OFF
+		status.clip_text = true
+		status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	column.add_child(status)
 	if game.has("production"):
-		forecast_button = _button("", _show_details, column)
-		forecast_button.tooltip_text = "Spell forecast — activate for circuit details"
+		column.move_child(status, action_log.get_index())
+	if game.has("production"):
+		var hand_gap := Control.new()
+		hand_gap.custom_minimum_size.y = 10
+		column.add_child(hand_gap)
+		forecast_button = Control.new()
+		forecast_button.name = "ForecastDisplay"
+		forecast_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		forecast_button.focus_mode = Control.FOCUS_NONE
+		forecast_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		forecast_button.custom_minimum_size.y = 136
+		column.add_child(forecast_button)
+		_surface(forecast_button, "forecast")
 		forecast_reason = _label("", 15)
 		forecast_reason.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		column.add_child(forecast_reason)
-	cast_button = _button("CAST", _cast, column)
-	cast_button.custom_minimum_size.y = 64
-	cast_button.add_theme_font_size_override("font_size", 28)
-	column.add_child(_label("Cast ends turn", 16))
+		column.move_child(forecast_reason, forecast_button.get_index())
+		forecast_reason.hide() # Retained diagnostic state; the summary has no input action.
+	if game.has("production"):
+		var cast_gap := Control.new()
+		cast_gap.custom_minimum_size.y = 5
+		column.add_child(cast_gap)
+		var cast_control := Ui.cast_button({"cost": "—", "show_caption": false}, Vector2(280, 76))
+		cast_control.add_theme_constant_override("separation", 0)
+		column.add_child(cast_control)
+		cast_button = cast_control.get_meta("rc_action")
+		_replace_surface(cast_button, "cast")
+		cast_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		cast_button.custom_minimum_size.x = 500
+		cast_button.pressed.connect(_cast)
+		gestures.register_target(cast_button, _cast)
+		for child in cast_button.get_children():
+			if child is HBoxContainer:
+				cast_cost = child.get_child(2)
+				Ui.style_combat_label(child.get_child(0), "display", 46)
+				var cast_font: FontVariation = Ui.COMBAT_DISPLAY_FONT.duplicate()
+				cast_font.variation_opentype = {"width": 100.0, "weight": 850.0}
+				child.get_child(0).add_theme_font_override("font", cast_font)
+				child.get_child(0).add_theme_color_override("font_color", Color("ffe28a"))
+				child.get_child(0).add_theme_color_override("font_outline_color", Color("17120b"))
+				child.get_child(0).add_theme_constant_override("outline_size", 4)
+				Ui.style_combat_label(cast_cost, "value", 44)
+				Ui.apply_combat_icon(child.get_child(1), "energy")
+				child.get_child(1).custom_minimum_size = Vector2(30, 40)
+	else:
+		cast_button = _button("CAST", _cast, column)
+		cast_button.custom_minimum_size.y = 64
+		cast_button.add_theme_font_size_override("font_size", 28)
+		column.add_child(_label("Cast ends turn", 16))
 	var navigation := HBoxContainer.new()
+	combat_navigation = navigation
+	if game.has("production"):
+		navigation.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		navigation.add_theme_constant_override("separation", 0)
+		var navigation_gap := Control.new()
+		navigation_gap.custom_minimum_size.y = 18
+		column.add_child(navigation_gap)
 	column.add_child(navigation)
 	_button("Menu", _open_menu, navigation)
 	_button("Map", _show_map, navigation)
@@ -395,6 +612,52 @@ func _build_ui() -> void:
 	for button in navigation.get_children():
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		if game.has("production"): button.add_theme_font_size_override("font_size", 15)
+	if game.has("production"):
+		var names := ["menu", "map", "guide", "sound_on"]
+		for i in navigation.get_child_count():
+			var button: Button = navigation.get_child(i)
+			button.autowrap_mode = TextServer.AUTOWRAP_OFF
+			button.icon = _icon_texture(names[i])
+			button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+			button.expand_icon = true
+			button.add_theme_constant_override("icon_max_width", 30)
+			Ui.style_combat_label(button, "label", 20)
+			button.custom_minimum_size.y = 82
+			_stacked_button_icon(button, names[i], 58 if i in [1, 2] else 40 if i == 0 else 46, 52)
+			button.get_meta("stacked_icon").offset_top = 13
+			button.get_meta("stacked_icon").offset_bottom = 49
+			# Native Button text has no reliable painted-frame padding. Keep its
+			# semantic title and draw the caption in an explicit inset lane.
+			for colour in ["font_color", "font_hover_color", "font_pressed_color", "font_disabled_color", "font_focus_color", "font_hover_pressed_color", "font_outline_color"]:
+				button.add_theme_color_override(colour, Color.TRANSPARENT)
+			var caption := Ui.combat_label(button.text, "label", 19)
+			var caption_font: FontVariation = Ui.COMBAT_LABEL_FONT.duplicate()
+			caption_font.spacing_top = -5
+			caption_font.spacing_bottom = -5
+			caption.add_theme_font_override("font", caption_font)
+			caption.name = "NavigationCaption"
+			caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			caption.autowrap_mode = TextServer.AUTOWRAP_OFF
+			button.add_child(caption)
+			caption.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+			caption.offset_left = 8
+			caption.offset_right = -8
+			caption.offset_top = 52
+			caption.offset_bottom = 70
+			# End segments also contain the sloped outer gold rails. Center their
+			# contents in the remaining slate, with four pixels beyond the rail.
+			var outer_inset := ceilf(CombatSurface.SOURCE_CAPS.nav.x * 720.0 / 841.0 + 4)
+			var content_shift := (outer_inset - 8) * (0.5 if i == 0 else -0.5 if i == 3 else 0.0)
+			if i == 0: caption.offset_left = outer_inset
+			if i == 3: caption.offset_right = -outer_inset
+			button.get_meta("stacked_icon").offset_left += content_shift
+			button.get_meta("stacked_icon").offset_right += content_shift
+			button.set_meta("navigation_caption", caption)
+			Ui.remove_skin(button)
+		_surface(navigation, "nav", 4)
+		_build_combat_stats()
 	dialog = AcceptDialog.new()
 	dialog.min_size = Vector2i(550, 360)
 	dialog.dialog_autowrap = true
@@ -420,10 +683,11 @@ func _build_ui() -> void:
 		guide_scroll.scroll_vertical = 0
 	)
 	menu = ConfirmationDialog.new()
+	menu.dialog_autowrap = true
 	menu.title = "Rune Cast"
 	menu.ok_button_text = "Restart"
 	menu.cancel_button_text = "Resume"
-	pass_button = menu.add_button("Pass turn", false, "pass")
+	pass_button = menu.add_button("Pass Turn", false, "pass")
 	production_replay_button = menu.add_button("Exact replay", false, "exact_replay")
 	production_next_button = menu.add_button("Next encounter", false, "next_encounter")
 	production_replay_button.hide()
@@ -442,6 +706,19 @@ func _build_ui() -> void:
 			menu.hide()
 	)
 	add_child(menu)
+	if game.has("production"):
+		# Native dialog actions keep their existing behavior. Compact painted
+		# padding lets Resume / Restart / Exact replay fit the 360px viewport.
+		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button]:
+			button.theme_type_variation = "RCSecondaryLive"
+			button.custom_minimum_size.y = 50
+			button.add_theme_font_size_override("font_size", 14)
+			var spacing := StyleBoxEmpty.new()
+			spacing.content_margin_left = 10
+			spacing.content_margin_right = 10
+			button.add_theme_stylebox_override("normal", spacing)
+			Ui._skin(button, "res://assets/ui/buttons/secondary.png")
+			Ui.apply_states(button, {})
 	for popup in [dialog, menu]:
 		popup.about_to_popup.connect(func(): gestures.set_suspended(true))
 		popup.visibility_changed.connect(func():
@@ -467,24 +744,269 @@ func _build_ui() -> void:
 func _sync_native_modal() -> void:
 	gestures.set_suspended(dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible))
 
+func _track_page_focus(node: Node) -> void:
+	if node is Control and node.focus_mode != Control.FOCUS_NONE and not node.has_meta("page_focus_tracked"):
+		node.set_meta("page_focus_tracked", true)
+		node.focus_entered.connect(func(): _reveal_page_focus.call_deferred(node))
+	for child in node.get_children(): _track_page_focus(child)
+
+func _reveal_page_focus(control: Control) -> void:
+	# Explicitly support both the normal Window and native-size SubViewports.
+	# Native ScrollContainer follow_focus does not reveal every nested focus
+	# change in the latter. Never scroll the background for modal focus.
+	if not is_instance_valid(control) or not control.has_focus() or not page_scroll.is_ancestor_of(control): return
+	if hand_box.is_ancestor_of(control): hand_scroll.ensure_control_visible(control)
+	page_scroll.ensure_control_visible(control)
+
+func _combat_pile(title: String, zone: String, parent: Node) -> Button:
+	var pile := Ui.combat_pile(title, 0, zone == "discard_pile")
+	parent.add_child(pile)
+	pile_values[zone] = pile.get_meta("rc_count")
+	pile.pressed.connect(_inspect_pile.bind(zone))
+	gestures.register_target(pile, _inspect_pile.bind(zone))
+	return pile
+
+func _stacked_button_icon(button: Button, icon_name: String, extent: float, top_padding: float) -> void:
+	# Keep the delivered glyph at its intended size. Native Button's expanded
+	# top icon can collapse when sharing its minimum-height box with the title.
+	button.icon = null
+	# Godot reserves another text-height row for TOP icon alignment even when
+	# icon is null. The independently placed glyph must not inflate the button.
+	button.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
+	var glyph := Ui.combat_icon(icon_name, Vector2.ZERO)
+	button.add_child(glyph)
+	glyph.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	glyph.offset_left = -extent / 2
+	glyph.offset_right = extent / 2
+	glyph.offset_top = 0
+	glyph.offset_bottom = extent
+	button.set_meta("stacked_icon", glyph)
+	var spacing := StyleBoxEmpty.new()
+	spacing.content_margin_top = top_padding
+	for state in ["normal", "hover", "pressed", "disabled", "hover_pressed"]:
+		button.add_theme_stylebox_override(state, spacing)
+
+func _surface(parent: Control, kind: String, divisions: int = 0) -> Control:
+	var surface := CombatSurface.new()
+	surface.name = "CombatSurface"
+	surface.kind = kind
+	surface.divisions = divisions
+	surface.art_scale = 720.0 / 841.0
+	surface.show_behind_parent = true
+	# Internal decorations must not become extra HBox/Grid slots or input targets.
+	parent.add_child(surface, false, Node.INTERNAL_MODE_BACK)
+	surface.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	var fit := func():
+		if not is_instance_valid(parent) or not is_instance_valid(surface): return
+		if parent.is_queued_for_deletion() or surface.is_queued_for_deletion(): return
+		surface.position = Vector2.ZERO
+		surface.size = parent.size
+		if kind == "ribbon":
+			surface.position.x = parent.size.x * 0.12
+			surface.size.x = parent.size.x * 0.76
+		elif kind == "button":
+			surface.size = Vector2(minf(parent.size.x - 8, 64), 52)
+			surface.position = Vector2((parent.size.x - surface.size.x) / 2, 2)
+			parent.set_meta("rc_state_rect", surface.get_rect())
+			if parent.has_meta("rc_overlay"): parent.get_meta("rc_overlay").queue_redraw()
+	parent.resized.connect(fit)
+	if parent is Container: parent.sort_children.connect(func(): fit.call_deferred())
+	fit.call_deferred()
+	parent.set_meta("combat_surface", surface)
+	return surface
+
+func _replace_surface(parent: Control, kind: String) -> Control:
+	Ui.remove_skin(parent)
+	if parent is Button:
+		for state in ["normal", "hover", "pressed", "disabled", "hover_pressed"]:
+			if not parent.has_theme_stylebox_override(state):
+				parent.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	var surface := _surface(parent, kind)
+	parent.set_meta("rc_skin", surface)
+	# Preserve any pressed/unavailable state already applied by the factory.
+	Ui.apply_states(parent, parent.get_meta("rc_states", {}))
+	return surface
+
+func _combat_panel(panel: PanelContainer, inset: int, kind: String = "panel") -> void:
+	# Content lives in the painted well; slice caps include the decorative rim.
+	var spacing := StyleBoxEmpty.new()
+	var margins: Vector4 = CombatSurface.CONTENT_MARGINS.get(kind, Vector4(inset, inset, inset, inset))
+	spacing.content_margin_left = margins.x
+	spacing.content_margin_top = margins.y
+	spacing.content_margin_right = margins.z
+	spacing.content_margin_bottom = margins.w
+	panel.add_theme_stylebox_override("panel", spacing)
+	var skin := _surface(panel, kind)
+	# PanelContainer insets ordinary children. Restore the pointer-transparent
+	# decoration to the outside of that content inset after each layout sort.
+	panel.sort_children.connect(func():
+		if not is_instance_valid(panel) or not is_instance_valid(skin): return
+		if panel.is_queued_for_deletion() or skin.is_queued_for_deletion(): return
+		skin.set_deferred("position", Vector2.ZERO)
+		skin.set_deferred("size", panel.size)
+	)
+
+func _build_combat_stats() -> void:
+	var row := HBoxContainer.new()
+	combat_stats = row
+	# The full-width arena crop can bleed a few pixels past its layout slot.
+	# Keep this foreground frame above the arena's art/status layers (20–22).
+	row.z_index = 30
+	row.add_theme_constant_override("separation", 0)
+	row.custom_minimum_size.y = 54
+	combat_column.add_child(row)
+	combat_column.move_child(row, stats.get_index())
+	_surface(row, "stats", 3)
+	stats.hide()
+	var stat_font: FontVariation = Ui.COMBAT_VALUE_FONT.duplicate()
+	stat_font.spacing_top = -4
+	stat_font.spacing_bottom = -5
+	for entry in [["health", "health"], ["energy", "energy"], ["turn", ""]]:
+		var well := MarginContainer.new()
+		well.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var margins: Vector4 = CombatSurface.CONTENT_MARGINS.stats
+		well.add_theme_constant_override("margin_left", int(margins.x))
+		well.add_theme_constant_override("margin_right", int(margins.z))
+		well.add_theme_constant_override("margin_top", int(margins.y))
+		well.add_theme_constant_override("margin_bottom", int(margins.w))
+		row.add_child(well)
+		var group := HBoxContainer.new()
+		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		group.alignment = BoxContainer.ALIGNMENT_CENTER
+		group.add_theme_constant_override("separation", 8)
+		well.add_child(group)
+		if entry[0] == "health":
+			group.alignment = BoxContainer.ALIGNMENT_BEGIN
+			var inset := Control.new()
+			inset.name = "ReferenceHealthInset"
+			inset.custom_minimum_size.x = 6
+			group.add_child(inset)
+		if not entry[1].is_empty():
+			var glyph := Ui.combat_icon(entry[1], Vector2(42, 38) if entry[0] == "health" else Vector2(30, 38))
+			glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			group.add_child(glyph)
+			stat_icons[entry[0]] = glyph
+		var value := Ui.combat_label("", "value", 28)
+		value.add_theme_font_override("font", stat_font)
+		value.autowrap_mode = TextServer.AUTOWRAP_OFF
+		value.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		if entry[0] == "energy": value.add_theme_color_override("font_color", Color("50edfa"))
+		if entry[0] == "turn":
+			var paper := PanelContainer.new()
+			paper.name = "TurnPlaque"
+			paper.custom_minimum_size.x = 118
+			_combat_panel(paper, 4, "parchment")
+			group.add_child(paper)
+			paper.add_child(value)
+			value.add_theme_font_size_override("font_size", 22)
+			value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			value.add_theme_color_override("font_color", Color("171018"))
+			value.add_theme_constant_override("outline_size", 0)
+		else:
+			group.add_child(value)
+		stat_values[entry[0]] = value
+
+func _fit_combat_header() -> void:
+	if not is_instance_valid(combat_heading) or combat_heading.is_queued_for_deletion(): return
+	var width := get_viewport_rect().size.x
+	var margin := 8 if width < 500 else 20
+	combat_heading.position = Vector2(-margin, 0)
+	combat_heading.size = Vector2(width, 52)
+	combat_heading.get_node("HeaderStartInset").custom_minimum_size.x = 16 if width < 640 else 44
+
 func _fit_layout() -> void:
 	if cells.is_empty(): return
 	var width := get_viewport_rect().size.x
 	cancel_button.text = "Cancel" if width < 500 else "Cancel selection"
 	var side := minf(137, floorf((width - 70) / 4.0))
+	var cell_height := side
+	if game.has("production"):
+		var margin := 8 if width < 500 else 20
+		combat_identity.custom_minimum_size = Vector2(148, 30) if width < 500 else Vector2(210, 40)
+		_fit_combat_header()
+		arena.reference_bleed = float(margin)
+		for edge in ["left", "right", "top", "bottom"]:
+			page_margin.add_theme_constant_override("margin_" + edge, margin)
+		page_margin.add_theme_constant_override("margin_top", 0)
+		if width >= 640:
+			page_margin.add_theme_constant_override("margin_top", 0)
+			page_margin.add_theme_constant_override("margin_bottom", 4)
+		# The approved portrait uses slightly wider-than-tall sockets and one
+		# tool strip. Keep that footprint instead of growing a square board.
+		side = minf(137, floorf((width - margin * 2 - 28 - 12 - 16) / 4.0))
+		cell_height = floorf(side * 122.0 / 137.0)
+		arena.custom_minimum_size.y = arena.recommended_height(width - margin * 2 - 12)
+		banner.add_theme_font_size_override("font_size", 17 if width < 500 else 26)
+		banner.add_theme_constant_override("outline_size", 2)
+		encounter_title.add_theme_font_size_override("font_size", 20 if width < 500 else 26)
+		for value in stat_values.values():
+			value.add_theme_font_size_override("font_size", 19 if width < 400 else 22 if width < 500 else 32)
+		stat_values.turn.add_theme_font_size_override("font_size", 20 if width < 500 else 25)
+		stat_icons.health.custom_minimum_size = Vector2(30, 28) if width < 400 else Vector2(32, 30) if width < 500 else Vector2(42, 36)
+		stat_icons.energy.custom_minimum_size = Vector2(20, 28) if width < 400 else Vector2(22, 30) if width < 500 else Vector2(26, 36)
+		stat_values.health.get_parent().get_node("ReferenceHealthInset").visible = width >= 500
+		stat_values.turn.get_parent().custom_minimum_size.x = 78 if width < 500 else 118
+		for well in combat_stats.get_children():
+			well.add_theme_constant_override("margin_left", 10 if width < 500 and well.get_index() > 0 else 24)
+			well.add_theme_constant_override("margin_right", 10 if width < 500 and well.get_index() < 2 else 24)
+			if width < 400:
+				well.add_theme_constant_override("margin_left", 18 if well.get_index() == 0 else 8)
+				well.add_theme_constant_override("margin_right", 18 if well.get_index() == 2 else 8)
+			well.get_child(0).add_theme_constant_override("separation", 4 if width < 500 else 8)
+		for button in action_buttons.values():
+			button.add_theme_font_size_override("font_size", 16)
+		turn_pass_button.add_theme_font_size_override("font_size", 13 if width < 500 else 16)
+		for card in hand_box.get_children():
+			card.custom_minimum_size.x = 149
+		hand_row.add_theme_constant_override("separation", 6 if width < 640 else 32)
+		forecast_button.custom_minimum_size.x = minf(640, width - margin * 2)
+		combat_navigation.custom_minimum_size.x = minf(640, width - margin * 2)
+		for button in combat_navigation.get_children():
+			var caption_size := (16 if button == sound_button else 17) if width < 400 else 19
+			button.get_meta("navigation_caption").add_theme_font_size_override("font_size", caption_size)
+		cast_button.custom_minimum_size.x = minf(500, width - margin * 2 - 36)
+		cast_cost.add_theme_font_size_override("font_size", 28 if width < 500 else 44)
+		for child in cast_button.get_children():
+			if child is HBoxContainer:
+				child.get_child(0).add_theme_font_size_override("font_size", 28 if width < 500 else 43)
 	for cell in cells:
-		cell.custom_minimum_size = Vector2(side, side)
+		cell.custom_minimum_size = Vector2(side, cell_height)
 	dialog.min_size = Vector2i(mini(550, int(width) - 32), 300)
 	if game.has("production"):
-		wiring.columns = 5 if width >= 600 else 3
-		if forecast_grid != null:
-			forecast_grid.columns = 4 if width >= 640 else 2
-			forecast_button.custom_minimum_size.y = 68 if forecast_grid.columns == 4 else 136
+		wiring.columns = 7 if width >= 640 else 4
+		wiring.add_theme_constant_override("h_separation", 7 if width >= 640 else 5)
+		# The taller two-row fallback stretches the painted center; retain the
+		# same visible gutter at its lower rail with four more pixels of inset.
+		wiring.get_parent().get_theme_stylebox("panel").content_margin_bottom = 21 if width >= 640 else 26
+		for button in wiring.get_children():
+			button.custom_minimum_size = Vector2(66 if width < 640 else (86 if button == turn_pass_button else (82 if button in action_buttons.values() else 80)), 76)
+			# A shared painted strip carries the frame; compact controls retain
+			# their focus/selection overlays without seven heavy nested borders.
+			var spacing := StyleBoxEmpty.new()
+			if button in action_buttons.values():
+				spacing.content_margin_top = 54
+			for state in ["normal", "hover", "pressed", "disabled", "hover_pressed"]:
+				button.add_theme_stylebox_override(state, spacing)
+		for button in stock_buttons.values():
+			var content: VBoxContainer = button.get_node("Content").get_child(0)
+			content.add_theme_constant_override("separation", 1)
+			for edge in ["left", "right", "top", "bottom"]:
+				button.get_node("Content").add_theme_constant_override("margin_" + edge, 2 if edge in ["top", "bottom"] else 4)
+			content.get_child(0).add_theme_font_size_override("font_size", 14 if width < 400 else 15)
+			content.get_child(1).custom_minimum_size = Vector2(53, 34)
+			if button == stock_buttons.straight:
+				content.get_child(1).get_child(0).custom_minimum_size = Vector2(53, 10)
+			content.get_child(2).add_theme_font_size_override("font_size", 18)
+		_layout_forecast()
 
 func _refresh() -> void:
 	gestures.cancel_pending()
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
-	if game.has("production"): sound_button.text = "Sound\nOn" if sound_enabled else "Sound\nOff"
+	if game.has("production"):
+		sound_button.text = "Sound"
+		sound_button.get_meta("navigation_caption").text = "Sound"
+		Ui.apply_combat_icon(sound_button.get_meta("stacked_icon"), "sound_on" if sound_enabled else "sound_off")
+		sound_button.tooltip_text = "Sound on" if sound_enabled else "Sound off"
 	if controller == null:
 		_refresh_startup_error()
 		return
@@ -504,17 +1026,23 @@ func _refresh() -> void:
 	# disabled after a same-state refresh and dismissal.
 	var editable := not _closing and not _replacing_controller and controller.can_edit()
 	encounter_title.text = "RUNE CAST   /   " + game.encounter.title.to_upper()
+	if game.has("production"): encounter_title.text = game.encounter.title.capitalize()
 	encounter_title.tooltip_text = game.encounter.help_text
 	arena.enemy_name = game.enemy_name
 	arena.enemy_hp = game.enemy_hp
 	arena.enemy_max_hp = game.enemy_max_hp
 	arena.attack = game.intent
 	arena.battle_state = game.state
+	arena.enemy_id = game.encounter.get("enemy_id", "")
 	arena.tooltip_text = "%s: %d / %d health. Incoming attack: %d." % [game.enemy_name, game.enemy_hp, game.enemy_max_hp, game.intent]
-	arena.queue_redraw()
+	arena.refresh()
 	stats.text = "HEALTH %d / %d       ENERGY %d / %d       TURN %d" % [game.player_hp, game.player_max_hp, game.energy, game.energy_per_turn, game.turn]
 	stats.tooltip_text = "Refreshes to %d energy and draws %d cards each turn." % [game.energy_per_turn, game.draw_per_turn]
-	menu.dialog_text = "Restart %s?\nInstalled effects persist between turns.\nPass turn is available when you cannot cast." % game.encounter.title
+	if not stat_values.is_empty():
+		stat_values.health.text = "%d/%d" % [game.player_hp, game.player_max_hp]
+		stat_values.energy.text = "%d/%d" % [game.energy, game.energy_per_turn]
+		stat_values.turn.text = "Turn %d" % game.turn
+	menu.dialog_text = "Restart %s?\nInstalled effects persist between turns.\nPass Turn is available when you cannot cast." % game.encounter.title
 	production_replay_button.visible = game.has("production")
 	production_next_button.visible = game.has("production") and initial_setup.has("next_encounter")
 	production_next_button.disabled = not game.get("can_advance", false) or controller.is_busy()
@@ -524,12 +1052,17 @@ func _refresh() -> void:
 	if experiment_mode:
 		menu.dialog_text = "Restart this experiment with continuing RNG.\nUse Exact replay above the board to restore the original seed.\n" + game.encounter.help_text
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
-	banner.modulate = Color("#7addba") if spell.valid else Color("#edb26b")
+	if game.has("production"):
+		completion_ribbon.completed = spell.valid and game.state == "playing"
+		completion_ribbon.show_check = spell.valid and game.state == "playing"
+		completion_ribbon.queue_redraw()
+	banner.self_modulate = Color("#43f4c7") if spell.valid else Color("#edb26b")
 	banner.tooltip_text = spell.message
 	for index in range(cells.size()):
 		var cell: Button = cells[index]
 		cell.piece = game.board[index]
 		cell.clean_board = game.has("production")
+		cell.set_meta("rc_clean_board", cell.clean_board)
 		cell.catalog = game.catalog
 		cell.split_cost = int(_rule_options().get("split_cost", 1))
 		cell.disabled = not editable or (experiment_mode and cell.piece.get("kind") == "blocked")
@@ -543,9 +1076,16 @@ func _refresh() -> void:
 		if _rule_options().get("endpoint_rotation") == "player" and cell.piece.get("kind") in ["begin", "end"]:
 			cell.tooltip_text += ". Select, then Rotate to change direction."
 		cell.queue_redraw()
+		if game.has("production"):
+			Ui.apply_states(cell, {"selected": cell.chosen, "powered": cell.active})
+			# apply_states is display-only here; the controller owns availability.
+			cell.disabled = not editable
 	for kind in stock_buttons:
 		var finite: bool = game.stock_totals.has(kind)
-		stock_buttons[kind].text = kind.capitalize() + ("\n%d / %d" % [game.stock[kind], game.stock_totals[kind]] if finite else "\nUnlimited")
+		if game.has("production"):
+			stock_buttons[kind].get_meta("stock_label").text = "%d / %d" % [game.stock[kind], game.stock_totals[kind]]
+		else:
+			stock_buttons[kind].text = kind.capitalize() + ("\n%d / %d" % [game.stock[kind], game.stock_totals[kind]] if finite else "\nUnlimited")
 		stock_buttons[kind].tooltip_text = "%d available, %d owned (%d installed)." % [game.stock[kind], game.stock_totals[kind], game.stock_totals[kind] - game.stock[kind]] if finite else "Unlimited supply"
 		stock_buttons[kind].set_pressed_no_signal(selected_tool == kind)
 		stock_buttons[kind].modulate = Color("#b5bdc9") if finite and game.stock[kind] == 0 else Color.WHITE
@@ -579,12 +1119,21 @@ func _refresh() -> void:
 			if icon_name == "draw": icon_name = "focus"
 			button = Ui.card({"name": rune.name, "cost": rune.cost, "icon": icon_name,
 				"kind": "technique" if rune.type == "technique" else rune.effect,
-				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false)}, {"selected": card.uid == selected_uid}, 202)
+				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false), "compact": true}, {"selected": card.uid == selected_uid}, 149)
 			hand_box.add_child(button)
 			button.pressed.connect(_select_card.bind(card.uid))
 			gestures.register_target(button, _select_card.bind(card.uid), _inspect_hand.bind(card.uid))
-			var content: VBoxContainer = button.get_node("Content").get_child(0)
-			var info := _button("Info", _inspect_hand.bind(card.uid), content)
+			var info := _button("i", _inspect_hand.bind(card.uid), button)
+			info.custom_minimum_size = Vector2(44, 44)
+			info.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+			info.offset_left = -46
+			info.offset_right = -2
+			info.offset_top = 2
+			info.offset_bottom = 46
+			Ui.remove_skin(info)
+			for state in ["normal", "hover", "pressed", "disabled", "hover_pressed"]:
+				info.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+			info.add_theme_font_size_override("font_size", 16)
 			info.tooltip_text = "Read " + str(rune.name) + " without using it"
 			info.disabled = not editable
 			info_buttons[int(card.uid)] = info
@@ -600,6 +1149,7 @@ func _refresh() -> void:
 		if game.has("production"):
 			# Child Info must win hit testing over its encompassing card.
 			gestures.register_target(info_buttons[int(card.uid)], _inspect_hand.bind(card.uid))
+			_track_page_focus(button)
 		else:
 			button.modulate = Color(rune.color)
 		button.disabled = not editable
@@ -609,17 +1159,26 @@ func _refresh() -> void:
 			else: button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
 	cast_button.disabled = not spell.valid or spell.cost > game.energy or not editable
+	if game.has("production"):
+		cast_button.text = ""
+		cast_cost.text = str(spell.cost) if spell.valid else "—"
+		Ui.apply_states(cast_button, {"disabled": not editable, "unavailable": not spell.valid or spell.cost > game.energy, "invalid": not spell.valid})
 	var incoming: int = 0 if spell.damage >= game.enemy_hp else maxi(0, game.intent - spell.shield)
 	if game.state != "playing": incoming = 0
 	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, incoming] if spell.valid else spell.message
 	status.text = help_text if help_text != "" else game.log_text
 	if game.has("production"):
 		action_log.text = game.log_text
-		draw_button.text = "Draw %d" % game.draw_pile.size()
-		discard_button.text = "Discard %d" % game.discard_pile.size()
+		action_log.tooltip_text = game.log_text
+		pile_values.draw_pile.text = str(game.draw_pile.size())
+		pile_values.discard_pile.text = str(game.discard_pile.size())
+		for entry in [[draw_button, "draw_pile"], [discard_button, "discard_pile"]]:
+			entry[0].get_meta("empty_label").visible = game[entry[1]].is_empty()
+			entry[0].tooltip_text = "%s: %d cards" % [str(entry[1]).replace("_", " ").capitalize(), game[entry[1]].size()]
+			entry[0].disabled = not editable
 		hand_count.text = "Hand %d" % game.hand.size()
 		turn_pass_button.disabled = not editable
-		_refresh_forecast(spell, incoming, editable)
+		_refresh_forecast(spell, incoming)
 		status.text += "\n%s. Hand %d / draw %d / discard %d." % [_kit_description(), game.hand.size(), game.draw_pile.size(), game.discard_pile.size()]
 	if spell.valid and spell.cost > game.energy and game.state == "playing":
 		if help_text == "": status.text = "Need %d energy; %d available. Edit the circuit or open Details / Pass." % [spell.cost, game.energy]
@@ -629,12 +1188,38 @@ func _refresh() -> void:
 	pass_button.disabled = not editable
 	pass_button.visible = not game.has("production")
 	if game.has("production"):
-		status.text = status.text.replace("open Details / Pass", "use Pass turn").replace("Erase", "Remove")
+		status.text = status.text.replace("open Details / Pass", "use Pass Turn").replace("Erase", "Remove")
+		# Avoid repeating the action log, kit and pile values in the page. Explicit
+		# editing feedback remains live; the forecast displays the spell totals.
+		status.text = help_text.replace("Erase", "Remove")
+		status.visible = not status.text.is_empty()
+		status.tooltip_text = status.text
+		action_log.visible = not status.visible
+		for button in edit_buttons:
+			var disabled: bool = button.disabled
+			Ui.apply_states(button, {"selected": button.button_pressed, "disabled": disabled})
+
+	if game.has("production"):
+		_apply_mobile_ui_policy(self)
+
+func _mobile_node_added(node: Node) -> void:
+	if is_ancestor_of(node):
+		_apply_mobile_ui_policy.call_deferred(node)
+
+func _apply_mobile_ui_policy(node: Node) -> void:
+	if not is_instance_valid(node) or node.is_queued_for_deletion(): return
+	if node is Control:
+		# Touch inspection/Info carry item descriptions.
+		# Never create desktop hover popups or floating availability badges.
+		node.tooltip_text = ""
+		node.set_meta("rc_show_state_badges", false)
+		if node.has_meta("rc_overlay"): node.get_meta("rc_overlay").queue_redraw()
+	for child in node.get_children(): _apply_mobile_ui_policy(child)
 
 func _rule_options() -> Dictionary:
 	return game.get("production", game.get("experiment", {}))
 
-func _refresh_forecast(spell: Dictionary, incoming: int, editable: bool) -> void:
+func _refresh_forecast(spell: Dictionary, incoming: int) -> void:
 	forecast_values = {"damage": spell.damage, "shield": spell.shield, "cost": spell.cost, "incoming": incoming}
 	if forecast_grid != null:
 		forecast_button.remove_child(forecast_grid)
@@ -642,14 +1227,53 @@ func _refresh_forecast(spell: Dictionary, incoming: int, editable: bool) -> void
 	var values := forecast_values.duplicate()
 	if not spell.valid:
 		for key in ["damage", "shield", "cost"]: values[key] = "—"
-	forecast_grid = Ui.forecast(values, 4 if size.x >= 640 else 2)
+	forecast_grid = Ui.forecast(values, 3)
+	var incoming_cell := forecast_grid.get_child(3)
+	forecast_grid.remove_child(incoming_cell)
+	incoming_cell.queue_free()
 	forecast_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	forecast_button.add_child(forecast_grid)
 	forecast_grid.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	forecast_button.custom_minimum_size.y = 68 if forecast_grid.columns == 4 else 136
-	forecast_button.disabled = not editable
-	forecast_reason.text = ("Cast preview · tap for details" if spell.cost <= game.energy else "Preview only · need %d energy, have %d" % [spell.cost, game.energy]) if spell.valid else spell.message + " Pass turn remains available."
+	_layout_forecast()
+	forecast_reason.text = ("Cast preview" if spell.cost <= game.energy else "Preview only · need %d energy, have %d" % [spell.cost, game.energy]) if spell.valid else spell.message + " Pass Turn remains available."
 	if game.state != "playing": forecast_reason.text = "Battle ended"
+	if spell.valid and spell.cost > game.energy and game.state == "playing":
+		banner.text = "NEED %d ENERGY · HAVE %d" % [spell.cost, game.energy]
+	elif not spell.valid and "conflict" in spell.message.to_lower():
+		banner.text = "CONFLICTING CONNECTIONS"
+
+func _layout_forecast() -> void:
+	if forecast_grid == null: return
+	var narrow := size.x < 500
+	# Only the three spell totals are shown. Center each icon/text group in
+	# the full frame; Pass confirmation still shows the incoming enemy attack.
+	forecast_button.custom_minimum_size.y = 64 if narrow else 54
+	forecast_grid.columns = 3
+	forecast_grid.offset_left = 22
+	forecast_grid.offset_right = -22
+	forecast_grid.offset_top = 10
+	forecast_grid.offset_bottom = -10
+	for index in forecast_grid.get_child_count():
+		var cell: Control = forecast_grid.get_child(index)
+		cell.custom_minimum_size = Vector2(82 if narrow else 90, 34)
+		cell.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		Ui.remove_skin(cell)
+		var inset: MarginContainer = cell.get_node("Content")
+		for edge in ["left", "right", "top", "bottom"]:
+			inset.add_theme_constant_override("margin_" + edge, 2)
+		var row: HBoxContainer = inset.get_child(0)
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_theme_constant_override("separation", 4 if narrow else 8)
+		var glyph: TextureRect = row.get_child(0)
+		Ui.apply_combat_icon(glyph, ["spark", "shield", "energy"][index])
+		glyph.custom_minimum_size = Vector2(20, 26) if narrow else Vector2(32, 30)
+		glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var text: Label = row.get_child(1)
+		text.autowrap_mode = TextServer.AUTOWRAP_OFF
+		text.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		Ui.style_combat_label(text, "display", 13 if narrow else 22)
 
 func _inspect_pile(zone: String) -> void:
 	if not _can_edit(): return
@@ -693,6 +1317,8 @@ func _build_inspector() -> void:
 	for side in ["left", "right", "top", "bottom"]:
 		frame.set("content_margin_" + side, 18)
 	inspector_panel.add_theme_stylebox_override("panel", frame)
+	if game.has("production"):
+		inspector_panel.add_theme_stylebox_override("panel", preload("res://assets/ui/styles/panel.tres"))
 	inspector.add_child(inspector_panel)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 14)
@@ -710,7 +1336,7 @@ func _build_inspector() -> void:
 	inspector_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inspector_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inspector_scroll.add_child(inspector_text)
-	inspector_pass = _button("Pass turn…", _confirm_pass_details, column)
+	inspector_pass = _button("Pass Turn…", _confirm_pass_details, column)
 	inspector_confirm_pass = _button("Confirm Pass / enemy acts", _accept_pass_details, column)
 	inspector_close = _button("Close", _close_inspector, column)
 	for button in [inspector_pass, inspector_confirm_pass, inspector_close]:
@@ -1024,6 +1650,9 @@ func _next_production_encounter() -> void:
 	controller.command("next_encounter")
 
 func _open_menu() -> void:
+	if game.has("production"):
+		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button]:
+			Ui.apply_states(button, {"disabled": button.disabled})
 	menu.popup_centered(Vector2i(mini(int(size.x) - 32, 660), 250) if game.has("production") else Vector2i(540, 220))
 
 func _show_map() -> void:
@@ -1035,10 +1664,10 @@ func _show_guide() -> void:
 	dialog.title = "Circuit guide"
 	var context: String = startup_error if controller == null else game.encounter.help_text
 	if game.has("production"):
-		dialog.dialog_text = "Every playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again or press Escape to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info on a card or a hold opens details safely; keyboard I or right-click also inspects pieces/tools. Tap the forecast for circuit details. Close/Escape dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
+		dialog.dialog_text = "Every playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass Turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again or press Escape to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info on a card or a hold opens details safely; keyboard I or right-click also inspects pieces/tools. The forecast is an information display only. Close/Escape dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
 		dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
 		return
-	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass turn and Restart."
+	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass Turn and Restart."
 	if game.has("production"):
 		dialog.dialog_text = context + "\n\nEvery playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its direction. Undo restores edits. Endpoints may be adjacent and may initially face outward; they cannot be replaced, erased, flipped or dragged.\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected Joins are invalid. Effect runes have straight ports. Split copies output and costs 1 energy per powered piece; Join costs 0. Each physical rune pays once. Cast deals one total damage hit, then shields against a surviving enemy's retaliation.\n\nCast or Pass clears every non-endpoint piece, including disconnected pieces. Permanent runes go to discard; all temporary runes disappear. Unplayed permanent cards also go to discard. The next turn moves both endpoints, replaces the ten-piece kit, refreshes energy and draws normally; repeats are allowed. A finished battle does not draw another hand or kit.\n\nTap a rune to install it; techniques resolve immediately. Menu offers Pass, Restart with continuing randomness, and Exact replay of the original seed. Kit balance is provisional."
 	if experiment_mode:

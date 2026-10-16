@@ -42,6 +42,15 @@ for row in data('output/qa/rc-013/protected-baseline.json'):
 source_report = data('output/qa/rc-013/source-validation.json')
 check(source_report.get('pass') is True or source_report.get('result') == 'PASS', 'Source validation failed', 'sources')
 mapping = data('source-assets/ui/source-export-map.json')
+retired_runtime_files = ['assets/ui/frames/pile.png'] + [
+    'assets/ui/states/' + name + '.svg' for name in
+    ['eligible', 'focused', 'invalid', 'powered', 'protected', 'selected', 'unavailable', 'upgrade']
+]
+for retired in retired_runtime_files:
+    check(not (ROOT / retired).exists() and not (ROOT / (retired + '.import')).exists(),
+          'Unused runtime resource was recreated: ' + retired, 'retired_exports')
+    check(not any(row['runtime'] == retired for row in mapping['exports']),
+          'Retired runtime export is still advertised: ' + retired, 'retired_exports')
 for row in mapping['exports']:
     path = ROOT / row['runtime']
     check(sha(path) == row['sha256'], 'Export differs from provenance: ' + row['runtime'], 'exports')

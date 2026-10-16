@@ -1,0 +1,317 @@
+{
+  "revision": "RC-016 GPT Image surface rework",
+  "date": "2026-10-14",
+  "tool": "built-in image_gen.imagegen",
+  "model": null,
+  "model_note": "The built-in tool does not expose a model/version identifier.",
+  "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "prompt_set": "source-assets/ui/combat/generated/prompts.json",
+  "renderer": "scenes/ui/theme/combat_surface.gd",
+  "assets": [
+    {
+      "id": "board",
+      "source_sha256": "1170f6b2a3fb69cb0481b52f7e374a131bb7f1e74429176a1c47a34eb2b24e7c",
+      "size": [
+        1351,
+        1164
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 768,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/board.png",
+      "historical_raw_source": "assets/ui/combat/generated/board.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "socket",
+      "source_sha256": "3b43e7a2312fc7bcfec60612ade705418a87a5e3276ac8bf50d233e739804a5a",
+      "size": [
+        1331,
+        1181
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/socket.png",
+      "historical_raw_source": "assets/ui/combat/generated/socket.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "stats",
+      "source_sha256": "89995b1be736f3055ec231df6e729e8b570935f934b71d1a837a8c5ff126bc94",
+      "size": [
+        2170,
+        725
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 512,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/stats.png",
+      "historical_raw_source": "assets/ui/combat/generated/stats.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "toolbar",
+      "source_sha256": "1af33dcc04e990cbfa3da2fd33c1cb3ddd5a0c02d34ac915d24755c8f5244a3b",
+      "size": [
+        2062,
+        763
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 512,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/toolbar.png",
+      "historical_raw_source": "assets/ui/combat/generated/toolbar.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "forecast",
+      "source_sha256": "6fd4f74888a92b8d4b33f09dd47176e180e53ddf0dbd183547f44c42438b78ac",
+      "size": [
+        2149,
+        732
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 512,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/forecast.png",
+      "historical_raw_source": "assets/ui/combat/generated/forecast.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "nav",
+      "source_sha256": "a653c4e1bca6c4a853730c91dc371797248779935c5646e250c9bd67c06e5561",
+      "size": [
+        2031,
+        774
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 512,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/nav.png",
+      "historical_raw_source": "assets/ui/combat/generated/nav.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "card-damage",
+      "source_sha256": "577c4e3354333ecf1eb964371a4fe7ca354bd7bed250bdcfe0b919bc9addef41",
+      "size": [
+        1271,
+        1238
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/card-damage.png",
+      "historical_raw_source": "assets/ui/combat/generated/card-damage.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "card-shield",
+      "source_sha256": "2118d14459527422c3a70b3683124fb7dffded57f3282e0e90d75c6a5e309e68",
+      "size": [
+        1270,
+        1239
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/card-shield.png",
+      "historical_raw_source": "assets/ui/combat/generated/card-shield.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "card-technique",
+      "source_sha256": "445d652ce9a6491e1a03e7b971659649af6d409a30d13be94ff8cfea65608ce9",
+      "size": [
+        1270,
+        1239
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/card-technique.png",
+      "historical_raw_source": "assets/ui/combat/generated/card-technique.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "card-mixed",
+      "source_sha256": "b5b2227a0d8f54e0703385e28d29884a1a1866a7ce6851a8f8733217e6eb70c1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/card-mixed.png",
+      "historical_raw_source": "assets/ui/combat/generated/card-mixed.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "ribbon",
+      "source_sha256": "27f6095a5a1604d67e675975de5f978573383fc1c026d9b7e4a7cbe9b560bbed",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 512,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/ribbon.png",
+      "historical_raw_source": "assets/ui/combat/generated/ribbon.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "parchment",
+      "source_sha256": "1a03e82976ffdca167f8de9a3cdfd9fc0a0e007ba21c5c7654b057a445b0d0d7",
+      "size": [
+        1915,
+        821
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/parchment.png",
+      "historical_raw_source": "assets/ui/combat/generated/parchment.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "deck",
+      "source_sha256": "4c0c1064d730789db30edc7b46f2599a5eb0f2d3f202adb78570cc0525b5b554",
+      "size": [
+        1071,
+        1469
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/deck.png",
+      "historical_raw_source": "assets/ui/combat/generated/deck.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "button",
+      "source_sha256": "03ea96f1b806bccd129780436657220780289f32a7d5de64ed636f4830104ad2",
+      "size": [
+        1378,
+        1141
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 128,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/button.png",
+      "historical_raw_source": "assets/ui/combat/generated/button.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "cast",
+      "source_sha256": "33dec3a8cd3501c891dd39f8a523ce540f9e73f9e998b1fa7d3a989534c3a5af",
+      "size": [
+        2048,
+        768
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 768,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/cast.png",
+      "historical_raw_source": "assets/ui/combat/generated/cast.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "heading",
+      "source_sha256": "a3829aa6aabce892df926a3fcb440e11e547a486857676a33d23e8ff28f255cf",
+      "size": [
+        2014,
+        781
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/heading.png",
+      "historical_raw_source": "assets/ui/combat/generated/heading.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "caption",
+      "source_sha256": "5afdcb7f6f77ca8e892cd12c65e714e6dd89186bf11fd3744ad38895abff3a96",
+      "size": [
+        1805,
+        871
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/caption.png",
+      "historical_raw_source": "assets/ui/combat/generated/caption.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    },
+    {
+      "id": "health",
+      "source_sha256": "a556225671c3b3766b0553e4ea4ac9904104e6882518f9ec2e11a6b0dad67553",
+      "size": [
+        1829,
+        860
+      ],
+      "mode": "RGBA",
+      "has_transparency": true,
+      "import_size_limit": 256,
+      "method": "Unchanged built-in image_gen output, with normalized source-region sampling in Godot; no local raster repainting.",
+      "status": "retired",
+      "historical_runtime": "assets/ui/combat/generated/health.png",
+      "historical_raw_source": "assets/ui/combat/generated/health.png",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png"
+    }
+  ],
+  "backdrop": {
+    "source": "source-assets/pilot/revisions/r006/exports/crypt-background.png",
+    "runtime": "assets/ui/combat/backdrop.png",
+    "sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
+    "method": "Retained unchanged generated painting"
+  },
+  "state": "Historical October14 integration record. All eighteen listed surface images were retired October15; historical paths are provenance only and must not be loaded or counted as current assets.",
+  "rights": "Existing generated-art provenance retained; no external artwork added.",
+  "status": "retired_2026-10-15",
+  "current_provenance": "source-assets/ui/combat/reference/provenance.json",
+  "retirement": {
+    "date": "2026-10-15",
+    "reason": "Owner requested matching the approved artwork and removal of unused assets; all eighteen renderer roles now sample clean approved-reference regions.",
+    "deletion_manifest": "output/qa/rc-016/reference-art/deletion-manifest.json",
+    "retained": "Historical source hashes, prompts, model limitations, dimensions and original integration evidence.",
+    "not_retained": "The unused eighteen PNG outputs, their import recipes and exact generated texture caches."
+  }
+}

@@ -1,6 +1,32 @@
 # Touch inspection and board editing
 
-**October 13, 2026 — current production interaction contract.** RC-016A migrates the RC-008 interaction foundation to the [accepted gameplay contract](gameplay-visual-contract.md): **Remove and Rotate only** for editing, detailed cards, live draw/discard counts and a persistent information bar above Cast. The visible **Pass turn** action occupies the former WIRING-label position beside the connector tools, as the owner requested. The dated [verification record](verification.md) and [project handoff](project-plan.md) own final results and completion status. Explicit historical profiles retain their older controls and directed rules; the full RC-016 art integration and physical-device testing remain separate.
+## October 15, 2026 — Display-only forecast and frame cleanup
+
+The Damage/Shield/Cost bar above Cast is display-only. Tapping or holding it opens no window; it has no focus target or activation action. Use card Info or hold/keyboard inspection on cards, board pieces and connector tools, or inspect a pile through its own control. Pass continues to open its confirmation with incoming attack and cleanup.
+
+The stats frame and lower-right board/backdrop edge are corrected at the paint-sampling layer. Stats content padding, board cells and interaction targets are unchanged; no new clickable region is introduced.
+
+[Current screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [verification](verification.md#october-15-2026--display-only-forecast-and-frame-cleanup) describe the current contract. Earlier dated entries describing forecast inspection are historical and are overridden by this instruction.
+
+## October 15, 2026 — Header order and connector rotation
+
+Rune Cast now appears on the left and the live floor name on the right of the full-width header. Rotating Split or Join still turns its logical ports and connection lines clockwise, while its central icon stays in the approved orientation. Inspection continues to report the actual rotated ports; placement, selection, costs and touch targets are unchanged.
+
+The repaired upper-left card frame uses a matching upper-corner sample. It is a paint correction; card selection and Info targets are unchanged.
+
+Original pile artwork and tap/hold inspection remain. Card cost symbols stay 25×29 with 20 px live numbers. [Current screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [verification](verification.md#october-15-2026--header-order-and-connector-rotation) describe the current revision; source artwork is retained and the earlier header order below is historical.
+
+## October 15, 2026 — Header and reference pile correction
+
+The full-width header keeps the floor name at the left and restores Rune Cast at the right. Pause and BOSS remain absent. Draw and Discard now use their distinct approved stack/emblem artwork at uniform scale with live counts and captions; their tap and hold inspection targets are unchanged. Smaller card cost gems remain informational, and selecting a card still does not spend energy. The corrected stats and toolbar paint is input-transparent. [Current screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [verification](verification.md#october-15-2026--header-and-reference-pile-correction) supersede the earlier header and pile appearance below.
+
+## October 15, 2026 — Mobile presentation corrections
+
+Production has no hover tooltips. Use a normal tap on Info or the forecast, or hold a card, piece or connector, to inspect details safely. Pass still opens its consequence confirmation. The small invalid/unavailable x/circle overlays on controls are hidden; availability state, focus cues and guarded commands remain active. This does not remove the board's eligible/protected placement preview.
+
+The floor name replaces the wordmark and Pause in the header; the BOSS caption is absent. Stats, pile symbols and bottom navigation use explicit padded content lanes. Discard mirrors only its artwork. Deferred layout callbacks validate their controls before updating a rebuilt hand or a closing screen. [Current screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [integration](rc-016-integration.md#october-15-2026--mobile-presentation-corrections) and [verification](verification.md#october-15-2026--mobile-presentation-corrections) record this revision; no source PNG was generated or modified.
+
+**Production interaction contract, updated October 15, 2026.** RC-016A migrates the RC-008 interaction foundation to the [accepted gameplay contract](gameplay-visual-contract.md): **Remove and Rotate only** for editing, detailed cards, live draw/discard counts and a persistent information bar above Cast. The visible **Pass turn** action occupies the former WIRING-label position beside the connector tools, as the owner requested. [RC-016](rc-016-integration.md) preserves these interactions within the actual painted Combat screen; page, hand and detail scrolling remain intentional at narrow/short viewports. The dated [verification record](verification.md) and [project handoff](project-plan.md) own final results and completion status. Explicit historical profiles retain their older controls and directed rules. Physical-device acceptance remains separate from desktop integration.
 
 ## Tap, inspect and cancel
 
@@ -18,7 +44,7 @@
 
 Normal short taps on **Focus** and **Conjure Spark** still activate the technique immediately through the guarded controller. There is no activation button inside a card inspector. To read a technique safely, use Info or hold it. Inspection never spends energy, consumes cards, creates cards, changes random streams or adds an edit-history entry.
 
-Production hand cards use the existing RC-013 detailed component with live cost, name, symbol, type and short effect text, alongside RC-012 icons. Draw and Discard controls show live counts and open pile details. A live action log sits above the hand. The persistent damage/shield/cost/incoming bar above Cast opens circuit details and states invalid or unaffordable previews; it scrolls with the page rather than staying fixed to the viewport. Desktop tooltips remain supplementary.
+Production hand cards show live cost, name, symbol and short effect text; the Rune/Technique category line is removed. Draw and Discard show upright live counts and approved emblems and open pile details. A live action log sits above the hand. The persistent Damage/Shield/Cost row above Cast only displays live totals; it opens no window on tap, hold or keyboard activation and is not a focus target. It scrolls with the page rather than staying fixed to the viewport. Production suppresses desktop hover tooltips as well as touch hover behavior.
 
 ## Inspector content
 
@@ -38,15 +64,15 @@ An eligible cell means the construction step is legal; it does not promise a com
 
 | Control | Availability and behavior |
 | --- | --- |
-| **Rotate** | Enabled for a selected occupied editable piece, including endpoints only where the active profile permits it. Turns clockwise; endpoint feedback names the new direction. |
+| **Rotate** | Enabled for a selected occupied editable piece, including endpoints only where the active profile permits it. Turns logical ports and connection lines clockwise; endpoint feedback names the new direction. Split and Join's central icons keep their approved orientation. |
 | **Remove** | Select the tool and tap an eligible occupied cell. Runes return to hand; connectors refund stock. Empty cells and endpoints reject it. Tap Remove again to clear selection. |
 | Connector stock | Buttons show available / total and visually mute exhausted stock while remaining inspectable. Removal, replacement and rune-over-connector placement update the quantities immediately. Replacing a connector with its own kind is permitted even with no spare stock. |
 
-Remove and Rotate use labeled controls and RC-012 icons, with enlarged editing targets. Disabled appearance communicates availability; view handlers and the combat controller still validate commands. Circuit details include reasons for unavailable editing actions on the selected cell. Production has no visible Flip, Undo, Inspect-mode, Cancel selection or Details / Pass control.
+Remove and Rotate use labeled controls and RC-012 icons, with enlarged editing targets. Disabled appearance communicates availability; view handlers and the combat controller still validate commands. Piece inspection and visible status feedback retain the relevant editing information. Production has no visible Flip, Undo, Inspect-mode, Cancel selection or Details / Pass control.
 
-## Circuit details and Pass
+## Forecast and Pass
 
-Activate the persistent forecast above Cast to open the current circuit message, available energy, casting cost, damage/shield and expected incoming attack. Invalid and unaffordable forecasts remain inspectable while preparation is available; an unaffordable preview cannot Cast.
+The persistent forecast above Cast displays Damage, Shield and Cost without opening details. Taps and holds on it do not activate a modal, change selection or issue a command. Invalid and unaffordable forecasts remain visible, and an unaffordable preview cannot Cast. Read the visible circuit feedback and the enemy's attack intent; Pass confirmation explains the incoming attack and cleanup.
 
 The visible **Pass turn** control is first in the wiring row, beside Straight, Corner, Split and Join. It opens a confirmation with the live enemy attack, no spell/shield, full board/hand cleanup and next-turn behavior. Only **Confirm Pass / enemy acts** sends the guarded Pass command. Cancel/Escape dismisses it. It remains available with an incomplete circuit or empty hand. Production does not depend on Menu or the circuit-details panel to end a turn without casting.
 

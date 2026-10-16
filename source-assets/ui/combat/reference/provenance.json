@@ -1,0 +1,1412 @@
+{
+  "revision": "RC-016 image-generated painted status frame; local drawn border superseded",
+  "date": "2026-10-16",
+  "stats_endcap_repair": {
+    "owner_request": "Repair the broken left and right borders of the Health/Energy/Turn bar.",
+    "method": "Join the source painting's open side flares using its own gold status-divider silhouette, mirrored at the right end, at the existing uniform scale.",
+    "geometry": "source-assets/ui/combat/reference/regions.json#stats_endcap_repair",
+    "original_pngs_unchanged": true,
+    "new_bitmap_assets": 0,
+    "verification": "output/qa/rc-016/stats-endcaps/focused/results.json",
+    "status": "Superseded by owner request: draw a proper border. Patch renderer removed."
+  },
+  "tool": "Original approved atlas pixels for neutral actor, visible scenery, separable decoration and masked navigation/resource icons; built-in image_gen originals retained for hidden arena fill and remaining glyph roles. Superseded generated neutral retired on October 16 under the owner-requested unused-resource cleanup; its prompt and hash remain historical records. The status frame is a complete new built-in image_gen output, copied unchanged into runtime assets.",
+  "model": null,
+  "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "atlas": {
+    "runtime": "assets/ui/combat/reference/approved-atlas.png",
+    "source": "output/imagegen/approved/combat-final-v2-clean-board.png",
+    "source_sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac",
+    "runtime_sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac",
+    "byte_identical": true,
+    "dimensions": [
+      841,
+      1870
+    ],
+    "import_size_limit": 0,
+    "regions": "source-assets/ui/combat/reference/regions.json",
+    "rule": "Never draw the complete screen or text-bearing panel. Sample clean decoration, socket materials, the static product wordmark and separately masked original actor, scenery and icons; all game state and ordinary labels remain live."
+  },
+  "assets": [
+    {
+      "id": "generated_neutral_retired",
+      "runtime": null,
+      "source_sha256": "a0c34e9a7082b233239fc4e7d429836be4a23992303ccce3be741b5c64219805",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "source_pixels": "Historical original built-in image_gen output. Superseded by the approved-atlas neutral and removed under the October 16 unused-resource cleanup; this hash remains provenance, not a live source requirement.",
+      "prompt": "source-assets/ui/combat/reference/prompts.json#actor",
+      "import_size_limit": null,
+      "model": null,
+      "model_note": "Built-in tool did not expose model version or seed.",
+      "visual_direction": "reference_guided; not a pixel-identical extraction claim",
+      "status": "retired_unused_source",
+      "former_runtime": "assets/enemies/shadeling/reference/neutral.png",
+      "historical_raw_source": "source-assets/characters/shadeling/reference/generated-neutral.png",
+      "prior_runtime_retirement_manifest": "output/qa/rc-016/whole-screen-art/actor-cleanup-manifest.json",
+      "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json",
+      "retired_on": "2026-10-16",
+      "replacement": "assets/ui/combat/reference/approved-atlas.png",
+      "retirement_reason": "No live runtime, source-build, or image-generation input consumes this superseded interpretation. Current neutral uses the original approved atlas; selected canonical actor sources remain retained."
+    },
+    {
+      "id": "reference_arena",
+      "runtime": "assets/environments/crypt/reference/arena.png",
+      "raw_source": "assets/environments/crypt/reference/arena.png",
+      "source_sha256": "1f0092cc9e571f632f9e19cabf20da12f72809738e63011ec188367bec59d28f",
+      "dimensions": [
+        1715,
+        917
+      ],
+      "mode": "RGB",
+      "source_pixels": "Original built-in image_gen output retained unchanged; runtime import limits and region sampling do not rewrite PNG pixels.",
+      "prompt": "source-assets/ui/combat/reference/prompts.json#environment",
+      "import_size_limit": 960,
+      "model": null,
+      "model_note": "Built-in tool did not expose model version or seed.",
+      "visual_direction": "reference_guided; not a pixel-identical extraction claim"
+    },
+    {
+      "id": "reference_icons",
+      "runtime": "assets/ui/combat/reference/icons.png",
+      "raw_source": "assets/ui/combat/reference/icons.png",
+      "source_sha256": "9d4b7b5ebceca76ea7733318d845e0219746b2ae108c5693ed623ab1cc432c35",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "source_pixels": "Original built-in image_gen output retained unchanged; runtime import limits and region sampling do not rewrite PNG pixels.",
+      "prompt": "source-assets/ui/combat/reference/icons-prompt.txt",
+      "import_size_limit": 768,
+      "model": null,
+      "model_note": "Built-in tool did not expose model version or seed.",
+      "visual_direction": "reference_guided; not a pixel-identical extraction claim",
+      "active_consumers": "Spark, Remove, Rotate and Attack glyphs; board Spark/Shield glyphs. Ordinary Health/Energy/Shield/Focus and navigation now use original approved atlas contour masks."
+    },
+    {
+      "id": "approved_neutral",
+      "runtime": "assets/ui/combat/reference/approved-atlas.png",
+      "source": "output/imagegen/approved/combat-final-v2-clean-board.png",
+      "source_sha256": "ad5e7429a79c53d65c6ef00e5094b83b58738b10715a2478c64230bdbc6688ac",
+      "method": "Original atlas region with a shared actor/scenery silhouette shader; no replacement bitmap or source pixel edits.",
+      "region": [
+        285,
+        145,
+        295,
+        290
+      ],
+      "shader": "assets/enemies/shadeling/reference/approved_actor.gdshader",
+      "shared_mask": "assets/enemies/shadeling/reference/approved_actor_mask.gdshaderinc",
+      "decoded_texture_allocation": "Shares the already-loaded approved atlas; no additional neutral texture allocation."
+    },
+    {
+      "id": "generated_status_frame",
+      "runtime": "assets/ui/combat/reference/status-frame.png",
+      "raw_source": "C:/Users/nguye/.codex/generated_images/01a130b6-98d7-77a0-b65a-b40c2cb47436/exec-57d03a3a-7b7f-418e-baae-3b3a27668e4d.png",
+      "source_sha256": "20c72868838eb163dbc83cabe4e989488fa330d756cccd2dde180fff113da573",
+      "dimensions": [
+        1987,
+        791
+      ],
+      "mode": "RGBA",
+      "source_pixels": "Original built-in image_gen output copied unchanged; no local painting, cropping or re-encoding.",
+      "prompt": "source-assets/ui/combat/reference/status-frame/prompt.txt",
+      "provenance": "source-assets/ui/combat/reference/status-frame/provenance.json",
+      "import_size_limit": 768,
+      "model": null,
+      "model_note": "The built-in tool did not expose a model version or seed; no GPT Image version is claimed.",
+      "visual_direction": "reference_guided; no pixel-identical extraction claim",
+      "active_consumers": "CombatSurface stats: complete painted slate, gold frame and dividers."
+    }
+  ],
+  "implementations": {
+    "surfaces": "scenes/ui/theme/combat_surface.gd",
+    "icons": "scenes/ui/theme/reference_icons.gd",
+    "backdrop": "scenes/ui/theme/reference_backdrop.gd",
+    "actor": "assets/enemies/shadeling/character.gd",
+    "environment": "assets/environments/crypt/environment.gd",
+    "scenery_mask": "assets/environments/crypt/reference/visible_edges.gdshader",
+    "piles": "scenes/ui/theme/reference_pile.gd",
+    "actor_mask": "assets/enemies/shadeling/reference/approved_actor_mask.gdshaderinc",
+    "icon_mask": "assets/ui/combat/reference/navigation_mask.gdshader"
+  },
+  "actor_contract": {
+    "opt_in": "reference_neutral=true; isolated consumers default to retained RC-014 neutral",
+    "source_region": [
+      285,
+      145,
+      295,
+      290
+    ],
+    "source_dimensions": [
+      841,
+      1870
+    ],
+    "method": "Original approved atlas sprite, masked by shared source-coordinate silhouette; no generated neutral is loaded.",
+    "logical_canvas": [
+      512,
+      512
+    ],
+    "foot": [
+      256,
+      448
+    ],
+    "reference_foot": [
+      446,
+      428
+    ],
+    "source_scale_before_arena": 1.3333333333333333,
+    "source_position_before_arena": [
+      -214.66666666666666,
+      -377.3333333333333
+    ],
+    "neutral_source_attachments": {
+      "head": [
+        425,
+        199
+      ],
+      "body_center": [
+        432,
+        290
+      ],
+      "attack_origin": [
+        327,
+        211
+      ],
+      "lantern_pivot": [
+        332,
+        233
+      ]
+    },
+    "mask": "assets/enemies/shadeling/reference/approved_actor_mask.gdshaderinc",
+    "mask_coordinate_quantization": 0.015625,
+    "unchanged": "Existing neutral/attack/hit canonical PNGs, attachment resource, isolated masters, foot-local API and four-state API. Attack/hit restore ordinary full-texture rendering.",
+    "motion_limit": "RC-017 must reconcile the original approved neutral with retained attack/hit before event-driven animation is accepted.",
+    "rendered_proof": "output/qa/rc-016/whole-screen-art/arena-focused/results.json"
+  },
+  "environment_contract": {
+    "crop": [
+      0,
+      60,
+      841,
+      450
+    ],
+    "generated_plate_destination": [
+      0,
+      60,
+      841,
+      450
+    ],
+    "actor_exclusion": "Same shared actor silhouette; original neutral overlays the corresponding hole in a separate layer.",
+    "dynamic_ui_holes_source_bounds": [
+      [
+        376,
+        101,
+        460,
+        158
+      ],
+      [
+        397,
+        412,
+        449,
+        432
+      ],
+      [
+        370,
+        432,
+        476,
+        457
+      ],
+      [
+        306,
+        455,
+        532,
+        492
+      ]
+    ],
+    "label_exclusion_feather_pixels": 2,
+    "actor_exclusion_feather_pixels": 0,
+    "actor_mask_coordinate_quantization": 0.015625,
+    "full_bleed": "Arena keeps one uniform reference transform; content/status positioning is owned by scripts/ui/arena.gd.",
+    "lighting": "base_cool=(1,1,1); separate environment-only lighting leaves actor/UI unchanged.",
+    "proof": "360002 visible source pixels outside four live-UI holes recombined with zero RGB difference at original resolution.",
+    "proof_file": "output/qa/rc-016/whole-screen-art/arena-focused/results.json"
+  },
+  "live_content": "All combat state, ordinary labels, card copy, costs, stock, HP, intent, piles, paths, input and feedback remain live. The Rune Cast product wordmark is intentionally static artwork.",
+  "preserved_overrides": [
+    "Pass turn beside connector tools",
+    "visible circuit button padding",
+    "no Rune/Technique card category row",
+    "no Incoming forecast row",
+    "no Cast ends turn caption"
+  ],
+  "retirement_manifest": "output/qa/rc-016/reference-art/deletion-manifest.json",
+  "limits": [
+    "The flattened reference has no clean pixels behind its actor or live labels. Generated hidden fill supplies those small regions.",
+    "Original neutral actor and visible scenery recombine approved source pixels outside live UI holes. Original navigation/resource icons are contour-masked atlas samples; remaining generated glyphs, live fonts and reconstructed hidden textures are fidelity limits.",
+    "Exact sampled regions do not make the complete rendered screen pixel-identical; geometry, live values, owner overrides and the source font remain independent.",
+    "No new owner aesthetic approval, device result or release-rights clearance is inferred."
+  ],
+  "rights": "Existing reference and generated-art provenance retained; inherited rights remain unresolved.",
+  "retained_backdrop": {
+    "runtime": "assets/ui/combat/backdrop.png",
+    "source": "source-assets/pilot/revisions/r006/exports/crypt-background.png",
+    "source_sha256": "6e0dabf341a78c1653a254fab02466ad8880c0f187caf28ad26b57350ef376e5",
+    "dimensions": [
+      841,
+      1870
+    ],
+    "import_size_limit": 1024,
+    "method": "Existing unchanged painting retained as supporting underpaint; original edge regions are sampled separately."
+  },
+  "surface_contract": {
+    "regions": "source-assets/ui/combat/reference/regions.json",
+    "stats": "Render the generated slate, closed frame and two dividers as texture pixels. Source-grid sampling fits the 54px row and aligns the three live cells. No code-drawn border, source-art patches, locally painted bitmap or baked game values. Existing 54px row and 36px content well preserved.",
+    "sockets": "One original rim with seven clean source-cell material variants selected by board index modulo seven.",
+    "ribbon": "Original torn emerald silhouette and source-width endcaps; destination caps 86/9/88/10 times art_scale.",
+    "source_pixels": "No source PNG rewrites; the new status PNG is a byte-identical copy of built-in image generation output. Runtime source sampling fits all artwork to controls.",
+    "historical_geometry": "Source-sampled stats rims, patched ends and the rejected code-drawn border remain historical evidence only in regions.json historical_revisions."
+  },
+  "icon_contract": {
+    "implementation": "scenes/ui/theme/reference_icons.gd",
+    "approved_atlas": "assets/ui/combat/reference/approved-atlas.png",
+    "source_dimensions": [
+      841,
+      1870
+    ],
+    "navigation_regions": {
+      "menu": [
+        118.0,
+        1790.0,
+        49.0,
+        42.0
+      ],
+      "map": [
+        295.0,
+        1788.0,
+        63.0,
+        45.0
+      ],
+      "guide": [
+        478.0,
+        1788.0,
+        67.0,
+        46.0
+      ],
+      "sound_on": [
+        665.0,
+        1788.0,
+        61.0,
+        46.0
+      ]
+    },
+    "resource_regions": {
+      "begin": [
+        123.0,
+        663.0,
+        96.0,
+        94.0
+      ],
+      "health": [
+        63.0,
+        521.0,
+        51.0,
+        46.0
+      ],
+      "energy": [
+        376.0,
+        522.0,
+        32.0,
+        45.0
+      ],
+      "shield": [
+        395.0,
+        1426.0,
+        50.0,
+        52.0
+      ],
+      "focus": [
+        575.0,
+        1430.0,
+        66.0,
+        45.0
+      ]
+    },
+    "navigation_contours": {
+      "menu": [
+        [
+          [
+            119,
+            1791
+          ],
+          [
+            165,
+            1791
+          ],
+          [
+            166,
+            1792
+          ],
+          [
+            166,
+            1799
+          ],
+          [
+            165,
+            1800
+          ],
+          [
+            119,
+            1800
+          ],
+          [
+            118,
+            1799
+          ],
+          [
+            118,
+            1792
+          ]
+        ],
+        [
+          [
+            119,
+            1806
+          ],
+          [
+            165,
+            1806
+          ],
+          [
+            166,
+            1807
+          ],
+          [
+            166,
+            1815
+          ],
+          [
+            165,
+            1816
+          ],
+          [
+            119,
+            1816
+          ],
+          [
+            118,
+            1815
+          ],
+          [
+            118,
+            1807
+          ]
+        ],
+        [
+          [
+            119,
+            1820
+          ],
+          [
+            165,
+            1820
+          ],
+          [
+            166,
+            1821
+          ],
+          [
+            166,
+            1830
+          ],
+          [
+            165,
+            1831
+          ],
+          [
+            119,
+            1831
+          ],
+          [
+            118,
+            1830
+          ],
+          [
+            118,
+            1821
+          ]
+        ]
+      ],
+      "map": [
+        [
+          [
+            295,
+            1793
+          ],
+          [
+            312,
+            1789
+          ],
+          [
+            318,
+            1789
+          ],
+          [
+            338,
+            1793
+          ],
+          [
+            355,
+            1789
+          ],
+          [
+            357,
+            1790
+          ],
+          [
+            357,
+            1829
+          ],
+          [
+            340,
+            1832
+          ],
+          [
+            326,
+            1832
+          ],
+          [
+            315,
+            1830
+          ],
+          [
+            296,
+            1832
+          ],
+          [
+            295,
+            1831
+          ]
+        ]
+      ],
+      "guide": [
+        [
+          [
+            478,
+            1795
+          ],
+          [
+            482,
+            1794
+          ],
+          [
+            483,
+            1792
+          ],
+          [
+            491,
+            1789
+          ],
+          [
+            503,
+            1789
+          ],
+          [
+            510,
+            1793
+          ],
+          [
+            516,
+            1790
+          ],
+          [
+            531,
+            1790
+          ],
+          [
+            539,
+            1792
+          ],
+          [
+            540,
+            1796
+          ],
+          [
+            543,
+            1797
+          ],
+          [
+            544,
+            1832
+          ],
+          [
+            530,
+            1831
+          ],
+          [
+            515,
+            1832
+          ],
+          [
+            511,
+            1833
+          ],
+          [
+            505,
+            1832
+          ],
+          [
+            487,
+            1831
+          ],
+          [
+            479,
+            1833
+          ]
+        ]
+      ],
+      "sound_on": [
+        [
+          [
+            666,
+            1802
+          ],
+          [
+            677,
+            1802
+          ],
+          [
+            694,
+            1789
+          ],
+          [
+            696,
+            1790
+          ],
+          [
+            697,
+            1832
+          ],
+          [
+            694,
+            1832
+          ],
+          [
+            678,
+            1821
+          ],
+          [
+            666,
+            1821
+          ]
+        ],
+        [
+          [
+            699,
+            1802
+          ],
+          [
+            702,
+            1803
+          ],
+          [
+            705,
+            1807
+          ],
+          [
+            706,
+            1812
+          ],
+          [
+            705,
+            1816
+          ],
+          [
+            702,
+            1820
+          ],
+          [
+            699,
+            1819
+          ],
+          [
+            701,
+            1815
+          ],
+          [
+            702,
+            1811
+          ],
+          [
+            701,
+            1807
+          ]
+        ],
+        [
+          [
+            707,
+            1796
+          ],
+          [
+            710,
+            1797
+          ],
+          [
+            714,
+            1803
+          ],
+          [
+            715,
+            1810
+          ],
+          [
+            715,
+            1816
+          ],
+          [
+            712,
+            1822
+          ],
+          [
+            709,
+            1825
+          ],
+          [
+            706,
+            1824
+          ],
+          [
+            709,
+            1818
+          ],
+          [
+            710,
+            1813
+          ],
+          [
+            710,
+            1808
+          ],
+          [
+            708,
+            1802
+          ],
+          [
+            706,
+            1798
+          ]
+        ],
+        [
+          [
+            713,
+            1791
+          ],
+          [
+            716,
+            1791
+          ],
+          [
+            720,
+            1797
+          ],
+          [
+            723,
+            1803
+          ],
+          [
+            725,
+            1811
+          ],
+          [
+            724,
+            1818
+          ],
+          [
+            721,
+            1825
+          ],
+          [
+            717,
+            1831
+          ],
+          [
+            713,
+            1833
+          ],
+          [
+            712,
+            1830
+          ],
+          [
+            715,
+            1825
+          ],
+          [
+            718,
+            1818
+          ],
+          [
+            719,
+            1811
+          ],
+          [
+            718,
+            1804
+          ],
+          [
+            716,
+            1799
+          ],
+          [
+            712,
+            1794
+          ]
+        ]
+      ]
+    },
+    "resource_contours": {
+      "begin": [
+        [
+          [
+            155,
+            665
+          ],
+          [
+            170,
+            663.5
+          ],
+          [
+            185,
+            666
+          ],
+          [
+            194,
+            670
+          ],
+          [
+            201,
+            675
+          ],
+          [
+            207,
+            681
+          ],
+          [
+            212,
+            689
+          ],
+          [
+            215,
+            696
+          ],
+          [
+            217.5,
+            703
+          ],
+          [
+            217,
+            710
+          ],
+          [
+            216,
+            714
+          ],
+          [
+            215.2,
+            718
+          ],
+          [
+            214.2,
+            722
+          ],
+          [
+            213.5,
+            724
+          ],
+          [
+            212.5,
+            728
+          ],
+          [
+            209,
+            734
+          ],
+          [
+            205.5,
+            739
+          ],
+          [
+            200,
+            744
+          ],
+          [
+            194,
+            748
+          ],
+          [
+            187,
+            751.5
+          ],
+          [
+            177,
+            755.5
+          ],
+          [
+            166,
+            755.5
+          ],
+          [
+            155,
+            752.5
+          ],
+          [
+            145,
+            748
+          ],
+          [
+            138,
+            742
+          ],
+          [
+            133,
+            736
+          ],
+          [
+            129,
+            730
+          ],
+          [
+            126,
+            722
+          ],
+          [
+            124,
+            713
+          ],
+          [
+            123.5,
+            704
+          ],
+          [
+            125,
+            696
+          ],
+          [
+            127,
+            688
+          ],
+          [
+            131,
+            681
+          ],
+          [
+            136,
+            676
+          ],
+          [
+            143,
+            670
+          ]
+        ]
+      ],
+      "health": [
+        [
+          [
+            65,
+            533
+          ],
+          [
+            68,
+            527
+          ],
+          [
+            73,
+            523
+          ],
+          [
+            78,
+            522
+          ],
+          [
+            82,
+            524
+          ],
+          [
+            88,
+            532
+          ],
+          [
+            93,
+            527
+          ],
+          [
+            98,
+            524
+          ],
+          [
+            103,
+            523
+          ],
+          [
+            108,
+            527
+          ],
+          [
+            111,
+            533
+          ],
+          [
+            112,
+            539
+          ],
+          [
+            110,
+            545
+          ],
+          [
+            106,
+            550
+          ],
+          [
+            99,
+            556
+          ],
+          [
+            88,
+            565
+          ],
+          [
+            85,
+            563
+          ],
+          [
+            79,
+            557
+          ],
+          [
+            72,
+            552
+          ],
+          [
+            67,
+            546
+          ],
+          [
+            64,
+            539
+          ]
+        ]
+      ],
+      "energy": [
+        [
+          [
+            392,
+            522
+          ],
+          [
+            406,
+            535
+          ],
+          [
+            406,
+            554
+          ],
+          [
+            393,
+            565
+          ],
+          [
+            377,
+            554
+          ],
+          [
+            377,
+            535
+          ]
+        ]
+      ],
+      "shield": [
+        [
+          [
+            419,
+            1427
+          ],
+          [
+            425,
+            1434
+          ],
+          [
+            432,
+            1437
+          ],
+          [
+            444,
+            1437
+          ],
+          [
+            443,
+            1450
+          ],
+          [
+            441,
+            1461
+          ],
+          [
+            431,
+            1470
+          ],
+          [
+            420,
+            1478
+          ],
+          [
+            409,
+            1470
+          ],
+          [
+            400,
+            1463
+          ],
+          [
+            397,
+            1450
+          ],
+          [
+            396,
+            1436
+          ],
+          [
+            406,
+            1436
+          ],
+          [
+            413,
+            1432
+          ]
+        ]
+      ],
+      "focus": [
+        [
+          [
+            576,
+            1439
+          ],
+          [
+            582,
+            1437
+          ],
+          [
+            584,
+            1433
+          ],
+          [
+            591,
+            1431
+          ],
+          [
+            600,
+            1432
+          ],
+          [
+            608,
+            1437
+          ],
+          [
+            615,
+            1433
+          ],
+          [
+            622,
+            1431
+          ],
+          [
+            630,
+            1432
+          ],
+          [
+            632,
+            1437
+          ],
+          [
+            638,
+            1438
+          ],
+          [
+            640,
+            1470
+          ],
+          [
+            618,
+            1468
+          ],
+          [
+            608,
+            1474
+          ],
+          [
+            599,
+            1470
+          ],
+          [
+            577,
+            1472
+          ]
+        ]
+      ]
+    },
+    "mask_shader": "assets/ui/combat/reference/navigation_mask.gdshader",
+    "mask_contract": "Source-space contour masks preserve original RGB and immediate dark outlines; up to four disconnected contours with a 0.55-source-pixel signed-distance feather remove the slate between Menu bars and Sound waves.",
+    "generated_atlas": "assets/ui/combat/reference/icons.png",
+    "generated_atlas_source_dimensions": [
+      1448,
+      1086
+    ],
+    "generated_active_roles": [
+      "spark",
+      "remove",
+      "rotate",
+      "attack"
+    ],
+    "board_glyphs": "board_texture(spark/shield) retains the generated atlas and virtual canvas margins; visible fractions 0.75/0.68 respectively.",
+    "fallback": "Other glyphs retain shared SVGs. Sound-off uses its SVG with the approved contour material cleared.",
+    "source_png_changed": false
+  },
+  "typography_contract": {
+    "resources": {
+      "body": {
+        "resource": "assets/fonts/combat/body.tres",
+        "base_font": "assets/fonts/ui/NotoSerif-Variable.ttf",
+        "weight": 600.0,
+        "width": 100.0,
+        "spacing_top": -2,
+        "spacing_bottom": -2,
+        "opentype_features": []
+      },
+      "label": {
+        "resource": "assets/fonts/combat/label.tres",
+        "base_font": "assets/fonts/ui/NotoSerif-Variable.ttf",
+        "weight": 600.0,
+        "width": 100.0,
+        "spacing_top": -2,
+        "spacing_bottom": -2,
+        "opentype_features": []
+      },
+      "display": {
+        "resource": "assets/fonts/combat/display.tres",
+        "base_font": "assets/fonts/ui/NotoSerif-Variable.ttf",
+        "weight": 700.0,
+        "width": 100.0,
+        "spacing_top": -3,
+        "spacing_bottom": -3,
+        "opentype_features": [
+          "smcp"
+        ]
+      },
+      "value": {
+        "resource": "assets/fonts/combat/value.tres",
+        "base_font": "assets/fonts/ui/NotoSerif-Variable.ttf",
+        "weight": 600.0,
+        "width": 100.0,
+        "spacing_top": -2,
+        "spacing_bottom": -2,
+        "opentype_features": [
+          "tnum"
+        ]
+      }
+    },
+    "roles": "Combat labels remain live text. The product wordmark alone is approved static artwork.",
+    "local_overrides": {
+      "stats": "Value variation, top/bottom spacing -4/-5; HP/Energy 28px, Turn 22px.",
+      "cast": "Display variation at weight 850, width 100, outline 4; normal label 43px and live value 44px, both 28px below 500 logical viewport width.",
+      "navigation": "Label variation at 19px, top/bottom spacing -5/-5; below 400 logical width use 17px, with Sound at 16px. Icon lane y=13..49; caption lane y=52..70 with explicit side/outer-rail insets.",
+      "card_title": "Label variation at 18px, reduced to 16px as needed to fit.",
+      "card_description": "Body variation at 16px, top/bottom spacing -3/-3, line spacing 0; live long text retains its scroll lane.",
+      "card_cost_and_pile_count": "Value variation with top/bottom spacing -4/-4.",
+      "tool_title_and_count": "Label 15px with spacing -2/-2; value 18px with spacing -4/-4.",
+      "endpoint_captions": "Display small-cap variation at weight 700 and width 62.5; 14px for cells at most 80px wide, otherwise min(26, round(cell_width*0.19)); two-pixel outline and glyph gap."
+    },
+    "implementation": [
+      "scenes/ui/theme/components.gd",
+      "scripts/ui/main.gd",
+      "scripts/ui/board_cell.gd"
+    ],
+    "limit": "Noto Serif is a live approximation; the flattened reference does not identify or provide its original font."
+  },
+  "endpoint_contract": {
+    "implementation": "scripts/ui/board_cell.gd",
+    "begin": {
+      "source": "assets/ui/combat/reference/approved-atlas.png",
+      "region": [
+        123.0,
+        663.0,
+        96.0,
+        94.0
+      ],
+      "contours": [
+        [
+          [
+            155,
+            665
+          ],
+          [
+            170,
+            663.5
+          ],
+          [
+            185,
+            666
+          ],
+          [
+            194,
+            670
+          ],
+          [
+            201,
+            675
+          ],
+          [
+            207,
+            681
+          ],
+          [
+            212,
+            689
+          ],
+          [
+            215,
+            696
+          ],
+          [
+            217.5,
+            703
+          ],
+          [
+            217,
+            710
+          ],
+          [
+            216,
+            714
+          ],
+          [
+            215.2,
+            718
+          ],
+          [
+            214.2,
+            722
+          ],
+          [
+            213.5,
+            724
+          ],
+          [
+            212.5,
+            728
+          ],
+          [
+            209,
+            734
+          ],
+          [
+            205.5,
+            739
+          ],
+          [
+            200,
+            744
+          ],
+          [
+            194,
+            748
+          ],
+          [
+            187,
+            751.5
+          ],
+          [
+            177,
+            755.5
+          ],
+          [
+            166,
+            755.5
+          ],
+          [
+            155,
+            752.5
+          ],
+          [
+            145,
+            748
+          ],
+          [
+            138,
+            742
+          ],
+          [
+            133,
+            736
+          ],
+          [
+            129,
+            730
+          ],
+          [
+            126,
+            722
+          ],
+          [
+            124,
+            713
+          ],
+          [
+            123.5,
+            704
+          ],
+          [
+            125,
+            696
+          ],
+          [
+            127,
+            688
+          ],
+          [
+            131,
+            681
+          ],
+          [
+            136,
+            676
+          ],
+          [
+            143,
+            670
+          ]
+        ]
+      ],
+      "mask_shader": "assets/ui/combat/reference/navigation_mask.gdshader",
+      "method": "ApprovedBeginGlyph TextureRect binds the original atlas sample and contour material in the existing get_endpoint_geometry().glyph_rect, keeps aspect centered and stays upright. The live caption and logical wires render separately; only wires rotate.",
+      "input": "The decorative glyph ignores mouse input and takes no focus; the existing cell owns interaction.",
+      "source_png_changed": false
+    },
+    "end": {
+      "source": "assets/icons/circuit/end.svg",
+      "reason": "The approved reference gold wire covers the top center of the End cyan rim around source x495..505,y1093..1110, and baked END text overlaps the lower opening. Retain the existing SVG rather than invent missing original pixels.",
+      "caption": "Live small-cap text, separate from the glyph and rotating logical wires."
+    },
+    "proof": "output/qa/rc-016/full-screen-polish/begin-proof-results.json",
+    "isolated_preview": "output/qa/rc-016/full-screen-polish/begin-isolated.png",
+    "rotation_preview": "output/qa/rc-016/full-screen-polish/begin-rotation-proof.png",
+    "verification": {
+      "checks": 44,
+      "failures": 0,
+      "contaminated_pixels": 0
+    }
+  }
+}

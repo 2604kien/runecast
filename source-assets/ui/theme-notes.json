@@ -94,8 +94,18 @@
   "slicing": {
     "menu": {
       "resource": "assets/ui/styles/menu.tres",
-      "source_caps_ltrb": [24, 24, 24, 24],
-      "content_margins_ltrb": [36, 36, 36, 36],
+      "source_caps_ltrb": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "content_margins_ltrb": [
+        36,
+        36,
+        36,
+        36
+      ],
       "painted_border_clearance": 12,
       "title_alignment": "center",
       "action_factory": "action(text, primary, minimum, states)",
@@ -162,7 +172,7 @@
       "slider_track_min_height": 12
     },
     "texture_filter": "linear; no repeat",
-    "texture_sharing": "Resources use shared loaded textures. Piles draw frames/panel.png rather than loading the identical compatibility alias frames/pile.png."
+    "texture_sharing": "Piles use frames/panel.png directly. The unused pile.png duplicate and non-node state SVG runtime exports are retired; StateLayer draws cues and Map retains node SVGs."
   },
   "minimum_sizes_logical_px": {
     "pointer_target": [
@@ -272,5 +282,6 @@
     "live_text_measurements": 793,
     "main_game_integrated": false,
     "device_verified": false
-  }
+  },
+  "runtime_retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
 }

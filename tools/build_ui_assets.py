@@ -21,6 +21,10 @@ LZ = Image.Resampling.LANCZOS
 NODE = Path(os.environ.get('RC_NODE', str(Path.home() / '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe')))
 SHARP = NODE.parent.parent / 'node_modules/sharp'
 records, source_records = [], []
+RETIRED_RUNTIME_FILES = ['frames/pile.png'] + [
+    'states/' + name + '.svg' for name in
+    ['eligible', 'focused', 'invalid', 'powered', 'protected', 'selected', 'unavailable', 'upgrade']
+]
 
 
 def rel(p): return Path(p).relative_to(ROOT).as_posix()
@@ -97,7 +101,7 @@ def paint_packs():
     frame=ora('ui_frames',(512,512),base)
     # Panel/dialog/inspector/navigation and pile share exactly the same texture.
     export(frame.resize((256,256),LZ),'frames/panel.png','ui_frames.ora',['painted-face-navy.png','painted-frame.png'])
-    export(frame.resize((256,256),LZ),'frames/pile.png','ui_frames.ora',['painted-face-navy.png','painted-frame.png'])
+    # Piles consume panel.png directly; do not recreate its retired duplicate.
     layers=[]
     for name,col in [('Damage','amber'),('Shield','green'),('Technique','violet'),('Mixed','turquoise')]:
         layers.append((name+' painted face',faces[col],name=='Damage'))
@@ -127,9 +131,12 @@ def paint_packs():
 
 def svg_doc(body,w=128,h=128,title='RC-013 editable state'):
     return f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><title>{title}</title>{body}</svg>'
-def svg_render(path,out):
-    script="const sharp=require(process.argv[1]);sharp(process.argv[2]).withIccProfile('srgb').png().toFile(process.argv[3]).catch(e=>{console.error(e);process.exit(1)});"
-    subprocess.run([str(NODE),'-e',script,str(SHARP),str(path),str(out)],check=True,capture_output=True)
+def svg_image(path):
+    # Rasterization is a transient build step, not an extra source export.
+    script="const sharp=require(process.argv[1]);sharp(process.argv[2]).withIccProfile('srgb').png().toBuffer().then(data=>process.stdout.write(data)).catch(e=>{console.error(e);process.exit(1)});"
+    rendered=subprocess.run([str(NODE),'-e',script,str(SHARP),str(path)],check=True,capture_output=True)
+    with Image.open(BytesIO(rendered.stdout)) as image:
+        return image.convert('RGBA')
 
 
 def state_packs():
@@ -154,11 +161,13 @@ def state_packs():
     atlas_layers=[]
     for i,(name,body) in enumerate(state.items()):
         source=SRC/'states'/f'{name}.svg';source.write_text(svg_doc(body,title=f'RC-013 {name}; no live labels'),encoding='utf-8')
-        dst=RUN/'states'/source.name;dst.write_bytes(source.read_bytes())
-        tmp=SRC/'states'/f'{name}.png';svg_render(source,tmp)
-        layer=blank((512,384));layer.alpha_composite(Image.open(tmp).convert('RGBA'),((i%4)*128,(i//4)*128))
+        layer=blank((512,384));layer.alpha_composite(svg_image(source),((i%4)*128,(i//4)*128))
         atlas_layers.append((name.replace('_',' ')+' vector raster preview',layer,True))
-        records.append({'runtime':rel(dst),'master':rel(SRC/'ui_state_overlays.ora'),'editable_vector':rel(source),'method':'Original deterministic SVG geometry; ORA has one isolated layer per state.','size':[128,128],'mode':'SVG','alpha':'transparent','sha256':sha(dst),'decoded_bytes':128*128*4,'scope':'node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels.'})
+        # Keep every editable source layer, but only Map nodes have texture
+        # consumers. The live StateLayer renders the other cues directly.
+        if name.startswith('node_'):
+            dst=RUN/'states'/source.name;dst.write_bytes(source.read_bytes())
+            records.append({'runtime':rel(dst),'master':rel(SRC/'ui_state_overlays.ora'),'editable_vector':rel(source),'method':'Original deterministic SVG geometry; ORA has one isolated layer per state.','size':[128,128],'mode':'SVG','alpha':'transparent','sha256':sha(dst),'decoded_bytes':128*128*4,'scope':'Map nodes consumed dynamically by Ui.map_node; other state vectors remain editable source only.'})
     ora('ui_state_overlays',(512,384),atlas_layers)
 
 
@@ -215,8 +224,8 @@ def wordmark():
     master_size=(1280,480)
     for name,body in layers:
         file=SRC/'wordmark-layers'/(name.lower().replace(' ','-')+'.svg');file.parent.mkdir(exist_ok=True)
-        file.write_text(svg_doc(defs+'<g transform="translate(40 48)">'+body+'</g>',*master_size,name),encoding='utf-8');out=file.with_suffix('.png');svg_render(file,out)
-        layer_images.append((name,Image.open(out).convert('RGBA'),True))
+        file.write_text(svg_doc(defs+'<g transform="translate(40 48)">'+body+'</g>',*master_size,name),encoding='utf-8')
+        layer_images.append((name,svg_image(file),True))
     # Combined editable source has all six vector groups and unique shared glyphs.
     combined=defs+textdefs+''.join(f'<g id="{i}-{name.lower().replace(" ","-")}">{body.replace(textdefs,"")}</g>' for i,(name,body) in enumerate(layers))
     source=SRC/'wordmark.svg';source.write_text(svg_doc('<g transform="translate(40 48)">'+combined+'</g>',*master_size,'Rune Cast — custom editable serif lettering and stone identity'),encoding='utf-8')
@@ -243,7 +252,7 @@ def main():
       'sources':source_records,'exports':records,'retained_inputs':upstream,
       'unique_decoded_rgba8_bytes':sum(v for _,v in {r['sha256']:r['decoded_bytes'] for r in records}.items()),
       'all_export_decoded_rgba8_bytes':sum(r['decoded_bytes'] for r in records),
-      'sharing':'panel.png and pile.png are byte-identical aliases; consumers should share panel texture for actual residency. States remain SVG geometry rather than a runtime ORA atlas. Font atlases and engine buffers excluded.',
+      'sharing':'Piles share panel.png directly; the unused pile.png alias is retired. Only Map node state vectors are exported; other cues use the live StateLayer. Font atlases and engine buffers excluded.',
       'editing_limit':'Retained brush strokes are flattened within complementary face/rim regions. ORAs and layer PNGs support repaint/recolour/replacement; they do not fabricate brush history. SVG wordmark layers remain fully geometric.'}
     (SRC/'source-export-map.json').write_text(json.dumps(provenance,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'masters':len(source_records),'exports':len(records),'decoded_bytes':provenance['all_export_decoded_rgba8_bytes'],'metadata':rel(SRC/'source-export-map.json')}))
@@ -295,12 +304,12 @@ def validate(report):
     for file in [SRC/'wordmark.svg',*(SRC/'wordmark-layers').glob('*.svg'),*(SRC/'states').glob('*.svg')]:
         tree=ET.parse(file);links=[v for e in tree.iter() for k,v in e.attrib.items() if k.endswith('href')]
         check(rel(file)+' vector contains only internal references',all(v.startswith('#') for v in links) and not any(e.tag.endswith(('image','text')) for e in tree.iter()))
-    vector_check=SRC/'wordmark-svg-check.png';svg_render(SRC/'wordmark.svg',vector_check)
+    direct=svg_image(SRC/'wordmark.svg')
     with zipfile.ZipFile(SRC/'wordmark.ora') as z:layered=Image.open(BytesIO(z.read('mergedimage.png'))).convert('RGBA')
-    direct=Image.open(vector_check).convert('RGBA');difference=np.abs(np.asarray(direct).astype(int)-np.asarray(layered).astype(int))
+    difference=np.abs(np.asarray(direct).astype(int)-np.asarray(layered).astype(int))
     check('editable wordmark SVG matches layered raster within alpha rounding',difference.max()<=2,{'max_channel_difference':int(difference.max()),'mean_channel_difference':float(difference.mean())})
     expected={
-      'board/socket.png':('board_cells',None),'frames/panel.png':('ui_frames',None),'frames/pile.png':('ui_frames',None),
+      'board/socket.png':('board_cells',None),'frames/panel.png':('ui_frames',None),
       'runes/damage.png':('rune_frames',['Damage painted face','Gold rim']),
       'runes/shield.png':('rune_frames',['Shield painted face','Shield green rim']),
       'runes/technique.png':('rune_frames',['Technique painted face','Technique violet rim']),
@@ -318,13 +327,23 @@ def validate(report):
                 if visible:comp.alpha_composite(Image.open(BytesIO(z.read(layer.attrib['src']))).convert('RGBA'))
         actual=Image.open(RUN/runtime).convert('RGBA');wanted=comp.resize(actual.size,LZ)
         check(runtime+' exactly derives from named ORA layers',wanted.tobytes()==actual.tobytes(),selection or 'default visible stack')
-    for state in ['focused','selected','powered','invalid','unavailable','eligible','protected']:
-        im=Image.open(SRC/'states'/(state+'.png')).getchannel('A')
-        ports=[(54,0,74,16),(112,54,128,74),(54,112,74,128),(0,54,16,74)]
-        check(state+' unobstructed exact edge-port channels',all(im.crop(box).getextrema()==(0,0) for box in ports))
+    # Read editable master layers directly. The former per-state PNGs were
+    # redundant build intermediates and are not source-validation inputs.
+    with zipfile.ZipFile(SRC/'ui_state_overlays.ora') as z:
+        state_layers=list(ET.fromstring(z.read('stack.xml')).find('stack'))
+        for index,state in enumerate(['focused','selected','powered','invalid','unavailable','eligible','protected']):
+            layer=next(item for item in state_layers if item.attrib['name']==state+' vector raster preview')
+            origin=((index%4)*128,(index//4)*128)
+            im=Image.open(BytesIO(z.read(layer.attrib['src']))).getchannel('A').crop((origin[0],origin[1],origin[0]+128,origin[1]+128))
+            ports=[(54,0,74,16),(112,54,128,74),(54,112,74,128),(0,54,16,74)]
+            check(state+' unobstructed exact edge-port channels',all(im.crop(box).getextrema()==(0,0) for box in ports))
     im=Image.open(RUN/'wordmark.png');x1,y1,x2,y2=im.getbbox();padding=[x1,y1,im.width-x2,im.height-y2]
     check('wordmark transparent outer padding >=32px',min(padding)>=32,padding)
-    check('panel and pile share identical exported bytes',sha(RUN/'frames/panel.png')==sha(RUN/'frames/pile.png'))
+    for retired in RETIRED_RUNTIME_FILES:
+        check(retired+' unused runtime export remains retired',not (RUN/retired).exists() and not (RUN/(retired+'.import')).exists())
+    components=(ROOT/'scenes/ui/theme/components.gd').read_text(encoding='utf-8-sig')
+    pile_constructor=components.split('static func pile(',1)[1].split('\nstatic func ',1)[0]
+    check('pile constructor shares the active panel texture','res://assets/ui/frames/panel.png' in pile_constructor)
     result={'task':'RC-013','date':'2026-10-12','pass':all(c['pass'] for c in checks),'checks':checks,
             'summary':{'total':len(checks),'passed':sum(c['pass'] for c in checks),'masters':len(meta['sources']),'runtime_exports':len(meta['exports']),
                        'all_exports_RGBA8_bytes':meta['all_export_decoded_rgba8_bytes'],'unique_pixels_RGBA8_bytes':meta['unique_decoded_rgba8_bytes'],

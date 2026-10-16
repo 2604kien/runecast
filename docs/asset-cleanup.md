@@ -1,5 +1,37 @@
 # Asset cleanup — retained current set
 
+## October 16, 2026 — Unused resource cleanup
+
+**Completed: 2,221 files removed, freeing 1,370,344,711 bytes (1.28 GiB).** The owner requested: “Please remove all unused resources.” The [exact deletion manifest](../output/qa/resource-cleanup-2026-10-16/deletion-manifest.json) records every path, size, hash and reason. Runtime, source and output dependency audits are saved beside it.
+
+Removed nine unused runtime exports (the duplicate pile frame and eight unused state SVGs), their 27 import/cache files, 12 orphan import-cache files, the superseded generated neutral character, and 2,172 obsolete QA files (2,141 screenshots, 30 one-off helpers and one comparison page). StateLayer already draws the non-node cues, and piles already use panel.png. Updated the generator and export map to prevent the unused exports returning. The approved atlas supplies the current neutral character.
+
+Current artwork, all six approved references, editable masters, selected generation inputs, licences, gameplay resources, dynamic preview consumers and required regression images remain. Historical JSON/log evidence is retained; 156 links to retired images now lead to this record. This cleanup supersedes earlier instructions to preserve the unused generated neutral as an archive.
+
+Every target was resolved inside the workspace, checked for reparse points, and matched against its recorded size/hash before native PowerShell removed the individually named file. No recursive deletion or Git operation was used. [Verification](verification.md#october-16-2026--unused-resource-cleanup) records the post-cleanup checks.
+
+## October 16, 2026 — Generated status frame replacement
+
+One selected image-generated PNG, `assets/ui/combat/reference/status-frame.png`, is now consumed by the production stats surface. The rejected border existed only as local drawing code; its bezel and divider helpers have been removed. No unused generated bitmap variant was added, and no existing asset became unreferenced by this change. Historical screenshots and source provenance remain evidence. [Generation record](../source-assets/ui/combat/reference/status-frame/provenance.json) and [resource audit](../output/qa/rc-016/stats-generated-frame/resource-audit.json).
+
+## October 15, 2026 — Approved reference surface cleanup
+
+**Completed: 72 files removed, freeing 24,856,901 bytes (23.71 MiB).** The owner had explicitly requested unused-asset removal after rework. All eighteen old generated surface roles now use the approved-reference atlas; a content search across runtime scripts, scenes, resources, shaders and data found no consumer of `assets/ui/combat/generated/` before retirement. The [deletion manifest](../output/qa/rc-016/reference-art/deletion-manifest.json) records each exact path, byte size, SHA-256 and replacement.
+
+Removed only the eighteen obsolete PNGs, their eighteen `.import` recipes and the thirty-six matching regenerable `.godot/imported` texture/hash files. Every original PNG hash matched historical provenance, resolved targets remained inside the workspace and intended directories, and each hash was checked again immediately before native PowerShell `Remove-Item -LiteralPath`. No recursive or cross-shell deletion was used; post-deletion checks confirmed all enumerated paths absent. Root `.godot` remains, apart from these exact obsolete cache entries.
+
+The [historical provenance](../source-assets/ui/combat/provenance.json) explicitly marks every old runtime/source path retired; [old prompts](../source-assets/ui/combat/generated/prompts.json) and earlier QA evidence remain. Original canonical RC-012–015 packs, editable ORA/SVG masters, shared fonts, approved references, retained actor poses and their source/provenance records were not deleted. The [new source record](../source-assets/ui/combat/reference/README.md) lists the four active image inputs. No Git operations were used. Current runtime checks belong to [the verification entry](verification.md#october-15-2026--approved-reference-artwork-adoption), not the historical counts below.
+
+## October 14, 2026 — Image-generated Combat rework cleanup
+
+**Completed: 1,264 files removed, freeing 565,617,093 bytes (539.41 MiB).** The owner explicitly requested unused-asset deletion after the generated-art rework. The [deletion manifest](../output/qa/rc-016/image-rework/deletion-manifest.json) records every exact path, pre-deletion hash, size, reason and replacement. No Git operation was used.
+
+The cleanup retires superseded RC-016 screenshots, the six unused procedural material copies and their import recipes, and the disposable RC-015 preview stage. All selected generated PNGs remain intact; they serve as their own original source files. The original r002/r004/r006 masters, source inputs/build recipes, shared RC-013 resources, approved references, raw playtest evidence and compact historical reports remain dependencies and are retained.
+
+Old image links now point here. Their historical JSON/log counts and hashes remain unchanged and do not describe current artwork. Replacement evidence is in [image-rework](../output/qa/rc-016/image-rework/). The post-cleanup [resource audit](../output/qa/rc-016/image-rework/resource-audit.json) passes **1,343 checks**, with all **532 protected hashes** unchanged. Its conservative decoded full-pack estimate including the future 2 MiB VFX allowance is **31.83918 MiB** against the provisional 32 MiB subtotal.
+
+The cleanup script verified project containment, no reparse-point traversal, exact file sizes/hashes and absent live consumers before removing explicitly enumerated files with PowerShell. Root `.godot`, `.tools`, engine/SDK files and Git data were excluded. Recreate the removed isolated environment preview stage with `.\tools\preview_environments.ps1` before a full environment validator run; `--source-only` intentionally excludes its Godot evidence checks.
+
 ## October 13, 2026 — Project-wide follow-up cleanup
 
 The owner explicitly requested deletion of unnecessary assets across the **whole RuneCast project**, with no Git operations. This later authorization supersedes preserve-every-preview requirements only for the exact files in the [project-wide deletion manifest](../output/qa/asset-cleanup-2026-10-13/deletion-manifest.json). The October 11 cleanup below remains a separate historical record.

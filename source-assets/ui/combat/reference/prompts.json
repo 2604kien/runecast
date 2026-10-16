@@ -1,0 +1,21 @@
+{
+  "mode": "built-in image_gen.imagegen",
+  "model": "not exposed by tool",
+  "reference": "output/imagegen/approved/combat-final-v2-clean-board.png",
+  "actor": {
+    "prompt": "Use case: background-extraction. Asset type: transparent 2D game character production sprite. Input image is the approved reference and edit target. Extract ONLY the exact central lantern-bearing hooded Shadeling character shown near the top of this image (source approximately x295–550, y150–430 in 841×1870 image). Preserve its original broad compact silhouette, face, eye glow, folds, brown-rust and muted purple robe, crooked hood, gold necklace, hand, lantern, boots, brushwork, lighting and proportions exactly; do not redesign, sharpen into vector art, restyle, or invent details. Include the whole character and lantern, no clipping. Remove all surrounding crypt, floor, cast shadow, sword/8 intent, BOSS/name/health text, frames and UI. Transparent background, genuine alpha, no shadow plane. Center the exact cutout in a square canvas with a small transparent margin; feet level and full lantern. This is an extraction of existing artwork, not a new interpretation. No text.",
+    "former_runtime": "assets/enemies/shadeling/reference/neutral.png",
+    "status": "Historical prompt: the superseded generated neutral was retired by the October 16 owner-requested unused-resource cleanup. Current neutral samples the approved atlas instead; no output at the historical path is required.",
+    "historical_output": "source-assets/characters/shadeling/reference/generated-neutral.png",
+    "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
+  },
+  "environment": {
+    "prompt": "Use case: precise-object-edit. Asset type: clean layered 2D game arena background. Input image is edit target approved game screenshot. Return ONLY its arena rectangle: source x=0 y=60 width=841 height=450 from the 841x1870 reference, enlarged exactly 2x to a landscape 1682x900 canvas. Preserve the exact visible composition, broad painterly indigo stones, statues, columns, candle positions, hanging brazier, banners, walls, steps, floor and foreground rocks of this rectangle, without restyling, extra details or changing any object positions. Remove the central Shadeling character and lantern, and reconstruct only the small covered floor/wall area seamlessly. Remove the red sword and white8 above his head, BOSS, Shadeling and red healthbar/numbers beneath him; reconstruct those small background areas. No text, symbols, UI bars, frames, characters, lanterns carried by characters. Keep all existing environmental candles and hanging brazier. No black or transparent edges. Output the arena scene ONLY, the same composition and crop, not the whole game screen. Highest fidelity preservation, no redesign.",
+    "output": "assets/environments/crypt/reference/arena.png"
+  },
+  "status_frame": {
+    "prompt_file": "source-assets/ui/combat/reference/status-frame/prompt.txt",
+    "output": "assets/ui/combat/reference/status-frame.png",
+    "provenance": "source-assets/ui/combat/reference/status-frame/provenance.json"
+  }
+}

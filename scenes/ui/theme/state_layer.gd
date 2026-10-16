@@ -25,6 +25,14 @@ func _corners(inset: float, length: float, colour: Color, line_width: float) -> 
 		draw_line(corner, corner + Vector2(length * direction.x, 0), colour, line_width, true)
 		draw_line(corner, corner + Vector2(0, length * direction.y), colour, line_width, true)
 
+func _badge_rect() -> Rect2:
+	var bounds := Rect2(Vector2.ZERO, size)
+	if observed_control != null:
+		var painted_bounds = observed_control.get_meta("rc_state_rect", bounds)
+		if painted_bounds is Rect2:
+			return bounds.intersection(painted_bounds.abs())
+	return bounds
+
 func _draw() -> void:
 	if size.x < 8 or size.y < 8:
 		return
@@ -35,7 +43,7 @@ func _draw() -> void:
 		draw_texture_rect(ENERGY, Rect2(p - Vector2(13, 13), Vector2(26, 26)), false)
 	var selected := bool(states.get("selected", false))
 	var focused := bool(states.get("focused", false)) or (observed_control != null and observed_control.has_focus())
-	if states.get("powered", false):
+	if states.get("powered", false) and not (observed_control != null and observed_control.get_meta("rc_clean_board", false)):
 		_corners(11, minf(size.x, size.y) * 0.14, GOLD, 3)
 	if selected:
 		_corners(4, minf(size.x, size.y) * 0.22, TEAL, 2)
@@ -49,13 +57,22 @@ func _draw() -> void:
 				var dir := Vector2(1 if corner.x < size.x / 2 else -1, 1 if corner.y < size.y / 2 else -1)
 				draw_line(corner + Vector2(i * dir.x, 0), corner + Vector2((i + 4) * dir.x, 0), CREAM, 2, true)
 				draw_line(corner + Vector2(0, i * dir.y), corner + Vector2(0, (i + 4) * dir.y), CREAM, 2, true)
+	# Badge placement follows the painted active body when it is smaller than
+	# its hit target. Selection and focus still describe the full control.
+	if observed_control != null and not observed_control.get_meta("rc_show_state_badges", true):
+		return
+	var badge_bounds := _badge_rect()
+	var badge_scale := minf(1.0, minf(badge_bounds.size.x, badge_bounds.size.y) / 22.0)
+	if badge_scale <= 0:
+		return
+	var badge_inset := Vector2(minf(11, badge_bounds.size.x / 2), minf(11, badge_bounds.size.y / 2))
 	if states.get("invalid", false):
-		var p := Vector2(size.x - 11, 11)
-		draw_circle(p, 8, Color("231d29"))
-		draw_line(p - Vector2(4, 4), p + Vector2(4, 4), ALERT, 2, true)
-		draw_line(p + Vector2(-4, 4), p + Vector2(4, -4), ALERT, 2, true)
+		var p := Vector2(badge_bounds.end.x - badge_inset.x, badge_bounds.position.y + badge_inset.y)
+		draw_circle(p, 8 * badge_scale, Color("231d29"))
+		draw_line(p - Vector2(4, 4) * badge_scale, p + Vector2(4, 4) * badge_scale, ALERT, 2 * badge_scale, true)
+		draw_line(p + Vector2(-4, 4) * badge_scale, p + Vector2(4, -4) * badge_scale, ALERT, 2 * badge_scale, true)
 	if states.get("unavailable", false) or states.get("disabled", false):
-		var p := Vector2(size.x - 11, size.y - 11)
-		draw_circle(p, 8, Color("172330"))
-		draw_arc(p, 6, 0, TAU, 24, CREAM, 1.5, true)
-		draw_line(p + Vector2(-4, 4), p + Vector2(4, -4), CREAM, 1.5, true)
+		var p := badge_bounds.end - badge_inset
+		draw_circle(p, 8 * badge_scale, Color("172330"))
+		draw_arc(p, 6 * badge_scale, 0, TAU, 24, CREAM, 1.5 * badge_scale, true)
+		draw_line(p + Vector2(-4, 4) * badge_scale, p + Vector2(4, -4) * badge_scale, CREAM, 1.5 * badge_scale, true)

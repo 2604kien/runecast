@@ -431,36 +431,6 @@
       "sha256": "fb839be0d64b98fcb03faf00ccab6f6e7a0a2de4158d918babd5e293a50405e5"
     },
     {
-      "runtime": "assets/ui/frames/pile.png",
-      "master": "source-assets/ui/ui_frames.ora",
-      "upstream": [
-        "source-assets/pilot/revisions/r006/ui/painted-face-navy.png",
-        "source-assets/pilot/revisions/r006/ui/painted-frame.png"
-      ],
-      "method": "Composite selected face and rim, then Lanczos downsample at 2x.",
-      "size": [
-        256,
-        256
-      ],
-      "mode": "RGBA8",
-      "alpha": "straight",
-      "colour": "embedded sRGB",
-      "slice_caps_LTRB": [
-        24,
-        24,
-        24,
-        24
-      ],
-      "alpha_bbox": [
-        0,
-        0,
-        256,
-        256
-      ],
-      "decoded_bytes": 262144,
-      "sha256": "fb839be0d64b98fcb03faf00ccab6f6e7a0a2de4158d918babd5e293a50405e5"
-    },
-    {
       "runtime": "assets/ui/runes/damage.png",
       "master": "source-assets/ui/rune_frames.ora",
       "upstream": [
@@ -757,126 +727,6 @@
       "sha256": "3782df3ac6602536bad7eadc069f88019386e5d5eb8d6f737da0a403cdea9e73"
     },
     {
-      "runtime": "assets/ui/states/focused.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/focused.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "2f11e2d3fcf4c66a4edf9eba9b71e5c9344f5c4bb08cc5b5e0a8e0699958531a",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/selected.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/selected.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "d7e674126688ef19f70de04a16f8560d663c35a756adda35b207e65b6b805375",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/powered.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/powered.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "ac731ae49ac35e6d21e1ac107294f0a3a0b093be1b4ba3ac0847830bd56775dc",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/invalid.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/invalid.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "efecaa57e48402237c0f9445cd9b30be12f488f77fa833712cfcd5b78a74dfcc",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/unavailable.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/unavailable.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "bd34962486d381421a8562cec46b2916c4e19398c69d66501dd19c7b5a36daa5",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/eligible.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/eligible.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "31a5caa1361bd2bebb8bb26359f506dcd3e295a15bd13ed29a83e9f9947e0c93",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/protected.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/protected.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "c68336082fc71d5edbb77d0af1b129c1d3c6067d9e8bda8a023bebafd8546ef6",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
-      "runtime": "assets/ui/states/upgrade.svg",
-      "master": "source-assets/ui/ui_state_overlays.ora",
-      "editable_vector": "source-assets/ui/states/upgrade.svg",
-      "method": "Original deterministic SVG geometry; ORA has one isolated layer per state.",
-      "size": [
-        128,
-        128
-      ],
-      "mode": "SVG",
-      "alpha": "transparent",
-      "sha256": "7e606f4f5a08ba026971474d2a4f9bbca2d2e771ccb51ef19a0e3d353e782173",
-      "decoded_bytes": 65536,
-      "scope": "node_* for Map only; upgrade for card/detail only; other cues preserve edge port channels."
-    },
-    {
       "runtime": "assets/ui/states/node_current.svg",
       "master": "source-assets/ui/ui_state_overlays.ora",
       "editable_vector": "source-assets/ui/states/node_current.svg",
@@ -1020,8 +870,9 @@
       "sha256": "773f84e0ed88a7f919d9782c958f3af8b1e0dde1e8e09b732b6a7771f04d05fa"
     }
   ],
-  "unique_decoded_rgba8_bytes": 4456448,
-  "all_export_decoded_rgba8_bytes": 4980736,
-  "sharing": "panel.png and pile.png are byte-identical aliases; consumers should share panel texture for actual residency. States remain SVG geometry rather than a runtime ORA atlas. Font atlases and engine buffers excluded.",
-  "editing_limit": "Retained brush strokes are flattened within complementary face/rim regions. ORAs and layer PNGs support repaint/recolour/replacement; they do not fabricate brush history. SVG wordmark layers remain fully geometric."
+  "unique_decoded_rgba8_bytes": 3932160,
+  "all_export_decoded_rgba8_bytes": 4194304,
+  "sharing": "Piles share panel.png directly. The unused pile alias and eight non-node state exports were retired October16; live StateLayer draws those cues. Map nodes retain their dynamic SVG exports.",
+  "editing_limit": "Retained brush strokes are flattened within complementary face/rim regions. ORAs and layer PNGs support repaint/recolour/replacement; they do not fabricate brush history. SVG wordmark layers remain fully geometric.",
+  "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
 }

@@ -164,7 +164,7 @@ func _editing(scene: Control, viewport: SubViewport, tree: SceneTree, check: Cal
 	scene._select_tool("erase")
 	await _reveal(scene, scene.cells[empty[0]], tree)
 	_tap(viewport, scene.cells[empty[0]])
-	check.call(scene.game.stock.straight == 1 and scene.game.board[empty[0]].is_empty() and scene.stock_buttons.straight.text.contains("1 /"), "Touch Erase refunds one connector and refreshes finite-stock feedback immediately.")
+	check.call(scene.game.stock.straight == 1 and scene.game.board[empty[0]].is_empty() and scene.stock_buttons.straight.get_meta("stock_label").text.contains("1 /"), "Touch Erase refunds one connector and refreshes finite-stock feedback immediately.")
 	await _reveal(scene, scene.stock_buttons.straight, tree)
 	_tap(viewport, scene.stock_buttons.straight)
 	await _reveal(scene, scene.cells[empty[0]], tree)
@@ -188,11 +188,7 @@ func _details_and_modal(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	check.call(not scene.inspector.visible and scene.selected_tool == "straight" and _state(scene) == before, "Keyboard Escape dismisses the inspector without executing or clearing the underlying tool.")
 	_escape(viewport)
 	check.call(scene.selected_tool == "" and scene.selected_cell == -1 and _state(scene) == before, "A second keyboard Escape cancels the active selection without changing combat.")
-	await _reveal(scene, scene.forecast_button, tree)
-	_tap(viewport, scene.forecast_button)
-	await _layout(tree)
-	check.call(scene.inspector.visible and not scene.inspector_pass.visible and scene.inspector_text.text.contains(scene.game.forecast.message) and _state(scene) == before, "The persistent forecast opens read-only incomplete-circuit details without restoring Details / Pass.")
-	await _close(scene, viewport, tree)
+	await _forecast_display(scene, viewport, tree, check, "Incomplete circuit")
 	await _reveal(scene, scene.turn_pass_button, tree)
 	_tap(viewport, scene.turn_pass_button)
 	await _layout(tree)
@@ -210,6 +206,38 @@ func _details_and_modal(scene: Control, viewport: SubViewport, tree: SceneTree, 
 	before = _state(scene)
 	scene._accept_pass_details()
 	check.call(_state(scene) == before and not scene.inspector.visible, "A retained Pass-confirmation callback cannot act after Restart closes its stale panel.")
+
+func _forecast_display(scene: Control, viewport: SubViewport, tree: SceneTree, check: Callable, phase: String) -> void:
+	await _reveal(scene, scene.forecast_button, tree)
+	var before := _state(scene)
+	var selection := [scene.selected_uid, scene.selected_cell, scene.selected_tool]
+	var registered: bool = scene.gestures._targets.any(func(entry):
+		var target = entry.control.get_ref()
+		return target != null and (target == scene.forecast_button or scene.forecast_button.is_ancestor_of(target))
+	)
+	check.call(not registered and _display_only_subtree(scene.forecast_button), phase + " forecast and every metric are display-only: no button, focus, gesture registration, pointer capture or tooltip.")
+	# Tap both the outer display and each metric to catch a callback left on
+	# a descendant, then exercise the same long-press and secondary-input paths
+	# that must remain available on cards and board pieces.
+	var targets: Array = [scene.forecast_button]
+	targets.append_array(scene.forecast_grid.get_children())
+	for index in targets.size():
+		_tap(viewport, targets[index])
+		await _layout(tree)
+		check.call(not scene.inspector.visible and _state(scene) == before and [scene.selected_uid, scene.selected_cell, scene.selected_tool] == selection, phase + " forecast tap" + str(index) + " opens no window and changes neither gameplay, RNG nor selection.")
+	_hold(viewport, scene, scene.forecast_button)
+	await _layout(tree)
+	check.call(not scene.inspector.visible and _state(scene) == before and [scene.selected_uid, scene.selected_cell, scene.selected_tool] == selection, phase + " holding the forecast opens no window and preserves gameplay, RNG and selection.")
+	_right_click(viewport, _point(scene.forecast_button))
+	await _layout(tree)
+	check.call(not scene.inspector.visible and _state(scene) == before and [scene.selected_uid, scene.selected_cell, scene.selected_tool] == selection, phase + " right-clicking the forecast opens no window and preserves gameplay, RNG and selection.")
+
+func _display_only_subtree(node: Node) -> bool:
+	if node is BaseButton: return false
+	if node is Control and (node.mouse_filter != Control.MOUSE_FILTER_IGNORE or node.focus_mode != Control.FOCUS_NONE or not node.tooltip_text.is_empty()): return false
+	for child in node.get_children(true):
+		if not _display_only_subtree(child): return false
+	return true
 
 func _gesture_conflicts(scene: Control, viewport: SubViewport, tree: SceneTree, check: Callable) -> void:
 	scene._exact_replay()

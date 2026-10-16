@@ -1,5 +1,398 @@
 # Rune Cast verification record
 
+## October 16, 2026 — Unused resource cleanup
+
+Removed the exact 2,221 project files in the [completed ledger](../output/qa/resource-cleanup-2026-10-16/deletion-manifest.json), totaling 1,370,344,711 bytes. A temporary validation raster created during the checks was also removed and recorded separately. The cleanup changed no live gameplay or rendered artwork: the 450×1000 opening screen is [pixel-identical before and after](../output/qa/resource-cleanup-2026-10-16/screen-comparison.json). [Post-cleanup screen](../output/qa/resource-cleanup-2026-10-16/normal-desktop.png).
+
+| Executed check | Result |
+| --- | --- |
+| Pinned Godot import | Passed; existing Android build-tools warning remains. |
+| Actual game integration | 2,578 checks, 0 failures; [results](../output/qa/resource-cleanup-2026-10-16/runtime/results.json). |
+| Editable UI source and active exports | 241 checks, 0 failures; [report](../output/qa/resource-cleanup-2026-10-16/ui-source-validation.json). |
+| Resource references/imports/preservation | 1,158 checks, 0 failures; [report](../output/qa/resource-cleanup-2026-10-16/resource-audit.json). |
+| Exact cleanup and retained-file hashes | [Validation record](../output/qa/resource-cleanup-2026-10-16/cleanup-validation.json). |
+
+The generator now omits the unused pile alias and eight non-node SVG exports, and rasterizes validation intermediates in memory. Source validation checks the state layers directly in their retained ORA instead of depending on scratch PNGs removed by an earlier cleanup. The source masters and visible state cues remain unchanged. Runtime retirement exceptions require the exact completed owner-authorized manifest, matching original hashes and absent files; unrelated missing assets still fail.
+
+The broader legacy RC-010 [planning audit](../output/qa/resource-cleanup-2026-10-16/asset-plan-validation.json) still flags the existing Combat readiness classification and 14 gameplay/test files changed since its historical baseline. Those files are byte-identical to this cleanup's starting snapshot; their older changes were not part of this task. Current links, asset references and cleanup preservation are checked separately. No Git operation was used.
+
+## October 16, 2026 — Generated painted status frame
+
+The status bar now uses a complete painted PNG from the built-in image tool, replacing the rejected code-drawn outline. [Actual game screen](../output/qa/rc-016/stats-generated-frame/normal-desktop.png) and [before/after](../output/qa/rc-016/stats-generated-frame/before-after.png) were visually inspected. The original generated pixels and alpha are preserved, with generation [prompt/provenance](../source-assets/ui/combat/reference/status-frame/provenance.json) recorded. No specific model version was exposed by the tool.
+
+| Executed check | Result |
+| --- | --- |
+| Generated frame continuity, source and containment | 47 checks, 0 failures: [results](../output/qa/rc-016/stats-generated-frame/focused/results.json). |
+| Actual-scene integration | 2,578 checks, 0 failures: [results](../output/qa/rc-016/stats-generated-frame/runtime/results.json). |
+| Resources and preservation | 1,230 checks, 0 failures: [report](../output/qa/rc-016/stats-generated-frame/resource-audit.json). |
+
+All nine width/presentation combinations retain a connected gold enclosure; negative controls reject the earlier open-sided frame. An independent source-grid sampling oracle compares the real render to the generated texture across 68,332 samples (mean RGB error about 0.00256). Live content changes none of the 15,932 protected near-opaque gold pixels at 720/450/360 widths, and divider clearance remains 47/21/8px. Unlike the earlier separate-fill implementation, this PNG contains both frame and face, so source fidelity and live-content protection replace the obsolete red-fill injection test.
+
+The imported texture is 768×305 (936,960 decoded bytes); the conservative ceiling audit rounds its height to 306 and totals 31.674 MiB including all retained poses and reserved VFX. Import/capture completed with the known Android build-tools warning; desktop checks passed. No source-art painting script or Git operation was used. Earlier entries below are superseded where they describe locally drawn borders.
+
+## October 16, 2026 — Drawn status border
+
+The owner rejected the patched ends and requested a proper drawn border. The status frame now has a continuous gold bezel, chamfered corners and straight separators, with unchanged row size/content padding. [Full screen](../output/qa/rc-016/stats-drawn-border/normal-desktop.png) and [comparison (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) show the new implementation. Earlier endcap/source-equality evidence below describes the superseded renderer.
+
+| Executed check | Result |
+| --- | --- |
+| Drawn border continuity and containment | 48 checks, 0 failures: [results](../output/qa/rc-016/stats-drawn-border/focused/results.json). |
+| Actual-scene integration | 2,574 checks, 0 failures: [results](../output/qa/rc-016/stats-drawn-border/runtime/results.json). |
+| Resources and preservation | 1,220 checks, 0 failures: [report](../output/qa/rc-016/stats-drawn-border/resource-audit.json). |
+
+The focused test requires a connected gold enclosure on all four sides at native/0.625/0.5 presentation scales across three viewport layouts, and rejects the earlier open-sided artwork. Red-fill injection and live contents leave all7,188/4,728/3,828 protected gold pixels unchanged at720/450/360 widths. Only antialiased divider fringes, which blend with the fill, are excluded from the opaque-divider protection check; every bezel pixel stays protected. Original source PNGs remain unchanged, no new bitmap was introduced, and no Git operation ran.
+
+## October 16, 2026 — Status-bar end borders
+
+The owner identified the open left/right edges of the Health/Energy/Turn bar. The original source has disconnected corner flares, and prior source-equality checks preserved that defect. Both sides now use matching gold divider artwork to connect their upper and lower rails. [Before/after (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [full screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [native360 closeup (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+| Executed check | Result |
+| --- | --- |
+| Focused stats/endcap regression | 58 checks, 0 failures: [results](../output/qa/rc-016/stats-endcaps/focused/results.json). |
+| Actual-scene integration and paint | 2,573 checks, 0 failures: [results](../output/qa/rc-016/stats-endcaps/runtime/results.json). |
+| Resources, imports and preservation | 1,220 checks, 0 failures: [report](../output/qa/rc-016/stats-endcaps/resource-audit.json). |
+
+The focused test requires connected visible gold from top to bottom at both ends, at all three native widths and presentation scales1/0.625/0.5. It rejects all three previous full-screen-polish skins, which have57 combined missing gold rows and no connected side path. Each width protects760 added-cap pixels against red-fill injection and live content, with zero changes and zero exterior opaque pixels. The untouched original corners retain515 source samples each (maximum RGB error0.00240). The existing row dimensions, content padding, dividers and live state bindings remain unchanged. No new bitmap, source PNG edit, gameplay change or Git operation. Tests use desktop-rendered viewports, not physical devices.
+
+## October 15, 2026 — Full-screen reference polish
+
+This pass reviews the complete production screen against the approved portrait at equal width. It adopts the original neutral actor and visible scenery, original stats rails with a contained 36 px well, seven clean socket-face variants, complete ribbon ends, normal-width Combat fonts and masked original navigation/resource icons. Tool and navigation content use separate padded lanes; Remove/Rotate are 36×36 at y10 with an 8 px interior gutter. The previous Cast face-continuity fix and all later owner UI exceptions remain. [Current screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [implementation details](rc-016-integration.md#october-15-2026--full-screen-reference-polish) and [QA directory](../output/qa/rc-016/full-screen-polish/) are the current evidence entry points. Earlier dated results below describe their respective implementations.
+
+| Confirmed check | Result |
+| --- | --- |
+| UI smoke | 601 checks, 0 failures: [log](../output/qa/rc-016/full-screen-polish/smoke/smoke.log). |
+| Focused player-status frame | 40 checks, 0 failures: [results](../output/qa/rc-016/full-screen-polish/stats-focused/results.json). |
+| Surface sampling and containment | 35 checks, 0 failures: [results](../output/qa/rc-016/full-screen-polish/surface-probe.json). |
+| Original actor/scenery rendering | 8 checks, 0 failures: [results](../output/qa/rc-016/whole-screen-art/arena-focused/results.json). |
+| Core rules regression | 1,453 checks, 0 failures: [log](../output/qa/rc-016/full-screen-polish/core/test.log). |
+| Actual-scene integration and paint | 2,573 checks, 0 failures, 115 captures: [results](../output/qa/rc-016/full-screen-polish/runtime/results.json). |
+| Reference geometry and responsive layout | 257 checks, 0 failures, 11 captures: [results](../output/qa/rc-016/full-screen-polish/measurements/results.json). |
+| Touch, keyboard and legal circuits | 146 checks, 0 failures: [results](../output/qa/rc-016/full-screen-polish/touch/results.json). |
+| Cast face continuity | 78 checks, 0 failures: [results](../output/qa/rc-016/full-screen-polish/cast-focused/results.json). |
+| Resources, imports and source preservation | 1,220 checks, 0 failures: [report](../output/qa/rc-016/full-screen-polish/resource-audit.json). |
+| Original Begin marker and rotation | 44 checks, 0 failures: [results](../output/qa/rc-016/full-screen-polish/begin-proof-results.json). |
+
+The actor and scenery recombination matches all 360,002 tested visible source pixels with zero RGB error, outside the four small live-label holes. The [pixel report](../output/qa/rc-016/whole-screen-art/actor-arena-pixel-proof.json), [recombined arena (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [isolated actor (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) establish that source-level result. Focused checks also cover neutral/attack restoration and preservation of the face, lantern, free hand and boots. This evidence does not assert whole-screen pixel identity.
+
+Actual isolated Godot renders show masked [navigation (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [resource icons (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) against contrasting backgrounds, plus [compact cards and piles (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). The [font/layout probe](../output/qa/rc-016/full-screen-polish/typography-fit.json) records fitting opening-card copy, the unchanged small cost glyphs and padded pile captions. The production icon helper updates texture and mask together, including clearing the mask for Sound off.
+
+The [equal-width full-screen comparison (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) shows the approved painting, normal opening and existing legal Belfry circuit. Different live values, hands and circuits are not forced to match the illustration. Final runs cover 720×1600, 450×1000 and 360×640 native layouts, including lower-page scrolling. The first integration pass caught stock-count line boxes extending 2 px below their inset and navigation content touching its padded well; a second pass found a 0.403 px native Sound-label overrun. Production line spacing and inset lanes were corrected, with Sound reduced to 16 px only below 400 px. Containment assertions were preserved. Failed reports remain alongside final evidence. Cast now uses a local weight850 variation with a 4 px outline while retaining its fitted size.
+
+The exact raster typeface remains unidentified, generated Attack/Spark and board glyphs remain among the fallbacks, and paint hidden by original labels is reconstructed from clean source patches. Source PNGs were not repainted; the unused generated neutral's runtime/import/cache retirement is recorded in the [cleanup manifest](../output/qa/rc-016/whole-screen-art/actor-cleanup-manifest.json). No Git operations were performed. These desktop renders do not establish physical-device acceptance.
+
+Begin also uses its original painted circle, sampled from source `(123,663,96,94)` into the unchanged endpoint glyph rectangle with a contour mask. Its caption remains live and its connection rotates independently. The [isolated render (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [four-rotation proof (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) find no baked gold-wire or white-caption contamination. End retains its SVG: the original gold wire crosses its top ring and baked END lettering overlaps the lower opening, so the complete clean glyph cannot be extracted from that flat source.
+
+## October 15, 2026 — Cast face continuity
+
+The owner's close-up showed a vertical colour break at the Cast button's right point. The generic nine-slice renderer replaced only the rectangular centre with a clean turquoise sample; the endcaps retained the darker original face. Those different samples met at source x191 and x649. This was a paint-sampling defect, independent of the existing whole-button unavailable tint.
+
+Cast now has one continuous texture mapping through both pointed ends, clipped to its inner contour. The approved cyan bevel and gold rim draw separately. The face keeps the original middle slice's vertical alignment; a clean strip at the same source height replaces old crystal-tip and cost-shadow pixels along the lower rim. The first candidate exposed those baked fragments and is retained in the `first/` QA folder. The final contour and source rectangles are recorded in `source-assets/ui/combat/reference/regions.json`. Original PNGs, button dimensions, live label/cost, disabled safeguards and casting behavior are unchanged.
+
+Actual final gameplay captures: [unavailable Cast (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [ready Cast (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). Independent visual review of both states and the isolated skin confirms the former endcap seam is gone, the cyan/gold rim remains visible, and no extra baked symbol remains. The resource/import/preservation audit passes 1,221 checks with no errors: [report](../output/qa/rc-016/cast-face-continuity/resource-audit.json). No new bitmap asset or Git operation was used.
+
+| Executed check | Result |
+| --- | --- |
+| Focused Cast regression | 78 checks, 0 failures: [results](../output/qa/rc-016/cast-face-continuity/focused/results.json). Actual ready/unavailable buttons at 720×1600, 450×1000 and 360×640. |
+| Existing actual-scene integration | 2,554 checks, 0 failures, 113 captures: [results](../output/qa/rc-016/cast-face-continuity/runtime/results.json). |
+| Resources, imports and preservation | 1,221 checks, 0 failures: [report](../output/qa/rc-016/cast-face-continuity/resource-audit.json). |
+
+The focused test independently samples the approved material at both former cap boundaries and across the full inner face. It rejects every retained pre-fix raster, checks the original rim and clean lower strip against the atlas, and injects a red face to prove the rim cannot be recoloured by the fill. Actual live tips match the isolated skin with the expected ready/unavailable tint. The first full run exposed an oracle rounding error: multiplying an already quantized white capture by the tint differed from tinting before GPU output. The test now renders its expected tint through the same GPU path; the tolerance was not widened and production code did not change. [Initial results](../output/qa/rc-016/cast-face-continuity/focused/pre-quantization-correction-results.json) retain that evidence.
+
+Commands executed: pinned Godot `tests/ui_cast_face_capture.gd` and `tests/ui_art_integration_capture.gd`; `tools/godot.ps1 -Action capture` for opening and the built Belfry fixture; and `python tools/validate_combat_art.py --report output/qa/rc-016/cast-face-continuity/resource-audit.json`. The initial test launch could not open logs before the output folders existed; both suites completed and wrote their JSON reports, and the final focused rerun has a clean saved log. These are desktop-rendered viewport checks, not physical-device acceptance.
+
+## October 15, 2026 — Stats inner frame correction
+
+The owner's close-up identified the same Health/Energy/Turn bar's inner background. The preceding outer-silhouette and rail-continuity checks did not verify the diagonal inner bevel. The 27/11 source caps and rectangular center replacement cut through that bevel, leaving a thin outer rail while replacing some gold with navy material.
+
+The stats renderer now separates its layers: the clean material is clipped to an eight-point inner recess, then the original painted rim is drawn over it as a ring. The 40/19 source caps preserve full corners at the uniform 54/79 height scale; only the long horizontal spans stretch. Clean recess samples remove the original Shield tip and Incoming descenders without replacing the upper gold rail. Dividers stay in the existing 30 px content well. The bar remains 54 px high with unchanged live icons, labels, values and padding. Other surfaces and gameplay are unchanged.
+
+Reviewed actual live-row crops [before (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [after (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), plus the [full playable screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). Independent visual review confirms intact inner gold corners and no residual source glyphs. The resource audit passes 1,221 checks with no errors: [report](../output/qa/rc-016/stats-inner-frame/resource-audit.json). Original source PNGs remain unchanged.
+
+The live-row comparison then found an additional cause: at 720 px, the arena's full-width art bleed painted over the stats row's top three pixels. Its art/status layers use z20–22, while the stats row was at z0. Stats now draws at z30, below the inspector at z100, preserving arena crop, pose allocation and all layout dimensions. The [failed live comparison](../output/qa/rc-016/stats-inner-frame/focused/live-overlap-before-results.json) and [before image (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) retain the evidence.
+
+| Executed check | Result |
+| --- | --- |
+| Focused inner-frame regression | 34 checks, 0 failures: [results](../output/qa/rc-016/stats-inner-frame/focused/results.json). Actual live rows at 720×1600, 450×1000 and 360×640. |
+| Existing actual-scene integration | 2,554 checks, 0 failures, 113 captures: [results](../output/qa/rc-016/stats-inner-frame/runtime/results.json). |
+| Resources, imports and preservation | 1,221 checks, 0 failures: [report](../output/qa/rc-016/stats-inner-frame/resource-audit.json). |
+
+The focused test injects a bright red face through the production renderer. All 27,159 protected rim pixels across the three widths remain exactly unchanged, while the face changes. An independent original-atlas corner comparison rejects the prior v4 raster, establishing that the new test catches the earlier failure. Live icons, text, Turn parchment and arena paint leave the protected rim unchanged within one 8-bit compositing step. [Native 360 closeup (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [red-fill probe (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) expose the protected boundary directly. Existing stats-content checks retain the 24/11/24/13 padding contract; their old cap-based well calculation and separator probes were updated to the corrected frame geometry.
+
+Commands executed: pinned Godot `tests/ui_stats_frame_capture.gd`, `tests/ui_art_integration_capture.gd`, and the saved `output/qa/rc-016/stats-inner-frame/capture_live_stats.gd` witness; `tools/godot.ps1 -Action capture`; and `python tools/validate_combat_art.py --report output/qa/rc-016/stats-inner-frame/resource-audit.json`. Final renders complete without script or resource errors. Core rules, input behavior, source PNGs and RC-017 interfaces are unchanged; no Git operations or physical-device tests were performed.
+
+## October 15, 2026 — Display-only forecast and frame cleanup
+
+The Damage/Shield/Cost strip above Cast is now a nonfocusable, pointer-transparent `Control`. It has no button action, gesture registration, hover tooltip or details-window callback. Its three values still read the controller forecast; card/piece/tool inspection, pile inspection and confirmed Pass remain available. Guide text and current consumer contracts describe the display-only behavior.
+
+The player-status artwork is rebuilt around a closed gold frame, using the approved forecast frame's clean rim and the original unmarked stats material. The previous stats crop shared its bottom rail with the board and used incompatible endcaps. The replacement retains the 54 px footprint and padded 30 px content well; both separators end inside the frame instead of repainting its rails. The board crop now ends at source y1255, excluding the adjoining toolbar corner. Its thin outside line also involved original border pixels leaking through the separately scaled page-edge background and a fractional seam exposing candle underpaint. The right background strip now samples clean rock at x824, with overlap under the live frame. An isolated board capture alone was insufficient to verify that defect.
+
+Actual final captures: [opening (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [completed circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [native 360 upper screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [native 360 lower screen (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [stats closeup (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [cleaned right edge (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). Earlier dated claims that the forecast opens details are superseded by this owner-requested change.
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 601 checks, 0 failures: [log](../output/qa/rc-016/mobile-polish-v4/smoke/smoke.log). |
+| Rendered integration and paint | 2,554 checks, 0 failures, 113 captures: [results](../output/qa/rc-016/mobile-polish-v4/runtime/results.json). |
+| Reference geometry/content | 257 checks, 0 failures, 11 captures: [results](../output/qa/rc-016/mobile-polish-v4/measurements/results.json). |
+| Rendered touch/keyboard and built circuits | 146 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish-v4/touch/results.json). |
+| Resources, imports and preservation | 1,221 checks, 0 failures: [report](../output/qa/rc-016/mobile-polish-v4/resource-audit.json). 530 protected files unchanged, plus the two previously authorized resource-script amendments. |
+
+Real input checks tap the forecast and each metric, hold it and right-click it in incomplete and valid circuits. They verify no inspector, button/focus/gesture target, gameplay mutation, random-stream change or selection change. Existing inspection, confirmed/cancelled Pass, casting, terminal and scrolling checks remain. Raster checks cover continuous stats rails, transparent outer corners, clean material and gaps above/below both dividers. Backdrop probes scan the former seam and original gold-fragment region at each actual page size, including narrow scrolling layouts.
+
+The first runtime attempt found one test-coordinate error: the isolated surface preview used art scale 1 while production uses 720/841. The original divider-gap probes landed on the divider itself. [First results](../output/qa/rc-016/mobile-polish-v4/runtime/first-attempt-results.json) and [log](../output/qa/rc-016/mobile-polish-v4/runtime/first-attempt-capture.log) are retained. The corrected production-scale probes additionally require complete blue rows across both separator gaps; the final runtime rerun passes without a production-code change.
+
+Commands executed: `tools/godot.ps1 -Action smoke`, normal and `board_belfry`/`built` captures; pinned Godot scripts `tests/ui_art_integration_capture.gd`, `tests/ui_reference_match_capture.gd` and `tests/ui_undirected_capture.gd` with their v4 output directories; and `python tools/validate_combat_art.py --report output/qa/rc-016/mobile-polish-v4/resource-audit.json`. Final gameplay captures and rendered suites have no script or missing-resource errors; deliberate invalid-startup fixtures retain their expected diagnostics. No new bitmap was generated or source PNG changed. No Git operation ran.
+
+This verifies the requested presentation and input changes in desktop-rendered viewports. Physical-device acceptance and complete-screen pixel identity remain unclaimed. Core rules and RC-017 interfaces are unchanged; the previously recorded character-pose continuity work remains for animation integration.
+
+## October 15, 2026 — Header order and connector rotation
+
+The full-width header now places Rune Cast on the left and the right-aligned live floor name on the right, retaining 16 px outer padding and a 12 px gap. Split and Join keep their original operation symbols upright while their lines follow the rotated logical ports. The top-left card frame now samples a horizontally mirrored clean top-right corner, replacing the incorrectly oriented bottom-left sample and its below-frame background. All four card materials retain their footprint and 25×29 cost gems. [Opening (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [connected circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [card-corner proof (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 595 checks, 0 failures: [log](../output/qa/rc-016/mobile-polish-v3/smoke/smoke.log). |
+| Rendered integration, rotation and paint | 2,529 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish-v3/runtime/results.json). Actual gameplay and native 720×1600, 450×1000 and 360×640 views remain covered. |
+| Reference geometry/content | 250 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish-v3/measurements/results.json). |
+| Resources, imports and preservation | 1,221 checks, 0 failures: [report](../output/qa/rc-016/mobile-polish-v3/resource-audit.json). Original source PNGs and fonts are unchanged. |
+
+The 32 connector renders cover both operation types, four rotations, lit/idle states and two cell sizes. Central glyph pixels remain invariant; independent edge samples and explicit clockwise port sets verify that wires change direction. Actual Rotate taps on installed Split/Join change authoritative orientation without spending resources. The foreground symbol and its lines remain separate layers; the evaluator and port definitions were not changed. Compare [Split before (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) / [after (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [Join before (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) / [after (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). Factory-card raster samples independently check the upper-left rim colour for damage, shield, technique and mixed cards, without changing or enlarging the cost symbol to cover the gap.
+
+Commands executed: `tools/godot.ps1 -Action smoke`; normal and `board_belfry`/`built` captures; pinned Godot `tests/ui_art_integration_capture.gd` and `tests/ui_reference_match_capture.gd` with their v3 capture directories; `python tools/validate_combat_art.py --report output/qa/rc-016/mobile-polish-v3/resource-audit.json`; and the isolated card-corner render. The rendered integration suite exercises touch/keyboard behavior; the separate 119-check touch suite and legacy planning audit were not rerun for this presentation-only change. Final captures/logs contain no script or missing-resource errors. No Git operation was performed. Physical-device testing remains outstanding.
+
+## October 15, 2026 — Header and reference pile correction
+
+Restored the approved Rune Cast wordmark on the right, retained the live floor name on the left, and made the 52 px header span the viewport. A 12 px gap separates the floor label from the wordmark. [Opening (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [completed circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [native lower controls (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) are actual final gameplay captures.
+
+The remaining stats overlap was source backdrop outside its painted outline. The Pass-side line came from the toolbar's left slice including pixels from the reference WIRING label. Both sampling defects are corrected without changing the controls' padding. `ReferencePile` now uses each approved pile's distinct original body, compass/skull and plaque at uniform scale, with live counts/captions. The obsolete generic deck renderer was removed. Card cost gems are 25×29 with 20 px numerals, down from 34×38 with 26 px numerals. All source PNGs and fonts are unchanged.
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 595 checks, 0 failures: [log](../output/qa/rc-016/mobile-polish-v2/smoke/smoke.log). |
+| Rendered integration and paint | 2,273 checks, 0 failures, 74 captures: [results](../output/qa/rc-016/mobile-polish-v2/runtime/results.json). Includes 720×1600, 450×1000, native 360×640, rebuilding, resizing and terminal states. |
+| Reference geometry/content | 250 checks, 0 failures, 11 captures: [results](../output/qa/rc-016/mobile-polish-v2/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish-v2/touch/results.json). |
+| Resource/import/preservation audit | 1,221 checks, 0 failures: [report](../output/qa/rc-016/mobile-polish-v2/resource-audit.json). 530 protected files unchanged plus the two previously authorized resource-script amendments. |
+| Pile geometry/lifecycle | Correct original source mappings, live count padding, reduced card costs and 250 teardown cycles: [log](../output/qa/rc-016/mobile-polish-v2/pile-layout-probe.log). |
+
+New checks examine actual paint, not only control rectangles. Stats exterior pixels are transparent; the Pass-side sample contains clean slate; the header paints both outer corners; and each pile emblem is compared against independently sampled original atlas pixels (mean RGB error below 0.001 from linear scaling). Close-up review caught 36 stray pixels from the original Discard caption: [before evidence](../output/qa/rc-016/mobile-polish-v2/runtime/caption-leak-before.json). The final silhouette excludes that row, and both gaps above the live captions contain zero opaque pixels. [Final isolated Discard (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup). Earlier test assumptions and the first attempted header construction are retained in the versioned QA folder; final gameplay captures have no script/resource errors.
+
+Commands executed: `tools/godot.ps1 -Action smoke`, normal and `board_belfry`/`built` captures; pinned Godot scripts `tests/ui_art_integration_capture.gd`, `tests/ui_reference_match_capture.gd`, `tests/ui_undirected_capture.gd`; `python tools/validate_combat_art.py`; and `python tools/validate_asset_plan.py`, with reports under `output/qa/rc-016/mobile-polish-v2`. The legacy asset-plan validator still rejects the existing `integrated` reference-art record with unresolved rights and reports changed files against its RC-010-era preservation baseline; its [report](../output/qa/rc-016/mobile-polish-v2/asset-plan-validation.json) is not recorded as passing. The current RC-016 resource/preservation audit passes. Updated pile consumer mappings and all new local documentation links are checked separately.
+
+No core rules changed or Git operation ran. No new bitmap was generated and no shared source asset was removed. Desktop render/interaction results do not establish physical-device acceptance or complete-screen pixel identity. RC-017 integration APIs remain available; the previously recorded pose-continuity work remains.
+
+## October 15, 2026 — Mobile presentation corrections
+
+Corrected the owner's marked mobile presentation issues in the playable Combat screen. [Opening capture (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [completed circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) show the final result. The floor heading occupies the top left; the wordmark, Pause and BOSS label are absent. Stats content fits its 30 px interior. Pass parchment and Cast samples are clipped to their painted outlines. The x/slashed-circle state badges and hover tooltips are suppressed in production, while disabled-action guards, focus, selection, tap/hold inspection and confirmed Pass remain functional. Discard's artwork is mirrored; both pile symbols are centered on their front card, with upright live counts and captions.
+
+Navigation separates icon and caption lanes inside the 82 px frame. The first/last segments use 26 px outer and 8 px inner horizontal padding to clear the sloped rails. Captions use 18 px type, or 17 px at native widths below 400. Visible font bounds, including descenders, retain at least 4 px clearance from the frame and 2 px from the icon. Existing circuit-control gutters remain at least 6 px.
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 595 checks, 0 failures: [final log](../output/qa/rc-016/mobile-polish/smoke-final/smoke.log). |
+| Rendered integration and containment | 2,065 checks, 0 failures, 69 captures across 720×1600, 450×1000 and native 360×640 plus resizing: [results](../output/qa/rc-016/mobile-polish/runtime/results.json). |
+| Reference geometry and content | 247 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/mobile-polish/touch/results.json). |
+| Resources, imports and preservation | 1,219 checks, 0 failures: [report](../output/qa/rc-016/mobile-polish/resource-audit.json). 530 protected files are unchanged; the two previously authorized resource amendments remain hash-bound. No source PNG, font or gameplay data was changed. |
+| Pile lifecycle | Geometry and 250 create/resize/text-change/free cycles pass: [probe log](../output/qa/rc-016/mobile-padding/pile-layout-probe.log). |
+
+Verification caught and corrected a 1 px stats-height expansion, first/last navigation content reaching the outer rails at native 360, and deferred layout callbacks retaining freed controls. The [initial smoke log](../output/qa/rc-016/mobile-polish/smoke/smoke.log), [initial runtime log](../output/qa/rc-016/mobile-polish/runtime/first-attempt.log) and [second runtime results](../output/qa/rc-016/mobile-polish/runtime/second-attempt-results.json) preserve those failed attempts. Main surface callbacks now validate captured controls; pile layout resolves weak references, rejects deleted children and coalesces deferred fitting. The final suites complete without the earlier native crash or script errors. Deliberate invalid-startup fixtures still emit their expected diagnostic messages.
+
+Commands executed: `tools/godot.ps1 -Action smoke`, normal and `board_belfry`/`built` captures; pinned Godot scripts `tests/ui_art_integration_capture.gd`, `tests/ui_reference_match_capture.gd` and `tests/ui_undirected_capture.gd` with capture directories under `output/qa/rc-016/mobile-polish`; and `python tools/validate_combat_art.py --report output/qa/rc-016/mobile-polish/resource-audit.json`. The core evaluator was unchanged, so its earlier recorded regression was not rerun for these presentation corrections. No Git operation was performed.
+
+This is desktop render and interaction verification, not physical-device acceptance or a claim of pixel-identical artwork. No new bitmap assets were introduced. The full-pack dimensional estimate remains 31.777 MiB including the future 2 MiB VFX allowance; actual device residency was not measured. RC-017 may continue using the existing integration APIs, with character-pose visual continuity and device validation still outstanding as recorded in the preceding handoff.
+
+## October 15, 2026 — Approved reference artwork adoption
+
+The owner requested the remaining artwork differences be corrected. The playable screen now samples separable clean decoration from the unchanged approved painting and uses three new built-in GPT Image outputs for the neutral character, obscured arena center and painted icons. [Opening comparison (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [completed-circuit comparison (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), and [visual review](../output/qa/rc-016/reference-art/visual-review.json) show the current result. These images are actual normal-game captures; source reconstruction and game-state differences remain visible and exact whole-screen equality is not asserted.
+
+| Executed check | Result |
+| --- | --- |
+| Core/controller/content | 1,453 checks, 0 failures: [log](../output/qa/rc-016/reference-art/core/test.log). |
+| UI smoke | 594 checks, 0 failures: [log](../output/qa/rc-016/reference-art/smoke/smoke.log). |
+| Rendered integration and containment | 1,643 checks, 0 failures, 69 captures: [results](../output/qa/rc-016/reference-art/runtime/results.json). |
+| Reference geometry and content | 247 checks, 0 failures: [results](../output/qa/rc-016/reference-art/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/reference-art/touch/results.json). |
+| Resources, imports and preservation | 1,220 checks, 0 failures: [report](../output/qa/rc-016/reference-art/resource-audit.json). 530 protected files unchanged; two resource scripts have explicit hash-bound [owner-directed amendments](../source-assets/ui/combat/reference/authorized-resource-changes.json). |
+
+The first integration run found a 2 px toolbar gutter shortfall, preserved in [first-attempt results](../output/qa/rc-016/reference-art/runtime/first-attempt-results.json). Final side insets are 32 logical pixels, with 7 px desktop / 5 px narrow inter-control gaps. The minimum 6 px painted-frame clearance remains independently checked. Full-width arena geometry is checked separately from status content geometry; BOSS sits between the boots as in the reference, while name and health remain below the feet. Card categories, Incoming and Cast caption remain absent, and forecast groups remain centered.
+
+Final import limits are 512 px for the new neutral, 960 px for the generated arena center, 768 px for the icon sheet and 1024 px for the retained underpaint. All original PNG bytes remain unchanged. The actual rendered texture census is 20,467,784 RGBA8 bytes (19.52 MiB); the deliberately broader full-pack estimate including optional poses and a future 2 MiB VFX allowance is 31.777 MiB against the provisional 32 MiB subtotal. These are dimensional estimates, not measured device residency or frame time. The approved atlas stays at its full 841×1870 resolution.
+
+Commands executed: `tools/godot.ps1 -Action import`, `-Action test`, `-Action smoke`, normal and `board_belfry`/`built` captures; pinned Godot scripts `tests/ui_art_integration_capture.gd`, `tests/ui_reference_match_capture.gd`, `tests/ui_undirected_capture.gd` with capture directories below `output/qa/rc-016/reference-art`; and `python tools/validate_combat_art.py --report output/qa/rc-016/reference-art/resource-audit.json`. Final import and captures have no missing-resource, script or shader errors. The host reports missing Android build-tools; no mobile export or physical-device test is claimed.
+
+The [cleanup manifest](../output/qa/rc-016/reference-art/deletion-manifest.json) records removal of the 18 superseded generated surface PNGs, their imports and exact caches: 72 files / 24,856,901 bytes. Approved references, shared canonical source packs, fonts, retained hit/attack art and gameplay data remain. RC-017 can use the same APIs, but the newly referenced neutral and retained attack/hit paintings still need a visual continuity pass before production animation approval.
+
+## October 15, 2026 — Full-screen reference alignment
+
+Compared the entire game to the approved image at identical display dimensions, then corrected typography, icon sizes, positions and spacing while applying the owner's card-category and Incoming removals. [Interactive comparison (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [opening (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [active circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 594 checks, 0 failures: [log](../output/qa/rc-016/full-screen-alignment/smoke/smoke.log). |
+| Rendered integration and content containment | 1,675 checks, 0 failures: [results](../output/qa/rc-016/full-screen-alignment/runtime/results.json). |
+| Reference geometry and content | 247 checks, 0 failures: [results](../output/qa/rc-016/full-screen-alignment/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/full-screen-alignment/touch/results.json). |
+| Resource/preservation audit | 1,352 checks, 0 failures; all 532 protected hashes unchanged: [report](../output/qa/rc-016/full-screen-alignment/resource-audit.json). |
+
+New checks assert category-line absence, one card divider, complete opening copy, icon/title/effect separation, three centered forecast groups without Incoming, and endpoint containment/separation across all four rotations at three sizes. Existing 6 px toolbar gutter, full portrait visibility, live values and interaction assertions remain. The [first integration attempt](../output/qa/rc-016/full-screen-alignment/runtime/first-attempt-results.json) caught editing-feedback height growth, a narrow Straight title wrap and a narrow Damage group overflow; all were fixed without weakening bounds. Source artwork and font binaries remain unchanged. Visual comparison establishes the implemented proportions and intentional removals, not identical artwork or identification of the painting's original font.
+
+## October 15, 2026 — Circuit button padding
+
+The owner requested visible padding between the circuit buttons and the frame beyond merely clearing its border. The toolbar's top and bottom borders are lighter, side insets are 30 px, and desktop button separation is 8 px. Button height, text/glyph sizes and desktop section positions remain unchanged. [Current desktop view (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+Rendered integration passes **1,395 checks, 0 failures** ([results](../output/qa/rc-016/circuit-padding/runtime/results.json)); reference layout passes **247 checks, 0 failures** ([results](../output/qa/rc-016/circuit-padding/measurements/results.json)). The new assertion maps independently sampled slate bounds through the actual nine-slice transform and requires at least 6 px of visible gutter around every toolbar control. It covers normal and two-row layouts. Desktop visual comparison confirms visible space above/below the circuit slots and stable text size. No new bitmap assets were created.
+
+## October 15, 2026 — Painted-frame containment
+
+The follow-up screenshot exposed a gap in the prior checks: children could stay inside a Control rectangle while overlapping its painted gold rim. The corrected layout uses independently measured interior bounds for both stats and toolbar. [Final desktop view (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 594 checks, 0 failures: [log](../output/qa/rc-016/frame-containment/smoke/smoke.log). |
+| Rendered integration and painted-content containment | 1,353 checks, 0 failures: [results](../output/qa/rc-016/frame-containment/runtime/results.json). |
+| Reference geometry and content | 247 checks, 0 failures: [results](../output/qa/rc-016/frame-containment/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/frame-containment/touch/results.json). |
+| Resource/preservation audit | 1,352 checks, 0 failures; all 532 protected hashes unchanged: [report](../output/qa/rc-016/frame-containment/resource-audit.json). |
+
+The new assertions inspect full Label and TextureRect bounds, actual painted destinations, individual stats segments, padded Turn/Pass parchment, every toolbar input, stock title/glyph/count separation and editing icon/caption clearance. Native 720×1600, 450×1000 and 360×640 layouts and resize paths pass. The first two strengthened runs caught narrow-screen outer-edge and separator overflow; both reports are retained as [first pass](../output/qa/rc-016/frame-containment/runtime-first-pass.json) and [second pass](../output/qa/rc-016/frame-containment/runtime-second-pass.json). Final desktop and narrow captures were visually inspected. Existing board/card positions and production gameplay are preserved.
+
+## October 15, 2026 — Annotated-area correction
+
+The owner's highlighted screenshot exposed inner-content issues beyond the prior section-bound tests. The correction removes the production **Cast ends turn** label/strip, moves and enlarges intent/boss text, constrains the stats crystal, aligns toolbar content with its painted controls, enlarges pile plaques/counts and gives navigation more padding. [Final desktop view (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup).
+
+| Executed check | Result |
+| --- | --- |
+| UI smoke | 594 checks, 0 failures: [log](../output/qa/rc-016/highlight-correction/smoke/smoke.log). |
+| Rendered integration and highlighted content | 813 checks, 0 failures: [results](../output/qa/rc-016/highlight-correction/runtime/results.json). |
+| Reference geometry with owner-requested caption/spacing revision | 247 checks, 0 failures: [results](../output/qa/rc-016/highlight-correction/measurements/results.json). |
+| Rendered touch/keyboard and branching | 119 checks, 0 failures: [results](../output/qa/rc-016/highlight-correction/touch/results.json). |
+| Resource/preservation audit | 1,352 checks, 0 failures; all 532 protected hashes unchanged: [report](../output/qa/rc-016/highlight-correction/resource-audit.json). |
+
+New assertions verify caption absence, the energy icon's actual height and containment, count-label centering inside each plaque, non-overlapping pile captions and navigation icon padding. They caught a real 3 px count-label overflow and caption underflow; the final local font metrics and pile height resolve those failures without reducing visible numeral size. The old strict full-pose-envelope status assertion is replaced with clearance below the currently displayed neutral feet. Tests retain actor/crop/scale and live-value checks. Physical-device and exact artwork identity claims are not inferred from desktop results.
+
+## October 15, 2026 — RC-016 reference geometry and typography
+
+The owner's scale/font/spacing rejection led to an independent [reference measurement audit](../output/qa/rc-016/geometry-correction/reference-layout.json), followed by actual renderer assertions against those targets. The normal 720×1600 design canvas now checks the 137×122 sockets, 560×500 grid, 495×54 ribbon, 149×146 cards and centered 640 px forecast/navigation rows within 1–3 px of the normalized layout targets. Tests also cover visible icon content, asymmetric board padding, role-specific fonts, complete card text and zero portrait overflow. The source painting has irregular contours; these are layout tolerances rather than an image-similarity score.
+
+| Check executed | Result and evidence |
+| --- | --- |
+| Core/controller/content | **1,453 checks, 0 failures**, [log](../output/qa/rc-016/geometry-correction/core/test.log). |
+| Actual-scene UI | **594 checks, 0 failures**, [log](../output/qa/rc-016/geometry-correction/smoke/smoke.log). |
+| Rendered art/gameplay integration | **750 checks, 0 failures**, [results](../output/qa/rc-016/geometry-correction/runtime/results.json). AtlasTexture wrappers count their full backing image once; card font roles are checked. |
+| Measured reference geometry/content | **247 checks, 0 failures**, [results](../output/qa/rc-016/geometry-correction/measurements/results.json). [Opening (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [legal branching circuit (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) use real game states. |
+| Final normal desktop and visual review | [450×1000 desktop (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [inspection receipt](../output/qa/rc-016/geometry-correction/visual-review.json). Toolbar adjustment is complete; source-art differences and owner acceptance remain explicitly separate. |
+| Touch/undirected branching | **119 checks, 0 failures**, [results](../output/qa/rc-016/geometry-correction/touch/results.json). |
+| Resources/imports/preservation | **1,352 checks, 0 failures**, [report](../output/qa/rc-016/geometry-correction/resource-audit.json); all 532 protected hashes unchanged. |
+
+The pre-existing broad socket aspect check was replaced by the measured reference ratio with a pixel-rounding tolerance; minimum input sizes and gameplay assertions remain. A Godot native Button with TOP icon alignment was reserving an extra text row after its native icon was removed. Clearing that alignment fixes the overflow without reducing visible text size. Opening card titles and descriptions are complete at the smaller 149×146 footprint.
+
+The same 18 image-generated PNGs are retained unchanged. This pass changes layout, font resources, source-region sampling and live glyph presentation; it creates no new bitmap artwork. The conservative full-pack estimate remains 31.83918 MiB including the future 2 MiB VFX allowance. Reference source-art identity, physical-device behavior and owner visual acceptance are not inferred from these technical passes. Prior screenshot counts and October 14/13 statuses below remain historical.
+
+## October 14, 2026 — RC-016 image-generated painted UI rework
+
+**Historical October14 status:**18 generated painted surfaces were integrated and technical regressions passed. The owner's subsequent scale/typography rejection is addressed above.
+
+The built-in GPT Image tool created the painted 2D surfaces. All 18 selected PNGs remain byte-identical to their tool outputs at `assets/ui/combat/generated/`; Godot samples normalized painted regions and applies import size limits. No local script repainted or regenerated those pixels. Godot still handles live text, icons, circuit connections, values, input and responsive layout. The tool does not expose its model/version, so a specific GPT Image release is not asserted. [Prompts](../source-assets/ui/combat/generated/prompts.json), [per-file provenance and hashes](../source-assets/ui/combat/provenance.json), [source notes](../source-assets/ui/combat/README.md) and the [normal 450×1000 desktop capture (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup) record the implemented approach.
+
+| Check actually executed | Result and evidence |
+| --- | --- |
+| Core/controller/content | **1,453 checks, 0 failures**, [log](../output/qa/rc-016/image-rework/core/test.log). |
+| Actual-scene UI | **594 checks, 0 failures**, [log](../output/qa/rc-016/image-rework/smoke/smoke.log). |
+| Actual rendered art/gameplay integration | **737 checks, 0 failures; 69 listed captures**, [results](../output/qa/rc-016/image-rework/runtime/results.json). |
+| Focused composition and live content | **157 checks, 0 failures; 11 listed captures**, [results](../output/qa/rc-016/image-rework/measurements/results.json). These are measured geometry/content assertions, not a pixel-identity score. |
+| Touch and undirected branching | **119 checks, 0 failures; 18 listed main captures plus nine touch/detail images**, [results](../output/qa/rc-016/image-rework/touch-branch/results.json), [detail images](../output/qa/rc-016/image-rework/touch-branch/touch/). |
+| Standard desktop entry and standalone surfaces | [450×1000 normal desktop after cleanup (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [18-role surface sheet (retired)](asset-cleanup.md#october-16-2026--unused-resource-cleanup), [surface render log](../output/qa/rc-016/image-rework/surface-preview.log). |
+| Image-generation identity | All **18 output PNG hashes** match the selected tool outputs in [provenance](../source-assets/ui/combat/provenance.json). The raw PNG and runtime path are the same retained file, avoiding a redundant duplicate source copy. |
+
+The post-cleanup [resource audit](../output/qa/rc-016/image-rework/resource-audit.json) passes **1,343 checks**, with all **532 protected hashes** unchanged. Its conservative decoded full-pack estimate including the future 2 MiB VFX allowance is **31.83918 MiB** against the provisional 32 MiB subtotal.
+
+The final narrow-screen visual check found and corrected overlap between forecast badges and Incoming text. At native narrow widths, the forecast now uses 82 pixels, a separate 32-pixel Incoming lane and 28-pixel icons; the normal 720-wide layout stays at 62 pixels. The final runtime suite adds explicit separation checks. Refreshed 360-wide opening and 450-wide unaffordable views show separated labels, while the normal desktop still fits the full screen.
+
+The separately executed [legacy asset-plan validator](../output/qa/rc-016/image-rework/asset-plan-validation.json) retains its original RC-010 preservation guard. Its single error lists 14 authorized code/data changes from subsequent RC-016A/RC-016 work; structural, manifest and link checks succeed. The old guard was not modified or relabelled as passing. Current preservation is measured against the separate 532-file RC-016 resource baseline.
+
+The sampled actual consumer texture estimate is **24,187,720 bytes / 23.06721 MiB**. Dimensional/import estimates exclude font atlases, engine/driver/framebuffer/cache overhead and transient allocations; they do not measure physical-device residency or frame time. The retained crypt/actor scale, production state, live target dimensions and normal full-screen fit are unchanged. Existing desktop synthetic input checks do not establish Android/iOS device acceptance.
+
+Cleanup removed **1,264 files / 565,617,093 bytes** under the [path/hash-verified deletion manifest](../output/qa/rc-016/image-rework/deletion-manifest.json). The [retirement ledger](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup) replaces links to superseded screenshots. Compact older JSON/log records retain original counts and hashes. Earlier October 13 numbers below belong to the procedural version and must not be presented as new generated-art results.
+
+## October 13, 2026 — RC-016 reference-fidelity follow-up
+
+The owner rejected the appearance after the height correction. The earlier 618-check pass established full-screen bounds and interaction behavior; it did not establish fidelity to the approved reference. That result and its visual receipt are retained below as historical evidence.
+
+The October 13 correction restores the full retained crypt backdrop and extends the existing theme with [editable decorative surfaces](../scenes/ui/theme/combat_surface.gd). Six retained r006 material copies have [recorded source hashes](../source-assets/ui/combat/provenance.json). Distinct recessed board/socket/card surfaces, a circuit ribbon, tool slots, parchment tabs, layered gray piles, shared stats/navigation strips, stacked boss labels and health, rounded glowing undirected connections, centered Cast and a caption band replace the mismatched generic treatment. The existing controller still owns all values and interactions. Compact cards are 164×168 with 14px descriptions and 44×44 inspection targets; the [Godot size probe](../output/qa/rc-016/reference-match/card-size-probe.log) confirms complete normal opening names and descriptions after eliminating scrollbar-driven wrapping.
+
+| Follow-up check actually executed | Result and evidence |
+| --- | --- |
+| Core/controller/content regression | **1,453 checks, 0 failures**, [log](../output/qa/rc-016/reference-match/core/test.log). |
+| Actual-scene UI regression | **594 checks, 0 failures**, [normal-access log](../output/qa/rc-016/reference-match/smoke-full-access/smoke.log). The initial sandbox-limited run is intermediate evidence, not the accepted result. |
+| Native art/gameplay integration | **622 checks, 0 failures; 69 captures**, [results](../output/qa/rc-016/reference-match/runtime/results.json). Covers normal full-screen bounds, native narrow layouts, resize, live state and interaction behavior. |
+| Touch and undirected branch regression | **119 checks, 0 failures; 27 captures**, [results](../output/qa/rc-016/reference-match/touch-branch/results.json). |
+| Focused reference geometry and content checks | **150 checks, 0 failures; 11 captures**, [measurements](../output/qa/rc-016/reference-match/measurements/results.json). Refreshed after final decorative polish, title and Pause placement; these checks do not measure pixel identity. |
+| Resource, imports and preservation | **1,229 checks, 0 failures**, [audit](../output/qa/rc-016/reference-match/resource-audit.json). All **532 protected files** remain unchanged; original assets, references, core and data are preserved. |
+| Final visual comparison and normal desktop capture | [Reviewed final captures](../output/qa/rc-016/reference-match/visual-review.json), [normal desktop — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), and [branching example — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup). Major composition defects are corrected; retained character/art differences remain explicit. |
+
+The refreshed conservative decoded RGBA8 estimate is **24.9333 MiB** for the full delivered families, six combat material copies, backdrop, two crypt layers and neutral actor; **26.9333 MiB** with all three poses, or **28.9333 MiB** including the provisional 2 MiB future VFX allowance, against the provisional 32 MiB art subtotal. Sampled actual consumer resources total **21.6833 MiB** (**22,736,548 bytes**), including textures preloaded internally by the new surface renderer. These are dimensional estimates, excluding font atlases, engine/driver/framebuffer/cache/transient overhead; they are not measured physical-device residency or frame time.
+
+The correction is a reference-guided reconstruction using retained paints and live controls. No exact pixel-identical match, new generated painting, owner visual approval, rights clearance or Android/iOS acceptance is claimed. The delivered Shadeling pose, actor scale and layered arena crop remain intact. No core/data changes, Git operations, animation or new progression flow are part of this follow-up.
+
+## October 13, 2026 — RC-016 layout correction
+
+**Historical correction, superseded by the reference-fidelity follow-up above.** The owner rejected the initial art integration's overly tall composition. Its checks showed that controls could be reached by scrolling; they did not establish that the agreed complete screen fit the normal viewport. The previous completion statement and results below are retained as historical evidence with that limitation.
+
+The corrected normal 720×1600 design canvas fits arena, stats, board, toolbar, hand, forecast, Cast and navigation without page overflow, including its scaled 450×1000 desktop presentation. Native 450×1000 and 360×640 layouts retain scrolling as a narrow-screen fallback. The existing seven actions share one toolbar (seven columns at width ≥640, four below), board cells are rectangular (maximum 136×116, height at most 0.86 of width), compact cards are 168×188 with a separate 44px Info target, and the forecast uses 62px with incoming attack below its three values. Action log/editing help share a fixed line with full tooltips. Detailed invalid reasons remain inspectable, while insufficient-energy and conflict feedback is also visible in the banner. [Current integration usage](rc-016-integration.md) records the exact card typography and component contracts.
+
+| Correction check actually executed | Result and evidence |
+| --- | --- |
+| Actual-scene art and gameplay suite | **618 checks, 0 failures**, [results](../output/qa/rc-016/layout-correction/final/runtime-v2/results.json), [log](../output/qa/rc-016/layout-correction/final/art-integration-v2.log). Adds normal full-screen bounds across ten gameplay states and live card-name checks to native/resizing/input coverage. |
+| Headless actual-scene UI regression rerun | **594 checks, 0 failures**, [smoke log](../output/qa/rc-016/layout-correction/final/smoke-fixed/smoke.log), exit 0 after the stable hand-layout fix. |
+| Touch and undirected branch rerun | **119 checks, 0 failures**, [results](../output/qa/rc-016/layout-correction/final/touch-branch/results.json), [log](../output/qa/rc-016/layout-correction/final/touch-branch.log). Includes the larger-hand case after the scrollbar-layout correction. |
+| Resource and preservation audit | **1,153 checks, 0 failures**, [report](../output/qa/rc-016/layout-correction/final/resource-audit.json). All **532 protected files** remain unchanged. |
+| Normal desktop launch | Corrected **450×1000** window using the project's 720×1600 canvas scaling, [capture — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [log](../output/qa/rc-016/layout-correction/final/desktop/capture.log). |
+| Visual review | [Receipt](../output/qa/rc-016/layout-correction/visual-review.json) records the approved reference, inspected iteration-three renders and three exact final captures: normal desktop plus full-screen opening and built. Hashes are recorded. This is a technical review, not owner aesthetic acceptance. |
+| Documentation and manifest | [Correction audit](../output/qa/rc-016/layout-correction/documentation-audit.json) passes current links, final receipts and appended consumer evidence. The separate [asset-plan report](../output/qa/rc-016/layout-correction/asset-plan-validation.json) retains exactly the existing historical protected-file failure; no new manifest errors. |
+
+The larger-hand regression initially triggered a repeatable engine crash: appearance of its horizontal scrollbar changed hand height, which changed page overflow/arena width and caused layout feedback. Production now suppresses the hand's horizontal scrollbar while retaining drag and focus scrolling; the corrected larger-hand touch and smoke runs pass. The delivered resources, crypt crop, full actor/lantern scale and gameplay model remain unchanged; default noncompact card consumers also remain unchanged. Core was not rerun for this presentation-only correction; its earlier 1,453-check result remains historical, with unchanged core/data verified by the preservation audit. No animation or new artwork is introduced. Existing rights and physical-device limitations remain open. Results from the original RC-016 integration below remain historical unless separately recorded above as correction reruns.
+
+## October 13, 2026 — RC-016 playable Combat art integration
+
+**Complete for the scoped technical integration. RC-017 is ready.** The ordinary [main scene](../scenes/main.tscn) now consumes the RC-012 fonts/icons, RC-013 painted theme/components, RC-014 Shadeling scene and RC-015 crypt scene. [Usage and geometry](rc-016-integration.md) describe the exact crop, proportional actor, responsive page and live bindings. The approved clean-board image was inspected; the later visible confirmed Pass decision remains authoritative. The shipped core/data, completed artwork and approved references are byte-identical to the RC-016 baseline.
+
+| Check actually executed in RC-016 | Result and evidence |
+| --- | --- |
+| Pinned engine/import | Godot **4.7.2.stable.official.ed1daf0bf**; final [import](../output/qa/rc-016/final-checks/import.log) exits 0. The pre-existing Android build-tools configuration warning remains; no script/import/missing-resource failure. |
+| Core/controller/content regression | **1,453 checks, 0 failures**, [test log](../output/qa/rc-016/implementation/test.log), executed during integration. Core/data remained unchanged through final presentation fixes; this count is from this task's run, not copied from RC-016A. |
+| Final headless actual-scene UI regression | **594 checks, 0 failures**, [smoke log](../output/qa/rc-016/final-accepted/smoke.log), after all layout, focus and Menu fixes. Deliberately missing/invalid fixtures produce expected diagnostics. |
+| Final native art/gameplay integration | **563 checks, 0 failures; 59 PNG captures**, [results](../output/qa/rc-016/runtime-accepted/results.json), [log](../output/qa/rc-016/runtime-accepted.log), [runner](../tests/ui_art_integration_capture.gd). Normal production entry in native 720×1600, 450×1000 and 360×640 SubViewports plus resize transitions. |
+| Existing touch and undirected branch suite rerun | **119 checks, 0 failures; 27 PNG captures** (18 layout and 9 touch/detail), [results](../output/qa/rc-016/touch-branch-final/results.json), [log](../output/qa/rc-016/touch-branch-final.log). The runner's added destination argument preserves its earlier RC-016A evidence. |
+| Normal desktop launch | Actual **450×1000 window**, 720-wide project canvas scaling, [capture — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [log](../output/qa/rc-016/final-accepted/capture.log). Root inspected the rendered output after final changes; this is the normal entry path without a development encounter override. |
+| Independent visual and code review | [Visual receipt](../output/qa/rc-016/visual-review.json): approved reference plus **22 exact final captures** actually viewed; all recorded image hashes match, no actionable sampled clipping/integration finding. Separate final read-only code review found no introduced state/focus/layout/resource blocker. Root inspected additional final native and desktop views. |
+| Imports, dependencies, preservation and estimates | **1,153 checks, 0 failures**, [resource audit](../output/qa/rc-016/resource-audit.json), [validator](../tools/validate_combat_art.py). All **532 protected files** match the [pre-integration baseline](../output/qa/rc-016/preservation-baseline.json): source/runtime artwork, approved references, gameplay core and data. Checks cover local resources, texture recipes/cache, caps, filtering, fonts/licences and export exclusions. |
+| Current documentation/manifests | [Scoped document audit](../output/qa/rc-016/documentation-links.json) checks updated links, final receipts and manifest evidence. The unchanged [RC-010 asset-plan validator](../output/qa/rc-016/asset-plan-validation.json) retains one historical protected-files failure for 14 authorized RC-016A/RC-016 gameplay/UI/test/data changes; its other schema/path/dependency/current-contract checks pass. The old baseline was not rewritten or weakened. |
+
+The integration runner exercises actual selection and pointer/keyboard routes: connector place/rotate/remove/refund, complete/incomplete/conflicting circuits, live costs/counts/forecasts, insufficient energy, card Info/I/Escape and modal focus, cancelled Pass, confirmed Pass with an empty hand, Cast and next-turn rebuild/log/piles, victory/defeat, duplicate delayed commands and disabled/terminal controls. It checks visible target bounds, painted socket alignment, full actor/lantern envelope, fixed arena transforms, native Menu bounds, page/hand scrolling and explicit focus reveal. The only injected boundary states are energy, empty hand, terminal HP and a known conflict graph; ordinary opening draws/endpoints/kits and command-built valid circuits use existing production helpers. The separate branch suite renders the reproducible Belfry Split/Join witness. Historical profile coverage is retained in core/smoke; the earlier 22-fingerprint audit was not newly executed here.
+
+Representative final captures: [720 opening — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [450 opening — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [360 board — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [360 hand/forecast/Cast — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [360 Pass — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [360 details — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [conflict — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [unaffordable — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup), [victory — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup) and [defeat — historical image retirement](asset-cleanup.md#october-14-2026--image-generated-combat-rework-cleanup). The persistent forecast is an in-page component directly above Cast; intentional scrolling keeps typography and interaction targets usable on short screens. These are real Godot screenshots, not composited interface mockups.
+
+Commands actually run from `C:\Dev\RuneCast` (sequential engine runs):
+
+```powershell
+.\tools\godot.ps1 -Action version
+.\tools\godot.ps1 -Action import -LogDirectory output/qa/rc-016/final-checks
+.\tools\godot.ps1 -Action test -LogDirectory output/qa/rc-016/implementation
+.\tools\godot.ps1 -Action smoke -LogDirectory output/qa/rc-016/final-accepted
+& '.\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe' --path . --script res://tests/ui_art_integration_capture.gd --log-file C:/Dev/RuneCast/output/qa/rc-016/runtime-accepted.log -- --capture-directory=res://output/qa/rc-016/runtime-accepted
+& '.\.tools\godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe' --path . --script res://tests/ui_undirected_capture.gd --log-file C:/Dev/RuneCast/output/qa/rc-016/touch-branch-final.log -- --capture-directory=res://output/qa/rc-016/touch-branch-final
+.\tools\godot.ps1 -Action capture -CapturePath res://output/qa/rc-016/final-accepted/normal-desktop.png -LogDirectory output/qa/rc-016/final-accepted
+& 'C:\Users\nguye\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' tools/validate_combat_art.py
+& 'C:\Users\nguye\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' tools/validate_asset_plan.py --report output/qa/rc-016/asset-plan-validation.json
+& 'C:\Users\nguye\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' output/qa/rc-016/audit-documents.py
+```
+
+Final GPU runs use OpenGL Compatibility on NVIDIA GeForce RTX 5070 Ti. Native viewport rendering and synthetic inputs are desktop checks, not phone measurements. Decoded RGBA8 estimates are **11.7823 MiB** for the runner's 33 sampled texture paths, **15.4073 MiB** for the full delivered icon/UI families plus crypt and neutral actor, **17.4073 MiB** with all three poses, or **19.4073 MiB** including the provisional 2 MiB future VFX allowance. Estimates exclude fonts, engine/driver/framebuffer/cache/transient overhead; no measured residency, device performance or new 32 MiB acceptance is claimed.
+
+Intermediate logs/captures remain separate evidence. Initial sandboxed smoke exposed normal `user://` access limits and assertions for the replaced flattened labels; final runs used normal local access and asserted live child values. Render iteration fixed crypt z-order, label/pile wrapping, panel-skin inset geometry, compact card width, a repeated forecast-reason reorder that inflated page layout, offscreen keyboard focus and native Menu width. Intermediate failed result files are not final acceptance evidence. No source-art correction or regeneration was required. This task accidentally ran one initial read-only `git status --short` before reading the pasted prohibition and disclosed it immediately; **no subsequent Git operation or checkpoint occurred**.
+
+The static neutral character keeps the established foot and `0.75 × W/841` scale, delivered crop and pose envelope. No player art, automatic motion study, dodge behavior or new event choreography is introduced. Shadeling remains one designated encounter's boss; release map placement/balance is unchanged. RC-017 owns outcome-driven animation, traversal, completion/cancellation and reduced motion. Inherited painted rights, owner aesthetic acceptance and physical Android/iOS usability/performance remain unresolved. No new audio, Store, map, save, progression, reward or Home flow, engine/SDK upgrade or mobile package is included. Historical entries below retain their original evidence and scope.
+
 ## October 13, 2026 — RC-016A undirected evaluator and control migration
 
 **Complete for the gameplay migration gate. RC-016 is ready to proceed, not complete.** The [owner decision](decisions.md#october-13-2026--rc-016a-undirected-graph-and-controls-accepted) was recorded before dependent implementation. Split W/E/S and Join N/E/S have no port polarity; Begin–End flow determines their1→2/2→1 roles. Upstream Spark6 amplifies to12 across two branches; a shared downstream Spark6 contributes6 once. Each physical piece executes and pays once. Complete branch/rejoin loops are allowed; open powered ports, branches outside complete routes and conflicting edge directions reject deterministically. Historical directed profiles retain their own rules.

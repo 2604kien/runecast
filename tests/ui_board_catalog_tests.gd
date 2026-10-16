@@ -26,7 +26,7 @@ func run_followup(check: Callable, tree: SceneTree, directory: String = "") -> v
 			continue
 		scene.gestures.automatic_timing = false
 		var loaded := Examples.load_example(board_id)
-		check.call(scene.initial_setup.encounter.board_id == board_id and scene.encounter_title.text.contains("DEV") and _only_endpoints(scene.game.board), "%s binds its development title and endpoints-only opening without production prefill." % board_id)
+		check.call(scene.initial_setup.encounter.board_id == board_id and scene.encounter_title.text.to_upper().contains("DEV") and _only_endpoints(scene.game.board), "%s binds its development title and endpoints-only opening without production prefill." % board_id)
 		await touch._capture(viewport, tree, directory, board_id + "-opening.png", check)
 		if board_id == "board_belfry":
 			var touch_directory := directory.path_join("belfry-touch") if directory != "" else ""

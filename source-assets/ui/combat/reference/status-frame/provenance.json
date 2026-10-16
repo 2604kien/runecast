@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-16",
+  "request": "Replace the locally drawn status border with generated painted 2D artwork matching the approved reference, with complete left/right borders.",
+  "tool": "built-in image_gen.imagegen",
+  "model": null,
+  "model_note": "The built-in tool did not expose a model version or seed; no GPT Image version is claimed.",
+  "mode": "generation with style references",
+  "references": [
+    "assets/ui/combat/reference/approved-atlas.png",
+    "output/qa/rc-016/full-screen-polish/stats-source-2x.png"
+  ],
+  "prompt": "source-assets/ui/combat/reference/status-frame/prompt.txt",
+  "generated_original": "C:/Users/nguye/.codex/generated_images/01a130b6-98d7-77a0-b65a-b40c2cb47436/exec-57d03a3a-7b7f-418e-baae-3b3a27668e4d.png",
+  "runtime_asset": "assets/ui/combat/reference/status-frame.png",
+  "sha256": "20c72868838eb163dbc83cabe4e989488fa330d756cccd2dde180fff113da573",
+  "source_dimensions": [
+    1987,
+    791
+  ],
+  "mode_channels": "RGBA",
+  "transparent_background": true,
+  "copied_without_pixel_edits": true,
+  "import_size_limit": 768,
+  "runtime_crop": [
+    20,
+    270,
+    1948,
+    232
+  ],
+  "source_columns": [
+    20,
+    683.5,
+    1302.5,
+    1968
+  ],
+  "source_rows": [
+    270,
+    314,
+    458,
+    502
+  ],
+  "destination_columns": "0, width/3, 2*width/3, width",
+  "destination_rows": "0, 8, height-8, height",
+  "integration": "Render the generated slate, closed frame and two dividers as texture pixels. Source-grid sampling fits the 54px row and aligns the three live cells. No code-drawn border, source-art patches, locally painted bitmap or baked game values.",
+  "live_content_well": "Existing 36px-high lane and content margins retained.",
+  "qa": "output/qa/rc-016/stats-generated-frame",
+  "verification": {
+    "focused_checks": 47,
+    "integration_checks": 2578,
+    "resource_checks": 1230,
+    "failures": 0
+  },
+  "imported_dimensions": [
+    768,
+    305
+  ],
+  "imported_decoded_bytes": 936960
+}

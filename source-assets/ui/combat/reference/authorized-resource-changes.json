@@ -1,0 +1,34 @@
+{
+  "authorization": "October 15, 2026: owner requests remaining full-screen artwork differences corrected to the approved reference. Combat now opts into original masked actor/scenery pixels; canonical pose PNGs, layers and APIs remain available to isolated consumers.",
+  "baseline": "output/qa/rc-016/preservation-baseline.json",
+  "files": {
+    "assets/enemies/shadeling/character.gd": {
+      "baseline_sha256": "425a5329b272aada2d31ea2f04276b61a0e19b9de8dcc8f4d53cbe80ce2b80e4",
+      "current_sha256": "490f3ce9f36bc4f9843d92d1556b0ea15fa0ff4487315f01eec4b4dce5063908",
+      "reason": "Replace generated Combat neutral with a separately masked approved-atlas sprite, preserving source pixels, foot-local512 canvas, attachment access and ordinary retained poses."
+    },
+    "assets/environments/crypt/environment.gd": {
+      "baseline_sha256": "24e1535e463877c2e40f97b4f34a2476cd0dc11879e7c3562165ab6cc0442ab3",
+      "current_sha256": "df06c9d648817097dc0e54ad67dfaf9dba6ec88917873c2b36a8048e75028b87",
+      "reason": "Retain original scenery around the separately masked actor and four small live-label holes; the generated empty arena remains hidden-fill fallback."
+    },
+    "source-assets/ui/delivery.md": {
+      "baseline_sha256": "179e77908a5a80eca809e9ca0f609d4012a3d7fac461d0991aab745d42427bf0",
+      "current_sha256": "63fce35735b5ce7c9ec63ff2c04858e7c978ea201a874ef520452a954ffbdbee",
+      "reason": "October16 explicit unused-resource cleanup: retire nine unconsumed exports, update active mappings/sharing and replace retired preview links. Runtime art remains unchanged.",
+      "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
+    },
+    "source-assets/ui/source-export-map.json": {
+      "baseline_sha256": "581ce4b82cfbd7725ec196bcb97bc68b2ee0589c4a4b0917b110511f6cbd9ece",
+      "current_sha256": "763d6e4d643b3bdefd3fabc97b7b436439b6bbe4aa39e03965e52c96ae4dba41",
+      "reason": "October16 explicit unused-resource cleanup: retire nine unconsumed exports, update active mappings/sharing and replace retired preview links. Runtime art remains unchanged.",
+      "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
+    },
+    "source-assets/ui/theme-notes.json": {
+      "baseline_sha256": "1440108639fec9ba15bf0d24e6e29bd69f68d2eee391effc4495f1a51ae60c51",
+      "current_sha256": "9378364a88430265daaf9fc976b8bfbd0cb26865201afc7bf46ff53bb812d39a",
+      "reason": "October16 explicit unused-resource cleanup: retire nine unconsumed exports, update active mappings/sharing and replace retired preview links. Runtime art remains unchanged.",
+      "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
+    }
+  }
+}

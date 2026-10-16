@@ -19,7 +19,10 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 	var setup: Dictionary = scene.initial_setup.duplicate(true)
 	var initial: Dictionary = scene.controller.snapshot()
 	check.call(_only_endpoints(initial.board) and initial.hand.size() == 3 and initial.energy == 3 and _stock_labels(scene), "Production opens with only two endpoints, three normally drawn cards, three energy and four finite stock labels.")
-	check.call(scene.status.text.contains("Kit:") and scene.status.text.contains("Hand 3") and scene.stats.tooltip_text.contains("draw pile"), "Opening feedback shows the selected kit and actual card pile quantities.")
+	check.call(scene.stats.tooltip_text.is_empty() and scene.hand_count.text == "Hand 3" and scene.pile_values.draw_pile.text == str(initial.draw_pile.size()) and scene.pile_values.discard_pile.text == str(initial.discard_pile.size()) and scene.stat_values.health.text == "%d/%d" % [initial.player_hp, initial.player_max_hp] and scene.stat_values.energy.text == "3/3" and _stock_labels(scene), "Opening mobile feedback shows live kit, health, energy and actual pile quantities without hover text.")
+	scene.draw_button.pressed.emit()
+	check.call(scene.inspector.visible and scene.inspector_title.text == "Draw pile" and scene.inspector_text.text.begins_with(str(initial.draw_pile.size()) + " cards") and scene.controller.snapshot() == initial, "Tapping Draw exposes the actual pile details without mutating combat or requiring hover.")
+	scene._close_inspector()
 	_live_bindings(scene, check, "Opening")
 	check.call(scene.action_buttons.keys().size() == 2 and scene.action_buttons.has("erase") and scene.action_buttons.has("rotate") and scene.action_buttons.erase.text == "Remove" and not scene.inspect_button.is_visible_in_tree() and not scene.cancel_button.is_visible_in_tree() and scene.turn_pass_button.is_visible_in_tree(), "Production exposes only Remove/Rotate editing, four connector tools and a separate visible Pass turn action.")
 	check.call(scene.cells.all(func(cell): return cell.clean_board), "Every production cell uses the BEGIN/END-only undirected board renderer.")
@@ -37,7 +40,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 	scene._exact_replay()
 	check.call(scene.controller.snapshot() == initial, "Exact replay restores the same opening geometry, kit, cards and identities after edits.")
 	var built := _build(scene)
-	check.call(built and not scene.cast_button.disabled and scene.cast_button.text.contains("energy"), "Actual production tool, card and Rotate controls construct an affordable rune-bearing circuit.")
+	check.call(built and not scene.cast_button.disabled and scene.cast_cost.text == str(scene.game.forecast.cost), "Actual production tool, card and Rotate controls construct an affordable rune-bearing circuit with live crystal cost.")
 	if built:
 		_live_bindings(scene, check, "Built")
 		await _capture(scene, tree, capture_directory, "production-built.png", check)
@@ -45,7 +48,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 		var prior: Dictionary = scene.controller.snapshot()
 		scene.cast_button.pressed.emit()
 		check.call(scene.game.enemy_hp == maxi(0, int(prior.enemy_hp) - int(spell.damage)) and scene.game.turn == 2 and _only_endpoints(scene.game.board) and scene.game.undo_count == 0 and _stock_labels(scene), "Cast applies its displayed spell once, then resets board/history and shows the new full kit.")
-		check.call(_moved(prior.board, scene.game.board) and scene.game.hand.size() == 3 and scene.status.text.contains("Kit:") and scene.status.text.contains("Hand 3"), "Next-turn endpoint movement, normal draw and kit refresh reach the real UI.")
+		check.call(_moved(prior.board, scene.game.board) and scene.game.hand.size() == 3 and _stock_labels(scene) and scene.hand_count.text == "Hand 3" and scene.stat_values.turn.text == "Turn 2", "Next-turn endpoint movement, normal draw and kit refresh reach the real UI.")
 		_live_bindings(scene, check, "After Cast")
 		await _capture(scene, tree, capture_directory, "production-turn2.png", check)
 		prior = scene.controller.snapshot()
@@ -85,7 +88,7 @@ func _endpoint_controls(scene: Control, check: Callable) -> void:
 		var before: Dictionary = scene.controller.snapshot()
 		scene.stock_buttons.straight.pressed.emit()
 		scene.cells[cell].pressed.emit()
-		check.call(scene.selected_cell == cell and scene.selected_tool == "" and scene.selected_uid == -1 and scene.game.board == before.board and scene.cells[cell].chosen and scene.cells[cell].tooltip_text.contains("Rotate"), "Holding a connector safely selects %s with visible rotation feedback." % kind)
+		check.call(scene.selected_cell == cell and scene.selected_tool == "" and scene.selected_uid == -1 and scene.game.board == before.board and scene.cells[cell].chosen and scene.status.is_visible_in_tree() and scene.status.text.contains("Rotate") and scene.cells[cell].tooltip_text.is_empty(), "Holding a connector safely selects %s with visible rotation feedback instead of a hover tooltip." % kind)
 		_press_edit(scene, "Rotate")
 		check.call(scene.game.board[cell].rotation == (int(before.board[cell].rotation) + 1) % 4 and scene.game.stock == before.stock and scene.status.text.contains("Rotate"), "Normal Rotate changes %s connectivity and direction feedback without spending stock." % kind)
 		for _quarter in range(3): _press_edit(scene, "Rotate")
@@ -188,7 +191,8 @@ func _terminal(scene: Control, setup: Dictionary, check: Callable, tree: SceneTr
 	var built := _build(scene, true)
 	check.call(built and scene.game.forecast.damage > 0, "Terminal QA builds a real positive-damage production circuit through UI actions.")
 	if built:
-		check.call(scene.cast_button.tooltip_text.contains("Incoming 0.") and scene.forecast_values.incoming == 0, "A lethal production forecast visibly suppresses retaliation in both Cast tooltip and persistent forecast.")
+		var before_details: Dictionary = scene.controller.snapshot()
+		check.call(not scene.forecast_button is BaseButton and scene.forecast_button.mouse_filter == Control.MOUSE_FILTER_IGNORE and scene.forecast_button.focus_mode == Control.FOCUS_NONE and not scene.inspector.visible and scene.forecast_values.incoming == 0 and scene.cast_button.tooltip_text.is_empty() and scene.controller.snapshot() == before_details, "A lethal production forecast stays a read-only display while its authoritative forecast suppresses retaliation, without an interactive button or hover tooltip.")
 		var hp_before: int = scene.game.player_hp
 		scene.cast_button.pressed.emit()
 		check.call(scene.game.state == "victory" and scene.game.player_hp == hp_before and scene.game.hand.is_empty() and _only_endpoints(scene.game.board), "Lethal UI Cast suppresses retaliation and clears board/hand before showing victory.")
@@ -305,7 +309,7 @@ func _live_bindings(scene: Control, check: Callable, phase: String) -> void:
 	var spell: Dictionary = snapshot.forecast
 	var incoming: int = 0 if spell.valid and spell.damage >= snapshot.enemy_hp else maxi(0, int(snapshot.intent) - int(spell.shield)) if spell.valid else int(snapshot.intent)
 	check.call(scene.forecast_values == {"damage": spell.damage, "shield": spell.shield, "cost": spell.cost, "incoming": incoming} and scene.forecast_button.is_visible_in_tree(), "%s persistent damage/shield/cost/incoming reads the authoritative forecast." % phase)
-	check.call(scene.draw_button.text == "Draw %d" % snapshot.draw_pile.size() and scene.discard_button.text == "Discard %d" % snapshot.discard_pile.size() and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and scene.action_log.text == snapshot.log_text and scene.hand_box.get_child_count() == snapshot.hand.size(), "%s live hand, Draw/Discard counters and action log match the current snapshot." % phase)
+	check.call(scene.pile_values.draw_pile.text == str(snapshot.draw_pile.size()) and scene.pile_values.discard_pile.text == str(snapshot.discard_pile.size()) and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and scene.action_log.text == snapshot.log_text and scene.hand_box.get_child_count() == snapshot.hand.size(), "%s live hand, Draw/Discard counters and action log match the current snapshot." % phase)
 	var ids: Array = scene.hand_box.get_children().map(func(card): return int(card.get_meta("uid", -1)))
 	check.call(ids == snapshot.hand.map(func(card): return int(card.uid)) and scene.info_buttons.size() == snapshot.hand.size(), "%s detailed cards and individual Info controls keep the exact live hand identities." % phase)
 
@@ -326,7 +330,7 @@ func _effect_uid(snapshot: Dictionary, damage_required: bool) -> int:
 
 func _stock_labels(scene: Control) -> bool:
 	for kind in ["straight", "corner", "split", "join"]:
-		if not scene.game.stock.has(kind) or scene.stock_buttons[kind].text != "%s\n%d / %d" % [kind.capitalize(), scene.game.stock[kind], scene.game.stock_totals[kind]]:
+		if not scene.game.stock.has(kind) or not scene.stock_buttons[kind].has_meta("stock_label") or scene.stock_buttons[kind].get_meta("stock_label").text != "%d / %d" % [scene.game.stock[kind], scene.game.stock_totals[kind]]:
 			return false
 	return true
 
