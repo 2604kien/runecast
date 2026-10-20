@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": "RC-019",
+  "revision": "r001-runway-crypt",
+  "passed": true,
+  "method": "Fresh original MP3 decode and full second render with the same final settings. Compared source bytes, decoded original PCM,24-bit master bytes, decoded Vorbis float32 PCM, and sample loop points.",
+  "checks": {
+    "original_sha256": true,
+    "decoded_original_sha256": true,
+    "source_sha256": true,
+    "runtime_decoded_float32_sha256": true,
+    "loop_start_sample": true,
+    "loop_end_sample_exclusive": true,
+    "settings_identical": true,
+    "renderer_identical": true
+  },
+  "checks_passed": 8,
+  "checks_total": 8,
+  "master_byte_identical": true,
+  "decoded_runtime_pcm_identical": true,
+  "ogg_container_byte_identical": false,
+  "ogg_container_note": "libsndfile chooses an Ogg stream serial number; byte identity is not promised. Verified page differences are only stream serial and CRC fields; audio payload is identical.",
+  "production_ogg_sha256": "d4b164ec3070d2e1e2b626d5c7badacedb6748335cb3c608a5c1e31c42bdfb13",
+  "second_ogg_sha256": "7f146b9ab7df7b6cd67704d7169040b162caff87aef92b2b50badd0fa7fe2d35",
+  "decoded_runtime_float32_sha256": "ac16f4b77e6cd7ce3495c1131dfe595af4761c5fe90ed0a89fe15172cca7e6a6",
+  "ogg_diff_only_stream_serial_and_page_crc": true,
+  "production_ogg_serials": [
+    170575700
+  ],
+  "second_ogg_serials": [
+    1698803740
+  ],
+  "ogg_pages": 194,
+  "listening_review": "Reproducibility is technical evidence only; acoustic review of five joins remains pending."
+}

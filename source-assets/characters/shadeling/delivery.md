@@ -1,5 +1,7 @@
 # RC-014 — Shadeling production character pack
 
+**October 16, RC-017 integration:** the playable Combat actor retains the approved-atlas neutral and the existing full-texture attack/hit paintings. [Production actor/attachment contract](../../../docs/actor-animation-contract.md) adds editable normalized motion, lifecycle restoration and stable terminal state. Hidden scenery uses a broad feathered clean center instead of the neutral-shaped hole. All source paintings/exports remain unchanged; historical isolated-study details below remain provenance, while production integration and timing statements are superseded by that contract.
+
 October 12, 2026 · asset ID `shadeling` · revision `r001`.
 
 **October 13 cleanup:** [framing-360](../../../output/art/rc-014/framing-360/) is the retained current preview set. Earlier duplicate/superseded images, generated staging projects and the write-only normalized underlap intermediate are retired in the [exact cleanup ledger](../../../docs/asset-cleanup.md#october-13-2026--project-wide-follow-up-cleanup). Editable masters, canonical layers, runtime exports, raw generations/provenance and historical QA records remain. Historical preservation statements below describe their original audit dates, before this authorized cleanup.

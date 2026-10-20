@@ -428,11 +428,23 @@ func _draw_live_rules() -> void:
 		draw_line(Vector2(x, 8 * art_scale), Vector2(x, size.y - 8 * art_scale), Color("090f18") * tint, 2 * art_scale, true)
 		draw_line(Vector2(x + art_scale, 8 * art_scale), Vector2(x + art_scale, size.y - 8 * art_scale), Color("887344") * tint, art_scale, true)
 	if kind == "ribbon" and show_check and completed:
+		var check_scale := art_scale
 		var x := size.x * 0.2
+		var caption := get_parent() as Label
+		if caption != null:
+			var font := caption.get_theme_font("font")
+			var text_width := font.get_string_size(caption.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption.get_theme_font_size("font_size")).x
+			var text_left := (caption.size.x - text_width) * 0.5 - position.x - caption.get_theme_constant("outline_size")
+			# Keep the full check stroke clear of the centered caption and
+			# inside the ribbon, including native narrow-screen layouts.
+			var right := minf(x + 26 * art_scale, text_left - 8 * art_scale)
+			check_scale = minf(art_scale, maxf(0, right - 10 * art_scale) / 43.0)
+			x = right - 26 * check_scale
 		var cy := size.y * 0.48
-		var check := PackedVector2Array([Vector2(x - 12 * art_scale, cy), Vector2(x - 2 * art_scale, cy + 10 * art_scale), Vector2(x + 21 * art_scale, cy - 16 * art_scale)])
-		draw_polyline(check, Color("071e19") * tint, 10 * art_scale, true)
-		draw_polyline(check, Color("5cff9f") * tint, 7 * art_scale, true)
+		if check_scale > 0:
+			var check := PackedVector2Array([Vector2(x - 12 * check_scale, cy), Vector2(x - 2 * check_scale, cy + 10 * check_scale), Vector2(x + 21 * check_scale, cy - 16 * check_scale)])
+			draw_polyline(check, Color("071e19") * tint, 10 * check_scale, true)
+			draw_polyline(check, Color("5cff9f") * tint, 7 * check_scale, true)
 	if kind == "slot":
 		draw_line(Vector2(10 * art_scale, size.y * 0.7), Vector2(size.x - 10 * art_scale, size.y * 0.7), Color("776338") * tint, art_scale, true)
 	if show_dividers and kind.begins_with("card_"):

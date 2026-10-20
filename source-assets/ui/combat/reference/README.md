@@ -1,5 +1,9 @@
 # Approved reference artwork adoption — RC-016
 
+## October 16, 2026 — RC-017 motion continuity
+
+The approved-atlas neutral and retained attack/hit PNGs remain unchanged. Production adds deterministic actor sampling, editable curves, reduced-motion neutral colour/fade feedback and full cancellation restoration. The environment's silhouette-shaped hole exposed mismatched architecture and outline remnants when the actor moved. Its shader now reuses the same clean plate throughout a fixed broad center with a 44-source-pixel feather into the original outer scenery. No raster was repainted or generated. The [actor/attachment contract](../../../../docs/actor-animation-contract.md) records APIs, mapping, the corrected hidden scenery, labelled future proxy guard and verification. This supersedes prior claims that the current scenery retains every original pixel outside the actor silhouette; the original actor mask and neutral pixels remain unchanged.
+
 ## October 16, 2026 — Unused neutral resource retirement
 
 The superseded generated neutral has been retired under the owner's unused-resource cleanup. It was no longer loaded by runtime code or used as a build or generation input. Its historical prompt, dimensions and original hash remain in [provenance.json](provenance.json) and [prompts.json](prompts.json); the [deletion manifest](../../../../output/qa/resource-cleanup-2026-10-16/deletion-manifest.json) records the exact removed source. The approved atlas, current generated assets, canonical actor masters and retained poses are unchanged.

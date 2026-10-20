@@ -30,7 +30,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_path: String = "") -
 	scene.controller.dispose()
 	scene.controller = Controller.new(Combat.new(loaded.setup))
 	scene.controller.changed.connect(scene._refresh)
-	scene.controller.presentation_started.connect(scene._presentation_started)
+	scene.audio.bind_controller(scene.controller)
 	scene._clear_selection()
 	scene._refresh()
 	check.call(_labels_match(scene) and not scene.experiment_mode and scene.controller.get_record() == null, "All four finite quantities render in the normal UI without experiment controls or observations.")
@@ -88,8 +88,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_path: String = "") -
 		DirAccess.make_dir_recursive_absolute(capture_path.get_base_dir())
 		var capture_error: Error = scene.get_viewport().get_texture().get_image().save_png(capture_path)
 		check.call(capture_error == OK, "Fresh finite connector UI screenshot is saved to its separate RC-007 QA destination.")
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 

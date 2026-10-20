@@ -93,8 +93,7 @@ func _actual_scene(dimensions: Vector2i) -> void:
 	var old_open := Image.load_from_file("res://output/qa/rc-016/full-screen-polish/stats-focused/stats-skin-" + suffix + ".png")
 	var old_continuity := Oracle.perimeter_continuity(old_open)
 	_check(not old_continuity.complete and not old_continuity.encloses_face, suffix + " closed-border oracle rejects the previous open-ended status frame", old_continuity)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	viewport.queue_free()
 	await process_frame
 

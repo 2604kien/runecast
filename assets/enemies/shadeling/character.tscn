@@ -1,13 +1,15 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://assets/enemies/shadeling/character.gd" id="1_character"]
 [ext_resource type="Resource" path="res://assets/enemies/shadeling/attachments.tres" id="2_attachments"]
+[ext_resource type="Resource" path="res://assets/enemies/shadeling/motion.tres" id="3_motion"]
 
 [node name="Shadeling" type="Node2D"]
 texture_filter = 2
 texture_repeat = 1
 script = ExtResource("1_character")
 attachment_data = ExtResource("2_attachments")
+motion = ExtResource("3_motion")
 metadata/asset_id = "shadeling"
 metadata/source_canvas = Vector2i(1024, 1024)
 metadata/runtime_canvas = Vector2i(512, 512)

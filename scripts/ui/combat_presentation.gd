@@ -7,3 +7,8 @@ func present(_result: Dictionary, completed: Callable) -> void:
 
 func cancel() -> void:
 	pass
+
+# Immediate and injected legacy adapters keep displaying committed snapshots.
+# The production adapter can stage detached visual values while input is locked.
+func display_snapshot(_before: Dictionary, after: Dictionary) -> Dictionary:
+	return after.duplicate(true)

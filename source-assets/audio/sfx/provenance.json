@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "task": "RC-018",
+  "revision": "r003-runway-library",
+  "recorded_date": "2026-10-17",
+  "creator": "Runway audio generation from RuneCast-specific prompts; Codex source selection, deterministic editing and export for the owner request",
+  "source_type": "Runway-generated MP3 originals with documented PCM editing and exports",
+  "audio_generation_service_used": true,
+  "provider": "Runway connected workspace",
+  "original_record": "revisions/r003-runway-library/generation.json",
+  "source_files": [
+    "render_runway_sfx.py",
+    "runway-settings.json",
+    "../../../tools/decode_sfx_sources.gd"
+  ],
+  "seed_policy": "Service generation seed not supplied or returned. Stored export-dither seeds are local quantization settings, not model seeds.",
+  "fidelity": "Originals are MP3. Decoded floating-point intermediates and 24-bit working WAV masters preserve subsequent editing precision; they do not recover lossless original fidelity.",
+  "reproduction": "Exact local re-render from retained original MP3s, pinned decoder and editing settings; service regeneration is not claimed deterministic.",
+  "rights": {
+    "reviewed_on": "2026-10-17",
+    "terms_url": "https://runway.com/terms-of-use",
+    "commercial_use_guidance_url": "https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes",
+    "summary": "General Runway Terms section 4.4 do not claim ownership of outputs or restrict commercial use, subject to compliance with the agreement. No SFX-specific exception identified in reviewed public documentation. Account-specific supplemental terms not independently inspected.",
+    "distribution_audit_owner": "RC-050",
+    "copyright_ownership_or_clearance_claim": false
+  },
+  "review": {
+    "owner_direction": "Five r002 candidates approved; owner requested full library in that direction.",
+    "full_library_owner_listening": "pending",
+    "agent_headphone_or_speaker_review": "not_performed",
+    "technical_validation": "output/qa/rc-018/audio-validation.json",
+    "physical_device_acceptance": "not_performed"
+  },
+  "budget": {
+    "manifest_families": 16,
+    "runtime_wavs": 21,
+    "master_wavs": 21,
+    "original_mp3s": 21
+  },
+  "future_only_cue_ids": [
+    "flame",
+    "stone",
+    "chain",
+    "bell",
+    "reward",
+    "guardian_phase_changed"
+  ],
+  "historical_r001": "revisions/r001-procedural/provenance.json"
+}

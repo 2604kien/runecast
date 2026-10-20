@@ -6,6 +6,10 @@ const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 
 signal changed
 signal presentation_started(result: Dictionary)
+## Explicit command attempts only; availability/snapshot checks stay silent.
+signal command_resolved(outcome: Dictionary)
+signal presentation_invalidated(notice: Dictionary)
+signal presenter_changed(presenter: Presentation)
 
 var _combat: Combat
 var _presenter: Presentation
@@ -14,6 +18,7 @@ var _closed := false
 var _transitioning := false
 var _token := 0
 var _recorder: ExperimentRecord
+var _presentation_before: Dictionary = {}
 
 func _init(combat: Combat, presenter: Presentation = null, recorder: ExperimentRecord = null) -> void:
 	_combat = combat
@@ -22,6 +27,14 @@ func _init(combat: Combat, presenter: Presentation = null, recorder: ExperimentR
 
 func snapshot() -> Dictionary:
 	return _combat.snapshot()
+
+func display_snapshot() -> Dictionary:
+	if _busy and not _presentation_before.is_empty():
+		return _presenter.display_snapshot(_presentation_before.duplicate(true), snapshot())
+	return snapshot()
+
+func get_presenter() -> Presentation:
+	return _presenter
 
 func is_busy() -> bool:
 	return _busy
@@ -46,26 +59,45 @@ func add_note(note: String) -> void:
 func set_presenter(presenter: Presentation) -> bool:
 	if _closed or _busy or _transitioning or presenter == null:
 		return false
+	if presenter == _presenter: return true
+	_transitioning = true
+	_cancel_pending("presenter_replaced")
+	if _closed:
+		_transitioning = false
+		return false
+	_presenter.cancel()
+	if _closed:
+		_transitioning = false
+		return false
 	_presenter = presenter
+	_transitioning = false
+	presenter_changed.emit(_presenter)
 	return true
 
 func command(name: String, arguments: Dictionary = {}) -> bool:
+	var actual_arguments := arguments.duplicate(true)
 	var can_transition := name == "next_encounter" and not _closed and not _busy and not _transitioning and bool(snapshot().get("can_advance", false))
 	if not can_edit() and not can_transition:
+		var reason := "closed" if _closed else "transitioning" if _transitioning else "busy" if _busy else "terminal"
 		if _recorder != null:
-			var reason := "closed" if _closed else "transitioning" if _transitioning else "busy" if _busy else "terminal"
-			_recorder.record_guard_rejection(name, arguments, snapshot(), reason)
+			_recorder.record_guard_rejection(name, actual_arguments, snapshot(), reason)
+		_command_outcome(name, actual_arguments, {}, reason)
 		return false
 	# Lock before model execution or any signal/callback can reenter this method.
 	_busy = true
 	_token += 1
 	var token := _token
-	var result := _combat.execute(name, arguments)
-	if _recorder != null: _recorder.record(result, arguments)
+	var result := _combat.execute(name, actual_arguments)
+	if _recorder != null: _recorder.record(result, actual_arguments)
+	# Publish while locked, before refresh callbacks can replace/dispose us. Every
+	# listener receives data detached from the command and authoritative model.
+	_command_outcome(name, actual_arguments, result, "" if result.accepted else str(result.after.get("log_text", "rejected")))
+	if not _is_active(token): return bool(result.accepted)
 	if not result.accepted or not name in ["cast", "pass", "technique", "next_encounter"]:
 		_busy = false
 		changed.emit()
 		return result.accepted
+	_presentation_before = result.before.duplicate(true)
 	changed.emit()
 	if not _is_active(token):
 		return true
@@ -81,6 +113,11 @@ func command(name: String, arguments: Dictionary = {}) -> bool:
 	_presenter.present(result.duplicate(true), completed)
 	return true
 
+func _command_outcome(name: String, arguments: Dictionary, result: Dictionary, reason: String) -> void:
+	command_resolved.emit({"command": name, "arguments": arguments.duplicate(true),
+		"accepted": bool(result.get("accepted", false)), "reason": reason,
+		"result": result.duplicate(true), "controller_generation": _token})
+
 func _is_active(token: int) -> bool:
 	return not _closed and not _transitioning and _busy and token == _token
 
@@ -88,13 +125,16 @@ func _complete(token: int) -> void:
 	if not _is_active(token):
 		return
 	_busy = false
+	_presentation_before.clear()
 	changed.emit()
 
-func _cancel_pending() -> void:
+func _cancel_pending(reason: String) -> void:
 	# Invalidate first: cancel() is allowed to invoke its old completion synchronously.
 	_token += 1
 	var was_busy := _busy
 	_busy = false
+	_presentation_before.clear()
+	presentation_invalidated.emit({"reason": reason, "controller_generation": _token})
 	if was_busy:
 		_presenter.cancel()
 
@@ -102,7 +142,7 @@ func cancel_presentation() -> void:
 	if _closed or _transitioning:
 		return
 	_transitioning = true
-	_cancel_pending()
+	_cancel_pending("cancel")
 	_transitioning = false
 	if _closed:
 		return
@@ -112,7 +152,7 @@ func restart() -> bool:
 	if _closed or _transitioning:
 		return false
 	_transitioning = true
-	_cancel_pending()
+	_cancel_pending("restart")
 	if _closed:
 		_transitioning = false
 		return false
@@ -127,4 +167,4 @@ func dispose() -> void:
 	if _closed:
 		return
 	_closed = true
-	_cancel_pending()
+	_cancel_pending("dispose")

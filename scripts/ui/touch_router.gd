@@ -7,6 +7,7 @@ const EMULATED_DEVICE := -1
 
 # Tests disable automatic timing and advance the very same hold path explicitly.
 var automatic_timing := true
+var mobile_only := false
 var _targets: Array[Dictionary] = []
 var _scrolls: Array[WeakRef] = []
 var _gesture: Dictionary = {}
@@ -32,7 +33,7 @@ func register_scroll(scroll: ScrollContainer) -> void:
 			return
 	_scrolls.append(weakref(scroll))
 
-func cancel_pending() -> void:
+func cancel_pending(release_pointers: bool = false) -> void:
 	_generation += 1
 	# Keep the physical stream until release: dismiss/refresh must not click through.
 	if not _gesture.is_empty():
@@ -40,6 +41,11 @@ func cancel_pending() -> void:
 		_gesture.target = null
 		_gesture.tap = Callable()
 		_gesture.inspect = Callable()
+	if release_pointers:
+		# A suspended app or closing Window may never receive the old releases.
+		_gesture.clear()
+		_touches.clear()
+		_suppress_emulated_mouse = true
 
 func set_modal(control: Control = null) -> void:
 	cancel_pending()
@@ -68,7 +74,8 @@ func advance_time(seconds: float) -> void:
 func _input(event: InputEvent) -> void:
 	if _disposed:
 		return
-	if _route_inspect_shortcut(event):
+	# A left pointer emulates a finger during desktop testing.
+	if mobile_only and (event is InputEventKey or event is InputEventAction or event is InputEventJoypadButton or event is InputEventJoypadMotion or (event is InputEventMouseButton and event.button_index != MOUSE_BUTTON_LEFT)):
 		get_viewport().set_input_as_handled()
 		return
 	if _route_modal_keys(event):
@@ -91,6 +98,11 @@ func _input(event: InputEvent) -> void:
 			handled = bool(_touches[event.index])
 	elif event is InputEventMouseButton:
 		if event.device == EMULATED_DEVICE:
+			# Godot emits the emulated press before ScreenTouch. Decide a fresh
+			# stream's ownership from its target now, not the previous finger's
+			# suppression flag. Keep that decision through movement/release.
+			if event.pressed and _touches.is_empty() and _gesture.is_empty():
+				_suppress_emulated_mouse = _suspended or not _gesture_candidate(event.position).is_empty()
 			handled = _suppress_emulated_mouse
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			if not _touches.is_empty():
@@ -111,25 +123,6 @@ func _input(event: InputEvent) -> void:
 	# viewport input rather than leaving a path through to its ordinary Buttons.
 	if handled or _suspended:
 		get_viewport().set_input_as_handled()
-
-func _route_inspect_shortcut(event: InputEvent) -> bool:
-	if _suspended or _modal != null or not _gesture.is_empty() or not _touches.is_empty(): return false
-	var entry := {}
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and event.device != EMULATED_DEVICE:
-		entry = _target_at(event.position)
-	elif event is InputEventKey and event.keycode == KEY_I and event.pressed and not event.echo and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed:
-		var focused := get_viewport().gui_get_focus_owner()
-		for target in _targets:
-			if target.control.get_ref() == focused and _valid_target(target.control):
-				entry = target.duplicate()
-				entry.control_node = focused
-				break
-	var control: Control = entry.get("control_node")
-	var inspect: Callable = entry.get("inspect", Callable())
-	if control == null or not control.get_meta("inspect_shortcuts", false) or not inspect.is_valid(): return false
-	cancel_pending()
-	inspect.call()
-	return true
 
 func _touch(event: InputEventScreenTouch) -> bool:
 	if event.pressed:
@@ -155,15 +148,12 @@ func _touch(event: InputEventScreenTouch) -> bool:
 func _begin(kind: String, pointer_id: int, position: Vector2) -> bool:
 	if _suspended or not _gesture.is_empty():
 		return false
-	var entry := _target_at(position)
-	var target: Control = entry.get("control_node")
-	var horizontal := _scroll_at(position, target, true)
-	var vertical := _scroll_at(position, target, false)
-	if target == null and horizontal == null and vertical == null:
-		return false
-	# Editable fields, native selectors and scrollbars keep their own GUI routing.
-	if target == null and _native_control_at(get_parent(), position):
-		return false
+	var candidate := _gesture_candidate(position)
+	if candidate.is_empty(): return false
+	var entry: Dictionary = candidate.entry
+	var target: Control = candidate.target
+	var horizontal: ScrollContainer = candidate.horizontal
+	var vertical: ScrollContainer = candidate.vertical
 	_gesture = {
 		"kind": kind, "id": pointer_id, "origin": position, "position": position,
 		"target": weakref(target) if target != null else null,
@@ -177,6 +167,18 @@ func _begin(kind: String, pointer_id: int, position: Vector2) -> bool:
 	if target != null and target.focus_mode != Control.FOCUS_NONE:
 		target.grab_focus()
 	return true
+
+func _gesture_candidate(position: Vector2) -> Dictionary:
+	var entry := _target_at(position)
+	var target: Control = entry.get("control_node")
+	var horizontal := _scroll_at(position, target, true)
+	var vertical := _scroll_at(position, target, false)
+	if target == null and horizontal == null and vertical == null:
+		return {}
+	# Editable fields, native selectors and scrollbars keep their own GUI routing.
+	if target == null and _native_control_at(get_parent(), position):
+		return {}
+	return {"entry": entry, "target": target, "horizontal": horizontal, "vertical": vertical}
 
 func _move(position: Vector2) -> void:
 	if _gesture.is_empty():
@@ -323,13 +325,8 @@ func _prune_targets() -> void:
 			_targets.remove_at(index)
 
 func _notification(what: int) -> void:
-	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_WM_WINDOW_FOCUS_OUT]:
-		cancel_pending()
-		# The OS may never deliver release after switching applications. A later
-		# foreground touch must be allowed to start a fresh physical sequence.
-		_gesture.clear()
-		_touches.clear()
-		_suppress_emulated_mouse = true
+	if what in [NOTIFICATION_APPLICATION_FOCUS_OUT, NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_PAUSED]:
+		cancel_pending(true)
 
 func _exit_tree() -> void:
 	_disposed = true

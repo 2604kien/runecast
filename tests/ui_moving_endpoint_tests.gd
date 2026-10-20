@@ -61,8 +61,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_path: String = "") -
 	scene.controller.add_note("AUTOMATED RC-006 MOVING-ENDPOINT REPLAY/PASS CHECK: no participant evidence")
 	scene._save_experiment_record()
 	check.call(scene.record_error.is_empty() and scene.controller.record_document().totals.passes == 1, "Automated replay and Pass are saved to a dedicated record path.")
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 

@@ -99,3 +99,25 @@ Retaining earlier approved references preserves the actual input history of sele
 The removal scope covers enumerated rejected/superseded preview artwork, unused alternatives, duplicate review copies, obsolete composition caches and the pre-correction Begin-overlap archive. Current indexes, source mappings and generation metadata are reconciled with the retained files. Historical records may still describe an earlier audit state; the cleanup ledger explains intentional removals instead of treating those old preservation snapshots as current requirements.
 
 The [concise pilot index](../source-assets/pilot/delivery.md) replaces the former r001 history index. The retained r006 pilot remains `reference_guided`; approval of a supplied reference does not implicitly approve reconstructed assets or establish Godot/device readiness.
+
+
+## October 17, 2026 — RC-018 source and preview retention
+
+RC-018 adds 21 indexed runtime WAVs under `assets/audio/sfx/` and matching 24-bit masters plus editable recipes/provenance under `source-assets/audio/sfx/`. The shared enemy float stem is a source dependency, not a 22nd runtime cue. Listening reels, comparisons, real-event sequences and internal Godot mixer capture remain under `output/audio/rc-018/`; focused reports are under `output/qa/rc-018/`. Existing export exclusions keep sources, tools, docs and previews outside shipped assets. All 164 protected existing production files remain unchanged; no earlier audio existed to retire. [Delivery and evidence](rc-018-verification.md).
+
+The owner subsequently rejected r001's sound direction as too snare-like. Retain it for comparison and historical technical evidence while five r002 Runway candidates are auditioned. Original MP3s and generation/provenance records are under `source-assets/audio/sfx/revisions/r002-runway-audition/`; the comparison player is under `output/audio/rc-018/r002/`. These are source-only candidates, not extra runtime cues or accepted replacements. No r001 source, runtime or QA evidence was deleted.
+
+The owner approved the r002 direction and requested a full Runway rebuild. The r003 revision replaces the same 21 runtime destinations and matching working masters; all 21 original MP3s, generation records and decoded/editable processing inputs are retained under `source-assets/audio/sfx/revisions/r003-runway-library/`. The 21 rejected r001 runtimes and 21 masters plus metadata are archived under `revisions/r001-procedural/`, and prior QA is under `output/qa/rc-018/r001/`. The r002 comparison now points to frozen r001 WAVs, preserving its meaning. Current previews and verification are refreshed for r003; no historical numerical baseline was rewritten to force a pass. Existing export exclusions keep all source, history and audition files outside shipped assets.
+
+## October 17, 2026 — RC-019 ambience retention and deferred music
+
+Retain the single crypt runtime under `assets/audio/ambience/`, its original Runway MP3, generation/provenance records, 24-bit working master and editable processing under `source-assets/audio/`, and the [audition page](../output/audio/rc-019/index.html). The six-cycle decoded-runtime WAV contains five internal joins for listening; it is a source-only review export, not another runtime bed. The shorter boundary excerpt, focused reports, Godot internal capture and independent reproduction under `output/qa/rc-019/` document this delivery. Existing export exclusions keep those source, review and QA files outside the shipped game.
+
+The owner left both music tracks pending after Runway required a paid plan. Retain the prepared requests and [deferral record](../source-assets/audio/music/delivery.md); no missing music path should be treated as a deliverable or an orphan to remove. RC-019 remains incomplete, and production integration belongs to RC-020. No SFX, previous preview or production file was retired by this task. [Current evidence](rc-019-verification.md).
+
+
+## October 18, 2026 — RC-020 Cast placeholder retired
+
+Removed the code-generated 8-bit 440 Hz Cast tone, its dedicated production player and the old Cast playback call. Current accepted Cast uses the single coordinator and existing r003 `sfx_cast` WAV once. No authored audio file was deleted or replaced. All 21 delivered SFX and the crypt Ogg keep their existing paths; future-only SFX stay unbound, and deferred music paths remain unavailable.
+
+The shipped GDScript catalogue is metadata owned by runtime code; sources/docs/tests/review captures remain excluded from exports. Retain the compact initial headroom-failure report and final measured playback evidence under `output/qa/rc-020/`, plus the WAV, timed-frame review and optional AVI. A transient 8 ms release envelope is computed from an active cue in memory and is not a new asset. [Current verification](rc-020-verification.md).

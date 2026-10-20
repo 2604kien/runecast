@@ -1,5 +1,15 @@
 # Rune Cast
 
+**RC-024 session flow:** normal launch now opens Home. Choose **New Run** to play the existing production Shadeling fixture. Menu **Resume** keeps the current battle; **Quit to Home** explains and confirms replay from the same battle-entry checkpoint. Home **Continue** works only while this application session remains open. Closing the app loses the run; Options preferences still persist. Replacing a session requires confirmation. Shadeling victory is one encounter, not tower completion. [Run ownership and verification](docs/rc-024-verification.md).
+
+Launch with `.\tools\godot.ps1 -Action run`. Explicit `-Encounter`, `-BoardExample`, `-Experiment`, existing captures and direct `scenes/main.tscn` consumers retain isolated Combat behavior. RC-024A permanent progression, RC-025 routes, RC-026 full encounter integration and RC-028 saves remain separate work; RC-022 stays deferred and RC-023 acceptance stays pending.
+
+**RC-020 available audio:** current SFX and continuous crypt ambience now use one production coordinator. Menu → Options offers independent Music/SFX levels and mutes; Sound remains the master shortcut. [Usage/settings](docs/audio-integration.md), [recorded playable review](output/qa/rc-020/demo/index.html), [verification](docs/rc-020-verification.md). Both music tracks and final music/full-mix listening remain pending, so RC-019 and the original full RC-020 task stay incomplete.
+
+## October 16, 2026 — Combat animation and feedback
+
+Normal production Combat now presents the detached ordered result through RC-017: circuit traversal, applied damage, shielding/retaliation, cleanup, actual cards and stable victory/defeat. The actor keeps its approved neutral and retained attack/hit artwork; clean hidden scenery removes residual silhouettes. Use `--reduced-motion` or the existing settings file's accessibility preference for stationary colour/opacity feedback, independently of sound. [Usage and event mapping](docs/combat-animation.md), [actor contract](docs/actor-animation-contract.md), [tests and native motion evidence](docs/rc-017-verification.md).
+
 ## October 16, 2026 — Unused resource cleanup
 
 Removed 2,221 audited unused resources and obsolete QA files, freeing 1.28 GiB. Current game art, approved references, editable masters and required test inputs remain. The generator no longer emits unused pile/state assets. [Cleanup record](docs/asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [verification](docs/verification.md#october-16-2026--unused-resource-cleanup).

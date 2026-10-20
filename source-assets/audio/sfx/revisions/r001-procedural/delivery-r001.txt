@@ -1,0 +1,54 @@
+# RC-018 SFX source delivery — r001
+
+**October 17 owner review: sound direction rejected.** The owner described this library as variants of a snare. Retain these files as the r001 technical baseline and comparison sources. RC-018 sound design is reopened; the [r002 five-cue audition](../../../output/audio/rc-018/r002/index.html) and [separate generated-source record](revisions/r002-runway-audition/README.md) await listening review. The r001 provenance below applies only to r001; no r002 candidate has replaced a runtime file.
+
+Delivered October 17, 2026: **16 stable manifest families, 21 mono runtime WAVs and 21 matching consolidated mono masters**, totaling 9.47 seconds. Runtime is 48 kHz, signed 16-bit PCM; masters are 48 kHz, signed 24-bit PCM. Basenames and family directories preserve the production manifest. Every cue is a one-shot; there are no music, ambience or looping assets.
+
+The direction is tactile painted fantasy: wooden and mineral UI gestures, stone-rune editing, parchment techniques, short airy magic, rounded impacts, a hollow bronze shield and a lantern-like spectral enemy. Four future material accents reuse the exact spectral attack's underlying action stem; choose the actor's single exported variant. Warm result stings stay brief and restrained. The historical `sfx_undo` folder supplies accepted Remove/refund feedback and does not restore Undo.
+
+## Editable source and regeneration
+
+- [generate_sfx.py](generate_sfx.py) contains the original mathematical sound design engine.
+- [settings.json](settings.json) contains **every actual seed, duration, gain recommendation, frequency, decay, layer amount and fade**. Edit this file to revise a cue. Settings are read, never overwritten by the renderer.
+- [stems/enemy_action_base.npy](stems/enemy_action_base.npy) is the original float64 mono shared enemy stem. It is rebuilt once from the saved `shared_enemy_base` recipe and mixed unchanged into each of the five enemy recipes before per-cue export scaling. It is an editable-source intermediate, not an additional runtime cue.
+- [provenance.json](provenance.json) records source and rights facts.
+- [generation-report.json](generation-report.json) records the render environment, exact input/export hashes, applied level scaling, and floating-point measurements before PCM conversion.
+- [generation-reproducibility.json](generation-reproducibility.json) records a second render and byte-for-byte comparisons of every generated output.
+
+Run from the repository root with Python 3 and the already-available NumPy library:
+
+```powershell
+& 'C:\Users\nguye\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' source-assets/audio/sfx/generate_sfx.py
+```
+
+No dependency installation, paid service, account, DAW, sampled recording or audio-generation service is required. For an isolated reproduction, add `--root <alternate-output-root>`; `--settings <edited-settings.json>` accepts a revision of the settings. The renderer only writes its named SFX exports, shared source stem and generation report. It does not update Godot code, cue mappings or integration documentation. A settings revision requires fresh validation and audition before adoption.
+
+The synthesis uses deterministic PCG64 noise, smooth FFT band shaping, short inharmonic damped modal resonators, sparse grains and quiet 27/61 ms early reflections. All five enemy files receive the same shared action waveform. A 90 Hz high-pass and 5.7 kHz low-pass temper bass and high-frequency harshness. Raised-sine/cosine endpoint tapers and weighted DC correction preserve zero endpoints. The generator's layers remain available for revision; the consolidated WAV is the complete intended trimmed cue, not a claim that silent editing handles were shipped.
+
+## Export and level policy
+
+The same floating-point render feeds the master and runtime encoders with separate saved-seed TPDF dither. PCM widths are exactly 24 and 16 bits. No compressor or brickwall limiter is used. Source and runtime differ only through their integer quantization and dither, not sample rate, duration or editing.
+
+Godot runtime import is explicitly **lossless PCM16**: each delivered `.wav.import` uses `compress/mode=0`, `edit/normalize=false`, `edit/trim=false`, `edit/loop_mode=0`, with force-mono and force-8-bit disabled. The files are already mono and 16-bit. Godot's default QOA compression is not the chosen import format for these short cues. The renderer preserves existing sidecars; the isolated import validation verifies their settings and loaded sample rate/channel/format.
+
+Role-dependent whole-file RMS targets provide a **provisional technical level match**, with quieter repeated UI/editing and stronger primary actions. These are not perceived-loudness or integrated-LUFS claims. Per-cue safety ceilings are independent of those targets; none constrained the delivered r001 render. All five enemy variants share a -26 dBFS RMS target while retaining distinct peaks. `intended_gain_db` is additional suggested playback attenuation, not gain already baked twice into the WAV. The catalogue specifies contextual overrides such as shield gain versus actual blocking.
+
+The generation report estimates true peak using 8x zero insertion and a 257-tap windowed-sinc interpolator, Kaiser beta 8.6. It is **not a certified BS.1770 meter**. Its final floating-point estimates span approximately -10.47 to -5.31 dBTP, leaving margin below the provisional -3 dBTP ceiling. Independent measurements of the actual encoded files, sample counts, endpoint/tail behavior, master correspondence and hashes are in [audio-validation.json](../../../output/qa/rc-018/audio-validation.json). Very short SFX do not receive misleading integrated loudness numbers.
+
+All durations fit their production ranges and all files are under two seconds. The 21 runtime WAVs occupy 910,044 bytes including headers; masters occupy 1,364,604 bytes including headers. Runtime decoded PCM payload is 909,120 bytes. This is a file/payload calculation, not a measured Godot mixer-residency or mobile-device result.
+
+## Source, rights and review status
+
+All audio is original procedural output of the included project-specific code and settings, authored by Codex for this request. **No third-party audio, recordings, sampled instruments, sound libraries or model-generated audio are incorporated.** No sample-source attribution requirement is introduced by this source chain. The record does not invent a Creative Commons licence, licence transfer, copyright ownership or legal-clearance decision. RC-050 retains the final distribution audit; the full local source is retained for it.
+
+The creator is identified as Codex, with the exact text-model identifier not recorded by this renderer. A waveform-generation model, service, prompt and model seed are not applicable because the WAVs are mathematical DSP output. The actual DSP seeds, tool versions, source code and parameter settings are recorded. NumPy is a local renderer dependency, not a shipped audio sample or bundled game dependency.
+
+**No headphone, speaker or acoustic listening review is claimed.** Automated measurement establishes technical facts, not aesthetic acceptance. The isolated audition player and listening reel support owner review; actual playback/import evidence and its limits belong in [RC-018 verification](../../../docs/rc-018-verification.md). No physical-device or final mix acceptance is implied.
+
+## Integration handoff
+
+Use the [cue catalogue](../../../docs/audio-cue-catalogue.json), [audition index](../../../output/audio/rc-018/index.html), and [preview instructions](../../../output/audio/rc-018/README.md). Family-specific notes below this directory identify every source and runtime file.
+
+RC-020 owns production playback, buses/settings, replacing the current Cast tone, presentation-clock hooks, cancellation and voice limits. No main-scene sound behavior changes here. `event_presented` fires **after** visual completion and staged consequence commit and cannot serve as a phase-start or contact hook. Audio duration never changes the owner-approved RC-017 animation timings. Normal/reduced-motion grouping must retain meaningful action/result cues without compressed overlapping duplicates.
+
+Flame, stone, chain and bell attack variants await their future actors; reward and guardian transition cues await real committed gameplay systems and RC-042 binding. Do not infer guardian phase transitions from HP. Only accepted actions, actual supplied card events and positive applied damage can supply their respective cues. Cleanup uses at most one shared accent; the remaining sequential clears remain silent. RC-019 can proceed independently with its bounded music and ambience deliverables.

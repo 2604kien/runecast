@@ -1,5 +1,7 @@
 # Rune Cast gameplay rules
 
+**October 19 RC-024 shell:** normal launch opens Home and creates a session-only run before entering the same production Combat fixture. The run owns card identities, health, Gold/relic references and deterministic boundary state; hand/piles/installed cards, temporary Free Spark, energy, stock and editing history retain their battle lifetimes. Menu Resume keeps current play. Confirmed Quit to Home discards battle progress and Continue replays the identical entry checkpoint. Encounter victory is not tower completion and grants no permanent rune. [Run interfaces and limits](rc-024-verification.md). Explicit development launches still use standalone Combat, including its established Restart versus Exact replay semantics.
+
 **October 13, 2026 — current production contract.** RC-016A implements the owner's accepted undirected circuit rules and control migration on the RC-007 production profile. Normal gameplay uses `data/production_encounter.json`; explicit historical training and experiments retain their directed rules. The visible **Pass turn** control replaces the WIRING label beside the connector tools. See the [owner decision](decisions.md#october-13-2026--rc-016a-undirected-graph-and-controls-accepted), [production contract](production-rules-spec.md), [visual target](gameplay-visual-contract.md) and dated [verification](verification.md) for evidence and completion status. This migration does not claim the full RC-016 art integration or device acceptance.
 
 ## Starting a turn

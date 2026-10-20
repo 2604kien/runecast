@@ -1,5 +1,13 @@
 # Rune Cast decisions
 
+## October 19, 2026 — RC-024 bounded session implementation
+
+The owner requested independent run-state and Home/application-shell groundwork now, preserving the current Combat fixture and all mobile preparation. Run-owned card instances remain separate from unresolved across-run ownership; Free Spark is always temporary. Use the scoped 30/30 health, two each of Spark/Shield/Focus/Conjure, zero run Gold and no relics baseline. Shadeling victory completes this encounter only.
+
+Menu Resume retains current battle progress. Confirmed Quit to Home explicitly discards that progress and retains the pre-battle entry checkpoint; Continue replays the same card/endpoint/kit streams within this session. New Run confirms replacement, and cancellation leaves the existing state unchanged. Closing the application loses the run. This in-memory boundary does not authorize a second save system or settings-file run storage; RC-028 owns persistence/recovery/migration. Implementation details and evidence are in [RC-024 verification](rc-024-verification.md).
+
+RC-024A still resolves permanent rune acquisition, eligibility, Store currency/ownership and purchase lifetime. RC-025/026 own routes and full integration. Remaining RC-022 Mac/signing/device work is deferred; RC-023 human/device acceptance and both music tracks remain pending. These are scope boundaries, not waived acceptance criteria.
+
 ## October 13, 2026 — RC-016A undirected graph and controls accepted
 
 After reviewing the unresolved choices against the code, the owner replied: **“Let's change the WIRING button to Pass turn button instead of going to menu. I approve everything else”**. This accepts the following contract before dependent implementation. It supersedes conflicting RC-007/RC-008 production behavior; historical directed experiments remain separate.

@@ -1,0 +1,23 @@
+{
+  "task": "RC-019",
+  "status": "pending_by_owner_choice",
+  "reason": "Runway music generation returned paid_plan_required; owner explicitly chose Leave music pending.",
+  "music_export_created": false,
+  "home_exploration_request": {
+    "model": "lyria-3-pro",
+    "name": "RuneCast RC019 - Home and exploration",
+    "rationale": "User explicitly requested RC-019's two music loops and crypt ambience using Runway in the established quiet painted fantasy direction.",
+    "promptText": "Instrumental fantasy game exploration underscore for RuneCast, a painted ancient crypt puzzle adventure. Quiet, warm, curious and mysterious rather than horror. Around 72 BPM, gentle modal D Dorian harmony, sparse felted strings and soft breathy wooden flute phrases, delicate low harp notes and slowly evolving glass harmonics; restrained lower register and ample quiet space for tactile stone, paper and magic sound effects. No vocals, choir, speech, drum hits, snare, cymbals, bright repeated chimes, bass booms or dramatic orchestral crescendos. A long continuous stable background texture with subtle eight-bar development, at least ninety seconds of consistent middle material suitable for extracting a seamless 60–120 second loop. Avoid a loud intro, stops, sudden transitions or a showy final cadence; maintain a comfortable medium-soft dynamic and even tempo. Gently hopeful ancient wonder, close and intimate with modest room depth, not a modern cinematic trailer."
+  },
+  "home_submission": {
+    "kind": "account_limitation",
+    "reason": "paid_plan_required",
+    "task_created": false
+  },
+  "combat_request": {
+    "model": "lyria-3-pro",
+    "name": "RuneCast RC019 - Combat",
+    "promptText": "Restrained instrumental fantasy strategy-combat loop for a painted ancient crypt puzzle game. Gentle low string ostinato, airy spectral harmonics and occasional soft bronze resonance; focused tension and patient forward movement, with abundant space for tactile stone, paper and magic effects. No vocals, drums, snare, sharp cymbals, cinematic impacts or heavy bass. Related to the warm modal Home/exploration texture, slightly more active yet calm. Stable tempo and moderate dynamics; at least ninety seconds of continuous middle material for a seamless 60–120 second loop. Avoid distinct intro, ending cadence, sudden breaks or aggressive climaxes."
+  },
+  "combat_submission": "not attempted after music plan restriction"
+}

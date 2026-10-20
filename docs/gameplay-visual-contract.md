@@ -1,8 +1,22 @@
 # Official final gameplay visual — October 11, 2026
 
+## October 17, 2026 — No Rune Slot inspection
+
+Board slots must never open information windows through tap, hold or any inspect action. This includes empty slots, installed runes/connectors and Begin/End. Preserve normal selection, placement, rotation and page dragging. Hand-card, toolbar and pile details remain available; earlier requirements for board-piece inspection are superseded.
+
+## October 17, 2026 — Centered hand and mobile controls
+
+Remove the suggestion/action-message row above the hand. Keep the 146 px card lane centered between the toolbar and forecast with equal 10 px gaps, including during sequential card fades and empty-hand states. Production uses tap, hold, Info/Close and drag. Remove right-click inspection and desktop keyboard/controller/wheel actions, including in Guide and Menu. These owner changes supersede earlier action-log and desktop-control requirements below.
+
+## October 17, 2026 — Stable hand height and darker Pass Turn text
+
+The production hand reserves the compact card's full 146 px height even when empty, keeping the forecast, Cast and navigation in place through card removal and drawing. Draw/Discard retain their centered 139 px controls and the hand remains horizontally scrollable. Pass Turn uses the same parchment background and dark ink as the Turn-number label, retaining its existing shape, hit target and confirmation action. Its text stays dark in normal, hover, pressed, focused and disabled states; standard pressed/availability feedback remains.
+
+Each drawn or generated card fades in over 0.40 s before the next arrives. Existing cards stay opaque; the hand reveals incoming cards horizontally while retaining its height and vertical page position. Reduced motion uses brief 0.06 s fades. [Animation contract](combat-animation.md), [verification](rc-017-verification.md#october-17-owner-follow-up--sequential-card-arrival-fades).
+
 ## Current consolidated baseline — October 16, 2026
 
-RC-016 is complete per owner confirmation. Preserve the original reference together with these later owner changes: wordmark left/floor right; no BOSS caption or top Pause; compact card cost gems with no category row; display-only Damage/Shield/Cost with no Incoming; no Cast caption, hover popups or floating unavailable badges. Confirmed Pass and supported card/piece/connector/pile inspection remain. Split/Join central glyphs keep their approved orientation while logical wires rotate.
+RC-016 is complete per owner confirmation. Preserve the original reference together with these later owner changes: wordmark left/floor right; no BOSS caption or top Pause; compact card cost gems with no category row; display-only Damage/Shield/Cost with no Incoming; no Cast caption, hover popups or floating unavailable badges. Confirmed Pass and supported card/piece/connector/pile inspection remain. Rune symbols (Spark, Shield and Free Spark) and Split/Join central glyphs stay upright while their logical ports and visible wires rotate.
 
 The current player status strip uses the generated [painted frame](../assets/ui/combat/reference/status-frame.png), 54 px row and 36 px content well; earlier patch/polygon border and 30 px well descriptions below are dated history. The current neutral uses the approved-atlas silhouette. RC-017 must reconcile it with retained attack/hit poses and clean hidden scenery. See the [latest integration record](rc-016-integration.md) and [retained runtime capture](../output/qa/rc-016/stats-generated-frame/normal-desktop.png). No complete pixel identity, rights clearance or physical-device result is implied.
 

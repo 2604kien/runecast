@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PresentationSupport = preload("res://tests/presentation_test_support.gd")
+
 const GeneratedStatsOracle = preload("res://tests/helpers/generated_stats_oracle.gd")
 
 # RC-016 actual main-scene rendering at native viewport sizes. Desktop synthetic
@@ -56,7 +58,7 @@ func _run() -> void:
 		"memory_scope": "Sum of unique actual consumer texture dimensions as RGBA8 without mipmaps; excludes unused variants, font atlases, transient resources, driver overhead and render targets. Not measured resident/device memory.",
 		"engine": Engine.get_version_info().string,
 		"renderer": RenderingServer.get_video_adapter_name(),
-		"scope": "Actual ordinary main scene in native SubViewports, synthetic touch/keyboard plus existing production UI construction helper. No physical-device, owner aesthetic or release-rights acceptance.",
+		"scope": "Actual ordinary main scene in native SubViewports, synthetic touch plus existing production UI construction helper. No physical-device, owner aesthetic or release-rights acceptance.",
 		"qa_seams": "Only unaffordable energy, empty hand, terminal HP and a known conflicting graph are injected; shipped content and normal opening/draw/kit remain unchanged."
 	}
 	var file := FileAccess.open(destination.path_join("results.json"), FileAccess.WRITE)
@@ -103,12 +105,8 @@ func _native_layout(dimensions: Vector2i) -> void:
 	if dimensions.x == 720:
 		await _branch_rotation_controls(scene, viewport, suffix)
 	await _inspection(scene, viewport, suffix)
-	# Native keyboard focus must reveal an off-screen action in the longer page.
-	scene.page_scroll.scroll_vertical = 0
-	scene.sound_button.grab_focus()
-	await _layout()
-	_check(_fully_visible(scene.sound_button, viewport), suffix + " keyboard focus reveals the off-screen navigation control.")
-	scene.sound_button.release_focus()
+	await _reveal(scene, scene.sound_button)
+	_check(_fully_visible(scene.sound_button, viewport) and scene.sound_button.focus_mode == Control.FOCUS_NONE, suffix + " the navigation control can be exposed for touch without desktop focus.")
 	scene._open_menu()
 	await _layout()
 	_check(scene.menu.size.x <= dimensions.x and scene.menu.size.y <= dimensions.y, suffix + " native Menu remains within the portrait viewport: " + str(scene.menu.size))
@@ -143,6 +141,7 @@ func _native_layout(dimensions: Vector2i) -> void:
 		_check(_fully_visible(scene.cast_button, viewport), suffix + " pointed Cast is a visible reachable input target: " + str(scene.cast_button.get_global_rect()))
 		await _save(viewport, "ready-to-cast-" + suffix)
 		touch._tap(viewport, scene.cast_button)
+		PresentationSupport.finish(scene)
 		await _layout()
 		_check(scene.game.turn == prior.turn + 1 and scene.game.enemy_hp == maxi(0, int(prior.enemy_hp) - int(spell.damage)) and helper._only_endpoints(scene.game.board), suffix + " real Cast tap applies the forecast once and resets the next board.")
 		_live_bindings(scene, suffix + " after Cast")
@@ -160,8 +159,7 @@ func _native_layout(dimensions: Vector2i) -> void:
 		await _conflict(scene, viewport, setup)
 		await _repeated_guard(scene, setup)
 	await _terminal(scene, viewport, setup, suffix)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	viewport.queue_free()
 	await process_frame
 
@@ -187,7 +185,11 @@ func _layout_contract(scene: Control, viewport: SubViewport, phase: String) -> v
 	_check(scene.theme == Ui.THEME and scene.cast_button.has_meta("rc_skin") and scene.cast_button.get_meta("rc_skin").texture == CombatSurface.TEXTURES.cast, phase + " uses the existing theme and generated painted Cast resource.")
 	_check(_has_approved_icon(scene.cast_button, "energy"), phase + " Cast keeps the original masked reference energy crystal beside live cost.")
 	_check(scene.draw_button.get_global_rect().get_center().x < scene.hand_scroll.get_global_rect().get_center().x and scene.discard_button.get_global_rect().get_center().x > scene.hand_scroll.get_global_rect().get_center().x, phase + " live Draw remains left and Discard right.")
-	_check(scene.action_log.get_global_rect().end.y <= scene.hand_scroll.get_global_rect().position.y + 1 and scene.forecast_button.get_global_rect().end.y <= scene.cast_button.get_global_rect().position.y + 1, phase + " log is above the hand and persistent forecast is above Cast.")
+	var hand_rect: Rect2 = scene.hand_row.get_global_rect()
+	var toolbar_rect: Rect2 = scene.wiring.get_parent().get_global_rect()
+	var forecast_rect: Rect2 = scene.forecast_button.get_global_rect()
+	_check(is_equal_approx(hand_rect.size.y, 146.0) and is_equal_approx(hand_rect.position.y - toolbar_rect.end.y, forecast_rect.position.y - hand_rect.end.y)
+		and not scene.status.is_visible_in_tree() and forecast_rect.end.y <= scene.cast_button.get_global_rect().position.y + 1, phase + " the fixed-height hand is centered between toolbar and forecast with no suggestion row, and forecast remains above Cast.")
 	_check(scene.forecast_reason.get_index() + 1 == scene.forecast_button.get_index(), phase + " forecast explanation stays in one fixed layout slot above the forecast.")
 	_check(scene.hand_box.get_children().all(func(card): return card.size.x <= scene.hand_scroll.size.x), phase + " each detailed card can be fully exposed by hand scrolling.")
 	_check(scene.action_buttons.keys().size() == 2 and scene.action_buttons.has("erase") and scene.action_buttons.has("rotate") and scene.turn_pass_button.visible and not scene.inspect_button.is_visible_in_tree(), phase + " preserves the accepted Remove/Rotate and visible Pass controls.")
@@ -628,9 +630,20 @@ func _arena_contract(scene: Control, phase: String) -> void:
 	var layers: Array = arena.environment.get_layer_nodes()
 	_check(layers.size() == 2 and layers[0].name == "ReferenceCleanPlate" and layers[1].name == "ReferenceVisibleScenery" and layers.all(func(layer): return not layer.centered and layer.position == Vector2(0, 60)) and layers[0].scale.is_equal_approx(Vector2(841, 450) / layers[0].texture.get_size()) and layers[1].region_enabled and layers[1].region_rect == Rect2(0, 60, 841, 450) and layers[1].scale == Vector2.ONE, phase + " clean hidden fill and original visible scenery share the approved841x450 composition; only the clean plate is normalized for its import size.")
 	_check(not arena.environment.get_node("Background").visible and not arena.environment.get_node("Floor").visible and layers[0].visible and layers[1].visible and layers[1].material.shader.resource_path == "res://assets/environments/crypt/reference/visible_edges.gdshader", phase + " reference scenery replaces both old visible layers and masks the original actor/intent/status region.")
-	_check(arena.actor.get_pose() == "neutral" and not arena.actor.is_processing() and not arena.role_label.is_visible_in_tree() and arena.name_label.text.to_lower() == str(scene.game.enemy_name).to_lower() and arena.health_label.text.contains(str(scene.game.enemy_hp)), phase + " static production actor and live name/health labels are present without autoplay or BOSS text.")
+	var playing: bool = scene.game.state == "playing"
+	var enemy_defeated: bool = scene.game.state == "victory"
+	_check(arena.actor.is_processing() == (playing and not scene.reduced_motion) and not arena.role_label.is_visible_in_tree() and arena.name_label.text.to_lower() == str(scene.game.enemy_name).to_lower() and arena.health_label.text.contains(str(scene.game.enemy_hp)), phase + " production idle is nonblocking only while playing; terminal/reduced states stop it, with separate live name/health and no BOSS text.")
+	if playing:
+		_check(arena.actor.get_pose() == "neutral" and arena.actor.pose_root.position == Vector2.ZERO and is_zero_approx(arena.actor.pose_root.rotation) and absf(arena.actor.pose_root.scale.y - 1.0) <= 0.00401 and is_equal_approx(arena.actor.pose_root.scale.x, 1.0), phase + " approved neutral idle stays foot-rooted within its 0.4% breathing bound.")
+	elif enemy_defeated:
+		_check(arena.actor.get_state() == "defeat" and is_zero_approx(arena.actor.pose_root.modulate.a), phase + " victory keeps the defeated enemy stably faded instead of returning to idle.")
+	else:
+		_check(arena.actor.get_pose() == "neutral" and arena.actor.pose_root.transform == Transform2D.IDENTITY and arena.actor.pose_root.modulate == Color.WHITE, phase + " player defeat keeps the surviving enemy stationary in its restored neutral pose.")
 	var sprite: Sprite2D = arena.actor.pose_sprite
-	_check(sprite.texture == CombatSurface.ATLAS and sprite.region_enabled and sprite.region_rect == Rect2(285, 145, 295, 290) and sprite.material is ShaderMaterial and sprite.material.shader.resource_path == "res://assets/enemies/shadeling/reference/approved_actor.gdshader", phase + " neutral actor is an independently masked original atlas region, retaining the approved face, folds, lantern and boots.")
+	if not enemy_defeated or scene.reduced_motion:
+		_check(sprite.texture == CombatSurface.ATLAS and sprite.region_enabled and sprite.region_rect == Rect2(285, 145, 295, 290) and sprite.material is ShaderMaterial and sprite.material.shader.resource_path == "res://assets/enemies/shadeling/reference/approved_actor.gdshader", phase + " neutral actor is an independently masked original atlas region, retaining the approved face, folds, lantern and boots.")
+	else:
+		_check(sprite.texture.resource_path == "res://assets/enemies/shadeling/hit.png" and not sprite.region_enabled and sprite.region_rect == Rect2() and sprite.material == null, phase + " defeated actor retains its fully restored ordinary pose-texture contract at the stable faded endpoint.")
 	_check(arena.health_bar.value == scene.game.enemy_hp and arena.health_bar.max_value == scene.game.enemy_max_hp and (arena.intent_label.text.contains(str(scene.game.intent)) if scene.game.state == "playing" else arena.intent_label.text.to_lower().contains(scene.game.state)), phase + " health bar and intent bind to authoritative values.")
 
 func _live_bindings(scene: Control, phase: String) -> void:
@@ -638,7 +651,7 @@ func _live_bindings(scene: Control, phase: String) -> void:
 	var spell: Dictionary = snapshot.forecast
 	var incoming: int = 0 if spell.valid and spell.damage >= snapshot.enemy_hp else maxi(0, int(snapshot.intent) - int(spell.shield)) if spell.valid else int(snapshot.intent)
 	_check(scene.forecast_values == {"damage": spell.damage, "shield": spell.shield, "cost": spell.cost, "incoming": incoming}, phase + " persistent forecast agrees with the authoritative snapshot.")
-	_check(scene.pile_values.draw_pile.text == str(snapshot.draw_pile.size()) and scene.pile_values.discard_pile.text == str(snapshot.discard_pile.size()) and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and scene.action_log.text == snapshot.log_text, phase + " live piles, hand count and action log agree with the authoritative snapshot.")
+	_check(scene.pile_values.draw_pile.text == str(snapshot.draw_pile.size()) and scene.pile_values.discard_pile.text == str(snapshot.discard_pile.size()) and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and not scene.status.is_visible_in_tree(), phase + " live piles and hand count agree with the authoritative snapshot without a suggestion line.")
 	_check(scene.hand_box.get_child_count() == snapshot.hand.size() and scene.info_buttons.size() == snapshot.hand.size() and scene.hand_box.get_children().map(func(card): return int(card.get_meta("uid", -1))) == snapshot.hand.map(func(card): return int(card.uid)), phase + " detailed cards/Info preserve every live hand identity.")
 	_check(scene.cast_cost.text == (str(spell.cost) if spell.valid else "—"), phase + " the pointed Cast displays the live energy cost or unavailable marker.")
 	_check(scene.hand_box.get_children().all(func(card): return card.has_meta("rc_skin") and card.get_meta("rc_skin").get_script() == CombatSurface and card.get_meta("rc_skin").kind.begins_with("card_") and card.has_meta("uid")), phase + " each live card consumes its generated painted card skin with live identity.")
@@ -668,6 +681,9 @@ func _source_texture(texture: Texture2D) -> Texture2D:
 func _resource_contract(scene: Control) -> void:
 	_check(scene.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR and scene.texture_repeat == CanvasItem.TEXTURE_REPEAT_DISABLED, "Production root uses linear filtering with repeat disabled.")
 	_collect_textures(scene)
+	for pose_name in scene.arena.actor.get_retained_pose_names():
+		if pose_name != &"neutral":
+			_record_texture(load("res://assets/enemies/shadeling/" + String(pose_name) + ".png"))
 	for texture in scene.cells[0].SYMBOLS.values():
 		_record_texture(texture)
 	_record_texture(ReferenceIcons.ATLAS)
@@ -693,8 +709,8 @@ func _resource_contract(scene: Control) -> void:
 		_check(ok and imported.get_value("params", "compress/mode", -1) == 0 and not imported.get_value("params", "mipmaps/generate", true) and imported.get_value("params", "process/fix_alpha_border", false), "Lossless/alpha-border import policy is preserved: " + path)
 		if path.ends_with(".svg"):
 			_check(texture.get_size() == Vector2(256, 256), "Imported production symbol is the delivered 2x raster: " + path)
-	_check(textures.has("res://assets/environments/crypt/reference/arena.png") and textures.has("res://assets/ui/combat/reference/approved-atlas.png") and not textures.has("res://assets/enemies/shadeling/reference/neutral.png"), "Actual scene shares the approved atlas between scenery, neutral actor and UI; the clean crypt only fills hidden regions and the regenerated neutral is no longer loaded.")
-	_check(not textures.keys().any(func(path): return "/shadeling/parts/" in path or path.ends_with("shadeling/attack.png") or path.ends_with("shadeling/hit.png")), "Static integration does not prewarm unused actor poses or part-rig textures.")
+	_check(textures.has("res://assets/environments/crypt/reference/arena.png") and textures.has("res://assets/ui/combat/reference/approved-atlas.png") and not textures.has("res://assets/enemies/shadeling/reference/neutral.png"), "Actual scene shares the approved atlas between outer scenery, neutral actor and UI; the clean crypt fills the fixed center and the regenerated neutral is no longer loaded.")
+	_check(not textures.keys().any(func(path): return "/shadeling/parts/" in path) and scene.arena.actor.get_retained_pose_names().size() == 3 and textures.has("res://assets/enemies/shadeling/attack.png") and textures.has("res://assets/enemies/shadeling/hit.png"), "Production warms the approved atlas plus two existing512 pose textures before contact, with no optional part rig.")
 	_skin_borders(scene)
 
 func _approved_arena_raster_contract() -> void:
@@ -714,25 +730,44 @@ func _approved_arena_raster_contract() -> void:
 	viewport.add_child(actor)
 	actor.show_pose(&"neutral")
 	await _layout()
-	await _save(viewport, "approved-arena-recombined-841x450")
+	await _save(viewport, "approved-actor-clean-center-arena-841x450")
 	var combined: Image = viewport.get_texture().get_image()
 	var source: Image = CombatSurface.ATLAS.get_image()
-	# Dynamic reference labels deliberately become small clean-plate holes.
-	# The rest must reconstruct the source, including all actor/scenery joins.
+	# RC-017 intentionally replaces the center and feathers into retained outer
+	# scenery. Compare every source pixel outside that documented composition.
 	var holes := [Rect2i(374, 99, 88, 61), Rect2i(395, 410, 56, 24), Rect2i(368, 430, 110, 29), Rect2i(304, 453, 230, 41)]
+	var clean_center_with_feather := Rect2i(236, 50, 378, 443)
 	var compared := 0
 	var changed := 0
 	for y in 450:
 		for x in 841:
 			var point := Vector2i(x, y + 60)
-			if holes.any(func(hole): return hole.has_point(point)):
+			if clean_center_with_feather.has_point(point) or holes.any(func(hole): return hole.has_point(point)):
 				continue
 			compared += 1
 			var expected := source.get_pixelv(point)
 			var actual := combined.get_pixel(x, y)
 			if maxf(absf(expected.r - actual.r), maxf(absf(expected.g - actual.g), absf(expected.b - actual.b))) > 1.0 / 255.0:
 				changed += 1
-	_check(compared > 350000 and changed == 0, "Approved neutral and tight scenery masks reconstruct every visible source pixel outside four live UI holes, without mask-edge seams: %d/%d differ." % [changed, compared])
+	_check(compared > 210000 and changed == 0, "Approved outer scenery remains source-identical outside the documented broad clean-center feather and live UI holes: %d/%d differ." % [changed, compared])
+	actor.hide()
+	await _layout()
+	await _save(viewport, "revealed-clean-center-arena-841x450")
+	var revealed: Image = viewport.get_texture().get_image()
+	environment.get_layer_nodes()[1].hide()
+	await _layout()
+	await RenderingServer.frame_post_draw
+	var clean_plate: Image = viewport.get_texture().get_image()
+	var clean_samples := 0
+	var clean_maximum_error := 0.0
+	for y in range(35, 386):
+		for x in range(281, 569):
+			var difference := revealed.get_pixel(x, y) - clean_plate.get_pixel(x, y)
+			clean_maximum_error = maxf(clean_maximum_error, maxf(absf(difference.r), maxf(absf(difference.g), absf(difference.b))))
+			clean_samples += 1
+	_check(clean_samples == 101088 and clean_maximum_error <= 1.0 / 255.0, "The entire fixed center equals the actual clean plate when the actor is removed, including outside its old silhouette; no duplicate actor or silhouette-shaped scenery seam remains.")
+	paint_samples.append({"surface": "rc017-clean-center", "samples": clean_samples, "maximum_rgb_error": clean_maximum_error, "outer_scenery_samples": compared, "outer_scenery_changed": changed})
+	actor.show()
 	environment.hide()
 	await _layout()
 	await _save(viewport, "approved-actor-isolated-841x450")
@@ -1040,7 +1075,7 @@ func _editing(scene: Control, viewport: SubViewport, suffix: String) -> void:
 	_check(_fully_visible(scene.stock_buttons.straight, viewport), suffix + " connector input region can be exposed.")
 	touch._tap(viewport, scene.stock_buttons.straight)
 	_check(scene.selected_tool == "straight" and scene.stock_buttons.straight.button_pressed, suffix + " real tap selects the visibly marked connector.")
-	_check(scene.help_text.length() >= 80, suffix + " connector selection supplies real long editing feedback for layout coverage.")
+	_check(not scene.status.is_visible_in_tree(), suffix + " connector selection keeps the suggestion line hidden.")
 	await _full_page_contract(scene, viewport, "editing-feedback")
 	await _reveal(scene, scene.cells[cell_index])
 	touch._tap(viewport, scene.cells[cell_index])
@@ -1063,17 +1098,16 @@ func _inspection(scene: Control, viewport: SubViewport, suffix: String) -> void:
 	var uid: int = scene.game.hand[0].uid
 	var origin: Button = scene.info_buttons[uid]
 	await _reveal(scene, origin)
-	origin.grab_focus()
 	var before: Dictionary = scene.controller.snapshot()
-	touch._key(viewport, KEY_ENTER)
+	touch._tap(viewport, origin)
 	await _layout()
 	var bounds := Rect2(Vector2.ZERO, Vector2(viewport.size))
-	_check(scene.inspector.visible and bounds.encloses(scene.inspector_panel.get_global_rect()) and bounds.encloses(scene.inspector_close.get_global_rect()) and scene.controller.snapshot() == before, suffix + " focused Info opens a bounded read-only modal.")
+	_check(scene.inspector.visible and bounds.encloses(scene.inspector_panel.get_global_rect()) and bounds.encloses(scene.inspector_close.get_global_rect()) and scene.controller.snapshot() == before, suffix + " tapping Info opens a bounded read-only modal.")
 	_mobile_chrome_contract(scene, suffix + " card inspector")
 	await _save(viewport, "card-details-" + suffix)
-	touch._escape(viewport)
+	touch._tap(viewport, scene.inspector_close)
 	await _layout()
-	_check(not scene.inspector.visible and viewport.gui_get_focus_owner() == origin and scene.controller.snapshot() == before, suffix + " Escape restores card Info focus without changing combat.")
+	_check(not scene.inspector.visible and viewport.gui_get_focus_owner() == null and scene.controller.snapshot() == before, suffix + " tapping Close dismisses card details without desktop focus or gameplay changes.")
 	await touch._forecast_display(scene, viewport, self, _check, suffix + " incomplete")
 	_mobile_chrome_contract(scene, suffix + " forecast display")
 
@@ -1106,7 +1140,6 @@ func _invalid_and_energy(scene: Control, viewport: SubViewport, suffix: String) 
 
 func _pass_cancel(scene: Control, viewport: SubViewport, suffix: String) -> void:
 	await _reveal(scene, scene.turn_pass_button)
-	scene.turn_pass_button.grab_focus()
 	var before: Dictionary = scene.controller.snapshot()
 	touch._tap(viewport, scene.turn_pass_button)
 	await _layout()
@@ -1115,7 +1148,7 @@ func _pass_cancel(scene: Control, viewport: SubViewport, suffix: String) -> void
 	await _save(viewport, "pass-confirmation-" + suffix)
 	touch._tap(viewport, scene.inspector_close)
 	await _layout()
-	_check(not scene.inspector.visible and scene.controller.snapshot() == before and viewport.gui_get_focus_owner() == scene.turn_pass_button, suffix + " Cancel Pass preserves combat and returns focus.")
+	_check(not scene.inspector.visible and scene.controller.snapshot() == before and viewport.gui_get_focus_owner() == null, suffix + " Cancel Pass preserves combat without desktop focus.")
 	await _full_page_contract(scene, viewport, "pass-cancelled")
 
 func _empty_hand_pass(scene: Control, viewport: SubViewport, suffix: String) -> void:
@@ -1129,6 +1162,7 @@ func _empty_hand_pass(scene: Control, viewport: SubViewport, suffix: String) -> 
 	await _layout()
 	_check(scene.game.hand.is_empty() and scene.inspector_confirm_pass.visible and not scene.turn_pass_button.disabled, suffix + " empty-hand incomplete turn can still reach Pass confirmation.")
 	touch._tap(viewport, scene.inspector_confirm_pass)
+	PresentationSupport.finish(scene)
 	await _layout()
 	_check(scene.game.turn == before.turn + 1 and scene.game.player_hp == maxi(0, int(before.player_hp) - int(before.intent)) and helper._only_endpoints(scene.game.board), suffix + " confirmed empty-hand Pass advances exactly one turn and applies displayed attack.")
 	_live_bindings(scene, suffix + " after empty-hand Pass")
@@ -1155,7 +1189,7 @@ func _resize(scene: Control, viewport: SubViewport, setup: Dictionary) -> void:
 		touch._tap(viewport, scene.turn_pass_button)
 		await _layout()
 		_check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(scene.inspector_panel.get_global_rect()), "Resize to " + suffix + " keeps Pass modal inside the viewport.")
-		touch._escape(viewport)
+		touch._tap(viewport, scene.inspector_close)
 		await _layout()
 		await _full_page_contract(scene, viewport, "resized-back")
 

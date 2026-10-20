@@ -1,0 +1,1212 @@
+{
+  "schema_version": 1,
+  "task": "RC-018",
+  "revision": "r003-runway-library",
+  "date": "2026-10-17",
+  "purpose": "Current r003 source catalogue and RC-020 production binding contract; runtime uses scripts/audio/audio_catalogue.gd",
+  "expected_manifest_families": 16,
+  "expected_runtime_files": 21,
+  "paths_are": "Repository-relative; prepend res:// for Godot runtime_path only",
+  "source_settings": "source-assets/audio/sfx/runway-settings.json",
+  "source_delivery": "source-assets/audio/sfx/delivery.md",
+  "measurements": "output/qa/rc-018/audio-validation.json",
+  "integration_notes": "docs/audio-integration.md",
+  "production_integration_status": "current_sfx_integrated_future_owners_unbound",
+  "format": {
+    "sample_rate_hz": 48000,
+    "master_pcm_bits": 24,
+    "runtime_pcm_bits": 16,
+    "channels": 1,
+    "loop": false,
+    "provisional_true_peak_ceiling_dbtp": -3,
+    "integrated_lufs": "not used for short cues"
+  },
+  "clock": {
+    "owner": "AnimatedPresentation.advance",
+    "automatic_delta_cap_seconds": 0.03333333333333333,
+    "wall_clock_timers_for_combat": false,
+    "cast_seconds": 0.9,
+    "damage_seconds": 1.5,
+    "positive_shield_seconds": 0.35,
+    "zero_shield_seconds": 0,
+    "retaliation_seconds": 1.5,
+    "technique_seconds": 1,
+    "arrival_seconds_per_actual_card": 0.4,
+    "cleanup_seconds_per_actual_cell_or_hand_card": 0.18,
+    "reshuffle_seconds": 0.24,
+    "encounter_transition_seconds": 0.24,
+    "terminal_seconds": 0.75,
+    "reduced_seconds_per_timed_effect": 0.06,
+    "shadeling_attack_contact_fraction": 0.28,
+    "shadeling_attack_recovery_fraction": 0.72,
+    "actor_contact_source": "assets/enemies/shadeling/motion.gd",
+    "event_presented_semantics": "After effect completion, effect clearing, staged consequence apply and snapshot publish; never phase start or contact"
+  },
+  "hooks": [
+    {
+      "id": "accepted_batch",
+      "current": true,
+      "api": "CombatController.presentation_started(result)",
+      "timing": "Immediately before presenter.present; model result already resolved",
+      "rc020_work": "One subscriber plans cues and replaces old Cast tone",
+      "implementation": "scripts/audio/audio_coordinator.gd"
+    },
+    {
+      "id": "accepted_ui_or_edit_result",
+      "current": true,
+      "existing_seam": "CombatController.command returns bool; UI handlers can inspect actual transition",
+      "rc020_work": "Capture successful handler result once or expose detached accepted-result hook; edits emit no presentation events",
+      "implementation": "scripts/audio/audio_coordinator.gd",
+      "api": "CombatController.command_resolved(outcome) plus UI-owned dispatch feedback"
+    },
+    {
+      "id": "explicit_rejection",
+      "current": true,
+      "existing_seam": "False command return or InspectionData preflight denial",
+      "rc020_work": "UI-owner dispatch and cross-reason 250ms throttle; never passive refresh",
+      "implementation": "scripts/audio/audio_coordinator.gd",
+      "api": "AudioCoordinator.reject_attempt with explicit dispatch + 250ms cross-reason throttle"
+    },
+    {
+      "id": "phase_started",
+      "current": true,
+      "existing_seam": "AnimatedPresentation._enter_step",
+      "rc020_work": "Emit detached event + session/generation/action/sequence at zero progress",
+      "implementation": "scripts/audio/audio_coordinator.gd",
+      "api": "AnimatedPresentation.phase_started(notice)"
+    },
+    {
+      "id": "actor_contact",
+      "current": true,
+      "existing_seam": "AnimatedPresentation._sample and actor normalized contact metadata",
+      "rc020_work": "Emit once on presentation progress crossing actor contact fraction",
+      "implementation": "scripts/audio/audio_coordinator.gd",
+      "api": "AnimatedPresentation.contact_reached(notice)"
+    },
+    {
+      "id": "consequence_committed",
+      "current": true,
+      "api": "AnimatedPresentation.event_presented(event)",
+      "rc020_work": "Bind only consequence/result; preserve batch/session identity",
+      "implementation": "scripts/audio/audio_coordinator.gd"
+    },
+    {
+      "id": "owner_cancelled",
+      "current": true,
+      "existing_seam": "Controller/presenter cancel, restart, dispose and scene replacement",
+      "rc020_work": "Invalidate audio generation and pending milestones, release owned voices/subscriptions",
+      "implementation": "scripts/audio/audio_coordinator.gd",
+      "api": "CombatController.presentation_invalidated / presenter_changed; AnimatedPresentation.presentation_cancelled; AudioCoordinator.dispose"
+    },
+    {
+      "id": "future_transaction_committed",
+      "current": false,
+      "rc020_work": "Await actual owning gameplay system and stable committed transaction ID; RC-042 binds"
+    },
+    {
+      "id": "future_phase_committed",
+      "current": false,
+      "rc020_work": "Await actual owning gameplay system and stable committed transition ID; RC-042 binds"
+    }
+  ],
+  "deduplication": {
+    "owner": "RC-020 audio coordinator; one owner per presentation session",
+    "event_key": [
+      "audio_session_id",
+      "encounter_id",
+      "action_id",
+      "sequence",
+      "cue_role"
+    ],
+    "action_key": [
+      "audio_session_id",
+      "encounter_id",
+      "action_id"
+    ],
+    "ui_key": [
+      "ui_owner_id",
+      "dispatch_token",
+      "cue_role"
+    ],
+    "future_transaction_key": [
+      "run_or_session_id",
+      "committed_transaction_id"
+    ],
+    "future_phase_key": [
+      "run_or_session_id",
+      "encounter_id",
+      "committed_phase_transition_id"
+    ],
+    "reason": "IDs are controller-local; Exact replay may reuse numerical IDs, so session identity is required",
+    "cancel_on": [
+      "cancel_presentation",
+      "restart",
+      "exact_replay",
+      "encounter_replacement",
+      "scene_dispose",
+      "mute",
+      "audio_interruption"
+    ],
+    "cancel_policy": "Invalidate pending milestones first; stop/fade only voices owned by invalidated generation with a bounded click-safe release; audio never applies gameplay or calls presentation completion"
+  },
+  "mix_policy": {
+    "bus_recommendation": "RuneCast SFX",
+    "normal_total_voice_ceiling": 8,
+    "normal_contact_max_voices": 2,
+    "normal_contact": "One actor variant plus positive player HP-loss impact; otherwise actor plus previously unrepresented full-block shield. Never actor + impact + block.",
+    "reduced_foreground_voices": 1,
+    "reduced_transition_max_voices": 2,
+    "reduced_crossfade_max_seconds": 0.01,
+    "reduced_action_mandatory_max": {
+      "cast": 2,
+      "pass": 1,
+      "technique": 1,
+      "additional_actual_terminal": 1
+    },
+    "reduced_cast_group": "At Cast phase start play cast; suppress separate enemy damage and shield-gain cues within this Cast group. At actual retaliation contact choose one player damage if applied>0, else shield if blocked>0, else actor variant. Lethal Cast has no retaliation.",
+    "reduced_priority": "A later meaningful milestone replaces old foreground tail; no delayed queue. Cleanup and non-technique arrivals drop under an active higher-priority voice. Dedicated technique arrival and actual result remain meaningful.",
+    "reduced_file_duration": "Unchanged WAV; do not resample/compress audio to the .06-second visual cap or add timeline delays",
+    "priorities": {
+      "result": 100,
+      "phase": 90,
+      "damage": 80,
+      "shield": 75,
+      "reward": 75,
+      "cast": 70,
+      "actor": 70,
+      "technique": 60,
+      "ordinary_draw": 30,
+      "edit": 25,
+      "ui": 20,
+      "cleanup": 20,
+      "rejection": 15
+    },
+    "sfx_bus_headroom_db": -6,
+    "headroom_note": "RC-020 rapid eight-voice edit stress initially reached +1.113 dBFS at Master. A deliberate -6 dB SFX bus trim is additional to unchanged per-cue gains and user volume; final measured repeat is in RC-020 verification.",
+    "release_seconds": 0.008
+  },
+  "explicitly_silent": [
+    "hover and passive UI refresh",
+    "removed board-slot inspection",
+    "automatic internal selection/modal cleanup before another accepted action",
+    "technique phase itself; no redundant generic ping",
+    "missing or predicted card arrivals",
+    "reshuffled, except later actual first draw",
+    "later card arrivals in the same action/type group",
+    "later cleanup cells/cards",
+    "empty turn_cleanup",
+    "passed structural phase",
+    "zero applied enemy damage",
+    "zero shield gain",
+    "endpoints_changed",
+    "kit_changed",
+    "turn_started",
+    "initial snapshot without action events",
+    "future uncommitted/rejected transactions",
+    "inferred guardian HP thresholds"
+  ],
+  "cues": [
+    {
+      "cue_id": "ui_confirm",
+      "manifest_id": "sfx_ui_confirm",
+      "filename": "ui_confirm.wav",
+      "source_path": "source-assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "runtime_path": "assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "duration_seconds": 0.2,
+      "intended_gain_db": -8,
+      "description": "Quiet single wooden latch acceptance click, generated Foley gesture.",
+      "future_only": false,
+      "priority": 20,
+      "duration_range_seconds": [
+        0.05,
+        0.2
+      ],
+      "grouping": "One per successful UI dispatch; suppress generic confirm when a more specific edit/action cue owns that dispatch",
+      "deduplication": "ui_owner_id + dispatch_token + confirm",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "ui_confirm",
+          "binding_kind": "accepted_ui_result",
+          "event_types": [],
+          "condition": "Successful visible selection/open/confirm; no unavailable-state refresh or removed board inspection",
+          "target": "actual selected control or opened modal",
+          "timing": {
+            "moment": "result",
+            "hook_id": "accepted_ui_or_edit_result"
+          },
+          "normal_motion": "Play after UI succeeds",
+          "reduced_motion": "Same success rule; no motion-based mute",
+          "aliases": [
+            "ui_confirm"
+          ],
+          "aliases_are_runtime_events": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#ui_confirm",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "ui_back",
+      "manifest_id": "sfx_ui_back",
+      "filename": "ui_back.wav",
+      "source_path": "source-assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "runtime_path": "assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "duration_seconds": 0.184375,
+      "intended_gain_db": -8,
+      "description": "Soft reverse wood release with a short cloth movement.",
+      "future_only": false,
+      "priority": 20,
+      "duration_range_seconds": [
+        0.05,
+        0.2
+      ],
+      "grouping": "One user-requested close/cancel/back; internal _clear_selection and pre-action modal closure silent",
+      "deduplication": "ui_owner_id + dispatch_token + back",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "ui_back",
+          "binding_kind": "accepted_ui_result",
+          "event_types": [],
+          "condition": "Visible modal closes, active selection clears or navigation back succeeds",
+          "target": "actual closing modal/selection/navigation",
+          "timing": {
+            "moment": "result",
+            "hook_id": "accepted_ui_or_edit_result"
+          },
+          "normal_motion": "One quiet cue",
+          "reduced_motion": "Same success rule",
+          "aliases": [
+            "ui_back"
+          ],
+          "aliases_are_runtime_events": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#ui_back",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "edit_place",
+      "manifest_id": "sfx_place",
+      "filename": "edit_place.wav",
+      "source_path": "source-assets/audio/sfx/sfx_place/edit_place.wav",
+      "runtime_path": "assets/audio/sfx/sfx_place/edit_place.wav",
+      "duration_seconds": 0.17504166666666668,
+      "intended_gain_db": -6,
+      "description": "Approved r002 stone/ceramic placement with grit settling; edge silence removed.",
+      "future_only": false,
+      "priority": 25,
+      "duration_range_seconds": [
+        0.05,
+        0.25
+      ],
+      "grouping": "One per accepted edit, not per resulting resource refund",
+      "deduplication": "UI dispatch token until RC-020 exposes accepted result/action identity",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "placement",
+          "binding_kind": "accepted_command_result",
+          "event_types": [],
+          "condition": "command(place_wire,index,kind) returns true with connector kind, or command(place_rune,index,uid) returns true",
+          "target": "arguments.index and actual supplied uid when applicable",
+          "timing": {
+            "moment": "result",
+            "hook_id": "accepted_ui_or_edit_result"
+          },
+          "normal_motion": "Play once after true return",
+          "reduced_motion": "Same acceptance rule",
+          "commands": [
+            "place_wire",
+            "place_rune"
+          ],
+          "excluded_arguments": {
+            "kind": "erase"
+          }
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#edit_place",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "edit_orient",
+      "manifest_id": "sfx_rotate",
+      "filename": "edit_orient.wav",
+      "source_path": "source-assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "runtime_path": "assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "duration_seconds": 0.2,
+      "intended_gain_db": -6,
+      "description": "Short circular stone scrape ending in its own natural detent.",
+      "future_only": false,
+      "priority": 25,
+      "duration_range_seconds": [
+        0.05,
+        0.2
+      ],
+      "grouping": "One per accepted Rotate; no production Flip",
+      "deduplication": "UI dispatch token + actual index",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "rotation",
+          "binding_kind": "accepted_command_result",
+          "event_types": [],
+          "condition": "command(rotate,{index}) returns true",
+          "target": "arguments.index",
+          "timing": {
+            "moment": "result",
+            "hook_id": "accepted_ui_or_edit_result"
+          },
+          "normal_motion": "Play once",
+          "reduced_motion": "Same acceptance rule",
+          "commands": [
+            "rotate"
+          ]
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#edit_orient",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "edit_restore",
+      "manifest_id": "sfx_undo",
+      "filename": "edit_restore.wav",
+      "source_path": "source-assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "runtime_path": "assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "duration_seconds": 0.25,
+      "intended_gain_db": -6,
+      "description": "Small rune lifted from stone, short release friction and air.",
+      "future_only": false,
+      "priority": 25,
+      "duration_range_seconds": [
+        0.05,
+        0.25
+      ],
+      "grouping": "One accepted Remove/refund; stable sfx_undo ID does not restore Undo",
+      "deduplication": "UI dispatch token + actual index",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "remove_refund",
+          "binding_kind": "accepted_command_result",
+          "event_types": [],
+          "condition": "command(place_wire,{index,kind:erase}) returns true",
+          "target": "arguments.index",
+          "timing": {
+            "moment": "result",
+            "hook_id": "accepted_ui_or_edit_result"
+          },
+          "normal_motion": "One Remove cue; refund is not another cue",
+          "reduced_motion": "Same acceptance rule",
+          "commands": [
+            "place_wire"
+          ],
+          "required_arguments": {
+            "kind": "erase"
+          },
+          "production_undo_control": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#edit_restore",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "action_rejected",
+      "manifest_id": "sfx_invalid",
+      "filename": "action_rejected.wav",
+      "source_path": "source-assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "runtime_path": "assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "duration_seconds": 0.25,
+      "intended_gain_db": -10,
+      "description": "Quiet muted wooden obstruction, restrained low feedback.",
+      "future_only": false,
+      "priority": 15,
+      "duration_range_seconds": [
+        0.08,
+        0.25
+      ],
+      "grouping": "At most one per .25s per UI owner across rejection reasons; no queued feedback",
+      "deduplication": "ui_owner_id + explicit dispatch; throttle cross-reason repeats",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "rejection",
+          "binding_kind": "rejected_ui_result",
+          "event_types": [],
+          "condition": "Explicit command rejection or explanatory preflight denial; no passive disabled-state refresh",
+          "target": "attempted control or cell",
+          "timing": {
+            "moment": "result",
+            "hook_id": "explicit_rejection"
+          },
+          "normal_motion": "Quiet one cue within throttle",
+          "reduced_motion": "Same throttle; never queue",
+          "aliases": [
+            "action_rejected"
+          ],
+          "aliases_are_runtime_events": false,
+          "throttle_seconds": 0.25
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#action_rejected",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "technique_draw",
+      "manifest_id": "sfx_technique",
+      "filename": "technique_draw.wav",
+      "source_path": "source-assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "runtime_path": "assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "duration_seconds": 0.318625,
+      "intended_gain_db": -5,
+      "description": "Approved r002 thick parchment slide, natural friction and flex.",
+      "future_only": false,
+      "priority": 60,
+      "duration_range_seconds": [
+        0.15,
+        0.5
+      ],
+      "grouping": "One cue at first actual arrival of this type per accepted action; all later actual UIDs silent, even across reshuffle; technique phase itself silent",
+      "deduplication": "audio session + encounter + action + arrival event type; actual UID list is group membership",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "technique_arrival",
+          "binding_kind": "current_event",
+          "event_types": [
+            "card_drawn"
+          ],
+          "condition": "Accepted technique batch contains one or more actual card_drawn events; first supplied event only",
+          "target": "first event.card.uid; group only contains supplied event.card.uid values",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "One shared cue at first .40s arrival after 1.00s played-technique phase",
+          "reduced_motion": "One mandatory shared cue at first .06s arrival after .06s technique; replace lower tail",
+          "required_batch_command": "technique",
+          "priority": 60
+        },
+        {
+          "role": "ordinary_arrival",
+          "binding_kind": "current_event",
+          "event_types": [
+            "card_drawn"
+          ],
+          "condition": "Non-technique accepted batch has actual draw events; first supplied draw only; initial model snapshot alone does not qualify",
+          "target": "first event.card.uid",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "One cue at first actual next-turn/encounter draw",
+          "reduced_motion": "Decorative priority 30: drop under higher-priority active tail; no delayed replay",
+          "priority": 30
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#technique_draw",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "technique_conjure",
+      "manifest_id": "sfx_technique",
+      "filename": "technique_conjure.wav",
+      "source_path": "source-assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "runtime_path": "assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "duration_seconds": 0.33820833333333333,
+      "intended_gain_db": -5,
+      "description": "Parchment card forming in a compact airy magical bloom.",
+      "future_only": false,
+      "priority": 60,
+      "duration_range_seconds": [
+        0.15,
+        0.5
+      ],
+      "grouping": "One cue at first actual arrival of this type per accepted action; all later actual UIDs silent, even across reshuffle; technique phase itself silent",
+      "deduplication": "audio session + encounter + action + arrival event type; actual UID list is group membership",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "technique_arrival",
+          "binding_kind": "current_event",
+          "event_types": [
+            "card_created"
+          ],
+          "condition": "Accepted technique batch contains one or more actual card_created events; first supplied event only",
+          "target": "first event.card.uid; group only contains supplied event.card.uid values",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "One shared cue at first .40s arrival after 1.00s played-technique phase",
+          "reduced_motion": "One mandatory shared cue at first .06s arrival after .06s technique; replace lower tail",
+          "required_batch_command": "technique",
+          "priority": 60
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#technique_conjure",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "cast",
+      "manifest_id": "sfx_cast",
+      "filename": "cast.wav",
+      "source_path": "source-assets/audio/sfx/sfx_cast/cast.wav",
+      "runtime_path": "assets/audio/sfx/sfx_cast/cast.wav",
+      "duration_seconds": 0.469,
+      "intended_gain_db": -3,
+      "description": "Approved r002 arcane gesture, preserved generated shimmer and release.",
+      "future_only": false,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.25,
+        0.6
+      ],
+      "grouping": "One per accepted Cast regardless of active slots or branches",
+      "deduplication": "audio session + encounter + action + cast",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "cast_action",
+          "binding_kind": "current_event",
+          "event_types": [
+            "cast"
+          ],
+          "condition": "Accepted batch command is cast and supplies cast event",
+          "target": "player / supplied event.spell.active circuit",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "Once at actual Cast start; precise phase hook also recommended",
+          "reduced_motion": "Primary grouped Cast cue; no separate enemy-damage or gain pings in same Cast action",
+          "required_batch_command": "cast",
+          "existing_planning_hook": "accepted_batch",
+          "existing_production_binding": "Placeholder tone only at presentation_started before present; not an exact active phase boundary. Replacement remains RC-020."
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#cast",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "damage",
+      "manifest_id": "sfx_impact",
+      "filename": "damage.wav",
+      "source_path": "source-assets/audio/sfx/sfx_impact/damage.wav",
+      "runtime_path": "assets/audio/sfx/sfx_impact/damage.wav",
+      "duration_seconds": 0.35689583333333336,
+      "intended_gain_db": -2,
+      "description": "One compact layered material contact, distinct from UI movement.",
+      "future_only": false,
+      "priority": 80,
+      "duration_range_seconds": [
+        0.1,
+        0.4
+      ],
+      "grouping": "Enemy aggregate impact once per actual positive damage event; player contact consequence once; no zero injury",
+      "deduplication": "event identity + enemy_hp_loss or player_hp_loss",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "enemy_hp_loss",
+          "binding_kind": "current_event",
+          "event_types": [
+            "damage"
+          ],
+          "condition": "event.applied > 0; requested amount/forecast alone insufficient",
+          "target": "event.target == enemy",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "One enemy impact at -2dB",
+          "reduced_motion": "Suppressed within grouped reduced Cast; standalone actual positive damage outside Cast may play",
+          "gain_db": -2
+        },
+        {
+          "role": "player_hp_loss",
+          "binding_kind": "current_event",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "event.applied > 0; actual clamped player HP loss",
+          "target": "event.target == player",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "One player impact at -5dB alongside selected actor cue; suppress extra block layer",
+          "reduced_motion": "Sole contact cue at -5dB; takes precedence over shield/actor",
+          "gain_db": -5,
+          "contact_fraction_source": "actor motion metadata; Shadeling .28"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#damage",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "shield",
+      "manifest_id": "sfx_shield",
+      "filename": "shield.wav",
+      "source_path": "source-assets/audio/sfx/sfx_shield/shield.wav",
+      "runtime_path": "assets/audio/sfx/sfx_shield/shield.wav",
+      "duration_seconds": 0.4089583333333333,
+      "intended_gain_db": -4,
+      "description": "Approved r002 protective glass resonance, tail edited to family limit.",
+      "future_only": false,
+      "priority": 75,
+      "duration_range_seconds": [
+        0.15,
+        0.45
+      ],
+      "grouping": "Normal: positive gain marks shield represented for action and suppresses block repeat. Reduced Cast suppresses gain and may use sole block at contact.",
+      "deduplication": "action identity + shield_representation; contact event role cannot duplicate alias subscription",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "shield_gain",
+          "binding_kind": "current_event",
+          "event_types": [
+            "shield"
+          ],
+          "condition": "event.amount > 0",
+          "target": "event.target == player",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "One gain cue at -6dB; marks shield represented for action",
+          "reduced_motion": "Suppressed within grouped reduced Cast; standalone supplied gain outside Cast may use quiet cue",
+          "gain_db": -6
+        },
+        {
+          "role": "retaliation_block",
+          "binding_kind": "current_event",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "event.blocked > 0; normal additionally requires gain not already represented and no positive player impact layer",
+          "target": "event.target == player",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "-4dB only when block not already represented; maximum actor plus shield at full block",
+          "reduced_motion": "Sole contact cue only when blocked>0 and applied==0; positive applied HP loss takes precedence",
+          "gain_db": -4,
+          "aliases": [
+            "retaliation_block"
+          ],
+          "aliases_are_runtime_events": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#shield",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "spectral",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "spectral.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "duration_seconds": 0.2,
+      "intended_gain_db": -3,
+      "description": "Approved r002 spectral cloth/air gesture with shared source-derived enemy air stem.",
+      "future_only": false,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.2,
+        0.6
+      ],
+      "grouping": "Exactly one actor file at retaliation contact; file already includes shared action base; never layer five variants",
+      "deduplication": "event identity + actor_action",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "actor_action",
+          "binding_kind": "current_event",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "Actual retaliation exists and before.encounter.enemy_id == shadeling",
+          "target": "source enemy shadeling / supplied player target",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "Play one variant at -3dB; may pair with player consequence",
+          "reduced_motion": "Only if applied==0 and blocked==0; otherwise consequence cue replaces actor layer",
+          "actor_id": "shadeling",
+          "future_systems": [],
+          "contact_fraction_source": "assets/enemies/shadeling/motion.gd attack_contact=.28",
+          "event_schema_status": "retaliation exists; actor exists"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#spectral",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "flame",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "flame.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "duration_seconds": 0.42802083333333335,
+      "intended_gain_db": -3,
+      "description": "Generated brief wick/fire breath accent over shared source-derived enemy air.",
+      "future_only": true,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.2,
+        0.6
+      ],
+      "grouping": "Exactly one actor file at retaliation contact; file already includes shared action base; never layer five variants",
+      "deduplication": "event identity + actor_action",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "actor_action",
+          "binding_kind": "future_actor_binding",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "Actual retaliation exists and before.encounter.enemy_id == wickling",
+          "target": "source enemy wickling / supplied player target",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "Play one variant at -3dB; may pair with player consequence",
+          "reduced_motion": "Only if applied==0 and blocked==0; otherwise consequence cue replaces actor layer",
+          "actor_id": "wickling",
+          "future_systems": [
+            "RC-033",
+            "RC-034",
+            "RC-042"
+          ],
+          "contact_fraction_source": "Await actor motion metadata; .28 is preview comparison only",
+          "event_schema_status": "retaliation exists; this actor integration awaits its gameplay/art systems"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#flame",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "stone",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "stone.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "duration_seconds": 0.5333958333333333,
+      "intended_gain_db": -3,
+      "description": "Generated dry heavy mineral movement accent over shared source-derived enemy air.",
+      "future_only": true,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.2,
+        0.6
+      ],
+      "grouping": "Exactly one actor file at retaliation contact; file already includes shared action base; never layer five variants",
+      "deduplication": "event identity + actor_action",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "actor_action",
+          "binding_kind": "future_actor_binding",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "Actual retaliation exists and before.encounter.enemy_id == stone_sentinel",
+          "target": "source enemy stone_sentinel / supplied player target",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "Play one variant at -3dB; may pair with player consequence",
+          "reduced_motion": "Only if applied==0 and blocked==0; otherwise consequence cue replaces actor layer",
+          "actor_id": "stone_sentinel",
+          "future_systems": [
+            "RC-033",
+            "RC-034",
+            "RC-042"
+          ],
+          "contact_fraction_source": "Await actor motion metadata; .28 is preview comparison only",
+          "event_schema_status": "retaliation exists; this actor integration awaits its gameplay/art systems"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#stone",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "chain",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "chain.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "duration_seconds": 0.42564583333333333,
+      "intended_gain_db": -3,
+      "description": "Generated close loose metal-link sweep accent over shared source-derived enemy air.",
+      "future_only": true,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.2,
+        0.6
+      ],
+      "grouping": "Exactly one actor file at retaliation contact; file already includes shared action base; never layer five variants",
+      "deduplication": "event identity + actor_action",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "actor_action",
+          "binding_kind": "future_actor_binding",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "Actual retaliation exists and before.encounter.enemy_id == chain_warden",
+          "target": "source enemy chain_warden / supplied player target",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "Play one variant at -3dB; may pair with player consequence",
+          "reduced_motion": "Only if applied==0 and blocked==0; otherwise consequence cue replaces actor layer",
+          "actor_id": "chain_warden",
+          "future_systems": [
+            "RC-033",
+            "RC-034",
+            "RC-042"
+          ],
+          "contact_fraction_source": "Await actor motion metadata; .28 is preview comparison only",
+          "event_schema_status": "retaliation exists; this actor integration awaits its gameplay/art systems"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#chain",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "bell",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "bell.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "duration_seconds": 0.5999166666666667,
+      "intended_gain_db": -3,
+      "description": "Generated small veiled bronze resonance accent over shared source-derived enemy air.",
+      "future_only": true,
+      "priority": 70,
+      "duration_range_seconds": [
+        0.2,
+        0.6
+      ],
+      "grouping": "Exactly one actor file at retaliation contact; file already includes shared action base; never layer five variants",
+      "deduplication": "event identity + actor_action",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "actor_action",
+          "binding_kind": "future_actor_binding",
+          "event_types": [
+            "retaliation"
+          ],
+          "condition": "Actual retaliation exists and before.encounter.enemy_id == bell_keeper",
+          "target": "source enemy bell_keeper / supplied player target",
+          "timing": {
+            "moment": "contact",
+            "hook_id": "actor_contact"
+          },
+          "normal_motion": "Play one variant at -3dB; may pair with player consequence",
+          "reduced_motion": "Only if applied==0 and blocked==0; otherwise consequence cue replaces actor layer",
+          "actor_id": "bell_keeper",
+          "future_systems": [
+            "RC-033",
+            "RC-034",
+            "RC-042"
+          ],
+          "contact_fraction_source": "Await actor motion metadata; .28 is preview comparison only",
+          "event_schema_status": "retaliation exists; this actor integration awaits its gameplay/art systems"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#bell",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "temporary_expired",
+      "manifest_id": "sfx_expiry",
+      "filename": "temporary_expired.wav",
+      "source_path": "source-assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "runtime_path": "assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "duration_seconds": 0.35,
+      "intended_gain_db": -9,
+      "description": "Soft dissolving parchment/air cleanup gesture.",
+      "future_only": false,
+      "priority": 20,
+      "duration_range_seconds": [
+        0.1,
+        0.35
+      ],
+      "grouping": "One shared group across all actual board clearances and hand cleanup in this action; later cells/cards silent",
+      "deduplication": "audio session + encounter + action + cleanup",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "cleanup",
+          "binding_kind": "current_event",
+          "event_types": [
+            "effect_consumed",
+            "temporary_expired",
+            "board_piece_cleared",
+            "turn_cleanup"
+          ],
+          "condition": "First actual board cleanup, or turn_cleanup with discarded.size + expired.size > 0; empty event silent",
+          "target": "first supplied cleanup cell/UID; group includes all actual board and hand cleanup",
+          "timing": {
+            "moment": "phase_start",
+            "hook_id": "phase_started"
+          },
+          "normal_motion": "Once at first eligible .18s clearance; no per-cell sound",
+          "reduced_motion": "Decorative: once at first eligible .06s clearance only if no higher-priority active voice; otherwise drop, never defer"
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#temporary_expired",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "reward",
+      "manifest_id": "sfx_reward",
+      "filename": "reward.wav",
+      "source_path": "source-assets/audio/sfx/sfx_reward/reward.wav",
+      "runtime_path": "assets/audio/sfx/sfx_reward/reward.wav",
+      "duration_seconds": 0.4275,
+      "intended_gain_db": -5,
+      "description": "Small warm ascending magical reward flourish.",
+      "future_only": true,
+      "priority": 75,
+      "duration_range_seconds": [
+        0.2,
+        0.65
+      ],
+      "grouping": "One shared file per committed transaction; no offer/picker/inspection feedback",
+      "deduplication": "future run/session + committed_transaction_id",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "committed_acquisition",
+          "binding_kind": "future_alias",
+          "event_types": [],
+          "condition": "Owning future system reports successful committed reward/purchase/upgrade/heal mutation with stable transaction ID",
+          "target": "actual committed recipient/card/service transaction",
+          "timing": {
+            "moment": "consequence_commit",
+            "hook_id": "future_transaction_committed"
+          },
+          "normal_motion": "One shared acquisition cue after commit at base -5dB",
+          "reduced_motion": "Same committed semantics; meaningful cue replaces lower tail",
+          "future_aliases": [
+            "reward_committed",
+            "purchase_committed",
+            "upgrade_committed",
+            "heal_committed"
+          ],
+          "aliases_are_runtime_events": false,
+          "future_systems": [
+            "RC-024",
+            "RC-024A",
+            "RC-027",
+            "RC-029",
+            "RC-029A",
+            "RC-030",
+            "RC-031",
+            "RC-032",
+            "RC-042"
+          ],
+          "gain_by_future_alias_db": {
+            "reward_committed": -5,
+            "purchase_committed": -5,
+            "upgrade_committed": -5,
+            "heal_committed": -7
+          }
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#reward",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "victory",
+      "manifest_id": "sfx_victory",
+      "filename": "victory.wav",
+      "source_path": "source-assets/audio/sfx/sfx_victory/victory.wav",
+      "runtime_path": "assets/audio/sfx/sfx_victory/victory.wav",
+      "duration_seconds": 1.0795,
+      "intended_gain_db": -3,
+      "description": "Compact warm ascending victory resolution.",
+      "future_only": false,
+      "priority": 100,
+      "duration_range_seconds": [
+        0.6,
+        1.8
+      ],
+      "grouping": "One actual outcome; future run result reuses outcome identity and must not replay same result",
+      "deduplication": "audio session + encounter + battle outcome",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "battle_result",
+          "binding_kind": "current_event",
+          "event_types": [
+            "battle_ended"
+          ],
+          "condition": "event.state == victory",
+          "target": "actual encounter outcome / supplied health values",
+          "timing": {
+            "moment": "result_after_consequence_commit",
+            "hook_id": "consequence_committed"
+          },
+          "normal_motion": "At phase end via event_presented: .75s after battle_ended start",
+          "reduced_motion": "At phase end: .06s; mandatory highest-priority cue replaces lower tail",
+          "required_event_state": "victory",
+          "future_run_reuse": "Await future run event; coalesce same combat outcome identity",
+          "abandonment_is_defeat": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#victory",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "defeat",
+      "manifest_id": "sfx_defeat",
+      "filename": "defeat.wav",
+      "source_path": "source-assets/audio/sfx/sfx_defeat/defeat.wav",
+      "runtime_path": "assets/audio/sfx/sfx_defeat/defeat.wav",
+      "duration_seconds": 1.4799166666666668,
+      "intended_gain_db": -4,
+      "description": "Subdued descending resonant resolution with a soft ending.",
+      "future_only": false,
+      "priority": 100,
+      "duration_range_seconds": [
+        0.6,
+        1.8
+      ],
+      "grouping": "One actual outcome; future run result reuses outcome identity and must not replay same result",
+      "deduplication": "audio session + encounter + battle outcome",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "battle_result",
+          "binding_kind": "current_event",
+          "event_types": [
+            "battle_ended"
+          ],
+          "condition": "event.state == defeat",
+          "target": "actual encounter outcome / supplied health values",
+          "timing": {
+            "moment": "result_after_consequence_commit",
+            "hook_id": "consequence_committed"
+          },
+          "normal_motion": "At phase end via event_presented: .75s after battle_ended start",
+          "reduced_motion": "At phase end: .06s; mandatory highest-priority cue replaces lower tail",
+          "required_event_state": "defeat",
+          "future_run_reuse": "Await future run event; coalesce same combat outcome identity",
+          "abandonment_is_defeat": false
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": true,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#defeat",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "manifest_id": "sfx_phase",
+      "filename": "guardian_phase_changed.wav",
+      "source_path": "source-assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "runtime_path": "assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "duration_seconds": 0.7999166666666667,
+      "intended_gain_db": -3,
+      "description": "Compact larger spectral/bronze transition gesture.",
+      "future_only": true,
+      "priority": 90,
+      "duration_range_seconds": [
+        0.3,
+        0.8
+      ],
+      "grouping": "One committed phase transition; never threshold/forecast/pose inference",
+      "deduplication": "future session + encounter + committed_phase_transition_id",
+      "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
+      "bindings": [
+        {
+          "role": "guardian_phase",
+          "binding_kind": "future_alias",
+          "event_types": [],
+          "condition": "Real future committed phase event with transition ID; no inference from HP thresholds; lethal outcome supplies no phase transition",
+          "target": "actual guardian + committed phase ID",
+          "timing": {
+            "moment": "consequence_commit",
+            "hook_id": "future_phase_committed"
+          },
+          "normal_motion": "One restrained phase cue",
+          "reduced_motion": "Meaningful cue replaces lower tail; no motion-based mute",
+          "future_aliases": [
+            "guardian_phase_changed"
+          ],
+          "aliases_are_runtime_events": false,
+          "future_systems": [
+            "RC-033",
+            "RC-034",
+            "RC-042"
+          ]
+        }
+      ],
+      "bus": "SFX",
+      "playback_hook_implemented": false,
+      "source_record": "source-assets/audio/sfx/runway-settings.json#guardian_phase_changed",
+      "rights_record": "source-assets/audio/sfx/provenance.json"
+    }
+  ],
+  "source_generation_report": "source-assets/audio/sfx/runway-generation-report.json",
+  "source_renderer": "source-assets/audio/sfx/render_runway_sfx.py",
+  "source_generation": "source-assets/audio/sfx/revisions/r003-runway-library/generation.json",
+  "source_fidelity": "Runway original MP3s retained; 24-bit working WAV masters are decoded and edited derivatives, not lossless original recordings.",
+  "listening_status": "Owner approved r002 five-cue sound direction; final full-library listening and perceived mix acceptance pending.",
+  "runtime_catalogue": "scripts/audio/audio_catalogue.gd",
+  "integration_date": "2026-10-18",
+  "integration_verification": "docs/rc-020-verification.md"
+}

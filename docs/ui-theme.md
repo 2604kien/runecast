@@ -1,5 +1,9 @@
 # Reusable UI theme and wordmark — RC-013
 
+## October 18, 2026 — Reused Options in playable Combat
+
+RC-020 adds Menu access to [reusable Audio Options](../scripts/ui/audio_options.gd), built with the existing `Ui.modal`, `settings_slider` and `settings_toggle`. Music/SFX levels and independent mutes, compatible Sound master and reduced motion bind to the shared ConfigFile service; rebuilding controls is silent. Options sits in the existing Menu body, preserving Restart/Exact replay/Resume and bounded narrow-layout text scrolling. No Home/run navigation is added. Nine actual-scene captures at 720×1600, 450×1000 and 360×640 pass 42 bounds/scroll/fixed-Close checks. [Verification](rc-020-verification.md), [360 Options](../output/qa/rc-020/options/options-top-360x640.png), [360 Menu](../output/qa/rc-020/options/menu-360x640.png).
+
 ## October 16, 2026 — Unused runtime exports retired
 
 The shared UI pack now exports 17 used resources. Removed the duplicate pile.png (piles already load panel.png) and eight unused non-node state SVGs (StateLayer already draws those cues). Four dynamically loaded Map-node SVGs and all editable source layers remain. The builder and source/import validators enforce the reduced export set. [Source map](../source-assets/ui/source-export-map.json) and [cleanup record](asset-cleanup.md#october-16-2026--unused-resource-cleanup).

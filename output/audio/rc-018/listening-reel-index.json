@@ -1,0 +1,155 @@
+{
+  "url": "listening-reel.wav",
+  "duration_seconds": 19.274916666666666,
+  "sample_count": 925196,
+  "sample_peak_dbfs": -8.187059805063027,
+  "cues": [
+    {
+      "cue_id": "ui_confirm",
+      "start_seconds": 0.35,
+      "end_seconds": 0.55,
+      "gain_db": -8,
+      "future_only": false
+    },
+    {
+      "cue_id": "ui_back",
+      "start_seconds": 1.0,
+      "end_seconds": 1.184375,
+      "gain_db": -8,
+      "future_only": false
+    },
+    {
+      "cue_id": "edit_place",
+      "start_seconds": 1.634375,
+      "end_seconds": 1.8094166666666667,
+      "gain_db": -6,
+      "future_only": false
+    },
+    {
+      "cue_id": "edit_orient",
+      "start_seconds": 2.2594166666666666,
+      "end_seconds": 2.459416666666667,
+      "gain_db": -6,
+      "future_only": false
+    },
+    {
+      "cue_id": "edit_restore",
+      "start_seconds": 2.9094166666666665,
+      "end_seconds": 3.1594166666666665,
+      "gain_db": -6,
+      "future_only": false
+    },
+    {
+      "cue_id": "action_rejected",
+      "start_seconds": 3.6094166666666667,
+      "end_seconds": 3.8594166666666667,
+      "gain_db": -10,
+      "future_only": false
+    },
+    {
+      "cue_id": "technique_draw",
+      "start_seconds": 4.3094166666666665,
+      "end_seconds": 4.628041666666666,
+      "gain_db": -5,
+      "future_only": false
+    },
+    {
+      "cue_id": "technique_conjure",
+      "start_seconds": 5.078041666666667,
+      "end_seconds": 5.41625,
+      "gain_db": -5,
+      "future_only": false
+    },
+    {
+      "cue_id": "cast",
+      "start_seconds": 5.86625,
+      "end_seconds": 6.33525,
+      "gain_db": -3,
+      "future_only": false
+    },
+    {
+      "cue_id": "damage",
+      "start_seconds": 6.78525,
+      "end_seconds": 7.142145833333333,
+      "gain_db": -2,
+      "future_only": false
+    },
+    {
+      "cue_id": "shield",
+      "start_seconds": 7.592145833333333,
+      "end_seconds": 8.001104166666666,
+      "gain_db": -4,
+      "future_only": false
+    },
+    {
+      "cue_id": "spectral",
+      "start_seconds": 8.451104166666667,
+      "end_seconds": 8.651104166666666,
+      "gain_db": -3,
+      "future_only": false
+    },
+    {
+      "cue_id": "flame",
+      "start_seconds": 9.101104166666667,
+      "end_seconds": 9.529125,
+      "gain_db": -3,
+      "future_only": true
+    },
+    {
+      "cue_id": "stone",
+      "start_seconds": 9.979125,
+      "end_seconds": 10.512520833333333,
+      "gain_db": -3,
+      "future_only": true
+    },
+    {
+      "cue_id": "chain",
+      "start_seconds": 10.962520833333333,
+      "end_seconds": 11.388166666666667,
+      "gain_db": -3,
+      "future_only": true
+    },
+    {
+      "cue_id": "bell",
+      "start_seconds": 11.838166666666666,
+      "end_seconds": 12.438083333333333,
+      "gain_db": -3,
+      "future_only": true
+    },
+    {
+      "cue_id": "temporary_expired",
+      "start_seconds": 12.888083333333332,
+      "end_seconds": 13.238083333333334,
+      "gain_db": -9,
+      "future_only": false
+    },
+    {
+      "cue_id": "reward",
+      "start_seconds": 13.688083333333333,
+      "end_seconds": 14.115583333333333,
+      "gain_db": -5,
+      "future_only": true
+    },
+    {
+      "cue_id": "victory",
+      "start_seconds": 14.565583333333333,
+      "end_seconds": 15.645083333333334,
+      "gain_db": -3,
+      "future_only": false
+    },
+    {
+      "cue_id": "defeat",
+      "start_seconds": 16.095083333333335,
+      "end_seconds": 17.575,
+      "gain_db": -4,
+      "future_only": false
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "start_seconds": 18.025,
+      "end_seconds": 18.824916666666667,
+      "gain_db": -3,
+      "future_only": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+	"audio_driver": "Dummy",
+	"cues": [
+		{
+			"channels": 2,
+			"completed": true,
+			"cue_id": "crypt",
+			"decoded_duration_seconds": 29.9999092970522,
+			"finite": true,
+			"format": "interleaved IEEE float32 little endian",
+			"frames": 1322996,
+			"original_path": "C:\\Dev\\RuneCast\\source-assets\\audio\\ambience\\crypt\\originals\\crypt.mp3",
+			"original_sha256": "8c7abdb028c34a8db2c6e71b20653aa97a1e869692f515a4e616b63b0815538b",
+			"pcm_path": "C:\\Dev\\RuneCast\\source-assets\\audio\\ambience\\crypt\\decoded/crypt.f32le",
+			"pcm_sha256": "771c379d2fe655b1e9b73d0c5877ad383e629ecde7fa061be08584c3285eed50",
+			"sample_rate": 44100,
+			"stream_duration_seconds": 30.0
+		}
+	],
+	"decoder_script": "tools/decode_loop_audio.gd",
+	"engine": "4.7.2-stable (official)",
+	"failures": [],
+	"method": "Direct MP3/Ogg AudioStream.instantiate_playback().mix_audio(1.0,4096); no AudioStreamPlayer or realtime capture. Returned frame counts honored; float32 stereo saved before editing.",
+	"passed": true,
+	"sample_rate": 44100,
+	"schema_version": 1
+}

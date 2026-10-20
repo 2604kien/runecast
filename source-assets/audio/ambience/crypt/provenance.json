@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "task": "RC-019",
+  "revision": "r001-runway-crypt",
+  "date": "2026-10-17",
+  "source_type": "Runway-generated original MP3 with documented local loop editing and Vorbis export",
+  "generation_record": "generation.json",
+  "original": "originals/crypt.mp3",
+  "creator": "Runway generation from RuneCast-specific prompt; Codex deterministic loop editing and export for the owner request",
+  "model_and_prompt": "Exact requested prompt and returned model/options metadata are recorded in generation.json",
+  "model_seed": "Not supplied or returned; no seed invented",
+  "working_master_fidelity": "48 kHz stereo 24-bit PCM working master is decoded and edited from MP3; not a lossless original recording or recovered fidelity",
+  "rights": {
+    "reviewed_on": "2026-10-17",
+    "terms_url": "https://runway.com/terms-of-use",
+    "commercial_use_guidance_url": "https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes",
+    "summary": "General Runway Terms section 4.4 do not claim ownership of outputs or restrict commercial use, subject to compliance with the agreement. No SFX-specific exception identified in reviewed public documentation. Account-specific supplemental terms not independently inspected.",
+    "distribution_audit_owner": "RC-050",
+    "copyright_ownership_or_clearance_claim": false
+  },
+  "tools_status": "Uses existing bundled Python/NumPy, pinned Godot and an existing Blender libsndfile DLL; no new dependency installed or shipped",
+  "review": {
+    "agent_headphone_review": "not_performed",
+    "agent_ordinary_speaker_review": "not_performed",
+    "required_five_repeat_seam_listening": "pending owner headphones and ordinary speakers, including runtime codec",
+    "physical_device_review": "not_performed",
+    "music_status": "Two Runway music loops deferred by explicit owner choice after paid-plan restriction; not produced"
+  }
+}

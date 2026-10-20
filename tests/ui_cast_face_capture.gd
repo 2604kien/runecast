@@ -82,8 +82,7 @@ func _actual_scene(dimensions: Vector2i, built: bool) -> void:
 		var expected_live := isolated if built else await _render_surface(skin.size, skin.art_scale, false, Color(0.55, 0.63, 0.68, 1))
 		var live_tips := _live_tip_comparison(live, expected_live, skin.size, skin.art_scale)
 		_check(live_tips.samples > 300 and live_tips.maximum_error <= 1.1 / 255.0, phase + " actual painted tips use the corrected skin and expected availability tint", live_tips)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	viewport.queue_free()
 	await process_frame
 

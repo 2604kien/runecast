@@ -1,0 +1,35 @@
+{
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "templates": {
+    "version": "4.7.2.stable",
+    "url": "https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz",
+    "sha512": "ca4d71c4d7b81dfc15d1a98baa07534aa95b03fdda78a0075b06672e1648d2e5f40980c9adc28d23e1b92e732ee7bf3461997aa804af74ec2fcd7a93ccb84079",
+    "android_debug_sha256": "59e0073f0fa59f552684a861d8f4266b0b34b488a140d6657eac7dd70d1a0a0d"
+  },
+  "jdk": {
+    "version": "17.0.20.1+1",
+    "directory": "jdk-17.0.20.1+1",
+    "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_windows_hotspot_17.0.20.1_1.zip",
+    "sha256": "e53a79c3c3d86865bd7e787903884331068e71321714ffd44f145785affc7cb0"
+  },
+  "sdk": [
+    {
+      "package": "platform-tools",
+      "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-win.zip",
+      "sha1": "e03e78b1d80b396f1c3358e31251cb31740e1110",
+      "directory": "platform-tools"
+    },
+    {
+      "package": "build-tools;35.0.1",
+      "url": "https://dl.google.com/android/repository/build-tools_r35.0.1_windows.zip",
+      "sha1": "1cbfa5564b62504a1111352edda35914cf723a20",
+      "directory": "build-tools/35.0.1"
+    },
+    {
+      "package": "platforms;android-35",
+      "url": "https://dl.google.com/android/repository/platform-35_r02.zip",
+      "sha1": "0bb560a90a7a2cbd0dd8348224d518b638fe7949",
+      "directory": "platforms/android-35"
+    }
+  ]
+}

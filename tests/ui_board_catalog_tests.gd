@@ -2,6 +2,8 @@ extends RefCounted
 
 # Real scene + controller witnesses, with reused RC-008 synthetic touch helpers.
 const Examples = preload("res://scripts/dev/board_examples.gd")
+const PresentationSupport = preload("res://tests/presentation_test_support.gd")
+const Immediate = preload("res://scripts/ui/combat_presentation.gd")
 const Touch = preload("res://tests/ui_touch_tests.gd")
 const IDS := ["board_training", "board_gallery", "board_ossuary", "board_belfry"]
 
@@ -38,17 +40,23 @@ func run_followup(check: Callable, tree: SceneTree, directory: String = "") -> v
 			scene._exact_replay()
 			scene.page_scroll.scroll_vertical = 0
 			await touch._layout(tree)
+		# Authored examples are a synchronous command script (including technique
+		# commands). Use the existing injection boundary while building, then
+		# restore the real presenter for the actual Cast below.
+		var animation = scene.controller.get_presenter()
+		scene.controller.set_presenter(Immediate.new())
 		var result := Examples.apply(scene.controller, loaded.example, "built")
+		scene.controller.set_presenter(animation)
 		check.call(result.ok and scene.game.forecast.valid and not scene.cast_button.disabled, "%s executes every authored construction command and exposes an affordable Cast. %s" % [board_id, str(result.errors)])
 		if result.ok:
 			await touch._capture(viewport, tree, directory, board_id + "-built.png", check)
 			var before: Dictionary = scene.controller.snapshot()
 			scene.cast_button.pressed.emit()
+			PresentationSupport.finish(scene)
 			check.call(scene.game.enemy_hp == before.enemy_hp - before.forecast.damage and scene.game.player_hp == before.player_hp - maxi(0, before.intent - before.forecast.shield), "%s actual Cast applies the displayed damage and shield once." % board_id)
 			check.call(scene.game.turn == 2 and scene.game.energy == 3 and scene.game.hand.size() == 3 and _only_endpoints(scene.game.board) and scene.game.undo_count == 0 and scene.game.stock == scene.game.stock_totals, "%s Cast cleans up to a new playable endpoints-only turn with fresh finite stock." % board_id)
 			await touch._capture(viewport, tree, directory, board_id + "-turn2.png", check)
-		scene.player.stop()
-		scene.player.stream = null
+		scene.audio.dispose()
 		viewport.queue_free()
 		await tree.process_frame
 	# The opt-in launcher also fails visibly instead of silently launching training.

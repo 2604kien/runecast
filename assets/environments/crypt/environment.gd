@@ -36,8 +36,8 @@ func _build_reference_layers() -> void:
 	_reference_layers.append(clean)
 	var edges := Sprite2D.new()
 	edges.name = "ReferenceVisibleScenery"
-	# Region sampling retains approved architecture between the separately
-	# masked actor and small live-label holes, including the original floor.
+	# Fixed broad feathered center removes all original actor pixels and its
+	# silhouette-shaped fill seam; outer approved architecture remains intact.
 	edges.texture = preload("res://assets/ui/combat/reference/approved-atlas.png")
 	edges.region_enabled = true
 	edges.region_rect = COMPARISON_CROP

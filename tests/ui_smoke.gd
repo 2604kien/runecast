@@ -46,6 +46,11 @@ func _run() -> void:
 	scene._restart()
 	check(scene.game.turn == 1 and scene.game.enemy_hp == 32 and scene.game.player_hp == 30, "Restart returns to the opening encounter.")
 	await preload("res://tests/ui_presentation_tests.gd").new().run(scene, check, self)
+	await preload("res://tests/ui_animation_tests.gd").new().run(check, self)
+	await preload("res://tests/ui_technique_animation_tests.gd").new().run(check, self)
+	await preload("res://tests/ui_card_arrival_tests.gd").new().run(check, self)
+	await preload("res://tests/audio_settings_tests.gd").new().run(check, self)
+	await preload("res://tests/actor_animation_tests.gd").new().run(check, self)
 	await preload("res://tests/ui_configuration_tests.gd").new().run(scene, check, self)
 	await preload("res://tests/ui_experiment_tests.gd").new().run(scene, check, self)
 	await preload("res://tests/ui_full_reset_tests.gd").new().run_followup(check, self)
@@ -58,11 +63,11 @@ func _run() -> void:
 	await preload("res://tests/ui_touch_tests.gd").new().run_followup(check, self)
 	await preload("res://tests/ui_board_catalog_tests.gd").new().run_followup(check, self)
 	await process_frame
-	print("%d UI checks, %d failures" % [checks, failures])
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	await create_timer(0.15).timeout
 	scene.queue_free()
 	await process_frame
+	await preload("res://tests/ui_native_touch_tests.gd").new().run(check, self)
+	print("%d UI checks, %d failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)
 

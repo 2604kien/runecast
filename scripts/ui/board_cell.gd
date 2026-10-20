@@ -19,7 +19,18 @@ var chosen := false
 var end_value := 0
 var split_cost := 1
 var preview := 0 # +1 eligible construction, -1 protected/unavailable; UI-only.
+const CONNECTED_FACE := Color(0.0, 0.66, 0.48, 0.34)
+const CONNECTED_LIGHT := Color("00eac5")
+var feedback_light := 0.0
+var feedback_color := CONNECTED_LIGHT
 var _approved_begin: TextureRect
+
+func set_feedback_light(strength: float, tint: Color = CONNECTED_LIGHT) -> void:
+	var next := 0.0 if piece.get("kind", "") in ["begin", "end"] else clampf(strength, 0.0, 1.0)
+	if is_equal_approx(feedback_light, next) and feedback_color == tint: return
+	feedback_light = next
+	feedback_color = tint
+	queue_redraw()
 
 func _ready() -> void:
 	# A separate canvas item applies the source-contour mask only to the
@@ -113,9 +124,23 @@ func _draw_clean_board() -> void:
 	var kind: String = piece.get("kind", "")
 	# The reference gives installed glyphs a lit stone face. Keep the socket's
 	# painted rim visible; a dark disk would hide both that material and ports.
-	if active and kind in ["begin", "end", "split", "join", "rune"]:
+	var normally_lit := active and kind in ["begin", "end", "split", "join", "rune"]
+	# Endpoints keep their existing connected appearance, even if new endpoints
+	# occupy cells that still have a cleanup light from the previous board.
+	var illumination := 0.0 if kind in ["begin", "end"] else feedback_light
+	if normally_lit or illumination > 0.0:
 		var amber: bool = kind == "rune" and catalog.get(piece.get("rune_id", ""), {}).get("effect") != "shield"
-		var face := Color(0.75, 0.38, 0.015, 0.22) if amber else Color(0.0, 0.66, 0.48, 0.34)
+		var face := Color(0.75, 0.38, 0.015, 0.22) if amber else CONNECTED_FACE
+		var light := Color("ffb323") if amber else CONNECTED_LIGHT
+		light.a = 0.018
+		if not normally_lit:
+			face.a = 0.0
+			light.a = 0.0
+		var feedback_face := CONNECTED_FACE if feedback_color == CONNECTED_LIGHT else Color(feedback_color, CONNECTED_FACE.a)
+		# Blend the existing amber face to the endpoint palette instead of
+		# stacking another wash over the stone, glyph or logical connections.
+		face = face.lerp(feedback_face, illumination)
+		light = light.lerp(Color(feedback_color, 0.018), illumination)
 		var inset := 7.0
 		var cut := 7.0
 		var r := Rect2(Vector2.ONE * inset, size - Vector2.ONE * inset * 2)
@@ -127,8 +152,6 @@ func _draw_clean_board() -> void:
 		]), face)
 		# Broad translucent light retains the painted stone below the symbol.
 		for halo in range(6, 0, -1):
-			var light := Color("ffb323") if amber else Color("00eac5")
-			light.a = 0.018
 			draw_circle(center, minf(size.x, size.y) * (0.19 + halo * 0.027), light)
 	if preview != 0:
 		var tint := Color("#6edbc1") if preview > 0 else Color("#a57b76")
@@ -178,9 +201,9 @@ func _draw_clean_board() -> void:
 	var glyph_center := center
 	if endpoint:
 		glyph_center = endpoint_layout.center
-	# Split/Join glyphs identify the operation, independently of port direction.
+	# Rune and Split/Join glyphs identify the effect, independently of port direction.
 	# Their wires above already follow the piece's rotated logical ports.
-	var upright_symbol := endpoint or kind in ["split", "join"]
+	var upright_symbol := endpoint or kind in ["split", "join", "rune"]
 	draw_set_transform(glyph_center, 0 if upright_symbol else int(piece.get("rotation", 0)) * PI / 2)
 	var painted := ReferenceIcons.board_texture(symbol)
 	# The approved powered Join is mint, while the stock tool remains gold.

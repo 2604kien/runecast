@@ -1,0 +1,49 @@
+# sfx_technique - RC-018 r001
+
+Delivered October 17, 2026. Creator: Codex, original project-specific procedural sound design. This family preserves its stable manifest ID and source/runtime directories.
+
+See the [complete delivery](../delivery.md), [editable settings](../settings.json), [original generator](../generate_sfx.py) and [provenance record](../provenance.json).
+
+## Files and design
+
+### technique_draw.wav
+
+Parchment card edge brushing past cloth, a small warm frame tap, and a low airy afterglow.
+
+Current action/event candidate; production playback binding remains RC-020 work.
+
+- Source: [technique_draw.wav](technique_draw.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [technique_draw.wav](../../../../assets/audio/sfx/sfx_technique/technique_draw.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 14,400 samples / 0.300 s; one-shot, no loop points.
+- Actual DSP seed: `18007`; full layer settings are under cue ID `technique_draw`.
+- Intended playback gain: -5.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -8.37 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `6388308d14daedc888beb207a376cfeb71532dc34f146382e3155295d5eeefde`.
+- Runtime SHA-256: `abd3dc7e1df53a6e46936d2b9562e7baa4f06b279994697405e6552c3d317088`.
+
+### technique_conjure.wav
+
+A parchment body forms within a softly blooming rune resonance; warm breath and multiple drifting mineral modes.
+
+Current action/event candidate; production playback binding remains RC-020 work.
+
+- Source: [technique_conjure.wav](technique_conjure.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [technique_conjure.wav](../../../../assets/audio/sfx/sfx_technique/technique_conjure.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 20,160 samples / 0.420 s; one-shot, no loop points.
+- Actual DSP seed: `18008`; full layer settings are under cue ID `technique_conjure`.
+- Intended playback gain: -5.0 dB (additional attenuation). Float render RMS: -24.50 dBFS; estimated true peak: -8.15 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `554f5e5f6d82908bca2c404dce662632334da3c4d9981d1834f56e6ba2ef8278`.
+- Runtime SHA-256: `18f1f05e240db4773b656b1916a3777d353d3551121a9912cb637cc9b8e54f7b`.
+
+## Export, import and evidence
+
+Retain the master and source settings outside builds under the existing `source-assets/.gdignore`. Import the runtime WAV through the pinned Godot tooling with no re-normalization, sample-rate change, looping or automatic trimming. File endpoints and intended short tails are already authored. Shared bus gain, voice limits, cancellation and platform playback policy remain RC-020 work.
+
+The generation measurements above describe the float render. Actual encoded-file checks are in [audio-validation.json](../../../../output/qa/rc-018/audio-validation.json); import/playback scope is in [RC-018 verification](../../../../docs/rc-018-verification.md). See the [cue catalogue](../../../../docs/audio-cue-catalogue.json), [integration notes](../../../../docs/audio-integration.md) and [isolated audition player](../../../../output/audio/rc-018/index.html).
+
+## Rights and limitations
+
+No third-party samples, recordings, sound-library content or audio-generation service were used. Waveforms are original output of the retained deterministic mathematical DSP. No Creative Commons licence, legal ownership grant or distribution-clearance decision is invented; RC-050 retains the final distribution audit. NumPy is a local synthesis tool, not a bundled game sample dependency.
+
+No headphone/speaker listening review, owner aesthetic approval, physical-device acceptance or final mixed-gameplay approval is claimed. Technical measurements cannot establish those judgments. Future-only records remain unbound until their actual gameplay systems exist.

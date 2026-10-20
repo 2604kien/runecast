@@ -1,0 +1,34 @@
+# sfx_expiry - RC-018 r001
+
+Delivered October 17, 2026. Creator: Codex, original project-specific procedural sound design. This family preserves its stable manifest ID and source/runtime directories.
+
+See the [complete delivery](../delivery.md), [editable settings](../settings.json), [original generator](../generate_sfx.py) and [provenance record](../provenance.json).
+
+## Files and design
+
+### temporary_expired.wav
+
+One quiet inward dust-and-paper collapse with a falling ceramic grain; shared coalesced cleanup accent.
+
+Current action/event candidate; production playback binding remains RC-020 work.
+
+- Source: [temporary_expired.wav](temporary_expired.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [temporary_expired.wav](../../../../assets/audio/sfx/sfx_expiry/temporary_expired.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 13,440 samples / 0.280 s; one-shot, no loop points.
+- Actual DSP seed: `18017`; full layer settings are under cue ID `temporary_expired`.
+- Intended playback gain: -9.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -9.36 dBTP.
+- Fade in/out: 2.0/35.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `24c3d61a2c24bfeebf22ddf5b74958998bed4f72847887ba272eb64d6ce94625`.
+- Runtime SHA-256: `14134b0d6a02a39226feb691becc9463ef4d1a72bdd970531428b9797a6a7f2e`.
+
+## Export, import and evidence
+
+Retain the master and source settings outside builds under the existing `source-assets/.gdignore`. Import the runtime WAV through the pinned Godot tooling with no re-normalization, sample-rate change, looping or automatic trimming. File endpoints and intended short tails are already authored. Shared bus gain, voice limits, cancellation and platform playback policy remain RC-020 work.
+
+The generation measurements above describe the float render. Actual encoded-file checks are in [audio-validation.json](../../../../output/qa/rc-018/audio-validation.json); import/playback scope is in [RC-018 verification](../../../../docs/rc-018-verification.md). See the [cue catalogue](../../../../docs/audio-cue-catalogue.json), [integration notes](../../../../docs/audio-integration.md) and [isolated audition player](../../../../output/audio/rc-018/index.html).
+
+## Rights and limitations
+
+No third-party samples, recordings, sound-library content or audio-generation service were used. Waveforms are original output of the retained deterministic mathematical DSP. No Creative Commons licence, legal ownership grant or distribution-clearance decision is invented; RC-050 retains the final distribution audit. NumPy is a local synthesis tool, not a bundled game sample dependency.
+
+No headphone/speaker listening review, owner aesthetic approval, physical-device acceptance or final mixed-gameplay approval is claimed. Technical measurements cannot establish those judgments. Future-only records remain unbound until their actual gameplay systems exist.

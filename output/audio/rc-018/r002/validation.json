@@ -1,0 +1,1027 @@
+{
+  "revision": "r002-runway-audition",
+  "date": "2026-10-17",
+  "checks": 253,
+  "failures": [],
+  "original_mp3_count": 5,
+  "original_mp3_bytes": 47444,
+  "r001_runtime_and_source_files_unchanged": 42,
+  "protected_production_files_unchanged": 164,
+  "preview_local_references": 13,
+  "browser_or_acoustic_review": "not performed",
+  "engine_verification": "not performed for generated MP3 candidates",
+  "details": [
+    {
+      "check": "exactly five generated MP3 candidates",
+      "passed": true
+    },
+    {
+      "check": "edit_place original hash",
+      "passed": true
+    },
+    {
+      "check": "edit_place provider byte count",
+      "passed": true
+    },
+    {
+      "check": "edit_place MP3 signature",
+      "passed": true
+    },
+    {
+      "check": "edit_place audition only",
+      "passed": true
+    },
+    {
+      "check": "technique_draw original hash",
+      "passed": true
+    },
+    {
+      "check": "technique_draw provider byte count",
+      "passed": true
+    },
+    {
+      "check": "technique_draw MP3 signature",
+      "passed": true
+    },
+    {
+      "check": "technique_draw audition only",
+      "passed": true
+    },
+    {
+      "check": "cast original hash",
+      "passed": true
+    },
+    {
+      "check": "cast provider byte count",
+      "passed": true
+    },
+    {
+      "check": "cast MP3 signature",
+      "passed": true
+    },
+    {
+      "check": "cast audition only",
+      "passed": true
+    },
+    {
+      "check": "shield original hash",
+      "passed": true
+    },
+    {
+      "check": "shield provider byte count",
+      "passed": true
+    },
+    {
+      "check": "shield MP3 signature",
+      "passed": true
+    },
+    {
+      "check": "shield audition only",
+      "passed": true
+    },
+    {
+      "check": "spectral original hash",
+      "passed": true
+    },
+    {
+      "check": "spectral provider byte count",
+      "passed": true
+    },
+    {
+      "check": "spectral MP3 signature",
+      "passed": true
+    },
+    {
+      "check": "spectral audition only",
+      "passed": true
+    },
+    {
+      "check": "ten audio players, five candidates",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../assets/audio/sfx/sfx_cast/cast.wav",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../assets/audio/sfx/sfx_place/edit_place.wav",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../assets/audio/sfx/sfx_shield/shield.wav",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../docs/audio-cue-catalogue.json",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/cast.mp3",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/edit_place.mp3",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/generation.json",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/shield.mp3",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/spectral.mp3",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/technique_draw.mp3",
+      "passed": true
+    },
+    {
+      "check": "preview local reference ../index.html",
+      "passed": true
+    },
+    {
+      "check": "readme link ../../../../../output/audio/rc-018/r002/index.html",
+      "passed": true
+    },
+    {
+      "check": "readme link edit_place.mp3",
+      "passed": true
+    },
+    {
+      "check": "readme link technique_draw.mp3",
+      "passed": true
+    },
+    {
+      "check": "readme link cast.mp3",
+      "passed": true
+    },
+    {
+      "check": "readme link shield.mp3",
+      "passed": true
+    },
+    {
+      "check": "readme link spectral.mp3",
+      "passed": true
+    },
+    {
+      "check": "readme link generation.json",
+      "passed": true
+    },
+    {
+      "check": "readme link index.html",
+      "passed": true
+    },
+    {
+      "check": "readme link ../../../../source-assets/audio/sfx/revisions/r002-runway-audition/generation.json",
+      "passed": true
+    },
+    {
+      "check": "readme link ../../../../docs/audio-cue-catalogue.json",
+      "passed": true
+    },
+    {
+      "check": "readme link ../index.html",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved ui_confirm runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved ui_confirm source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved ui_back runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved ui_back source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_place runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_place source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_orient runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_orient source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_restore runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved edit_restore source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved action_rejected runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved action_rejected source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved technique_draw runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved technique_draw source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved technique_conjure runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved technique_conjure source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved cast runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved cast source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved damage runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved damage source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved shield runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved shield source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved spectral runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved spectral source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved flame runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved flame source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved stone runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved stone source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved chain runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved chain source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved bell runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved bell source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved temporary_expired runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved temporary_expired source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved reward runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved reward source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved victory runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved victory source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved defeat runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved defeat source",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved guardian_phase_changed runtime",
+      "passed": true
+    },
+    {
+      "check": "r001 preserved guardian_phase_changed source",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/.gitkeep",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/attachments.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/attack.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/character.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/character.tscn",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/hit.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/motion.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/motion.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/neutral.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/body_cloak.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/flame.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/head_hood.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/lantern_arm.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/lantern_glass_backing.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/lantern_glass_light.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/lantern_shell.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/neck_underlap.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/parts/shoulder_underlap.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/README.md",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/reference/approved_actor.gdshader",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/enemies/shadeling/reference/approved_actor_mask.gdshaderinc",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/.gitkeep",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/background.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/environment.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/environment.tscn",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/floor.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/lighting.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/lighting.gdshader",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/lighting.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/README.md",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/reference/arena.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/crypt/reference/visible_edges.gdshader",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/home/home_tower.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/environments/home/README.md",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/ATTRIBUTION.txt",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/combat/body.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/combat/display.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/combat/label.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/combat/value.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/display/title.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/ui/labels.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/ui/location.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/ui/NotoSerif-Variable.ttf",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/fonts/ui/OFL.NotoSerif.txt",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/begin.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/corner.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/end.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/join.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/split.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/circuit/straight.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/editing/remove.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/editing/rotate.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/navigation/guide.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/navigation/map.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/navigation/menu.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/navigation/sound_off.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/navigation/sound_on.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/attack.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/discard_pile.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/draw_pile.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/energy.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/health.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/resources/pause.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/runes/core/conjure.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/runes/core/focus.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/runes/core/shield.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/runes/core/spark.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/symbol_tint.gdshader",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/icons/temporary_marker.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/app_icon.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/bars/energy.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/bars/health.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/bars/shield.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/bars/track.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/board/socket.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/buttons/primary.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/buttons/secondary.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/combat/backdrop.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/combat/reference/approved-atlas.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/combat/reference/icons.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/combat/reference/navigation_mask.gdshader",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/combat/reference/status-frame.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/frames/panel.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/rune_cast_theme.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/runes/damage.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/runes/mixed.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/runes/shield.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/runes/technique.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/scrim.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/states/node_available.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/states/node_completed.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/states/node_current.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/states/node_locked.svg",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/damage.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/empty.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/energy_fill.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/focus.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/health_fill.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/menu.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/mixed.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/panel.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/primary.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/primary_disabled.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/primary_hover.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/primary_pressed.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/scroll_grab.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/scroll_grab_highlight.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/scroll_track.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/secondary.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/secondary_disabled.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/secondary_hover.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/secondary_pressed.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/shield.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/shield_fill.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/socket.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/technique.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/styles/track.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved assets/ui/wordmark.png",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/board_examples.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/boards.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/dev_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/development/rc009_belfry_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/development/rc009_gallery_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/development/rc009_ossuary_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/development/rc009_training_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/enemies.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/loadouts.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_boards.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_loadouts.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_next_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_rules.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/production_transition_encounter.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved data/runes.json",
+      "passed": true
+    },
+    {
+      "check": "production preserved export_presets.cfg",
+      "passed": true
+    },
+    {
+      "check": "production preserved project.godot",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/main.tscn",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/combat_surface.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/components.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/painted_skin.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/reference_backdrop.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/reference_icons.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/reference_pile.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/ui/theme/state_layer.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/vfx/combat_feedback.tscn",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/vfx/combat_feedback_style.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scenes/vfx/combat_feedback_style.tres",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/circuit.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/combat.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/content_loader.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/experiment_record.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/experiments.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/core/production_rules.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/dev/board_examples.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/animated_combat_presentation.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/arena.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/board_cell.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/combat_controller.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/combat_feedback.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/combat_presentation.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/inspection_data.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/main.gd",
+      "passed": true
+    },
+    {
+      "check": "production preserved scripts/ui/touch_router.gd",
+      "passed": true
+    },
+    {
+      "check": "temporary signed download request removed",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,807 @@
+{
+  "schema_version": 1,
+  "task": "RC-018",
+  "revision": "r003-runway-library",
+  "date": "2026-10-17",
+  "provider": "Runway connected workspace",
+  "status": "21 retained source originals; edited 21-file runtime library and working masters delivered; scoped technical validation complete; final full-library owner listening pending.",
+  "owner_direction": "Owner approved r002 five-cue direction and explicitly requested full library replacement with Runway.",
+  "source_format": "Original provider output MP3. 24-bit working masters are decoded edited derivatives; no lossless original fidelity claim.",
+  "new_generations": 16,
+  "reused_approved_generations": 5,
+  "new_generation_credits_consumed": 18,
+  "seed_status": "Not supplied or returned by service; no deterministic model generation claim.",
+  "rights_review": {
+    "reviewed_on": "2026-10-17",
+    "terms_url": "https://runway.com/terms-of-use",
+    "commercial_use_guidance_url": "https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes",
+    "summary": "General Runway Terms section 4.4 do not claim ownership of outputs or restrict commercial use, subject to compliance with the agreement. No SFX-specific exception identified in reviewed public documentation. Account-specific supplemental terms not independently inspected.",
+    "distribution_audit_owner": "RC-050",
+    "copyright_ownership_or_clearance_claim": false
+  },
+  "total_original_file_bytes": 234538,
+  "cues": [
+    {
+      "cue_id": "ui_confirm",
+      "file": "originals/ui_confirm.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "8a391d02-6ebe-4fe3-a7e1-16361c366be8",
+      "artifact_id": "9aff7d6b-b877-4f76-abff-1f0055c7721c",
+      "created_at": "2026-10-17T03:02:50.147Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A small wooden button gently pressed into a felt-lined recess. One quiet close dry click with a warm wooden body and tiny soft cloth movement, finished in 0.15 seconds with silence afterward. Intimate tactile fantasy game interface, comfortable to repeat. No snare, drum, clap, sharp metallic ping, bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - ui_confirm",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - ui_confirm",
+        "promptText": "A small wooden button gently pressed into a felt-lined recess. One quiet close dry click with a warm wooden body and tiny soft cloth movement, finished in 0.15 seconds with silence afterward. Intimate tactile fantasy game interface, comfortable to repeat. No snare, drum, clap, sharp metallic ping, bass boom, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/ec29f80a-41a8-4d40-9e5d-be080740c4d5/RuneCast_r003___ui_confirm.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "ca6158c014b34761a4f11f2ca1412c18cfc4c6dda9c5ac243ee432b3bcc2c582",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_ui_confirm"
+    },
+    {
+      "cue_id": "ui_back",
+      "file": "originals/ui_back.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "cc5d7260-9d52-4e32-8c1c-5e3b2a0024fc",
+      "artifact_id": "9984cc9a-a9f9-4c60-8aab-68c69b3fde81",
+      "created_at": "2026-10-17T03:02:51.966Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A small wooden latch gently released beside soft cloth. One subtle low wooden tick followed by a short inward cloth brush, a retreating gesture finished in 0.16 seconds with silence afterward. Close dry understated fantasy interface foley. No snare, drum, clap, bright chime, impact boom, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - ui_back",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - ui_back",
+        "promptText": "A small wooden latch gently released beside soft cloth. One subtle low wooden tick followed by a short inward cloth brush, a retreating gesture finished in 0.16 seconds with silence afterward. Close dry understated fantasy interface foley. No snare, drum, clap, bright chime, impact boom, music or speech.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/3c89f3be-e666-42ae-97fe-a255dcbec284/RuneCast_r003___ui_back.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "1df4808dcfeed5ac44f65787515228c636e6321d6e8ec0549acc4e206f90858a",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_ui_back"
+    },
+    {
+      "cue_id": "edit_place",
+      "manifest_id": "sfx_place",
+      "file": "originals/edit_place.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "a372ee04-d3c4-406d-a730-fdd451975dcd",
+      "artifact_id": "ab38ad53-875b-4488-8467-1b7b771ca797",
+      "created_at": "2026-10-17T02:50:21.484Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "loop": false,
+        "name": "RuneCast r002 audition 01 - Rune stone placement",
+        "promptText": "A small smooth stone rune gently set into a carved stone socket, close dry foley. A tiny ceramic click, then a brief gritty sliding friction as it seats, irregular fine grains settling. One delicate gesture lasting about 0.2 seconds, soft and intimate. Natural stone texture, minimal room, clean silence around it. No music, voices, drum, snare, clap, bass boom or rhythmic repetition.",
+        "rationale": "Create the first of five distinct RuneCast replacement SFX audition candidates after the user rejected the earlier percussion-like procedural palette and connected Runway."
+      },
+      "returned_options": {
+        "name": "RuneCast r002 audition 01 - Rune stone placement",
+        "promptText": "A small smooth stone rune gently set into a carved stone socket, close dry foley. A tiny ceramic click, then a brief gritty sliding friction as it seats, irregular fine grains settling. One delicate gesture lasting about 0.2 seconds, soft and intimate. Natural stone texture, minimal room, clean silence around it. No music, voices, drum, snare, clap, bass boom or rhythmic repetition.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/9a58c84b-17ec-402a-a394-c5cb3ef78ec3/RuneCast_r002_audition_01___Rune_stone_placement.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "review_status": "owner approved direction on 2026-10-17",
+      "sha256": "63ea9b8eaf63503a610a604a1d5947f362f98d6a45844bf58c27f34454ede513",
+      "actual_file_bytes": 8820,
+      "reused_from_r002": true
+    },
+    {
+      "cue_id": "edit_orient",
+      "file": "originals/edit_orient.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "29382565-02c1-4ec5-9224-55eaa0f23c82",
+      "artifact_id": "08a96367-2c15-4358-ac46-d18c550c3e64",
+      "created_at": "2026-10-17T03:02:53.590Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "One small engraved stone rune rotates a quarter turn in a shallow stone socket. Brief fine gritty friction moves sideways into a soft rounded seating tick. A delicate continuous gesture finished in 0.18 seconds, dry close detailed foley with silence afterward. Quiet fantasy puzzle editing. No drum, snare, clap, rumble, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - edit_orient",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - edit_orient",
+        "promptText": "One small engraved stone rune rotates a quarter turn in a shallow stone socket. Brief fine gritty friction moves sideways into a soft rounded seating tick. A delicate continuous gesture finished in 0.18 seconds, dry close detailed foley with silence afterward. Quiet fantasy puzzle editing. No drum, snare, clap, rumble, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/41038f2c-937b-46b3-abba-afe147f049c3/RuneCast_r003___edit_orient.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "b09cca7ae73429973d6cd28e26c35d024ff670df04ae986ded5593b4be1983e0",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_rotate"
+    },
+    {
+      "cue_id": "edit_restore",
+      "file": "originals/edit_restore.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "9fa462d7-3b10-4c0c-bb35-9d11b17aa3bc",
+      "artifact_id": "ddc24269-0691-4e94-af18-7b98ce8633ef",
+      "created_at": "2026-10-17T03:02:55.402Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A small smooth stone rune is gently lifted out of a snug carved socket. Tiny suction-like release, soft gritty edge friction and a light brushing lift, finished in 0.22 seconds. Intimate dry stone foley with silence afterward, quiet and comfortable to repeat. No drum, snare, impact boom, chime, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - edit_restore",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - edit_restore",
+        "promptText": "A small smooth stone rune is gently lifted out of a snug carved socket. Tiny suction-like release, soft gritty edge friction and a light brushing lift, finished in 0.22 seconds. Intimate dry stone foley with silence afterward, quiet and comfortable to repeat. No drum, snare, impact boom, chime, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/5d95f1d7-f231-4703-9a4d-6fdb42388785/RuneCast_r003___edit_restore.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "da0be234c39d2badb368023f6430483d34be7c285c048202400916b81f978155",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_undo"
+    },
+    {
+      "cue_id": "action_rejected",
+      "file": "originals/action_rejected.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "cd359cba-48b8-49b5-ad9c-47e40bac843f",
+      "artifact_id": "3186994f-9165-43d4-9658-75e82a68abbc",
+      "created_at": "2026-10-17T03:03:12.214Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A soft wooden mechanism tries to slide but gently meets a padded stop. One short low rounded muted knock with a tiny downward creak, finished in 0.18 seconds and clean silence. Quiet non-alarming fantasy interface refusal. No harsh buzz, metallic ping, drum, snare, bass boom, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - action_rejected",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - action_rejected",
+        "promptText": "A soft wooden mechanism tries to slide but gently meets a padded stop. One short low rounded muted knock with a tiny downward creak, finished in 0.18 seconds and clean silence. Quiet non-alarming fantasy interface refusal. No harsh buzz, metallic ping, drum, snare, bass boom, music or speech.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/be4a057c-38e6-42ec-8454-561b52382455/RuneCast_r003___action_rejected.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "ff572ad6c8136fa1c365784092126da93f07fcd18154d2ee694acfe60aa70fce",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_invalid"
+    },
+    {
+      "cue_id": "technique_draw",
+      "manifest_id": "sfx_technique",
+      "file": "originals/technique_draw.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "2d54d6fd-4f5f-4a04-81b1-0458613e9c2a",
+      "artifact_id": "a595743c-acf3-49f7-90b0-1f9a79a4dcb7",
+      "created_at": "2026-10-17T02:50:57.006Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "loop": false,
+        "name": "RuneCast r002 audition 02 - Card draw",
+        "promptText": "One thick parchment card slides smoothly out of a close stack into a hand. Quiet dry papery friction, soft fibrous flutter and a tiny flex at the end. A single fluid sideways gesture, about 0.3 seconds, intimate detailed foley with clean silence. No hard impact, snap, drum, snare, clap, chime, music or voices.",
+        "rationale": "Create the bounded five-cue RuneCast replacement audition with genuinely different material gestures following user rejection of the earlier snare-like palette."
+      },
+      "returned_options": {
+        "name": "RuneCast r002 audition 02 - Card draw",
+        "promptText": "One thick parchment card slides smoothly out of a close stack into a hand. Quiet dry papery friction, soft fibrous flutter and a tiny flex at the end. A single fluid sideways gesture, about 0.3 seconds, intimate detailed foley with clean silence. No hard impact, snap, drum, snare, clap, chime, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/092ed7fd-693f-48dc-8baf-615d26c80bab/RuneCast_r002_audition_02___Card_draw.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "review_status": "owner approved direction on 2026-10-17",
+      "sha256": "49fdf18b386faec49fc4ffcd3753fa42308aa8c1e11b01a69570ef7079d7c576",
+      "actual_file_bytes": 8820,
+      "reused_from_r002": true
+    },
+    {
+      "cue_id": "technique_conjure",
+      "file": "originals/technique_conjure.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "d5604887-be17-44c8-978f-a3a82f9fcc94",
+      "artifact_id": "a577e892-4771-4422-9445-ad2ec0b84a3f",
+      "created_at": "2026-10-17T03:03:13.645Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A single parchment card materializes in a hand: fine papery fibers gather inward, a soft airy shimmer blooms, then a light parchment flex settles. One fluid magical foley gesture over 0.4 seconds, close dry detail with a soft onset and short tail. Quiet painted fantasy. No percussion, drum, snare, sharp chime, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - technique_conjure",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - technique_conjure",
+        "promptText": "A single parchment card materializes in a hand: fine papery fibers gather inward, a soft airy shimmer blooms, then a light parchment flex settles. One fluid magical foley gesture over 0.4 seconds, close dry detail with a soft onset and short tail. Quiet painted fantasy. No percussion, drum, snare, sharp chime, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/f5f0e612-b22f-4e0e-98d3-83669a05bf3a/RuneCast_r003___technique_conjure.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "81e9c02f5580e73c3775bbae3c0bce3c2241f84e0e97c79613868e17d82ce96d",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_technique"
+    },
+    {
+      "cue_id": "cast",
+      "manifest_id": "sfx_cast",
+      "file": "originals/cast.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "b05da33c-3a45-4ff6-a9d2-9c92998d0095",
+      "artifact_id": "c8ea75a8-c8b3-444a-9365-731ad6c34af2",
+      "created_at": "2026-10-17T02:50:58.723Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "loop": false,
+        "name": "RuneCast r002 audition 03 - Rune cast",
+        "promptText": "A small arcane rune releases turquoise magic: a soft reverse-like inhalation swells into a smooth rising harmonic shimmer, flows outward as a delicate airy ribbon, then dissolves. One compact flowing magical gesture in 0.5 seconds, warm crystalline depth, restrained fantasy game sound. Soft onset, clear movement, short tail. No percussion, drum, snare, impact, explosion, bass boom, music or voices.",
+        "rationale": "Create the bounded five-cue RuneCast replacement audition with genuinely different material gestures following user rejection of the earlier snare-like palette."
+      },
+      "returned_options": {
+        "name": "RuneCast r002 audition 03 - Rune cast",
+        "promptText": "A small arcane rune releases turquoise magic: a soft reverse-like inhalation swells into a smooth rising harmonic shimmer, flows outward as a delicate airy ribbon, then dissolves. One compact flowing magical gesture in 0.5 seconds, warm crystalline depth, restrained fantasy game sound. Soft onset, clear movement, short tail. No percussion, drum, snare, impact, explosion, bass boom, music or voices.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/41f5dc66-dacc-4dd5-97c7-a6bb81e2229a/RuneCast_r002_audition_03___Rune_cast.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "review_status": "owner approved direction on 2026-10-17",
+      "sha256": "49b98c66c8654fcd74c8e5ec3fbc90ffb93dd9603dff5e147955f5984da0c02c",
+      "actual_file_bytes": 10492,
+      "reused_from_r002": true
+    },
+    {
+      "cue_id": "damage",
+      "file": "originals/damage.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "3c9e5e2b-6745-4496-b7c3-1f2f3727af65",
+      "artifact_id": "3503efbc-cefe-45d6-90f0-7430956c9015",
+      "created_at": "2026-10-17T03:03:15.273Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A compact magical force presses into a padded cloth and stone surface. A muted solid contact, tiny brittle mineral crumble and soft displaced air settle quickly, one restrained 0.3 second impact. Close dry fantasy game sound, weight without explosive bass, a clear soft body. No snare, drum, clap, gunshot, scream, music or long reverb.",
+        "loop": false,
+        "name": "RuneCast r003 - damage",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - damage",
+        "promptText": "A compact magical force presses into a padded cloth and stone surface. A muted solid contact, tiny brittle mineral crumble and soft displaced air settle quickly, one restrained 0.3 second impact. Close dry fantasy game sound, weight without explosive bass, a clear soft body. No snare, drum, clap, gunshot, scream, music or long reverb.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/6990a010-5eee-4833-866c-c09d2718b27b/RuneCast_r003___damage.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "fd50433959d3dcf530d7f37fdeae4ae469f0b5831b707b2915583c7048244630",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_impact"
+    },
+    {
+      "cue_id": "shield",
+      "manifest_id": "sfx_shield",
+      "file": "originals/shield.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "3905af4d-4db8-44f2-8a36-f3c577ba099c",
+      "artifact_id": "badad9f2-1679-474a-8688-355c8d7e4284",
+      "created_at": "2026-10-17T02:51:00.328Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "loop": false,
+        "name": "RuneCast r002 audition 04 - Shield bloom",
+        "promptText": "A translucent magical shield gently unfurls. Smooth rounded glass resonance blooms upward from quiet, two softly beating sustained tones form a protective dome, then settle into a short velvet tail. A compact 0.4 second tonal swell, calm and reassuring, dry close perspective. No strike, mallet, metallic clang, percussion, drum, snare, hiss burst, music or speech.",
+        "rationale": "Create the bounded five-cue RuneCast replacement audition with genuinely different material gestures following user rejection of the earlier snare-like palette."
+      },
+      "returned_options": {
+        "name": "RuneCast r002 audition 04 - Shield bloom",
+        "promptText": "A translucent magical shield gently unfurls. Smooth rounded glass resonance blooms upward from quiet, two softly beating sustained tones form a protective dome, then settle into a short velvet tail. A compact 0.4 second tonal swell, calm and reassuring, dry close perspective. No strike, mallet, metallic clang, percussion, drum, snare, hiss burst, music or speech.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/3d603131-a482-4700-b072-0c873f0c275d/RuneCast_r002_audition_04___Shield_bloom.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "review_status": "owner approved direction on 2026-10-17",
+      "sha256": "4bf94d092c96dd5362593c3fcd7bf53a689a303be03c716dbe218572f0378608",
+      "actual_file_bytes": 8820,
+      "reused_from_r002": true
+    },
+    {
+      "cue_id": "spectral",
+      "manifest_id": "sfx_enemy_attack",
+      "file": "originals/spectral.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "f4f55a1a-1da4-40cf-a0bd-92135492c235",
+      "artifact_id": "157f4bdb-a325-42a0-bdfa-8530dd075a22",
+      "created_at": "2026-10-17T02:51:01.941Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "loop": false,
+        "name": "RuneCast r002 audition 05 - Shadeling spectral",
+        "promptText": "A small hooded lantern spirit sweeps spectral air forward. Soft cloth movement and a hollow breath-like wind curl around a faint wavering bowed-glass resonance, then evaporate. One eerie but gentle flowing gesture lasting 0.5 seconds, close and dry, readable in a quiet fantasy crypt game. No spoken words, scream, drum, snare, sharp hit, explosion, bell strike, music or long reverb.",
+        "rationale": "Create the bounded five-cue RuneCast replacement audition with genuinely different material gestures following user rejection of the earlier snare-like palette."
+      },
+      "returned_options": {
+        "name": "RuneCast r002 audition 05 - Shadeling spectral",
+        "promptText": "A small hooded lantern spirit sweeps spectral air forward. Soft cloth movement and a hollow breath-like wind curl around a faint wavering bowed-glass resonance, then evaporate. One eerie but gentle flowing gesture lasting 0.5 seconds, close and dry, readable in a quiet fantasy crypt game. No spoken words, scream, drum, snare, sharp hit, explosion, bell strike, music or long reverb.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/4d9af3b8-6434-4dc6-813a-c29ac49cbecf/RuneCast_r002_audition_05___Shadeling_spectral.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "review_status": "owner approved direction on 2026-10-17",
+      "sha256": "2e2b9f21fc40608b121c11b8012e482c0aa40d9fa5fb61a7c8ea6003a31a09df",
+      "actual_file_bytes": 10492,
+      "reused_from_r002": true
+    },
+    {
+      "cue_id": "flame",
+      "file": "originals/flame.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "ce8d5a45-1e87-4b03-9e53-a2595f51eb1e",
+      "artifact_id": "ccb4fd0a-aa1a-4e42-a269-65b2216011d2",
+      "created_at": "2026-10-17T03:03:17.212Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "promptText": "A small living candle spirit thrusts a ribbon of flame forward. Soft cloth-like air movement becomes a warm close wick flare, delicate crackling embers curl outward and extinguish. One compact flowing attack in 0.5 seconds with a gentle onset and clean ending. Quiet dry fantasy crypt. No explosion, bass boom, drum, snare, voices or music.",
+        "loop": false,
+        "name": "RuneCast r003 - flame",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - flame",
+        "promptText": "A small living candle spirit thrusts a ribbon of flame forward. Soft cloth-like air movement becomes a warm close wick flare, delicate crackling embers curl outward and extinguish. One compact flowing attack in 0.5 seconds with a gentle onset and clean ending. Quiet dry fantasy crypt. No explosion, bass boom, drum, snare, voices or music.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/3b64b0b6-6b34-4acc-ac1d-7e5ccea60952/RuneCast_r003___flame.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "019b86573ba24efb06c1b5ab7555405ab865fbb2efda412453392109dd93c882",
+      "actual_file_bytes": 10492,
+      "manifest_id": "sfx_enemy_attack"
+    },
+    {
+      "cue_id": "stone",
+      "file": "originals/stone.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "7c7acc94-3223-4078-a312-ce2e71870e6e",
+      "artifact_id": "ed59c7cd-5e79-499c-8665-4b7c6aa1daa8",
+      "created_at": "2026-10-17T03:03:18.766Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "promptText": "A small stone guardian pushes one heavy forearm forward. A close rough mineral grind rises into restrained stone contact, a few fine grains fall away as the motion settles. One compact 0.5 second gesture with weight and clear movement, dry intimate fantasy crypt foley. No explosion, drum, snare, massive bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - stone",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - stone",
+        "promptText": "A small stone guardian pushes one heavy forearm forward. A close rough mineral grind rises into restrained stone contact, a few fine grains fall away as the motion settles. One compact 0.5 second gesture with weight and clear movement, dry intimate fantasy crypt foley. No explosion, drum, snare, massive bass boom, music or voices.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/811cfd4e-9a91-4076-b1ee-9e4994c662a4/RuneCast_r003___stone.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "cff0aee89a6e2bcd68ef61c74c1ca4eca8079b414467ab9a02fb9691eff41867",
+      "actual_file_bytes": 10492,
+      "manifest_id": "sfx_enemy_attack"
+    },
+    {
+      "cue_id": "chain",
+      "file": "originals/chain.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "7361a48b-07c3-4d1a-99f9-86e4c49fe886",
+      "artifact_id": "ac3e548d-0140-40ec-a366-9d7a0cb349a8",
+      "created_at": "2026-10-17T03:03:20.566Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "promptText": "A small iron-chain guardian sweeps a short length of old chain forward. Soft moving air, a brief irregular shiver of two or three rounded iron links, then a muted taut catch and quick decay. One fluid 0.5 second gesture, dry close fantasy crypt foley. Subdued dark metal, no sharp jangle, drum, snare, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - chain",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - chain",
+        "promptText": "A small iron-chain guardian sweeps a short length of old chain forward. Soft moving air, a brief irregular shiver of two or three rounded iron links, then a muted taut catch and quick decay. One fluid 0.5 second gesture, dry close fantasy crypt foley. Subdued dark metal, no sharp jangle, drum, snare, music or voices.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/e53a7cdd-ec67-41fd-9257-260025a1d15f/RuneCast_r003___chain.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "1bd82bbe6ecfe2f2e0c879dee9937d3c0f47c8f461881ec592fef1202a7e78dd",
+      "actual_file_bytes": 10492,
+      "manifest_id": "sfx_enemy_attack"
+    },
+    {
+      "cue_id": "bell",
+      "file": "originals/bell.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "f27a328b-1a9c-4176-974c-8d584854f370",
+      "artifact_id": "1bf14224-f19a-4778-94ec-f0cac4515a5f",
+      "created_at": "2026-10-17T03:03:22.141Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.6,
+        "promptText": "A small hollow bronze bell guardian releases one rounded resonant pulse with a breath of moving air. Gentle low bronze contact opens into warm wavering bell partials that quickly soften and dissolve. One contained 0.5 second gesture, close dry fantasy crypt sound. No piercing high chime, long ring, drum, snare, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - bell",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - bell",
+        "promptText": "A small hollow bronze bell guardian releases one rounded resonant pulse with a breath of moving air. Gentle low bronze contact opens into warm wavering bell partials that quickly soften and dissolve. One contained 0.5 second gesture, close dry fantasy crypt sound. No piercing high chime, long ring, drum, snare, music or speech.",
+        "duration": 0.6,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.6,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 10492,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/86013cd8-7508-47fb-910e-7080e356b119/RuneCast_r003___bell.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "97a1033f220017aeff8b1b8b46cf5bf0b2b8d15cc80b992c60b924b63870dc7e",
+      "actual_file_bytes": 10492,
+      "manifest_id": "sfx_enemy_attack"
+    },
+    {
+      "cue_id": "temporary_expired",
+      "file": "originals/temporary_expired.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "fdab10b2-8317-4b96-b872-450e55a6b717",
+      "artifact_id": "27a987a4-9774-41ab-9af3-2a3bee3aa10f",
+      "created_at": "2026-10-17T03:03:23.804Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.5,
+        "promptText": "A tiny magical parchment rune quietly dissolves into dust. Soft dry paper fibers loosen into a fine airy sand trickle and vanish, a falling away gesture finished in 0.28 seconds with clean silence. Very quiet intimate fantasy foley, delicate and unobtrusive. No strike, snare, drum, bright chime, bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - temporary_expired",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - temporary_expired",
+        "promptText": "A tiny magical parchment rune quietly dissolves into dust. Soft dry paper fibers loosen into a fine airy sand trickle and vanish, a falling away gesture finished in 0.28 seconds with clean silence. Very quiet intimate fantasy foley, delicate and unobtrusive. No strike, snare, drum, bright chime, bass boom, music or voices.",
+        "duration": 0.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 8820,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/b5c7da14-fbf1-4748-b626-a186b366ba73/RuneCast_r003___temporary_expired.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "a30ca63d071882a153937cf4ee25b4ca81fd4b44e70fdf759e9214a7a6e7997c",
+      "actual_file_bytes": 8820,
+      "manifest_id": "sfx_expiry"
+    },
+    {
+      "cue_id": "reward",
+      "file": "originals/reward.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "3be433a0-c81b-477d-ac75-f88e8ff98cb6",
+      "artifact_id": "0bf9d2ca-9da9-4aae-8ce8-03bfc6629535",
+      "created_at": "2026-10-17T03:03:25.379Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.65,
+        "promptText": "A small polished amber token is gently received into a cloth pouch, followed by a warm brief rising glass shimmer. Soft tactile contact, rounded luminous resonance and a graceful settling tail, one restrained rewarding gesture in 0.55 seconds. Dry close fantasy sound. No coins shower, piercing chime, drum, snare, musical melody or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - reward",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - reward",
+        "promptText": "A small polished amber token is gently received into a cloth pouch, followed by a warm brief rising glass shimmer. Soft tactile contact, rounded luminous resonance and a graceful settling tail, one restrained rewarding gesture in 0.55 seconds. Dry close fantasy sound. No coins shower, piercing chime, drum, snare, musical melody or voices.",
+        "duration": 0.65,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.64,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 11327,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/aa383a66-704f-464d-8f4a-63cb379e221a/RuneCast_r003___reward.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "51a71bd2ec64dd2dd420a4c838b3b472ff01d3d3c785971ffefd9b35bbc69d68",
+      "actual_file_bytes": 11327,
+      "manifest_id": "sfx_reward"
+    },
+    {
+      "cue_id": "victory",
+      "file": "originals/victory.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "998a2fb2-9714-43ee-8371-792685ed9ffc",
+      "artifact_id": "a92c4c29-d017-4fbe-9dc4-b114e051b493",
+      "created_at": "2026-10-17T03:03:26.789Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 1.5,
+        "promptText": "A sealed arcane rune opens with a soft breath and warm glass harmonics rising into a luminous stable resonance, then gently dissolves. One restrained triumphant magical flourish over 1.3 seconds, rounded onset and clear complete tail, intimate fantasy crypt sound. No beat, percussion, snare, fanfare, orchestral music, applause or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - victory",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - victory",
+        "promptText": "A sealed arcane rune opens with a soft breath and warm glass harmonics rising into a luminous stable resonance, then gently dissolves. One restrained triumphant magical flourish over 1.3 seconds, rounded onset and clear complete tail, intimate fantasy crypt sound. No beat, percussion, snare, fanfare, orchestral music, applause or voices.",
+        "duration": 1.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 1.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 24702,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/fef7104a-d57d-415d-86ce-cdb08b593d77/RuneCast_r003___victory.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "ca16873dd5d6bfd4d45b2768a00123701d7ac7650b25f2a9c393687970491206",
+      "actual_file_bytes": 24702,
+      "manifest_id": "sfx_victory"
+    },
+    {
+      "cue_id": "defeat",
+      "file": "originals/defeat.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "9d977aaf-6b9f-4ef7-84f3-b2ef0cc4fd6b",
+      "artifact_id": "cc5b5c71-e236-4914-be0f-dc4c7f05ec9a",
+      "created_at": "2026-10-17T03:03:28.272Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 1.5,
+        "promptText": "A small enchanted lantern quietly loses its light. A soft hollow breath and warm low glass resonance gently descend, thin into a faint papery ash fall, and resolve to silence. One restrained melancholy magical gesture over 1.2 seconds, close dry and dignified. No dramatic boom, snare, drum, scream, orchestral music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - defeat",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - defeat",
+        "promptText": "A small enchanted lantern quietly loses its light. A soft hollow breath and warm low glass resonance gently descend, thin into a faint papery ash fall, and resolve to silence. One restrained melancholy magical gesture over 1.2 seconds, close dry and dignified. No dramatic boom, snare, drum, scream, orchestral music or speech.",
+        "duration": 1.5,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 1.48,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 24702,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/b442107b-1822-4203-a20a-b57d041ec3e2/RuneCast_r003___defeat.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "6f1203d821264548f8d6fb23bbdf22a97849a88f4a5034de23cb6129f257254c",
+      "actual_file_bytes": 24702,
+      "manifest_id": "sfx_defeat"
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "file": "originals/guardian_phase_changed.mp3",
+      "status": "SUCCEEDED",
+      "task_id": "2e83e3f0-3bcd-4371-8534-3fab610adfac",
+      "artifact_id": "ba7fb863-237d-4748-bd2a-6fcc0826e1ce",
+      "created_at": "2026-10-17T03:03:29.798Z",
+      "returned_task_type": "eleven_text_to_sound_v2",
+      "requested": {
+        "duration": 0.8,
+        "promptText": "An ancient bronze guardian seal turns and awakens. A brief smooth mineral rotation opens into one low rounded bronze resonance with a rising airy overtone, then settles. A clear contained transition gesture over 0.7 seconds, close dry fantasy crypt sound, quietly imposing. No alarm, piercing bell, explosion, snare, drum, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - guardian_phase_changed",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      },
+      "returned_options": {
+        "name": "RuneCast r003 - guardian_phase_changed",
+        "promptText": "An ancient bronze guardian seal turns and awakens. A brief smooth mineral rotation opens into one low rounded bronze resonance with a rising airy overtone, then settles. A clear contained transition gesture over 0.7 seconds, close dry fantasy crypt sound, quietly imposing. No alarm, piercing bell, explosion, snare, drum, music or speech.",
+        "duration": 0.8,
+        "promptInfluence": 0.3,
+        "loop": false,
+        "recordingEnabled": true
+      },
+      "returned_metadata": {
+        "contentType": "audio/mpeg",
+        "duration": 0.8,
+        "codec": "mp3float"
+      },
+      "reported_bytes": 13835,
+      "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/ab1a10bc-13b9-489c-b1e5-e48bbf0537b8/RuneCast_r003___guardian_phase_changed.mp3",
+      "seed": null,
+      "seed_status": "not returned",
+      "reused_from_r002": false,
+      "sha256": "b25f77f5ca4901b3a5681eea4ac99d8db95dbc14262b826c8eefccc41ece6458",
+      "actual_file_bytes": 13835,
+      "manifest_id": "sfx_phase"
+    }
+  ]
+}

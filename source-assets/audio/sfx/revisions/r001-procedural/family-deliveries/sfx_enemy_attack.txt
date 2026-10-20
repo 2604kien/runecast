@@ -1,0 +1,96 @@
+# sfx_enemy_attack - RC-018 r001
+
+Delivered October 17, 2026. Creator: Codex, original project-specific procedural sound design. This family preserves its stable manifest ID and source/runtime directories.
+
+See the [complete delivery](../delivery.md), [editable settings](../settings.json), [original generator](../generate_sfx.py) and [provenance record](../provenance.json).
+
+## Files and design
+
+### spectral.wav
+
+Shared contact body plus lantern-like spectral breath, hollow glass-resin flutter and a smoky release.
+
+Current action/event candidate; production playback binding remains RC-020 work.
+
+- Source: [spectral.wav](spectral.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [spectral.wav](../../../../assets/audio/sfx/sfx_enemy_attack/spectral.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 23,040 samples / 0.480 s; one-shot, no loop points.
+- Actual DSP seed: `18012`; full layer settings are under cue ID `spectral`.
+- Intended playback gain: -3.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -6.52 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `42abbb9408dd42f848df0fcd71cdec437df70bc9d4bbf3d2c918dd36cd1e789b`.
+- Runtime SHA-256: `efba8d9c4ae01fa4ba03d92b5904e80310a1cc0cfe42d5a1ee2aebc93145233a`.
+
+### flame.wav
+
+Shared contact body with a warm paper-flame rush and sparse short ember crackles, no explosive bass.
+
+Future only; awaits its real gameplay system and RC-042 binding.
+
+- Source: [flame.wav](flame.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [flame.wav](../../../../assets/audio/sfx/sfx_enemy_attack/flame.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 22,080 samples / 0.460 s; one-shot, no loop points.
+- Actual DSP seed: `18013`; full layer settings are under cue ID `flame`.
+- Intended playback gain: -3.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -7.00 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `9a24569d3c2044db3ffadee486371533f8d053445ce37a0e9721e71c7703d7fd`.
+- Runtime SHA-256: `0731aa8e9f9b607f65e0df4d038b654ef76c648702b3852225ffb024566fbceb`.
+
+### stone.wav
+
+Shared contact body reinforced by a heavy rounded stone resonance and short granular rubble.
+
+Future only; awaits its real gameplay system and RC-042 binding.
+
+- Source: [stone.wav](stone.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [stone.wav](../../../../assets/audio/sfx/sfx_enemy_attack/stone.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 21,120 samples / 0.440 s; one-shot, no loop points.
+- Actual DSP seed: `18014`; full layer settings are under cue ID `stone`.
+- Intended playback gain: -3.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -5.72 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `4ad257b5588bf0761ecadbb86164aea9c6a53d5b20fefc67b4d47a4199d99b60`.
+- Runtime SHA-256: `cc524c5a581e9da76f8c87a6a61a22dd4f5a5f7803db616293c512878e7d48db`.
+
+### chain.wav
+
+Shared contact body with three restrained interlinked iron clinks and a low chain drag.
+
+Future only; awaits its real gameplay system and RC-042 binding.
+
+- Source: [chain.wav](chain.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [chain.wav](../../../../assets/audio/sfx/sfx_enemy_attack/chain.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 24,000 samples / 0.500 s; one-shot, no loop points.
+- Actual DSP seed: `18015`; full layer settings are under cue ID `chain`.
+- Intended playback gain: -3.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -7.96 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `2b1f1f9700581674c130bd8d3ec1bf19efa5d8ad7192adda727198f48b358031`.
+- Runtime SHA-256: `9c585d090f842ac51a8b14df21aff8b8f3d4b9100ca082112b6e075f93db60e3`.
+
+### bell.wav
+
+Shared contact body inside a muted bronze bell with unequal partials and a compact breath tail.
+
+Future only; awaits its real gameplay system and RC-042 binding.
+
+- Source: [bell.wav](bell.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [bell.wav](../../../../assets/audio/sfx/sfx_enemy_attack/bell.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 26,880 samples / 0.560 s; one-shot, no loop points.
+- Actual DSP seed: `18016`; full layer settings are under cue ID `bell`.
+- Intended playback gain: -3.0 dB (additional attenuation). Float render RMS: -26.00 dBFS; estimated true peak: -8.36 dBTP.
+- Fade in/out: 2.0/40.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `9f9b0f09eafa9f83f52096d05b1ee4883fdc254ff73778ac316e21f0ad07d3df`.
+- Runtime SHA-256: `a3b65d1e795d5f29cc0e05ca5f678a4dcc918931370ddd61066436cd7192dceb`.
+
+All five recipes include the exact same [original action stem](../stems/enemy_action_base.npy), rendered once with seed 18777, at unity before each complete cue is RMS scaled. This is a source-only float64 NumPy intermediate. Play one actor variant, not five simultaneous layers.
+
+## Export, import and evidence
+
+Retain the master and source settings outside builds under the existing `source-assets/.gdignore`. Import the runtime WAV through the pinned Godot tooling with no re-normalization, sample-rate change, looping or automatic trimming. File endpoints and intended short tails are already authored. Shared bus gain, voice limits, cancellation and platform playback policy remain RC-020 work.
+
+The generation measurements above describe the float render. Actual encoded-file checks are in [audio-validation.json](../../../../output/qa/rc-018/audio-validation.json); import/playback scope is in [RC-018 verification](../../../../docs/rc-018-verification.md). See the [cue catalogue](../../../../docs/audio-cue-catalogue.json), [integration notes](../../../../docs/audio-integration.md) and [isolated audition player](../../../../output/audio/rc-018/index.html).
+
+## Rights and limitations
+
+No third-party samples, recordings, sound-library content or audio-generation service were used. Waveforms are original output of the retained deterministic mathematical DSP. No Creative Commons licence, legal ownership grant or distribution-clearance decision is invented; RC-050 retains the final distribution audit. NumPy is a local synthesis tool, not a bundled game sample dependency.
+
+No headphone/speaker listening review, owner aesthetic approval, physical-device acceptance or final mixed-gameplay approval is claimed. Technical measurements cannot establish those judgments. Future-only records remain unbound until their actual gameplay systems exist.

@@ -1,5 +1,17 @@
 # RC-016 — Playable Combat art integration
 
+## October 16, 2026 — Energy warning ribbon
+
+The insufficient-energy caption replaced “Circuit Complete” while leaving its checkmark visible, causing the first letters to overlap. The checkmark now requires both a valid circuit and enough energy; the centered warning retains its live required/available values. Affordable completion captions reserve a measured gap from the checkmark, which scales down within the ribbon on native narrow layouts. Cast availability and circuit rules are unchanged.
+
+## October 16, 2026 — Upright rune symbols
+
+Installed Spark, Shield and Free Spark symbols now stay upright when Rotate changes the piece orientation, matching Split and Join. `BoardCell` keeps only the glyph transform fixed; the existing logical ports and wire drawing still rotate. No artwork, values or circuit rules changed. Existing UI checks pass 945/945; [rotated Shield](../output/qa/upright-runes-2026-10-16/gallery.png) and [rotated Spark](../output/qa/upright-runes-2026-10-16/ossuary.png) were inspected in the actual game.
+
+## October 16, 2026 — RC-017 animated consumer
+
+RC-017 now installs its ordered production presenter in this same playable Combat scene. The latest header, detailed cards, display-only forecast, painted status frame, confirmed Pass and inspection/scrolling remain. Original approved neutral pixels and retained attack/hit paintings now share cancellation-safe motion and attachments. The original outer crypt scenery blends to the unchanged clean plate across a broad feathered center, removing the actor-shaped reveal seam. No character/environment raster was repainted. [Usage](combat-animation.md), [actor/scenery contract](actor-animation-contract.md) and [verification](rc-017-verification.md) supersede this document's earlier static-pose/future-motion statements; earlier entries remain dated evidence.
+
 ## October 16, 2026 — Unused resource cleanup
 
 The production scene retains the same artwork and behavior. Removed the unused pile texture alias, eight non-node state SVG exports, their import/cache files, orphan material caches and the superseded generated neutral source. StateLayer owns the actual state cues; piles share panel.png; the approved atlas supplies the neutral character. The current generated status frame remains in use. Retired obsolete QA captures and one-off helpers while keeping current evidence and regression inputs. [Cleanup record](asset-cleanup.md#october-16-2026--unused-resource-cleanup) and [verification](verification.md#october-16-2026--unused-resource-cleanup).

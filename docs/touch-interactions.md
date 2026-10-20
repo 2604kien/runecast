@@ -1,5 +1,29 @@
 # Touch inspection and board editing
 
+## October 19, 2026 — Session shell transitions
+
+Home reuses the production touch router and shared Options. Menu Resume retains the attached battle. Quit to Home is disabled during an unsettled action; its confirmation explains entry replay before discarding progress. Opening/cancelling/replacing a shell modal clears held-pointer ownership and blocks Combat input underneath it. Android Back cancels this confirmation once without also opening Combat Menu; Home Back dismisses Options without starting or replacing a run. Teardown disconnects controller, presenter, audio and tree listeners before detaching the scene. [RC-024 verification](rc-024-verification.md) records synthetic touch-to-mouse, pause and stale-callback checks; physical-device acceptance remains pending.
+
+## October 19, 2026 — Android Back and interrupted gestures
+
+Android system Back uses the existing dismissal actions: Options returns to Menu; inspectors close; Pass cancels; Menu resumes. With no modal it clears selection, otherwise opens Menu. It never confirms Pass, plays a card, restarts, changes a combat result or quits the app. The Android-only `quit_on_go_back` override leaves the desktop keyboard policy unchanged. A dismissed native popup drops held-pointer ownership so reopening cannot retain a finger whose release went elsewhere.
+
+Mobile application pause clears all pending gesture/pointer state even if no focus-out notification arrived. The reproduced pre-fix stale hold is gone. These changes pass synthetic notification/UI regressions; physical navigation modes, interruption, touch alignment and gesture feel remain untested because no phone is available. [RC-021 evidence and remaining device cases](rc-021-verification.md).
+
+## October 17, 2026 — No board-slot inspection
+
+Rune board slots never open an information window, including empty slots, installed runes/connectors and Begin/End. Remove their hold-inspection callback and slot-inspection entry point entirely. A stationary release uses the ordinary board selection/placement action; dragging still scrolls. Hand-card Info/hold, connector-tool inspection and pile details remain available. This supersedes earlier board-piece inspection guidance.
+
+## October 17, 2026 — Mobile controls and centered hand
+
+Production removes the suggestion/action-message row above the hand. The 146 px hand lane has equal 10 px gaps to the toolbar and forecast, including while empty or drawing cards. Production supports tap, hold, Info/Close and drag; right-click inspection, keyboard shortcuts/navigation, controller input and mouse-wheel scrolling are disabled. A left mouse pointer can emulate a finger for desktop testing. Guide and Menu follow the same policy. This supersedes desktop interaction descriptions in earlier dated entries.
+
+## October 17, 2026 — Preserve placed-piece rotation on selection
+
+After placing a connector, its tool remains selected for further **empty-slot** placements. Tapping an occupied slot now selects the installed connector or rune for Rotate and clears that retained tool. Selection preserves the piece's rotation, card identity, stock, history and random state; it sends no gameplay command. Placement previews no longer mark these occupied slots as replacement targets.
+
+Explicitly choosing a connector tool still allows its first placement to replace an occupied slot, including same-kind replacement with exhausted stock. Choosing a hand rune still installs that specific card. Remove retains its continuous behavior. Rejected placement does not change the tool's mode. Clearing selection, changing tools/cards, selecting an endpoint, restarting or entering a new turn clears the retained placement state. Historical fixture controls keep their earlier behavior.
+
 ## October 15, 2026 — Display-only forecast and frame cleanup
 
 The Damage/Shield/Cost bar above Cast is display-only. Tapping or holding it opens no window; it has no focus target or activation action. Use card Info or hold/keyboard inspection on cards, board pieces and connector tools, or inspect a pile through its own control. Pass continues to open its confirmation with incoming attack and cleanup.
@@ -33,18 +57,18 @@ The floor name replaces the wordmark and Pause in the header; the BOSS caption i
 | Action | Result |
 | --- | --- |
 | Tap an effect rune in hand | Select that card instance. Tap an eligible board cell to install it. Tap the selected card again to clear selection. Its casting cost is not paid by inspection, selection or placement. |
-| Tap a connector tool | Select Straight, Corner, Split or Join. Its button remains selected while placing multiple pieces; tap it again to clear selection. |
-| Tap an installed piece with no placement selected | Select the cell for Rotate. A bright outline marks the selected cell. |
-| Tap a production endpoint while a card/tool is selected | Safely select the endpoint and clear placement. The status explains its protection and current direction. |
-| Hold a hand card, board piece or connector button | Open its inspector without the corresponding tap action. This works for techniques as well as effect runes. |
-| Tap or keyboard-activate a hand card's **Info** button | Open that card's inspector without using the card. This separate focusable control needs no hold timing, including for techniques. |
-| Press **I** on a focused piece/tool, or right-click it | Open its inspector without selecting, placing, rotating or activating it. |
-| **Close** or Escape while inspecting | Close the panel and restore available originating focus. The closing gesture cannot activate a background control. |
-| Escape outside the inspector, or tap the selected card/tool again | Clear the selected card, tool and cell and remove placement previews. There is no visible Cancel selection button in production. |
+| Tap a connector tool | Select Straight, Corner, Split or Join. Its first placement may replace a piece. It remains selected for further empty-slot placements; tap it again to clear selection. |
+| Tap an installed piece with no placement selected, or after continuing connector placement | Select the cell for Rotate without changing its rotation or identity. Clear the retained connector tool; a bright outline marks the selected cell. |
+| Tap a production endpoint while a card/tool is selected | Safely select the endpoint and clear placement. Rotate changes its direction. |
+| Hold a hand card or connector tool button | Open its inspector without the corresponding tap action. This works for techniques as well as effect runes in hand. |
+| Hold a board slot | No information window. Releasing without dragging follows ordinary board selection/placement. |
+| Tap a hand card's **Info** button | Open that card's inspector without using the card. This separate control needs no hold timing, including for techniques. |
+| Tap **Close** while inspecting | Close the panel. The closing gesture cannot activate a background control. |
+| Tap the selected card/tool again | Clear the selected card, tool and cell and remove placement previews. There is no visible Cancel selection button in production. |
 
 Normal short taps on **Focus** and **Conjure Spark** still activate the technique immediately through the guarded controller. There is no activation button inside a card inspector. To read a technique safely, use Info or hold it. Inspection never spends energy, consumes cards, creates cards, changes random streams or adds an edit-history entry.
 
-Production hand cards show live cost, name, symbol and short effect text; the Rune/Technique category line is removed. Draw and Discard show upright live counts and approved emblems and open pile details. A live action log sits above the hand. The persistent Damage/Shield/Cost row above Cast only displays live totals; it opens no window on tap, hold or keyboard activation and is not a focus target. It scrolls with the page rather than staying fixed to the viewport. Production suppresses desktop hover tooltips as well as touch hover behavior.
+Production hand cards show live cost, name, symbol and short effect text; the Rune/Technique category line is removed. Draw and Discard show upright live counts and approved emblems and open pile details. The hand has no suggestion or action-log row. The persistent Damage/Shield/Cost row above Cast only displays live totals; it opens no window on tap or hold. It scrolls with the page rather than staying fixed to the viewport. Production suppresses desktop hover tooltips as well as touch hover behavior.
 
 ## Inspector content
 
@@ -54,7 +78,7 @@ Production pieces report their connection to Begin using the evaluator's reached
 
 Descriptions honor the historical profiles. Locked endpoints remain locked, corner effect ports keep their actual shape, and persistent/consumed effects or temporary replacement wires use that profile's cleanup semantics. Production descriptions explain that all connectors clear, all installed permanent runes discard and all temporaries disappear after Cast/Pass, including disconnected pieces.
 
-The panel fits inside the portrait viewport and its body scrolls independently. Its Close control stays outside the scrollable body. Pointer routing is restricted to the panel while it is open; dragging its content cannot scroll or activate the underlying board. Tab and directional button navigation stay among the panel's visible controls, and Enter cannot activate an old background focus. Escape still closes the panel.
+The panel fits inside the portrait viewport and its body scrolls independently. Its Close control stays outside the scrollable body. Pointer routing is restricted to the panel while it is open; dragging its content cannot scroll or activate the underlying board. Production ignores keyboard input; tap Close to dismiss it.
 
 ## Placement and editing feedback
 
@@ -74,7 +98,7 @@ Remove and Rotate use labeled controls and RC-012 icons, with enlarged editing t
 
 The persistent forecast above Cast displays Damage, Shield and Cost without opening details. Taps and holds on it do not activate a modal, change selection or issue a command. Invalid and unaffordable forecasts remain visible, and an unaffordable preview cannot Cast. Read the visible circuit feedback and the enemy's attack intent; Pass confirmation explains the incoming attack and cleanup.
 
-The visible **Pass turn** control is first in the wiring row, beside Straight, Corner, Split and Join. It opens a confirmation with the live enemy attack, no spell/shield, full board/hand cleanup and next-turn behavior. Only **Confirm Pass / enemy acts** sends the guarded Pass command. Cancel/Escape dismisses it. It remains available with an incomplete circuit or empty hand. Production does not depend on Menu or the circuit-details panel to end a turn without casting.
+The visible **Pass turn** control is first in the wiring row, beside Straight, Corner, Split and Join. It opens a confirmation with the live enemy attack, no spell/shield, full board/hand cleanup and next-turn behavior. Only **Confirm Pass / enemy acts** sends the guarded Pass command. Tap Cancel to dismiss it. It remains available with an incomplete circuit or empty hand. Production does not depend on Menu or the circuit-details panel to end a turn without casting.
 
 ## Scrolling and gesture thresholds
 
@@ -90,7 +114,7 @@ Thresholds are centralized in [`touch_router.gd`](../scripts/ui/touch_router.gd)
 
 Distances use the game's logical viewport coordinates, not desktop window pixels. Horizontal dragging over the hand scrolls the hand; vertical dragging over the hand or board scrolls the page. Crossing the movement threshold cancels use/inspection even if there is no room to scroll farther. Large hands remain accessible by horizontal scrolling, and cards outside a clipped scroll area cannot be targeted through the clip.
 
-Mouse presses use the same tap/hold/drag arbitration. Keyboard focus/activation and Escape remain available. Native text inputs, selectors and scrollbars retain their GUI handling. Guide, Map, Menu and experiment-record dialogs suspend the background router while open. Suspension consumes background input; each native Window receives its own viewport's input. The bounded Guide/Map body has its own scroll router, while native dialog buttons keep their normal GUI activation.
+Left mouse presses use the same tap/hold/drag arbitration as a finger. Production ignores keyboard, controller, right-click and wheel input. Guide, Map, Menu and experiment-record dialogs suspend the background router while open. Suspension consumes background input; each native Window receives its own viewport's input. Production Guide/Map and Menu have touch routing for their visible buttons and scrolling. Historical fixtures retain their earlier keyboard behavior.
 
 ## Lifecycle and state ownership
 
@@ -99,6 +123,8 @@ Selection, inspector visibility, placement borders and gesture timing live only 
 Every screen refresh cancels pending gesture callbacks. Any changed snapshot or busy presentation closes the inspector and clears old feedback; consumed hand UIDs are removed from selection. Turn, encounter generation or battle-state changes and presentation start clear all selection and Inspect mode. Undo, Restart, Exact replay and experiment relaunch explicitly clear them too. Startup failure closes inspection and disables gameplay. Focus loss, presentation cancellation/refresh and scene teardown invalidate pending gestures; teardown also disposes the controller.
 
 Cancellation advances a generation counter and clears callbacks while retaining ownership of the physical stream until release. On application or native-window focus loss, the router also clears tracked pointers because the OS may omit their releases; a fresh foreground gesture can then start normally, while an old emulated release remains suppressed. Stale holds, old controls, duplicate releases and a release after modal dismissal cannot target a new card, place a piece or unlock presentation. Opening or closing a modal also invalidates its pending callbacks. Inspection panels close when their source state changes instead of keeping an obsolete UID or board description actionable.
+
+October 19 emulator verification found that Godot can emit an emulated mouse press before its matching ScreenTouch. A fresh press now determines ownership from the current target instead of retaining the previous gesture's suppression; native Music/SFX sliders receive their first touch while captured buttons still activate once. Android Back can also arrive twice in one process frame, so it dismisses at most one layer per frame without a timed cooldown. [Actual Android retests and limits](rc-021-emulator-verification.md) and [`ui_native_touch_tests.gd`](../tests/ui_native_touch_tests.gd) record both fixes. Physical-device acceptance remains open.
 
 ## Historical controls and verification
 

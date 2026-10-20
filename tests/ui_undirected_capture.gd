@@ -66,8 +66,7 @@ func _capture_layout(dimensions: Vector2i) -> void:
 	scene.page_scroll.scroll_vertical = 100000
 	_check(scene.cast_button.disabled and scene.forecast_values.cost == 2 and scene.forecast_reason.text.contains("have 1"), "An unaffordable spell remains an explicitly labelled preview and disables Cast.")
 	await _save(viewport, "unaffordable-" + suffix)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	viewport.queue_free()
 	await process_frame
 

@@ -89,8 +89,7 @@ func run(scene: Control, check: Callable, tree: SceneTree) -> void:
 	removed._cast()
 	var closed_controller = removed.controller
 	var state_at_exit: Dictionary = closed_controller.snapshot()
-	removed.player.stop()
-	removed.player.stream = null
+	removed.audio.dispose()
 	removed.queue_free()
 	await tree.process_frame
 	delayed_teardown.complete()

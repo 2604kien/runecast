@@ -1,5 +1,5 @@
 extends Node2D
-## Isolated RC-014 illustration and deterministic feasibility study.
+## RC-017 presentation actor plus the retained RC-014 feasibility API.
 ## No combat model, intent selection, controller completion, or gameplay callbacks.
 
 signal preview_state_finished(state_name: StringName)
@@ -36,6 +36,7 @@ const REFERENCE_ATTACHMENTS := {
 @export var reference_neutral := false
 ## Resource metadata is exportable without adding a nonresource JSON filter.
 @export var attachment_data: Resource
+@export var motion: Resource
 
 var _state: StringName = &"idle"
 var _elapsed := 0.0
@@ -47,6 +48,7 @@ var _base_path := ""
 var _last_sample: Dictionary = {}
 var _completed := false
 var _reference_material: ShaderMaterial
+var _production_idle := false
 
 @onready var pose_root: Node2D = $PoseRoot
 @onready var pose_sprite: Sprite2D = $PoseRoot/FullPose
@@ -63,6 +65,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_elapsed += maxf(delta, 0.0)
+	if _production_idle:
+		_apply_production_idle(_elapsed)
+		return
 	if not _apply_sample(_state, _elapsed, reduced_motion):
 		set_process(false)
 		return
@@ -87,6 +92,7 @@ func sample_state(state_name: StringName, seconds: float, use_reduced_motion := 
 		return false
 	if not _apply_sample(state_name, maxf(0.0, seconds), use_reduced_motion):
 		return false
+	_production_idle = false
 	set_process(false)
 	_state = state_name
 	_elapsed = maxf(0.0, seconds)
@@ -99,6 +105,8 @@ func show_pose(pose_name: StringName) -> bool:
 	if not POSES.has(pose_name) or not _set_pose(pose_name):
 		return false
 	set_process(false)
+	_production_idle = false
+	_restore_canvas_state()
 	pose_root.transform = Transform2D.IDENTITY
 	pose_root.modulate = Color.WHITE
 	contact_shadow.modulate = Color.WHITE
@@ -112,7 +120,109 @@ func show_pose(pose_name: StringName) -> bool:
 
 ## Stop on the current visual; this is not an RC-017 presentation cancellation.
 func stop_preview() -> void:
+	_production_idle = false
 	set_process(false)
+
+## Production sequencing owns time and completion. No tween, timer, coroutine,
+## delayed callback or implicit return to idle is owned by this actor.
+func sample_presentation(state_name: StringName, progress: float, use_reduced_motion := false) -> bool:
+	if not DURATIONS.has(state_name) or not is_finite(progress):
+		return false
+	stop_preview()
+	reduced_motion = use_reduced_motion
+	_state = state_name
+	var t := clampf(progress, 0.0, 1.0)
+	var pose: StringName = &"neutral"
+	var angle := 0.0
+	var stretch := 1.0
+	var opacity := 1.0
+	var tint := Color.WHITE
+	match state_name:
+		&"attack":
+			if not reduced_motion and t >= motion.attack_contact and t < motion.attack_recovery:
+				pose = &"attack"
+			if reduced_motion:
+				tint = Color.WHITE.lerp(Color(1.0, 0.82, 0.55), motion.attack_squash.sample(t) * 0.22)
+			if not reduced_motion:
+				# Anticipation is small and foot-rooted; the wide contact painting
+				# never translates or swings its lantern past the envelope.
+				if t < motion.attack_contact:
+					angle = -0.012 * sin(PI * t / motion.attack_contact)
+				stretch -= 0.012 * motion.attack_squash.sample(t)
+		&"hit":
+			# The owner-retained lean is only used for resolved applied damage.
+			# Keep contact to the end; the presenter explicitly restores neutral.
+			pose = &"neutral" if reduced_motion else &"hit"
+			var pulse: float = motion.hit_pulse.sample(t)
+			tint = Color.WHITE.lerp(Color(1.0, 0.70, 0.56), pulse * 0.45)
+			if not reduced_motion:
+				angle = -0.016 * pulse
+		&"defeat":
+			pose = &"neutral" if reduced_motion else &"hit"
+			var fade: float = motion.defeat_fade.sample(t)
+			if not reduced_motion:
+				angle = 0.035 * fade
+				stretch = lerpf(1.0, 0.72, fade)
+			opacity = 1.0 - fade
+	if not _set_pose(pose):
+		return false
+	_restore_canvas_state()
+	pose_root.rotation = angle
+	pose_root.scale = Vector2(1.0, stretch)
+	pose_root.modulate = Color(tint.r, tint.g, tint.b, opacity)
+	contact_shadow.modulate.a = opacity
+	_last_sample = {"state": String(state_name), "pose": String(pose), "progress": t,
+		"rotation": angle, "scale": [1.0, stretch], "opacity": opacity,
+		"reduced_motion": reduced_motion, "production": true}
+	return true
+
+## Cancellation/scene replacement calls this with the final detached state.
+## Enemy defeat is victory for the player. Player defeat keeps the enemy still.
+func reset_presentation(battle_state: String = "playing", use_reduced_motion := false) -> void:
+	reduced_motion = use_reduced_motion
+	if battle_state == "victory":
+		sample_presentation(&"defeat", 1.0, reduced_motion)
+		return
+	show_pose(&"neutral")
+	set_idle_enabled(battle_state == "playing", reduced_motion)
+
+func set_idle_enabled(enabled: bool, use_reduced_motion := false) -> void:
+	stop_preview()
+	reduced_motion = use_reduced_motion
+	if not enabled:
+		return
+	show_pose(&"neutral")
+	_production_idle = true
+	_elapsed = 0.0
+	_apply_production_idle(0.0)
+	# Reduced idle is genuinely stationary and schedules no frame work.
+	set_process(not reduced_motion)
+
+func _apply_production_idle(seconds: float) -> void:
+	var stretch: float = 1.0 if reduced_motion else 1.0 + motion.idle_stretch * sin(fmod(seconds, motion.idle_seconds) / motion.idle_seconds * TAU)
+	pose_root.scale = Vector2(1.0, stretch)
+	_last_sample = {"state": "idle", "pose": "neutral", "time": seconds,
+		"rotation": 0.0, "scale": [1.0, stretch], "opacity": 1.0,
+		"reduced_motion": reduced_motion, "production": true}
+
+func _restore_canvas_state() -> void:
+	pose_root.transform = Transform2D.IDENTITY
+	pose_root.visible = true
+	pose_root.modulate = Color.WHITE
+	pose_root.self_modulate = Color.WHITE
+	pose_sprite.visible = true
+	pose_sprite.modulate = Color.WHITE
+	pose_sprite.self_modulate = Color.WHITE
+	pose_sprite.rotation = 0.0
+	pose_sprite.skew = 0.0
+	pose_sprite.flip_h = false
+	pose_sprite.flip_v = false
+	contact_shadow.visible = show_contact_shadow
+	contact_shadow.modulate = Color.WHITE
+
+func _exit_tree() -> void:
+	stop_preview()
+	clear_pose_cache()
 
 func get_state() -> StringName:
 	return _state
@@ -171,8 +281,6 @@ func _texture_key(pose_name: StringName) -> StringName:
 
 func _set_pose(pose_name: StringName) -> bool:
 	var use_reference := reference_neutral and pose_name == &"neutral"
-	if _active_pose == pose_name and _active_reference_neutral == use_reference:
-		return true
 	var texture := _load_pose(pose_name)
 	if texture == null or (not use_reference and texture.get_size() != Vector2(CANVAS)):
 		push_error("Shadeling pose texture has unexpected dimensions: " + String(pose_name))
@@ -197,6 +305,7 @@ func _set_pose(pose_name: StringName) -> bool:
 			_reference_material.shader = REFERENCE_SHADER
 		pose_sprite.material = _reference_material
 	else:
+		pose_sprite.region_rect = Rect2()
 		pose_sprite.material = null
 	# Import limits may resize the unchanged source PNG. Normalize its source
 	# coordinates to the imported texture so foot/visible geometry stays fixed.

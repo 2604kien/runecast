@@ -83,6 +83,8 @@ func _initialize() -> void:
 	var corner := {"kind": "corner", "rotation": 0, "reversed": true}
 	check(Circuit.ports(corner).input == [2] and Circuit.ports(corner).output == [3], "Wire reversal permits both elbow directions.")
 	preload("res://tests/combat_presentation_tests.gd").new().run(check)
+	preload("res://tests/combat_animation_tests.gd").new().run(check)
+	preload("res://tests/rc020_presentation_tests.gd").new().run(check)
 	preload("res://tests/content_loading_tests.gd").new().run(check)
 	preload("res://tests/combat_configuration_tests.gd").new().run(check)
 	preload("res://tests/experiment_combat_tests.gd").new().run(check)
@@ -96,6 +98,7 @@ func _initialize() -> void:
 	preload("res://tests/connector_geometry_tests.gd").new().run(check)
 	preload("res://tests/production_content_tests.gd").new().run(check)
 	preload("res://tests/production_combat_tests.gd").new().run(check)
+	preload("res://tests/run_state_tests.gd").new().run(check)
 	preload("res://tests/board_catalog_tests.gd").new().run(check)
 	preload("res://tests/board_example_tests.gd").new().run(check)
 	print("%d checks, %d failures" % [checks, failures])

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "task": "RC-019",
+  "revision": "r001-runway-crypt",
+  "date": "2026-10-17",
+  "provider": "Runway connected workspace",
+  "cue_id": "crypt",
+  "manifest_id": "crypt_ambience",
+  "original_path": "source-assets/audio/ambience/crypt/originals/crypt.mp3",
+  "status": "SUCCEEDED",
+  "task_id": "d86f685f-31c1-4d81-91f0-5351bf417189",
+  "artifact_id": "784908d1-0e2e-421f-9774-0bce850a27d8",
+  "created_at": "2026-10-17T03:22:12.107Z",
+  "returned_task_type": "eleven_text_to_sound_v2",
+  "requested": {
+    "duration": 30,
+    "loop": true,
+    "name": "RuneCast RC019 - Crypt ambience",
+    "promptText": "Quiet ancient stone crypt room tone: soft cool air moving through distant passages, subtle low diffuse room resonance, tiny irregular dust-like stone creaks and very sparse distant water droplets. Calm mysterious fantasy space, gently alive, intimate and unobtrusive beneath music and tactile game effects. Even texture, seamless loop, no obvious beginning or ending. No music, tonal drone, voices, creatures, footsteps, thunder or sudden hits.",
+    "rationale": "Create RC-019's single shared crypt ambience bed with Runway while music generation awaits the workspace's paid-plan requirement."
+  },
+  "returned_options": {
+    "name": "RuneCast RC019 - Crypt ambience",
+    "promptText": "Quiet ancient stone crypt room tone: soft cool air moving through distant passages, subtle low diffuse room resonance, tiny irregular dust-like stone creaks and very sparse distant water droplets. Calm mysterious fantasy space, gently alive, intimate and unobtrusive beneath music and tactile game effects. Even texture, seamless loop, no obvious beginning or ending. No music, tonal drone, voices, creatures, footsteps, thunder or sudden hits.",
+    "duration": 30,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "recordingEnabled": true
+  },
+  "returned_metadata": {
+    "contentType": "audio/mpeg",
+    "duration": 30,
+    "codec": "mp3float"
+  },
+  "reported_bytes": 481114,
+  "hosted_path_without_signature": "https://dnznrvs05pmza.cloudfront.net/audio_sfx/f3070614-73c1-4a60-abba-c2bf081393dc/RuneCast_RC019___Crypt_ambience.mp3",
+  "seed": null,
+  "seed_status": "not supplied or returned",
+  "source_fidelity": "Original provider output MP3; working PCM masters are decoded edited derivatives, not lossless original recordings.",
+  "listening_review": "not performed",
+  "sha256": "8c7abdb028c34a8db2c6e71b20653aa97a1e869692f515a4e616b63b0815538b",
+  "actual_file_bytes": 481114
+}

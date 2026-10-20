@@ -1,0 +1,167 @@
+{
+  "revision": "r003-runway-library",
+  "date": "2026-10-17",
+  "owner_direction": "Approved r002 five-cue direction; redo full library with Runway.",
+  "new_requests": [
+    {
+      "cue_id": "ui_confirm",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A small wooden button gently pressed into a felt-lined recess. One quiet close dry click with a warm wooden body and tiny soft cloth movement, finished in 0.15 seconds with silence afterward. Intimate tactile fantasy game interface, comfortable to repeat. No snare, drum, clap, sharp metallic ping, bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - ui_confirm",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "ui_back",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A small wooden latch gently released beside soft cloth. One subtle low wooden tick followed by a short inward cloth brush, a retreating gesture finished in 0.16 seconds with silence afterward. Close dry understated fantasy interface foley. No snare, drum, clap, bright chime, impact boom, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - ui_back",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "edit_orient",
+      "args": {
+        "duration": 0.5,
+        "promptText": "One small engraved stone rune rotates a quarter turn in a shallow stone socket. Brief fine gritty friction moves sideways into a soft rounded seating tick. A delicate continuous gesture finished in 0.18 seconds, dry close detailed foley with silence afterward. Quiet fantasy puzzle editing. No drum, snare, clap, rumble, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - edit_orient",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "edit_restore",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A small smooth stone rune is gently lifted out of a snug carved socket. Tiny suction-like release, soft gritty edge friction and a light brushing lift, finished in 0.22 seconds. Intimate dry stone foley with silence afterward, quiet and comfortable to repeat. No drum, snare, impact boom, chime, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - edit_restore",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "action_rejected",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A soft wooden mechanism tries to slide but gently meets a padded stop. One short low rounded muted knock with a tiny downward creak, finished in 0.18 seconds and clean silence. Quiet non-alarming fantasy interface refusal. No harsh buzz, metallic ping, drum, snare, bass boom, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - action_rejected",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "technique_conjure",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A single parchment card materializes in a hand: fine papery fibers gather inward, a soft airy shimmer blooms, then a light parchment flex settles. One fluid magical foley gesture over 0.4 seconds, close dry detail with a soft onset and short tail. Quiet painted fantasy. No percussion, drum, snare, sharp chime, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - technique_conjure",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "damage",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A compact magical force presses into a padded cloth and stone surface. A muted solid contact, tiny brittle mineral crumble and soft displaced air settle quickly, one restrained 0.3 second impact. Close dry fantasy game sound, weight without explosive bass, a clear soft body. No snare, drum, clap, gunshot, scream, music or long reverb.",
+        "loop": false,
+        "name": "RuneCast r003 - damage",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "flame",
+      "args": {
+        "duration": 0.6,
+        "promptText": "A small living candle spirit thrusts a ribbon of flame forward. Soft cloth-like air movement becomes a warm close wick flare, delicate crackling embers curl outward and extinguish. One compact flowing attack in 0.5 seconds with a gentle onset and clean ending. Quiet dry fantasy crypt. No explosion, bass boom, drum, snare, voices or music.",
+        "loop": false,
+        "name": "RuneCast r003 - flame",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "stone",
+      "args": {
+        "duration": 0.6,
+        "promptText": "A small stone guardian pushes one heavy forearm forward. A close rough mineral grind rises into restrained stone contact, a few fine grains fall away as the motion settles. One compact 0.5 second gesture with weight and clear movement, dry intimate fantasy crypt foley. No explosion, drum, snare, massive bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - stone",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "chain",
+      "args": {
+        "duration": 0.6,
+        "promptText": "A small iron-chain guardian sweeps a short length of old chain forward. Soft moving air, a brief irregular shiver of two or three rounded iron links, then a muted taut catch and quick decay. One fluid 0.5 second gesture, dry close fantasy crypt foley. Subdued dark metal, no sharp jangle, drum, snare, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - chain",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "bell",
+      "args": {
+        "duration": 0.6,
+        "promptText": "A small hollow bronze bell guardian releases one rounded resonant pulse with a breath of moving air. Gentle low bronze contact opens into warm wavering bell partials that quickly soften and dissolve. One contained 0.5 second gesture, close dry fantasy crypt sound. No piercing high chime, long ring, drum, snare, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - bell",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "temporary_expired",
+      "args": {
+        "duration": 0.5,
+        "promptText": "A tiny magical parchment rune quietly dissolves into dust. Soft dry paper fibers loosen into a fine airy sand trickle and vanish, a falling away gesture finished in 0.28 seconds with clean silence. Very quiet intimate fantasy foley, delicate and unobtrusive. No strike, snare, drum, bright chime, bass boom, music or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - temporary_expired",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "reward",
+      "args": {
+        "duration": 0.65,
+        "promptText": "A small polished amber token is gently received into a cloth pouch, followed by a warm brief rising glass shimmer. Soft tactile contact, rounded luminous resonance and a graceful settling tail, one restrained rewarding gesture in 0.55 seconds. Dry close fantasy sound. No coins shower, piercing chime, drum, snare, musical melody or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - reward",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "victory",
+      "args": {
+        "duration": 1.5,
+        "promptText": "A sealed arcane rune opens with a soft breath and warm glass harmonics rising into a luminous stable resonance, then gently dissolves. One restrained triumphant magical flourish over 1.3 seconds, rounded onset and clear complete tail, intimate fantasy crypt sound. No beat, percussion, snare, fanfare, orchestral music, applause or voices.",
+        "loop": false,
+        "name": "RuneCast r003 - victory",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "defeat",
+      "args": {
+        "duration": 1.5,
+        "promptText": "A small enchanted lantern quietly loses its light. A soft hollow breath and warm low glass resonance gently descend, thin into a faint papery ash fall, and resolve to silence. One restrained melancholy magical gesture over 1.2 seconds, close dry and dignified. No dramatic boom, snare, drum, scream, orchestral music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - defeat",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "args": {
+        "duration": 0.8,
+        "promptText": "An ancient bronze guardian seal turns and awakens. A brief smooth mineral rotation opens into one low rounded bronze resonance with a rising airy overtone, then settles. A clear contained transition gesture over 0.7 seconds, close dry fantasy crypt sound, quietly imposing. No alarm, piercing bell, explosion, snare, drum, music or speech.",
+        "loop": false,
+        "name": "RuneCast r003 - guardian_phase_changed",
+        "rationale": "User approved the five Runway sound-direction candidates and explicitly requested a full replacement of RuneCast's bounded21cue SFX library."
+      }
+    }
+  ]
+}

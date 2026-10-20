@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "revision": "r003-runway-library",
+  "client_date": "2026-10-17",
+  "method": "Full second render after forced independent Godot MP3 decoding; same preserved originals and finalized edit configuration. Compared 21 PCM editing masters, 21 runtime WAVs, shared source-derived enemy stem and generation report.",
+  "passed": true,
+  "outputs_checked": 44,
+  "outputs_identical": 44,
+  "checks": [
+    {
+      "path": "source-assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "sha256": "be5b54dbd618ccd187f803fb903edcc04f1c68ec5eb27ed4f3b4df5f37c960df",
+      "reproduction_sha256": "be5b54dbd618ccd187f803fb903edcc04f1c68ec5eb27ed4f3b4df5f37c960df",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "sha256": "57053f7ab83bacfcb7c8e45a5c70600d848d2e48723a1bacb380b268e42237c9",
+      "reproduction_sha256": "57053f7ab83bacfcb7c8e45a5c70600d848d2e48723a1bacb380b268e42237c9",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "sha256": "70ae2b0b741354e82e99f533b0de48688d54eb00133722b2dfe3f3e5d1fc560c",
+      "reproduction_sha256": "70ae2b0b741354e82e99f533b0de48688d54eb00133722b2dfe3f3e5d1fc560c",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "sha256": "f0048ea532bef8c3edb0574743e39539045eab7e144410464a1938283efe457b",
+      "reproduction_sha256": "f0048ea532bef8c3edb0574743e39539045eab7e144410464a1938283efe457b",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_place/edit_place.wav",
+      "sha256": "986073afb769aaf957cbb1c99a7bb15f72fc741609068e3c89ce935f6fbede56",
+      "reproduction_sha256": "986073afb769aaf957cbb1c99a7bb15f72fc741609068e3c89ce935f6fbede56",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_place/edit_place.wav",
+      "sha256": "d51c5ac42c097e9a3d1d4f5b6140803ca3c8411e6f34bbc61c8c5e0a9b3634bc",
+      "reproduction_sha256": "d51c5ac42c097e9a3d1d4f5b6140803ca3c8411e6f34bbc61c8c5e0a9b3634bc",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "sha256": "ae47517fe6f61a4f6e51ead02af9ee9b7694235924d4baadaf4c11ac6834681b",
+      "reproduction_sha256": "ae47517fe6f61a4f6e51ead02af9ee9b7694235924d4baadaf4c11ac6834681b",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "sha256": "18b3e92f8a033624eb3e225a509dfb821dddb3f83021b973d814a5b47086f7e0",
+      "reproduction_sha256": "18b3e92f8a033624eb3e225a509dfb821dddb3f83021b973d814a5b47086f7e0",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "sha256": "4d3fbeb7f4a899cc26c23330987a1acbba65acfb37a19f537bdda24e2609a431",
+      "reproduction_sha256": "4d3fbeb7f4a899cc26c23330987a1acbba65acfb37a19f537bdda24e2609a431",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "sha256": "7766214262847b5f99ba67e8b6466fae9f1ebf6aa423595f878bdc7d6cba2183",
+      "reproduction_sha256": "7766214262847b5f99ba67e8b6466fae9f1ebf6aa423595f878bdc7d6cba2183",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "sha256": "ea9072e14a23d77302c1f687373064fe2208a87f9e6ffc490bc2c75e9eaba7d6",
+      "reproduction_sha256": "ea9072e14a23d77302c1f687373064fe2208a87f9e6ffc490bc2c75e9eaba7d6",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "sha256": "38a7e219d591a5dd754a0b7f8138a7b1f9efd7e6827bc9d3c4ca4577df64ee53",
+      "reproduction_sha256": "38a7e219d591a5dd754a0b7f8138a7b1f9efd7e6827bc9d3c4ca4577df64ee53",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "sha256": "dd11926ed84c80c8cbaeb11fe838b758e68f0ada5cb37463b040b3ff059e7fa2",
+      "reproduction_sha256": "dd11926ed84c80c8cbaeb11fe838b758e68f0ada5cb37463b040b3ff059e7fa2",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "sha256": "7fe8a3e55344315ef71017f3eebb42b1bce9c8dfc34566a1943f8ce8ec167110",
+      "reproduction_sha256": "7fe8a3e55344315ef71017f3eebb42b1bce9c8dfc34566a1943f8ce8ec167110",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "sha256": "b3a27fe0c8f885c9a32b555b285f81317e40e00d221856c41c69639e7e7b37af",
+      "reproduction_sha256": "b3a27fe0c8f885c9a32b555b285f81317e40e00d221856c41c69639e7e7b37af",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "sha256": "946ca115334e3bf79c2fa9045bdd97423e653e618bd7947d56c5b69fdc6ac3de",
+      "reproduction_sha256": "946ca115334e3bf79c2fa9045bdd97423e653e618bd7947d56c5b69fdc6ac3de",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_cast/cast.wav",
+      "sha256": "47ffabb5661ab7b3cc148d9af6510177769ffe2963adea65819b9216dd178c37",
+      "reproduction_sha256": "47ffabb5661ab7b3cc148d9af6510177769ffe2963adea65819b9216dd178c37",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_cast/cast.wav",
+      "sha256": "a2eed026319d32018f95b8719d7d611c419bba11d2794f682a30c45c183c0645",
+      "reproduction_sha256": "a2eed026319d32018f95b8719d7d611c419bba11d2794f682a30c45c183c0645",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_impact/damage.wav",
+      "sha256": "e29273b75bc53ceee4449df1631394c15fa5ebf508ba054f421f238803574a7c",
+      "reproduction_sha256": "e29273b75bc53ceee4449df1631394c15fa5ebf508ba054f421f238803574a7c",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_impact/damage.wav",
+      "sha256": "e179b6ccc86b1811430df148d1c0cf31d4b5de27c7a6bb8439de574fc5b8ee60",
+      "reproduction_sha256": "e179b6ccc86b1811430df148d1c0cf31d4b5de27c7a6bb8439de574fc5b8ee60",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_shield/shield.wav",
+      "sha256": "6a94fca7de79b50bebcfc9c48492ae96afaae9fc125fc1c2858aa2b194a7da01",
+      "reproduction_sha256": "6a94fca7de79b50bebcfc9c48492ae96afaae9fc125fc1c2858aa2b194a7da01",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_shield/shield.wav",
+      "sha256": "aed3a30ad4dc2ba57817164335b776548cdf5917476c6d2826e39b2e86f49cbe",
+      "reproduction_sha256": "aed3a30ad4dc2ba57817164335b776548cdf5917476c6d2826e39b2e86f49cbe",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "sha256": "4dd8585565ee515db346aded9dfe9cb711a573e72e76bbb66645df90b60641c4",
+      "reproduction_sha256": "4dd8585565ee515db346aded9dfe9cb711a573e72e76bbb66645df90b60641c4",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "sha256": "935d56e7b91c5376ac4b04bfbe1fc3cfe7f68b9fdfb0a72f3060c08ecaf6a534",
+      "reproduction_sha256": "935d56e7b91c5376ac4b04bfbe1fc3cfe7f68b9fdfb0a72f3060c08ecaf6a534",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "sha256": "1f4473b50088e11571c70ff2036b06a89053235919ee7c361432605fdb86841b",
+      "reproduction_sha256": "1f4473b50088e11571c70ff2036b06a89053235919ee7c361432605fdb86841b",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "sha256": "649908a9d15137cb6746f3bc9b2c06289152985e9f371404f652fb76448ba131",
+      "reproduction_sha256": "649908a9d15137cb6746f3bc9b2c06289152985e9f371404f652fb76448ba131",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "sha256": "bcf7c1ac6fc68f5614131a3b2f7fb64fa77f318fa35a7b3526bb77ce9ae24d8e",
+      "reproduction_sha256": "bcf7c1ac6fc68f5614131a3b2f7fb64fa77f318fa35a7b3526bb77ce9ae24d8e",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "sha256": "c6e6685fe6a030e01bbcdf1103ccb4d5592e4786841951a875db4cf4bf5e3513",
+      "reproduction_sha256": "c6e6685fe6a030e01bbcdf1103ccb4d5592e4786841951a875db4cf4bf5e3513",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "sha256": "622bae8c2b4b8e2bc39dc432a8d4707b669a3a27dfeff32263217ebe33db50f1",
+      "reproduction_sha256": "622bae8c2b4b8e2bc39dc432a8d4707b669a3a27dfeff32263217ebe33db50f1",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "sha256": "10c2b5ae176cdf183d7d1cb7f0f50ed388e2843188f7ae27c394d48ae5eb4683",
+      "reproduction_sha256": "10c2b5ae176cdf183d7d1cb7f0f50ed388e2843188f7ae27c394d48ae5eb4683",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "sha256": "2d8be497691b42f568df9b3818b456c8212e6949b003daa3887059d7974c9b98",
+      "reproduction_sha256": "2d8be497691b42f568df9b3818b456c8212e6949b003daa3887059d7974c9b98",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "sha256": "3e134201bb6add08df19f2272155382c3c2636e1c0d84686d673aa62938e76d1",
+      "reproduction_sha256": "3e134201bb6add08df19f2272155382c3c2636e1c0d84686d673aa62938e76d1",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "sha256": "0a05de33ea3667de0ba212f7880b405603900301afd9bfe0cb0021e0dd043399",
+      "reproduction_sha256": "0a05de33ea3667de0ba212f7880b405603900301afd9bfe0cb0021e0dd043399",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "sha256": "bd459b152210d58d10865b45244b09a01a614859aca5af9cfceb4d7cb53b109b",
+      "reproduction_sha256": "bd459b152210d58d10865b45244b09a01a614859aca5af9cfceb4d7cb53b109b",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_reward/reward.wav",
+      "sha256": "31dd527537437313aec4582152946f8982f86a8d400ce0a1e4be7b22c9b4f1e1",
+      "reproduction_sha256": "31dd527537437313aec4582152946f8982f86a8d400ce0a1e4be7b22c9b4f1e1",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_reward/reward.wav",
+      "sha256": "9a73059830d2c08d7cedf5521f024aa267e2d0f25df389631f562b5b160e2efe",
+      "reproduction_sha256": "9a73059830d2c08d7cedf5521f024aa267e2d0f25df389631f562b5b160e2efe",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_victory/victory.wav",
+      "sha256": "ac4d6a0582764120e8e4652d9a8715eda457761a4a4a119b1e58922db0cc8c66",
+      "reproduction_sha256": "ac4d6a0582764120e8e4652d9a8715eda457761a4a4a119b1e58922db0cc8c66",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_victory/victory.wav",
+      "sha256": "f8fa3dc1cb5b63be8b0635d35b4f76d2aecbef9eba9e926cb65f90f02cec8f5e",
+      "reproduction_sha256": "f8fa3dc1cb5b63be8b0635d35b4f76d2aecbef9eba9e926cb65f90f02cec8f5e",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_defeat/defeat.wav",
+      "sha256": "f59e5e50563ca817135923c1dec2d3293cff10ab563bb251ecac83e22d98d9c6",
+      "reproduction_sha256": "f59e5e50563ca817135923c1dec2d3293cff10ab563bb251ecac83e22d98d9c6",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_defeat/defeat.wav",
+      "sha256": "9291e8878019f33d928104621b46b19075ffd813fa1f510aad83d6b7f5b848c0",
+      "reproduction_sha256": "9291e8878019f33d928104621b46b19075ffd813fa1f510aad83d6b7f5b848c0",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "sha256": "740c64274a782c59d918ab70ed4877af82a132f98c9e425b13f24681d9910a57",
+      "reproduction_sha256": "740c64274a782c59d918ab70ed4877af82a132f98c9e425b13f24681d9910a57",
+      "identical": true
+    },
+    {
+      "path": "assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "sha256": "a94ce576e75b33d8fe864227fbb479b0befb6737ff68e812d8b20e089a15fe37",
+      "reproduction_sha256": "a94ce576e75b33d8fe864227fbb479b0befb6737ff68e812d8b20e089a15fe37",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/revisions/r003-runway-library/stems/enemy_action_base.npy",
+      "sha256": "935c98eca7c52217a0e641792bbfb0ea6ea71d08e3ec494de4fe8038d4595e2a",
+      "reproduction_sha256": "935c98eca7c52217a0e641792bbfb0ea6ea71d08e3ec494de4fe8038d4595e2a",
+      "identical": true
+    },
+    {
+      "path": "source-assets/audio/sfx/runway-generation-report.json",
+      "sha256": "c01477d05c5dd21e26b7805d9af07853da0c7d4620087d52592b268ae2ad88e0",
+      "reproduction_sha256": "c01477d05c5dd21e26b7805d9af07853da0c7d4620087d52592b268ae2ad88e0",
+      "identical": true
+    }
+  ],
+  "listening_review": "Technical reproducibility does not establish perceptual quality."
+}

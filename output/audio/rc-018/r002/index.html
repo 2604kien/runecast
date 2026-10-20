@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RuneCast · Five sound directions</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101818;--panel:#172221;--line:#344440;--ink:#edf0e8;--muted:#b4c0b8;--mint:#b8ddc7;--gold:#e1bc81}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{max-width:1080px;margin:auto;padding:54px 28px 70px}a{color:var(--mint);text-underline-offset:4px}a:hover{color:white}
+    .eyebrow,.label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}.eyebrow{color:var(--mint)}h1{font:500 clamp(36px,6vw,62px)/1.08 Georgia,serif;letter-spacing:-.035em;margin:20px 0 18px;max-width:760px}h2{font:500 27px/1.2 Georgia,serif;margin:0 0 9px}p{margin:0 0 14px}.intro{max-width:740px;font-size:18px;color:var(--muted)}.pills{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0}.pill{padding:5px 11px;border:1px solid var(--line);border-radius:30px;font-size:12px;color:var(--muted)}.pill.accent{border-color:#6b816b;color:var(--mint)}
+    .toolbar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#101818f5;border-block:1px solid var(--line);padding:17px 0;backdrop-filter:blur(8px)}button{border:1px solid #5d7769;border-radius:5px;padding:10px 15px;background:var(--mint);color:#14241c;font:600 14px system-ui;cursor:pointer}button.secondary{background:transparent;color:var(--ink);border-color:var(--line)}button:hover{filter:brightness(1.12)}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,audio:focus-visible{outline:3px solid var(--gold);outline-offset:4px}.volume{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);margin-left:auto}.volume input{width:90px;accent-color:var(--mint)}.volume output{min-width:34px;font-variant-numeric:tabular-nums}.status{width:100%;font-size:12px;color:var(--mint);min-height:20px}
+    .notice{margin:24px 0 32px;border-left:2px solid var(--gold);padding-left:16px;color:var(--muted);font-size:14px;max-width:840px}.notice strong{color:var(--gold);font-weight:600}.cue{border:1px solid var(--line);background:var(--panel);border-radius:8px;margin-bottom:18px;padding:25px;transition:border-color .12s}.cue.playing{border-color:var(--mint)}.cue-head{display:grid;grid-template-columns:44px 1fr;gap:15px;margin-bottom:22px}.number{font:italic 25px Georgia,serif;color:#728f7d;padding-top:2px}.gesture{color:var(--muted);font-size:14px;margin:0;max-width:710px}.players{display:grid;grid-template-columns:1fr 1fr;gap:24px}.player{min-width:0;padding-top:14px;border-top:1px solid var(--line)}.label{color:var(--mint);letter-spacing:.09em}.previous .label{color:var(--muted)}.meta{font-size:12px;color:var(--muted);margin:5px 0 10px;font-variant-numeric:tabular-nums}audio{display:block;width:100%;height:40px;margin:0 0 9px}.download{font-size:12px}.contract{color:var(--gold);font-size:12px;margin:13px 0 0}details{margin-top:26px;color:var(--muted);font-size:14px}summary{cursor:pointer;color:var(--ink);padding:6px 0}details p{max-width:850px;margin:12px 0}footer{border-top:1px solid var(--line);margin-top:30px;padding-top:20px;color:var(--muted);font-size:12px}.links{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px}.hint{color:var(--muted);font-size:14px;margin:25px 0 15px}noscript{display:block;padding:14px;background:#493d26}
+    @media(max-width:650px){main{padding:30px 17px 45px}.players{grid-template-columns:1fr;gap:22px}.cue{padding:20px 17px}.cue-head{grid-template-columns:28px 1fr;gap:10px}.volume{margin-left:0}.toolbar{gap:9px}h2{font-size:24px}.intro{font-size:16px}}
+    @media(prefers-reduced-motion:reduce){.cue{transition:none}}
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">RuneCast / sound study / RC-018 · r002</div>
+  <h1>Five sounds.<br>Five different gestures.</h1>
+  <p class="intro">The five-cue Runway direction approved by the owner, preserved for comparison with the original procedural sounds. These unchanged MP3 auditions show the source direction before final runtime editing.</p>
+  <div class="pills"><span class="pill accent">Historical audition</span><span class="pill">5 generated candidates</span><span class="pill">Direction approved</span><span class="pill">17 October 2026</span></div>
+  <div class="toolbar" aria-label="Playback controls">
+    <button id="sequence" type="button">Play five candidates</button>
+    <button id="stop" class="secondary" type="button">Stop all</button>
+    <label class="volume" for="volume">Review volume <input id="volume" type="range" min="0" max="1" step="0.01" value="0.5"><output id="volume-value" for="volume">50%</output></label>
+    <div id="status" class="status" role="status" aria-live="polite">Choose a player, or hear the five candidates in order.</div>
+  </div>
+  <p class="notice"><strong>Raw source levels are not matched.</strong> A louder file is not necessarily a better sound. Both versions use the same review volume; no game mixer gains or normalization are applied here. These are the original MP3 auditions beside frozen r001 WAVs. The main library contains the current runtime versions. Placement and shield in this historical audition exceed their runtime duration contracts.</p>
+  <noscript>JavaScript is disabled. Native audio controls still work, but stop each player before starting another; sequence and shared volume controls require JavaScript.</noscript>
+
+  <section class="cue" aria-labelledby="title-place">
+    <div class="cue-head"><div class="number" aria-hidden="true">01</div><div><h2 id="title-place">Stone placement</h2><p class="gesture">Intended gesture: a small stone seats in its socket with a quiet ceramic click, brief friction and settling grains.</p></div></div>
+    <div class="players">
+      <div class="player"><div class="label">r002 · Generated candidate</div><p class="meta">MP3 · provider duration 0.48 s</p><audio controls preload="metadata" data-candidate data-label="Stone placement — r002 candidate" aria-label="Stone placement, generated candidate"><source src="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/edit_place.mp3" type="audio/mpeg"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/edit_place.mp3" download>Original MP3</a></div>
+      <div class="player previous"><div class="label">r001 · Earlier procedural sound</div><p class="meta">Archived r001 WAV · 0.20 s</p><audio controls preload="metadata" data-label="Stone placement — r001 procedural" aria-label="Stone placement, earlier procedural sound"><source src="../../../../source-assets/audio/sfx/revisions/r001-procedural/edit_place.wav" type="audio/wav"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r001-procedural/edit_place.wav" download>Earlier WAV</a></div>
+    </div><p class="contract">Runtime target: 0.05–0.25 s. This candidate needs timing work if selected.</p>
+  </section>
+  <section class="cue" aria-labelledby="title-draw">
+    <div class="cue-head"><div class="number" aria-hidden="true">02</div><div><h2 id="title-draw">Card draw</h2><p class="gesture">Intended gesture: a thick parchment card slides from a stack, with papery friction, a fibrous flutter and a soft flex.</p></div></div>
+    <div class="players">
+      <div class="player"><div class="label">r002 · Generated candidate</div><p class="meta">MP3 · provider duration 0.48 s</p><audio controls preload="metadata" data-candidate data-label="Card draw — r002 candidate" aria-label="Card draw, generated candidate"><source src="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/technique_draw.mp3" type="audio/mpeg"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/technique_draw.mp3" download>Original MP3</a></div>
+      <div class="player previous"><div class="label">r001 · Earlier procedural sound</div><p class="meta">Archived r001 WAV · 0.30 s</p><audio controls preload="metadata" data-label="Card draw — r001 procedural" aria-label="Card draw, earlier procedural sound"><source src="../../../../source-assets/audio/sfx/revisions/r001-procedural/technique_draw.wav" type="audio/wav"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r001-procedural/technique_draw.wav" download>Earlier WAV</a></div>
+    </div>
+  </section>
+  <section class="cue" aria-labelledby="title-cast">
+    <div class="cue-head"><div class="number" aria-hidden="true">03</div><div><h2 id="title-cast">Cast</h2><p class="gesture">Intended gesture: a soft inhalation gathers into a rising harmonic shimmer, flows outward as an airy ribbon and dissolves.</p></div></div>
+    <div class="players">
+      <div class="player"><div class="label">r002 · Generated candidate</div><p class="meta">MP3 · provider duration 0.60 s</p><audio controls preload="metadata" data-candidate data-label="Cast — r002 candidate" aria-label="Cast, generated candidate"><source src="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/cast.mp3" type="audio/mpeg"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/cast.mp3" download>Original MP3</a></div>
+      <div class="player previous"><div class="label">r001 · Earlier procedural sound</div><p class="meta">Archived r001 WAV · 0.52 s</p><audio controls preload="metadata" data-label="Cast — r001 procedural" aria-label="Cast, earlier procedural sound"><source src="../../../../source-assets/audio/sfx/revisions/r001-procedural/cast.wav" type="audio/wav"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r001-procedural/cast.wav" download>Earlier WAV</a></div>
+    </div>
+  </section>
+  <section class="cue" aria-labelledby="title-shield">
+    <div class="cue-head"><div class="number" aria-hidden="true">04</div><div><h2 id="title-shield">Shield</h2><p class="gesture">Intended gesture: rounded glass resonance blooms upward; two gently beating tones unfurl into a protective dome and settle.</p></div></div>
+    <div class="players">
+      <div class="player"><div class="label">r002 · Generated candidate</div><p class="meta">MP3 · provider duration 0.48 s</p><audio controls preload="metadata" data-candidate data-label="Shield — r002 candidate" aria-label="Shield, generated candidate"><source src="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/shield.mp3" type="audio/mpeg"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/shield.mp3" download>Original MP3</a></div>
+      <div class="player previous"><div class="label">r001 · Earlier procedural sound</div><p class="meta">Archived r001 WAV · 0.39 s</p><audio controls preload="metadata" data-label="Shield — r001 procedural" aria-label="Shield, earlier procedural sound"><source src="../../../../source-assets/audio/sfx/revisions/r001-procedural/shield.wav" type="audio/wav"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r001-procedural/shield.wav" download>Earlier WAV</a></div>
+    </div><p class="contract">Runtime target: 0.15–0.45 s. This candidate needs timing work if selected.</p>
+  </section>
+  <section class="cue" aria-labelledby="title-spectral">
+    <div class="cue-head"><div class="number" aria-hidden="true">05</div><div><h2 id="title-spectral">Shadeling spectral attack</h2><p class="gesture">Intended gesture: soft cloth and hollow breath sweep forward around wavering bowed glass, then evaporate.</p></div></div>
+    <div class="players">
+      <div class="player"><div class="label">r002 · Generated candidate</div><p class="meta">MP3 · provider duration 0.60 s</p><audio controls preload="metadata" data-candidate data-label="Shadeling spectral attack — r002 candidate" aria-label="Shadeling spectral attack, generated candidate"><source src="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/spectral.mp3" type="audio/mpeg"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/spectral.mp3" download>Original MP3</a></div>
+      <div class="player previous"><div class="label">r001 · Earlier procedural sound</div><p class="meta">Archived r001 WAV · 0.48 s</p><audio controls preload="metadata" data-label="Shadeling spectral attack — r001 procedural" aria-label="Shadeling spectral attack, earlier procedural sound"><source src="../../../../source-assets/audio/sfx/revisions/r001-procedural/spectral.wav" type="audio/wav"></audio><a class="download" href="../../../../source-assets/audio/sfx/revisions/r001-procedural/spectral.wav" download>Earlier WAV</a></div>
+    </div>
+  </section>
+
+  <p class="hint">Listen for recognizable material, a distinct movement, a comfortable ending and how the five sounds feel together. The descriptions above are creative intentions, not a claim that listening review has passed.</p>
+  <details><summary>About this audition</summary><p>These five text-generated candidates explore a new sound direction. They are unchanged provider MP3s, with no claim of a lossless original or 24-bit fidelity. The comparison WAVs are frozen copies of the delivered r001 procedural assets, preserved independently of active runtime replacements. The current in-game Cast tone is a separate placeholder.</p><p>Only one player runs at a time. The candidate sequence leaves 0.8 seconds between sounds. Using a different player or pausing the sequence cancels it; Stop all resets every player. Shared review volume starts at 50%. Native volume controls can adjust an individual player until the shared slider is moved again.</p><p>Provider durations shown here may differ slightly from browser-reported MP3 duration because of encoding padding. The owner approved this five-cue direction; that approval does not establish acceptance of the complete replacement library or final mix. The raw candidates here preserve their original timing and levels. This page adds no gameplay bindings.</p></details>
+  <footer><div class="links"><a href="../../../../source-assets/audio/sfx/revisions/r002-runway-audition/generation.json">Generation record and prompts</a><a href="../index.html">Current full sound library</a><a href="../../../../docs/audio-cue-catalogue.json">Runtime cue contracts</a></div><p>RC-018 · preserved r002 Runway audition · direction approved</p></footer>
+</main>
+<script>
+  'use strict';
+  const players = Array.from(document.querySelectorAll('audio'));
+  const candidates = players.filter(player => player.hasAttribute('data-candidate'));
+  const status = document.getElementById('status');
+  const volume = document.getElementById('volume');
+  const volumeValue = document.getElementById('volume-value');
+  let queue = [];
+  let sequencePlayer = null;
+  let gapTimer = null;
+  let attempt = 0;
+
+  function cancelSequence() {
+    queue = [];
+    sequencePlayer = null;
+    clearTimeout(gapTimer);
+    gapTimer = null;
+    attempt += 1;
+  }
+  function resetPlayer(player) {
+    player.pause();
+    try { player.currentTime = 0; } catch (_) { /* Metadata may not be loaded yet. */ }
+    player.closest('.cue').classList.remove('playing');
+  }
+  function stopAll(message = 'Stopped. Choose a sound to play again.') {
+    cancelSequence();
+    players.forEach(resetPlayer);
+    status.textContent = message;
+  }
+  function playNext() {
+    gapTimer = null;
+    const next = queue.shift();
+    if (!next) {
+      sequencePlayer = null;
+      status.textContent = 'Five-candidate audition complete. This approved direction is preserved for comparison.';
+      return;
+    }
+    sequencePlayer = next;
+    next.currentTime = 0;
+    const thisAttempt = attempt;
+    next.play().catch(() => {
+      if (thisAttempt === attempt) stopAll('Playback unavailable. Check the local audio file or use its native play control.');
+    });
+  }
+  function setReviewVolume() {
+    const value = Number(volume.value);
+    players.forEach(player => { player.volume = value; });
+    volumeValue.textContent = Math.round(value * 100) + '%';
+  }
+  players.forEach(player => {
+    player.addEventListener('play', () => {
+      if (player.paused) return;
+      if (sequencePlayer !== player) cancelSequence();
+      players.forEach(other => { if (other !== player) resetPlayer(other); });
+      player.closest('.cue').classList.add('playing');
+      status.textContent = 'Playing: ' + player.dataset.label;
+    });
+    player.addEventListener('pause', () => {
+      if (!player.paused) return;
+      const card = player.closest('.cue');
+      if (!Array.from(card.querySelectorAll('audio')).some(item => !item.paused)) {
+        card.classList.remove('playing');
+      }
+      if (sequencePlayer === player && !player.ended) {
+        cancelSequence();
+        status.textContent = 'Sequence paused and cancelled. Resume a player or start the sequence again.';
+      }
+    });
+    player.addEventListener('ended', () => {
+      if (!player.ended) return;
+      player.closest('.cue').classList.remove('playing');
+      if (sequencePlayer === player) {
+        sequencePlayer = null;
+        if (queue.length) {
+          status.textContent = 'Next candidate in 0.8 seconds…';
+          gapTimer = setTimeout(playNext, 800);
+        } else {
+          status.textContent = 'Five-candidate audition complete. This approved direction is preserved for comparison.';
+        }
+      } else {
+        status.textContent = 'Finished: ' + player.dataset.label;
+      }
+    });
+    player.addEventListener('error', () => {
+      if (sequencePlayer === player) stopAll('Audio file unavailable: ' + player.dataset.label);
+    });
+  });
+  document.getElementById('sequence').addEventListener('click', () => {
+    stopAll('Starting the five candidates…');
+    queue = candidates.slice();
+    playNext();
+  });
+  document.getElementById('stop').addEventListener('click', () => stopAll());
+  volume.addEventListener('input', setReviewVolume);
+  window.addEventListener('pagehide', () => stopAll());
+  setReviewVolume();
+</script>
+</body>
+</html>

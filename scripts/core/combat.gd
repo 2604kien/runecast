@@ -34,8 +34,9 @@ var _kit: Dictionary = {}
 var _owned_instances: Dictionary = {}
 var _encounter_number := 1
 var _endpoint_layout_id := "opening"
+var _run_entry: Dictionary = {}
 
-func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
+func _init(validated_setup: Dictionary, seed_override: Variant = null, run_entry: Dictionary = {}) -> void:
 	# Loading/validation belong to the caller. Keep a private restart template and
 	# separate active copies, so input edits and gameplay cannot rewrite setup.
 	_setup = validated_setup.duplicate(true)
@@ -49,6 +50,11 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null) -> void:
 	# fresh model; ordinary Restart deliberately continues both random streams.
 	endpoint_rng.seed = int(_setup.encounter.seed) ^ 0x52434D45
 	kit_rng.seed = int(_setup.encounter.seed) ^ 0x52434B49
+	_run_entry = run_entry.duplicate(true)
+	if not _run_entry.is_empty():
+		rng.state = _run_entry.rng_states.cards
+		endpoint_rng.state = _run_entry.rng_states.endpoints
+		kit_rng.state = _run_entry.rng_states.kits
 	reset()
 
 func reset() -> void:
@@ -75,6 +81,10 @@ func reset() -> void:
 	history.clear()
 	next_uid = 0
 	player_hp = int(encounter.player_health)
+	if not _run_entry.is_empty():
+		player_hp = _run_entry.player_hp
+		encounter.player_health = player_hp
+		encounter.player_max_health = _run_entry.player_max_hp
 	enemy_hp = int(encounter.max_health)
 	energy = int(encounter.energy_per_turn)
 	turn = 1
@@ -93,8 +103,14 @@ func reset() -> void:
 		if piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
 			remaining.erase(piece.rune_id)
 			piece.uid = _card(piece.rune_id).uid
-	for id in remaining:
-		draw_pile.append(_card(id))
+	if _run_entry.is_empty():
+		for id in remaining:
+			draw_pile.append(_card(id))
+	else:
+		# A run lends its exact instances to battle; allocation is run-owned.
+		draw_pile = _run_entry.owned_cards.duplicate(true)
+		draw_pile.sort_custom(func(first, second): return first.uid < second.uid)
+		next_uid = _run_entry.next_uid
 	_shuffle(draw_pile)
 	_draw(int(_setup.opening_draw))
 	_owned_instances.clear()
@@ -104,6 +120,100 @@ func reset() -> void:
 				_owned_instances[card.uid] = card.id
 	# Initial dealing is setup, not an action or a presentation batch.
 	_events.clear()
+
+# A narrow in-memory entry contract, separate from presentation snapshots and
+# any future disk-save schema. Callers supply already validated content.
+static func create_for_run(validated_setup: Dictionary, entry: Dictionary) -> Dictionary:
+	var error := validate_run_entry(validated_setup, entry)
+	if not error.is_empty():
+		return {"ok": false, "error": error, "combat": null}
+	return {"ok": true, "error": "", "combat": RuneCombat.new(validated_setup, entry.seed, entry)}
+
+static func validate_run_entry(setup: Dictionary, entry: Dictionary) -> String:
+	if not ProductionRules.validate_production(setup.get("production")).ok or setup.has("experiment") or setup.has("next_encounter"):
+		return "Run entry requires one validated production encounter."
+	if not setup.get("opening_hand") is Array or not setup.opening_hand.is_empty() or not setup.get("board") is Array or setup.board.size() != 16:
+		return "Run entry requires the production draw opening."
+	var begins := 0
+	var ends := 0
+	for piece in setup.board:
+		if not piece is Dictionary: return "Run entry board is invalid."
+		if piece.get("kind") == "begin": begins += 1
+		elif piece.get("kind") == "end": ends += 1
+		elif not piece.is_empty(): return "Run entry requires endpoints only."
+	if begins != 1 or ends != 1: return "Run entry requires one Begin and End."
+	if entry.get("version") != 1 or not entry.get("run_id") is String or entry.run_id.is_empty() or entry.get("encounter_id") != setup.get("encounter", {}).get("id"):
+		return "Run entry identity is incompatible."
+	if not entry.get("seed") is int or entry.seed < 0 or entry.seed > 2147483647:
+		return "Run seed is invalid."
+	if not entry.get("player_hp") is int or not entry.get("player_max_hp") is int or entry.player_hp <= 0 or entry.player_hp > entry.player_max_hp or entry.player_max_hp > Loader.MAX_HEALTH:
+		return "Run entry health is invalid."
+	if not entry.get("rng_states") is Dictionary:
+		return "Run entry requires all three random streams."
+	for stream in ["cards", "endpoints", "kits"]:
+		if not entry.rng_states.get(stream) is int: return "Run entry random stream is invalid."
+	if not entry.get("owned_cards") is Array or not entry.get("next_uid") is int or entry.next_uid < 0 or entry.next_uid == 9223372036854775807:
+		return "Run entry card identities are invalid."
+	var seen := {}
+	var actual: Array = []
+	for card in entry.owned_cards:
+		if not card is Dictionary or not card.get("id") is String or not setup.catalog.has(card.id) or not card.get("uid") is int:
+			return "Run entry card is invalid."
+		if card.size() != 2:
+			return "Run entry card must contain only its definition and instance identity."
+		if setup.catalog[card.id].get("temporary", false) or card.uid < 0 or card.uid >= entry.next_uid or seen.has(card.uid):
+			return "Run entry cannot own temporary or duplicate card identities."
+		seen[card.uid] = true
+		actual.append(card.id)
+	var expected: Array = setup.owned_cards.duplicate()
+	actual.sort()
+	expected.sort()
+	if actual != expected: return "Run entry ownership is incompatible with the encounter."
+	return ""
+
+# Validate live identity conservation before exposing boundary data. No mutation
+# or random consumption occurs, including on rejection. Temporary cards may be
+# in a battle zone but can never appear in the returned run collection.
+func run_handoff() -> Dictionary:
+	if _run_entry.is_empty() or catalog != _setup.catalog or owned_cards != _setup.owned_cards or encounter.id != _run_entry.encounter_id:
+		return {"ok": false, "error": "This is not the run's configured encounter."}
+	if encounter.player_max_health != _run_entry.player_max_hp or player_hp < 0 or player_hp > encounter.player_max_health:
+		return {"ok": false, "error": "Battle health is inconsistent."}
+	if not state in ["playing", "victory", "defeat"] or (state == "playing" and (player_hp <= 0 or enemy_hp <= 0)) or (state == "defeat" and (player_hp != 0 or enemy_hp <= 0)) or (state == "victory" and (enemy_hp != 0 or player_hp <= 0)):
+		return {"ok": false, "error": "Battle outcome is inconsistent."}
+	if next_uid < _run_entry.next_uid or next_uid == 9223372036854775807:
+		return {"ok": false, "error": "Battle instance allocation is inconsistent."}
+	if state != "playing":
+		if not hand.is_empty() or not history.is_empty(): return {"ok": false, "error": "Terminal cleanup has not completed."}
+		for piece in board:
+			if not piece.is_empty() and not piece.get("kind") in ["begin", "end"]:
+				return {"ok": false, "error": "Terminal board cleanup has not completed."}
+	for card in draw_pile + discard_pile:
+		if card is Dictionary and catalog.get(card.get("id", ""), {}).get("temporary", false):
+			return {"ok": false, "error": "Temporary cards cannot enter draw or discard piles."}
+	var cards: Array = hand.duplicate(true) + draw_pile.duplicate(true) + discard_pile.duplicate(true)
+	for piece in board:
+		if piece.get("kind") == "rune": cards.append({"id": piece.get("rune_id"), "uid": piece.get("uid")})
+	var seen := {}
+	var permanents: Array = []
+	for card in cards:
+		if not card is Dictionary or not card.get("id") is String or not catalog.has(card.id) or not card.get("uid") is int or card.uid < 0 or card.uid >= next_uid or seen.has(card.uid):
+			return {"ok": false, "error": "Battle card identities are inconsistent."}
+		seen[card.uid] = true
+		if not catalog[card.id].get("temporary", false):
+			if _owned_instances.get(card.uid) != card.id:
+				return {"ok": false, "error": "A run-owned instance changed identity."}
+			permanents.append({"id": card.id, "uid": card.uid})
+	permanents.sort_custom(func(first, second): return first.uid < second.uid)
+	var expected: Array = _run_entry.owned_cards.duplicate(true)
+	expected.sort_custom(func(first, second): return first.uid < second.uid)
+	if permanents != expected:
+		return {"ok": false, "error": "Run ownership is inconsistent."}
+	return {"ok": true, "error": "", "run_id": _run_entry.run_id,
+		"encounter_id": encounter.id, "state": state,
+		"player_hp": player_hp, "player_max_hp": encounter.player_max_health,
+		"owned_cards": permanents, "next_uid": next_uid,
+		"rng_states": {"cards": rng.state, "endpoints": endpoint_rng.state, "kits": kit_rng.state}}.duplicate(true)
 
 # The UI receives values, never references to authoritative collections.
 func snapshot() -> Dictionary:
@@ -555,6 +665,7 @@ func _move_free_endpoints(initial: bool = false) -> void:
 		_record("endpoints_changed", {"before": previous, "after": _endpoint_layout()})
 
 func _can_advance() -> bool:
+	if not _run_entry.is_empty(): return false
 	if not _production.is_empty():
 		return state == "victory" and _encounter_number == 1 and _setup.has("next_encounter")
 	return state == "victory" and _encounter_number == 1 and _experiment.get("transfer", "none") in ["reset", "retain"]

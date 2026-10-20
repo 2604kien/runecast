@@ -83,7 +83,6 @@ func _check_invalid(path: String, diagnostic: String, check: Callable, tree: Sce
 	await _free_scene(scene, tree)
 
 func _free_scene(scene: Control, tree: SceneTree) -> void:
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame

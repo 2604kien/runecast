@@ -78,8 +78,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_path: String = "") -
 			check.call(scene.get_viewport().get_texture().get_image().save_png(capture_path) == OK, "Adjacent endpoint and manual-rotation screen capture saves.")
 		scene.controller.add_note("AUTOMATED RC-006 ADJACENT-ENDPOINT UI CHECK: no participant evidence; seed %d" % adjacent_seed)
 		scene._save_experiment_record()
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 

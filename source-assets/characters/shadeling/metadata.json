@@ -1333,5 +1333,29 @@
       "output/qa/rc-014/preservation-validation.json"
     ],
     "limits": "Desktop-only; host shader-cache/user-directory and root-certificate-store diagnostics retained; no missing texture/script/import failures; rights unresolved."
+  },
+  "rc017_presentation": {
+    "raster_changed": false,
+    "neutral": "approved_atlas_silhouette",
+    "foot": [
+      256,
+      448
+    ],
+    "normal_durations": {
+      "attack": 0.32,
+      "hit": 0.16,
+      "idle": 2.0,
+      "defeat": 0.45
+    },
+    "retained_poses": [
+      "attack.png",
+      "hit.png"
+    ],
+    "verification": "output/qa/rc-017/actor/results.json",
+    "date": "2026-10-16",
+    "contract": "docs/actor-animation-contract.md",
+    "future_proxy": "output/qa/rc-017/actor/future-proxy-clearance.png",
+    "motion": "assets/enemies/shadeling/motion.tres",
+    "reduced_motion": "Approved neutral only, stationary colour/opacity feedback; no geometry or pose jump"
   }
 }

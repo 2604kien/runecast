@@ -79,8 +79,7 @@ func _capture_scene(dimensions: Vector2i, example_id: String = "") -> void:
 		await _settle()
 		_check(_visible(scene.combat_navigation, viewport) and _visible(scene.cast_button, viewport), phase + " bottom scroll exposes complete Cast and navigation")
 		await _save(viewport, phase + "-bottom")
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	viewport.queue_free()
 	await process_frame
 

@@ -1,0 +1,88 @@
+{
+  "sources": [
+    {
+      "cue_id": "ui_confirm",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\ui_confirm.mp3"
+    },
+    {
+      "cue_id": "ui_back",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\ui_back.mp3"
+    },
+    {
+      "cue_id": "edit_place",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\edit_place.mp3"
+    },
+    {
+      "cue_id": "edit_orient",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\edit_orient.mp3"
+    },
+    {
+      "cue_id": "edit_restore",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\edit_restore.mp3"
+    },
+    {
+      "cue_id": "action_rejected",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\action_rejected.mp3"
+    },
+    {
+      "cue_id": "technique_draw",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\technique_draw.mp3"
+    },
+    {
+      "cue_id": "technique_conjure",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\technique_conjure.mp3"
+    },
+    {
+      "cue_id": "cast",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\cast.mp3"
+    },
+    {
+      "cue_id": "damage",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\damage.mp3"
+    },
+    {
+      "cue_id": "shield",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\shield.mp3"
+    },
+    {
+      "cue_id": "spectral",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\spectral.mp3"
+    },
+    {
+      "cue_id": "flame",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\flame.mp3"
+    },
+    {
+      "cue_id": "stone",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\stone.mp3"
+    },
+    {
+      "cue_id": "chain",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\chain.mp3"
+    },
+    {
+      "cue_id": "bell",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\bell.mp3"
+    },
+    {
+      "cue_id": "temporary_expired",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\temporary_expired.mp3"
+    },
+    {
+      "cue_id": "reward",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\reward.mp3"
+    },
+    {
+      "cue_id": "victory",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\victory.mp3"
+    },
+    {
+      "cue_id": "defeat",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\defeat.mp3"
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "path": "C:\\Dev\\RuneCast\\source-assets\\audio\\sfx\\revisions\\r003-runway-library\\originals\\guardian_phase_changed.mp3"
+    }
+  ]
+}

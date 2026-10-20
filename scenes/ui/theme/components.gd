@@ -16,6 +16,7 @@ const CREAM := Color("fff0c5")
 const MUTED := Color("c7c3b6")
 const TEAL := Color("64f0dd")
 const GOLD := Color("edbc66")
+const COMPACT_CARD_MIN_HEIGHT := 146.0
 
 static func label(text: String, role: String = "body", font_size: int = 0) -> Label:
 	var result := Label.new()
@@ -301,7 +302,7 @@ static func _compact_card(data: Dictionary, states: Dictionary, width: float) ->
 	var result := Button.new()
 	result.theme = THEME
 	result.theme_type_variation = "RCCardLive"
-	result.custom_minimum_size = Vector2(maxf(width, 140), maxf(146, float(data.get("compact_height", 146))))
+	result.custom_minimum_size = Vector2(maxf(width, 140), maxf(COMPACT_CARD_MIN_HEIGHT, float(data.get("compact_height", COMPACT_CARD_MIN_HEIGHT))))
 	var kind := str(data.get("kind", "damage"))
 	if not kind in ["damage", "shield", "technique", "mixed"]:
 		kind = "mixed"

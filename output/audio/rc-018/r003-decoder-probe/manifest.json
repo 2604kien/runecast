@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "cue_id": "edit_place",
+      "path": "C:/Dev/RuneCast/source-assets/audio/sfx/revisions/r003-runway-library/originals/edit_place.mp3"
+    },
+    {
+      "cue_id": "technique_draw",
+      "path": "C:/Dev/RuneCast/source-assets/audio/sfx/revisions/r003-runway-library/originals/technique_draw.mp3"
+    },
+    {
+      "cue_id": "cast",
+      "path": "C:/Dev/RuneCast/source-assets/audio/sfx/revisions/r003-runway-library/originals/cast.mp3"
+    },
+    {
+      "cue_id": "shield",
+      "path": "C:/Dev/RuneCast/source-assets/audio/sfx/revisions/r003-runway-library/originals/shield.mp3"
+    },
+    {
+      "cue_id": "spectral",
+      "path": "C:/Dev/RuneCast/source-assets/audio/sfx/revisions/r003-runway-library/originals/spectral.mp3"
+    }
+  ]
+}

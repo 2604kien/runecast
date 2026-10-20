@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "task": "RC-019",
+  "revision": "r001-runway-crypt",
+  "sample_rate": 48000,
+  "channels": 2,
+  "master_bit_depth": 24,
+  "godot_binary": ".tools/godot/4.7.2/Godot_v4.7.2-stable_win64_console.exe",
+  "sndfile_library": "C:/Program Files/Blender Foundation/Blender 5.2/blender.shared/sndfile.dll",
+  "source_fidelity": "Original provider output is lossy MP3; 24-bit PCM is a consolidated editing master, not a lossless original recording or recovered fidelity.",
+  "tracks": [
+    {
+      "cue_id": "home_exploration",
+      "manifest_id": "music",
+      "status": "pending_user_direction",
+      "export_enabled": false,
+      "note": "Music remains pending at the user's explicit request; no placeholder export."
+    },
+    {
+      "cue_id": "combat",
+      "manifest_id": "music",
+      "status": "pending_user_direction",
+      "export_enabled": false,
+      "note": "Music remains pending at the user's explicit request; no placeholder export."
+    },
+    {
+      "cue_id": "crypt",
+      "manifest_id": "crypt_ambience",
+      "status": "source_generated_edit_for_loop",
+      "export_enabled": true,
+      "original_path": "source-assets/audio/ambience/crypt/originals/crypt.mp3",
+      "source_path": "source-assets/audio/ambience/crypt/crypt.wav",
+      "runtime_path": "assets/audio/ambience/crypt.ogg",
+      "decoder_cache": "source-assets/audio/ambience/crypt/decoded",
+      "loop_crossfade_seconds": 1.0,
+      "boundary_alignment_search_seconds": 1.0,
+      "boundary_rms_window_ms": 50.0,
+      "boundary_rms_match_db": 0.5,
+      "repeat_source_cycles": 2,
+      "source_start_seconds": 0.0,
+      "source_end_seconds": 30.0,
+      "highpass_hz": 25.0,
+      "target_integrated_lufs": -26.0,
+      "integrated_lufs_tolerance": 3.0,
+      "true_peak_ceiling_dbtp": -3.0,
+      "master_peak_guard_dbtp": -4.0,
+      "vorbis_bitrate_min_kbps": 96.0,
+      "vorbis_bitrate_max_kbps": 128.0,
+      "vorbis_quality_start": 0.35,
+      "intended_bus": "Ambience",
+      "intended_gain_db": 0.0,
+      "dither_seed": 19001,
+      "note": "One generated 30-second bed. A 1-second head/tail overlap forms one 29-second cycle, repeated twice to meet the 30–60-second contract. Repetition adds no new source variation. The cycle rotates to a joint near-zero boundary to reduce codec edge sensitivity; no fade to silence is added."
+    }
+  ]
+}

@@ -1,5 +1,79 @@
 # Rune Cast verification record
 
+## October 17, 2026 — Remove Rune Slot inspection
+
+Removed the board hold-inspection callback and slot-inspection entry point. Empty slots, installed runes/connectors and Begin/End use ordinary selection/placement on release and never open an information window. Existing touch checks cover each slot type, selection, placement, rotation and retained hand/tool/pile inspection. Pinned UI verification passes **1,122 checks, zero failures**, with only expected invalid-content fixture diagnostics. [UI log](../output/qa/no-board-inspection-2026-10-17/ui/smoke.log). No new test files, artwork or Git operations.
+
+## October 17, 2026 — Centered hand and mobile controls
+
+Removed the suggestion/action-message row and right-click inspection. Production ignores keyboard, controller and wheel input, including in native Guide/Menu dialogs; tap, hold, Info/Close and drag remain. Existing UI checks pass **1,120 checks, zero failures**, with no warnings or script errors beyond expected invalid-content fixture diagnostics. [UI log](../output/qa/mobile-only-2026-10-17/ui/smoke.log).
+
+Six native captures at 720×1280, 450×800 and 360×640 verify filled/empty hands remain 146 px high with equal 10 px toolbar/forecast gaps. Pass Turn retains parchment and dark text. [Measurements](../output/qa/mobile-hand-cleanup-2026-10-17/observations.json), [filled hand](../output/qa/mobile-hand-cleanup-2026-10-17/450x800-filled.png), [empty hand](../output/qa/mobile-hand-cleanup-2026-10-17/360x640-empty.png). No new permanent test files, artwork or Git operations.
+
+## October 17, 2026 — Sequential card arrival fades
+
+Actual drawn and created cards now fade in one by one over 0.40 s each, using only the supplied event UID. The preview remains separate from staged hand/pile counts until its fade completes. Refresh, cancellation and replay cannot leave extra or partially transparent cards. The hand remains 146 px high; incoming cards are revealed horizontally without changing page scroll. Reduced motion keeps 0.06 s individual fades.
+
+Pinned verification passes **1,796 core / 1,107 UI / 556 motion checks, zero failures**. The UI total includes 89 focused arrival checks. Five native captures contain 245 frames at 720×1600, 450×1000 and 360×640 and confirm unchanged lane geometry throughout. [Commands and evidence](rc-017-verification.md#october-17-owner-follow-up--sequential-card-arrival-fades), [narrow motion](../output/qa/card-draw-fade-2026-10-17/motion/pass-bottom-360x640/motion.gif). No Git operations were performed.
+
+## October 17, 2026 — Stable hand height and darker Pass Turn text
+
+The production hand now reserves the same 146 px minimum as compact cards through empty and populated states. Previously its 104 px scroll minimum allowed an empty hand to collapse to the 139 px pile height and move the content below by 7 px. A shared card-height constant keeps the lane and card constructor aligned. Pass Turn retains the Turn-number label's parchment background and uses its dark `171018` ink in all native Button states.
+
+Pinned `tools/godot.ps1 -Action smoke -LogDirectory output/qa/hand-height-pass-color-2026-10-17/ui` with workspace-local application-data paths passes **1,018 UI checks, zero failures**. [Log](../output/qa/hand-height-pass-color-2026-10-17/ui/smoke.log). Only expected negative-content fixture diagnostics appear. No source artwork or gameplay rules changed, and no Git operations were performed.
+
+Native scene observations at 720×1600, 450×1000 and 360×640 reproduce the prior 146→139 px empty-hand collapse by restoring only the old scroll minimum at runtime. With the correction, hand/scroll height remains 146 px and hand, forecast, Cast and navigation content-space rectangles are identical with cards present, absent and restored. [Measurements](../output/qa/hand-height-pass-color-2026-10-17/observations.json), [full screen](../output/qa/hand-height-pass-color-2026-10-17/720x1600-corrected-populated.png), [empty hand](../output/qa/hand-height-pass-color-2026-10-17/450x1000-corrected-empty.png), [native narrow layout](../output/qa/hand-height-pass-color-2026-10-17/360x640-corrected-repopulated.png). The output-local capture harness uses explicit UI fixtures; it does not alter shipped gameplay or artwork.
+
+## October 17, 2026 — Remove enemy no-HP-loss notices
+
+Removed the zero-damage enemy overlay and its matching action-log notice. Positive enemy HP-loss feedback remains; zero applied damage keeps the neutral actor and existing event timing. Pinned `tools/godot.ps1 -Action smoke -LogDirectory output/qa/rc-017/no-zero-damage-label-2026-10-17` with the workspace-local application-data environment passes **1,018 UI checks, zero failures**. [Log](../output/qa/rc-017/no-zero-damage-label-2026-10-17/smoke.log). Only expected negative-content fixture diagnostics appear. No Git operations accompanied this change.
+
+## October 17, 2026 — Longer enemy actions and technique animation
+
+Enemy hit and attack now each last **1.50 s** in normal motion. Technique cards brighten, shrink inward and fade over **1.00 s**, then commit their displayed payment/discard before sequential draw/creation events. UID-based rebinding survives normal hand rebuilds; completion, cancellation and Restart restore original transforms/tint. Reduced motion stays stationary and brief. Temporary feedback circles remain removed.
+
+Pinned verification passes **1,796 core / 1,018 UI / 535 motion checks, zero failures**. Five native captures contain 236 frames at 720×1600, 450×1000 and 360×640, including normal/reduced techniques. Nominal captured totals: damage Cast **5.70 s**, Conjure **1.24 s**, Focus **1.48 s**, reduced Conjure **0.12 s**. Actual-scene tests cover the played UID only, staged values, refresh rebinding and lifecycle restoration; existing board-reselection checks remain passing. [Full evidence and commands](rc-017-verification.md#october-17-owner-follow-up--longer-enemy-actions-and-technique-animation), [narrow technique motion](../output/qa/rc-017/actor-technique-pacing-2026-10-17/motion/conjure-bottom-360x640/motion.gif). No Git operations accompanied this follow-up.
+
+## October 17, 2026 — Board reselection preserves rotation
+
+A retained connector tool was treating a tap on an already placed piece as another `place_wire` command, replacing it at rotation zero. Production now retains that tool only for empty-slot continuation; an occupied-slot tap selects the installed connector/rune and clears the retained tool without a gameplay command. Fresh explicit tool selection still permits replacement, including same-kind replacement at zero available stock. Remove remains continuous. Placement previews match the new selection behavior; model rules and historical profiles are unchanged.
+
+The focused actual-scene witness reproduced **4 failures in 25 checks** before the fix, one per connector type. Expanded regressions pass **31 checks, zero failures** afterward, checking rotation, rune UID, stock, history, action identity and all random streams, plus rejected placement, replacement and removal. The full pinned `tools/godot.ps1 -Action smoke -LogDirectory output/qa/board-reselection-2026-10-17` run passes **988 UI checks, zero failures**, including ten pointer-driven reselection/Rotate checks for all connector types and a rune. [Before log](../output/qa/board-reselection-2026-10-17/before-fix.log), [UI log](../output/qa/board-reselection-2026-10-17/smoke.log), [interaction contract](touch-interactions.md#october-17-2026--preserve-placed-piece-rotation-on-selection). Only expected negative-content fixture diagnostics appear. No Git operations accompanied this fix.
+
+## October 17, 2026 — Remove combat feedback circles
+
+Removed temporary circle overlays from cards, piles, stats, enemy hit/attack and terminal/transition feedback. Damage/shield/block text, actor poses, turquoise slot lighting and Begin/End artwork remain. Timings and event order are unchanged. Pinned UI smoke passes **947 checks, zero failures**, retaining timing/lifecycle coverage while retiring three assertions for the removed card-pulse renderer. [Evidence and commands](rc-017-verification.md#october-17-owner-follow-up--remove-feedback-circles), [UI log](../output/qa/rc-017/no-feedback-circles/ui/smoke.log). No Git operations accompanied this follow-up.
+
+## October 16, 2026 — Slower sequential combat playback
+
+Owner-directed pacing now gives each cleared slot, hand card and draw its own interval, with all transients ending before the next effect begins. Hit/attack recover before subsequent phases; frame hitches cannot skip a chain of short effects. Turquoise active-slot lighting and unchanged Begin/End remain. Recorded nominal durations are damage Cast **3.85 s**, shield Cast **4.20 s**, Pass **2.01 s**; totals vary with actual supplied cards/slots. This supersedes the earlier provisional timing target.
+
+Pinned checks pass **1,795 core / 950 UI / 1,882 motion checks, zero failures**. Final capture covers 866 frames across 12 real-scene sequences at all three native sizes. Tests verify phase boundaries, individual card slices, cleared lights, input locks, cancellation, reduced-motion parity and unchanged outcomes/RNG. [Commands and complete timings](rc-017-verification.md#owner-follow-up--slower-sequential-playback), [current Cast motion](../output/qa/rc-017/sequential-pacing/final/motion/cast-top-450x1000/motion.gif), [native narrow board](../output/qa/rc-017/sequential-pacing/final/motion/cast-board-360x640/motion.gif). No Git operations accompanied this follow-up.
+
+## October 16, 2026 — Cast slot illumination follow-up
+
+Owner-directed Cast feedback now lights active non-endpoint slots with the connected Begin/End turquoise instead of drawing board circles or extra spokes. Begin/End pixels remain unchanged. Cleanup fades the slot light, and cancellation restores it. Pinned UI smoke passes **945 checks / zero failures**; focused normal/reduced-motion runtime captures at 720×1600 and scrolled 360×640 pass **12 grouped checks / zero failures**. [Current evidence and commands](rc-017-verification.md#owner-follow-up--cast-slot-illumination), [current native narrow board](../output/qa/rc-017/slot-light/360x640-normal/all-lit.png). Earlier motion evidence retains its original appearance; no gameplay/timing/artwork or Git changes accompany this visual correction.
+
+## October 16, 2026 — Energy warning ribbon
+
+The completion checkmark now hides while the live insufficient-energy warning is displayed. For affordable circuits, measured caption width constrains the checkmark's position and size, preserving an 8×art-scale gap and keeping its stroke inside the ribbon on narrow layouts. No artwork or circuit rules changed.
+
+The existing actual-scene suite passes **2,596 checks, 0 failures** across 720×1600, 450×1000 and 360×640: [results](../output/qa/energy-ribbon-2026-10-16/runtime/results.json). It exercises insufficient energy, rejected Cast and energy restoration. Visual review confirms a clean [energy warning](../output/qa/energy-ribbon-2026-10-16/runtime/unaffordable-bottom-720x1600.png) and separated [narrow completion caption](../output/qa/energy-ribbon-2026-10-16/runtime/built-board-360x640.png). The latter capture is scrolled to the board; its top crop is intentional. No engine errors or Git operations.
+
+## October 16, 2026 — Upright rune symbols
+
+The existing Godot UI suite passes **945 checks, 0 failures** after including rune pieces in the upright-glyph rule: [smoke log](../output/qa/upright-runes-2026-10-16/smoke/smoke.log). Its missing/invalid-startup diagnostics are deliberate fixtures. No new test or asset was added.
+
+Actual game captures from existing authored examples confirm an upright Shield with vertical connections at rotation 1 ([Gallery](../output/qa/upright-runes-2026-10-16/gallery.png)) and an upright Spark with vertical connections at rotation 3 ([Ossuary](../output/qa/upright-runes-2026-10-16/ossuary.png)). Free Spark shares the rune render path and Spark artwork. Only the glyph transform changed; ports, wire paths and gameplay rotation remain intact. No Git operations were used.
+
+## October 16, 2026 — RC-017 playable combat animation
+
+Pinned Godot 4.7.2 passes **1,758 core / 945 UI / 2,596 rendered art / 642 motion checks**, zero failures. The 945 UI checks include the 325 actor checks. The current resource audit passes **1,164 checks**, including the scoped preservation ledger. Twelve actual `main.tscn` motion sequences cover native 720×1600, 450×1000 and 360×640, intentional page scrolling, Cast, Shield, Pass, techniques, victory, defeat and reduced motion. [Full commands/results and measurement limits](rc-017-verification.md), [representative motion](../output/qa/rc-017/final/motion/cast-top-450x1000/motion.gif), [sequence stills](../output/qa/rc-017/final/motion/cast-top-450x1000/contact.png), [narrow board motion](../output/qa/rc-017/final/motion/cast-board-360x640/motion.gif).
+
+The production adapter stages detached state without changing outcomes or any RNG stream. Tests include ordered real events, applied versus requested HP loss, blocked/zero damage, incomplete/empty-hand Pass, actual draws/generated cards, cleanup/expiry, terminal behavior, duplicate input/playback, cancellation inside phases, signal reentry, Restart, Exact replay, teardown and automatic frame ticking. Clean-scene GPU comparison checks 101,088 center pixels with zero RGB error; original outer pixels, actor foot/mask/attachments and retained paintings are verified. A render review caught and corrected damage-label overlap and improved the short cleanup sweep before the final motion capture.
+
+No new raster, gameplay rules, balance, ownership, encounter definitions, phases, dodge, audio production or progression is delivered. Reduced motion preserves sound and uses stationary colour/opacity feedback. Physical-device performance and owner aesthetic acceptance remain separate. The historical RC-010 asset-plan validator retains its obsolete protected-code-baseline failure (17 files evolved across authorized RC-016A/RC-016/RC-017); current CSV, dependencies, paths and links pass. Its old baseline was not rewritten. One initial read-only Git status command ran before the attached prohibition was read and was immediately disclosed; no further Git operations occurred.
+
 ## October 16, 2026 — Unused resource cleanup
 
 Removed the exact 2,221 project files in the [completed ledger](../output/qa/resource-cleanup-2026-10-16/deletion-manifest.json), totaling 1,370,344,711 bytes. A temporary validation raster created during the checks was also removed and recorded separately. The cleanup changed no live gameplay or rendered artwork: the 450×1000 opening screen is [pixel-identical before and after](../output/qa/resource-cleanup-2026-10-16/screen-comparison.json). [Post-cleanup screen](../output/qa/resource-cleanup-2026-10-16/normal-desktop.png).
@@ -1373,3 +1447,19 @@ Commands actually used: `.\tools\preview_ui_theme.ps1`; `python .\tools\build_ui
 Process limitation: one read-only `git status --short` command ran during initial discovery before the attachment restriction was read and was disclosed to the user. No subsequent Git operation or checkpoint was performed. This did not modify repository content; preservation is established by hashes.
 
 Current directed mechanics and retired controls remain an implementation baseline. [RC-016A](project-plan.md#rc-016a--undirected-evaluator-and-control-migration-gate) owns undirected evaluation, aggregation/cycles/repeat triggers, no-cast turn ending and revised controls before full RC-016. No integration, physical-device result, exact-reference reconstruction or owner approval of newly prepared components is claimed. **Next numbered task: RC-013**, the reusable UI theme.
+
+
+## October 17, 2026 — RC-018 sound-effect asset delivery
+
+RC-018 delivers exactly 16 SFX families / 21 mono 48 kHz/16-bit runtime WAVs, matching 24-bit masters, editable original DSP recipes/seeds, provenance, a machine-readable cue catalogue and isolated previews. The [focused verification](rc-018-verification.md) records 779 library checks and 773 independent cue checks, zero failures; all 21 lossless imported PCM payloads match their WAVs and play to completion with nonzero unclipped internal Godot output. Sixteen normal/reduced examples use real production event/clock traces. Forty-four generated outputs reproduce byte-for-byte; 164 protected production files remain unchanged.
+
+[Audition](../output/audio/rc-018/index.html), [source delivery](../source-assets/audio/sfx/delivery.md), [cue catalogue](audio-cue-catalogue.json), [RC-020 contract](audio-integration.md). Technical readiness is separate from acoustic listening, perceived balance, production mixing and mobile acceptance, which remain open. Dummy-driver capture is not physical listening. No main-scene tone replacement, production audio subscription, animation/controller change or unrelated gameplay suite is included. Original DSP uses no third-party audio; final distribution audit remains RC-050. Future cues await actual actor/progression events and RC-042. RC-019 is ready.
+
+
+## October 18, 2026 — RC-020 available audio playback/settings
+
+Current r003 SFX and crypt ambience run through one production coordinator; Menu Options persists independent Music/SFX volume/mute while the Sound shortcut retains master compatibility and individual levels. Phase/contact notifications follow the existing presentation clock; accepted edits keep actual arguments; the old generated Cast tone is removed. Session identities, reduced grouping, cancellation/interruption and bounded players preserve gameplay and pacing.
+
+Pinned Godot 4.7.2 passes **1,827 core / 1,148 UI / 428 focused audio/settings checks**, and **42 rendered Menu/Options checks** across three native sizes. The actual 11-sequence /44.309-second internal mix is finite/unclipped with a −5.22023 dBFS float peak and at most eight SFX voices. A deliberate −6 dB SFX bus trim follows a retained initial rapid-edit stress clipping failure; cue gains and priorities remain unchanged. [Full evidence/commands/limits](rc-020-verification.md), [audio-synchronized playable review](../output/qa/rc-020/demo/index.html), [WAV](../output/qa/rc-020/demo/playable-mix.wav).
+
+RC-019 and the original full RC-020 task remain incomplete: both music tracks, five-join headphone/speaker review, actual music crossfades and the final full mix await delivery/listening. The implemented 0.6 s transition mechanism uses isolated test streams only for structural tests. No physical listening/mobile acceptance is claimed. One initial read-only `git status` ran before the pasted restriction was read and was disclosed immediately; no further Git operation was performed.

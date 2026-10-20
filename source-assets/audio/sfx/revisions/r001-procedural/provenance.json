@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "task": "RC-018",
+  "revision": "r001",
+  "recorded_date": "2026-10-17",
+  "creator": "Codex, original project-specific procedural sound design for the RuneCast owner request",
+  "source_type": "original_procedural_dsp",
+  "source_files": [
+    "generate_sfx.py",
+    "settings.json"
+  ],
+  "external_audio_inputs": [],
+  "external_audio_source_urls": [],
+  "third_party_samples_used": false,
+  "audio_generation_service_used": false,
+  "waveform_generation_model": "not_applicable; mathematical DSP only",
+  "waveform_generation_prompt": "not_applicable; editable layer recipes in settings.json",
+  "text_assistant_model_identifier": "not recorded by the renderer",
+  "determinism": "Every cue and shared action stem uses an actual stored NumPy default_rng PCG64 seed; master and runtime dither seeds are cue seed +24000 and +16000 respectively.",
+  "tools": {
+    "renderer": "Python 3 with NumPy; exact executed versions and input hashes in generation-report.json",
+    "signal_processing": "Original additive inharmonic resonators, band-shaped procedural noise, grains, brief early reflections, endpoint fades, DC correction and TPDF quantization",
+    "measurement": "NumPy arithmetic and 8x windowed-sinc interpolation estimate; independent encoded-WAV analysis in output/qa/rc-018/audio-validation.json"
+  },
+  "rights": {
+    "source_chain_status": "No third-party audio inputs or external audio licences required by this procedural source chain",
+    "attribution": "No third-party sample attribution introduced; retain local generation source and this record",
+    "licence_grant": "No Creative Commons or other legal licence grant, copyright transfer or ownership assertion is made by this record",
+    "distribution_audit_owner": "RC-050",
+    "unknown_source_material": false,
+    "restriction_discovered_in_audio_inputs": "not_applicable; no external audio inputs"
+  },
+  "review": {
+    "automated_render_and_measurements": "See generation-report.json and independent RC-018 verification",
+    "headphone_review": "not_performed",
+    "speaker_review": "not_performed",
+    "listening_acceptance": "r001 direction rejected by owner on 2026-10-17: sounds like modified snares",
+    "physical_device_audio_acceptance": "not_performed",
+    "revision_followup": "revisions/r002-runway-audition/generation.json; five candidates pending owner listening; original r001 runtime retained"
+  },
+  "future_only_cue_ids": [
+    "flame",
+    "stone",
+    "chain",
+    "bell",
+    "reward",
+    "guardian_phase_changed"
+  ],
+  "budget": {
+    "manifest_families": 16,
+    "runtime_wavs": 21,
+    "master_wavs": 21,
+    "shared_source_only_stems": 1
+  },
+  "file_records": "settings.json maps every cue/master/runtime; generation-report.json records exact output SHA-256 hashes"
+}

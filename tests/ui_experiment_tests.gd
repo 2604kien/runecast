@@ -117,8 +117,7 @@ func run(training: Control, check: Callable, tree: SceneTree) -> void:
 	check.call(scene.cells[15].piece.kind == "begin" and scene.cells[1].piece.kind == "end", "Alternate endpoint rendering and direct edit protection agree.")
 	scene._launch_experiment("ports", "treatment", 42)
 	check.call(scene.cells[3].piece.port_shape == "corner" and scene.cells[3].catalog.spark.port_shape == "corner", "Alternate rune port metadata reaches renderer and catalog together.")
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 	var invalid: Control = load("res://scenes/main.tscn").instantiate()

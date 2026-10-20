@@ -1,0 +1,34 @@
+# sfx_impact - RC-018 r001
+
+Delivered October 17, 2026. Creator: Codex, original project-specific procedural sound design. This family preserves its stable manifest ID and source/runtime directories.
+
+See the [complete delivery](../delivery.md), [editable settings](../settings.json), [original generator](../generate_sfx.py) and [provenance record](../provenance.json).
+
+## Files and design
+
+### damage.wav
+
+Rounded mineral and cloth impact with a small crumbling edge; physical contact without sub-bass boom.
+
+Current action/event candidate; production playback binding remains RC-020 work.
+
+- Source: [damage.wav](damage.wav) - 48 kHz, mono, 24-bit signed PCM.
+- Runtime: [damage.wav](../../../../assets/audio/sfx/sfx_impact/damage.wav) - 48 kHz, mono, 16-bit signed PCM.
+- Exact length: 12,960 samples / 0.270 s; one-shot, no loop points.
+- Actual DSP seed: `18010`; full layer settings are under cue ID `damage`.
+- Intended playback gain: -2.0 dB (additional attenuation). Float render RMS: -24.20 dBFS; estimated true peak: -5.31 dBTP.
+- Fade in/out: 2.0/30.0 ms. Renderer applies 90 Hz high-pass, 5.7 kHz low-pass, weighted DC correction and independent TPDF dither.
+- Master SHA-256: `9f772cac70aff98ffd6ae77adb31c8a0d68588ec2895d089188fe463a3c1b536`.
+- Runtime SHA-256: `6f39bc21fd8c8d268736bba489333156e8d55e51a7e81a692b8c82adb6fd8212`.
+
+## Export, import and evidence
+
+Retain the master and source settings outside builds under the existing `source-assets/.gdignore`. Import the runtime WAV through the pinned Godot tooling with no re-normalization, sample-rate change, looping or automatic trimming. File endpoints and intended short tails are already authored. Shared bus gain, voice limits, cancellation and platform playback policy remain RC-020 work.
+
+The generation measurements above describe the float render. Actual encoded-file checks are in [audio-validation.json](../../../../output/qa/rc-018/audio-validation.json); import/playback scope is in [RC-018 verification](../../../../docs/rc-018-verification.md). See the [cue catalogue](../../../../docs/audio-cue-catalogue.json), [integration notes](../../../../docs/audio-integration.md) and [isolated audition player](../../../../output/audio/rc-018/index.html).
+
+## Rights and limitations
+
+No third-party samples, recordings, sound-library content or audio-generation service were used. Waveforms are original output of the retained deterministic mathematical DSP. No Creative Commons licence, legal ownership grant or distribution-clearance decision is invented; RC-050 retains the final distribution audit. NumPy is a local synthesis tool, not a bundled game sample dependency.
+
+No headphone/speaker listening review, owner aesthetic approval, physical-device acceptance or final mixed-gameplay approval is claimed. Technical measurements cannot establish those judgments. Future-only records remain unbound until their actual gameplay systems exist.

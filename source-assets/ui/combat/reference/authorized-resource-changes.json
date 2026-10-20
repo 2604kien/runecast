@@ -3,14 +3,14 @@
   "baseline": "output/qa/rc-016/preservation-baseline.json",
   "files": {
     "assets/enemies/shadeling/character.gd": {
-      "baseline_sha256": "425a5329b272aada2d31ea2f04276b61a0e19b9de8dcc8f4d53cbe80ce2b80e4",
-      "current_sha256": "490f3ce9f36bc4f9843d92d1556b0ea15fa0ff4487315f01eec4b4dce5063908",
-      "reason": "Replace generated Combat neutral with a separately masked approved-atlas sprite, preserving source pixels, foot-local512 canvas, attachment access and ordinary retained poses."
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "2c40487849983766694950ac4b9b3abb3ff0f46052c7a5b758ef3b05d23c028c",
+      "baseline_sha256": "425a5329b272aada2d31ea2f04276b61a0e19b9de8dcc8f4d53cbe80ce2b80e4"
     },
     "assets/environments/crypt/environment.gd": {
-      "baseline_sha256": "24e1535e463877c2e40f97b4f34a2476cd0dc11879e7c3562165ab6cc0442ab3",
-      "current_sha256": "df06c9d648817097dc0e54ad67dfaf9dba6ec88917873c2b36a8048e75028b87",
-      "reason": "Retain original scenery around the separately masked actor and four small live-label holes; the generated empty arena remains hidden-fill fallback."
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "00892296de05e543a53461f3cc4e12e538a833fdfb8c9242e614d4c0cc73c933",
+      "baseline_sha256": "24e1535e463877c2e40f97b4f34a2476cd0dc11879e7c3562165ab6cc0442ab3"
     },
     "source-assets/ui/delivery.md": {
       "baseline_sha256": "179e77908a5a80eca809e9ca0f609d4012a3d7fac461d0991aab745d42427bf0",
@@ -29,6 +29,27 @@
       "current_sha256": "9378364a88430265daaf9fc976b8bfbd0cb26865201afc7bf46ff53bb812d39a",
       "reason": "October16 explicit unused-resource cleanup: retire nine unconsumed exports, update active mappings/sharing and replace retired preview links. Runtime art remains unchanged.",
       "retirement_manifest": "output/qa/resource-cleanup-2026-10-16/deletion-manifest.json"
+    },
+    "assets/enemies/shadeling/character.tscn": {
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "fd81394e48e779e3d4af74d50d7ea2d97ab5c83256d2012480ddb310e9d2b7b8",
+      "baseline_sha256": "95abe4df6fc93281b465f7544430b67e4255f743c6dfb299dc994ea29efd3fa8"
+    },
+    "assets/enemies/shadeling/README.md": {
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "6a7ff9ed7be50356eeb2360827d96c22ee5431bb48f0f555a7498a274415532d",
+      "baseline_sha256": "55bd03b4f0ddcd5e3c12cbaef3488e8a02ee3ac8b2a9eca88ba7b056ff62e75f"
+    },
+    "source-assets/characters/shadeling/delivery.md": {
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "825a6e60b0f532c0ec7c83a54f4137d0337371414bd8b2f2bac69226fbbcefad",
+      "baseline_sha256": "b8c58889e62657b0a9f0f1a1191067f68f98acf2e9c6224d930d6ce0011830a1"
+    },
+    "source-assets/characters/shadeling/metadata.json": {
+      "reason": "RC-017 owner-requested actor motion, deterministic restoration and broad feathered clean scenery integration; source paintings unchanged. See docs/actor-animation-contract.md.",
+      "current_sha256": "b9a4424e2f3a7025d51c66bb659480b7e52279db9e989a7bd48c083f77d0b58f",
+      "baseline_sha256": "602d9ab45b7008bd9efa17dc067fcc6ed8581c9caa5a5b8671ebaa2438cc71d4"
     }
-  }
+  },
+  "rc017_authorization": "October 16, 2026 user request: Implement RC-017 combat animation; reconcile current character/scenery, preserve approved neutral and retained attack/hit paintings, correct mask/region/transform/tint/visibility restoration and clean scenery. No raster changed."
 }

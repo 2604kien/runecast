@@ -1,0 +1,1578 @@
+{
+  "schema_version": 1,
+  "revision": "r001",
+  "task": "RC-018",
+  "created_date": "2026-10-17",
+  "sample_rate": 48000,
+  "channels": 1,
+  "master_bit_depth": 24,
+  "runtime_bit_depth": 16,
+  "creator": "Codex, original procedural sound design authored for this RuneCast task",
+  "source_type": "Original deterministic DSP; no recordings, sample libraries, downloaded audio, or audio-generation service",
+  "rights_status": "No third-party audio sources incorporated. No third-party audio attribution or sample licence required by this source chain. This record does not assert a legal licence grant, copyright ownership or legal clearance; RC-050 remains the distribution audit.",
+  "output_filter": {
+    "highpass_hz": 90,
+    "lowpass_hz": 5700
+  },
+  "level_policy": "Per-role RMS targets and per-cue safety ceilings; no uniform peak normalisation or integrated LUFS claim. Suggested intended_gain_db applies at playback. No acoustic listening calibration claimed.",
+  "shared_enemy_base": {
+    "seed": 18777,
+    "duration_seconds": 0.22,
+    "description": "Exactly shared dry cloth/mineral contact stem, mixed at unity into each enemy recipe before cue export scaling; no standalone runtime file.",
+    "recipe": {
+      "layers": [
+        {
+          "kind": "modal",
+          "frequencies_hz": [
+            229,
+            383,
+            673
+          ],
+          "amplitudes": [
+            0.23,
+            0.12,
+            0.04
+          ],
+          "decays_s": [
+            0.045,
+            0.031,
+            0.019
+          ]
+        },
+        {
+          "kind": "noise",
+          "low_hz": 330,
+          "high_hz": 2800,
+          "amplitude": 0.22,
+          "decay_s": 0.04,
+          "attack_s": 0.002
+        },
+        {
+          "kind": "noise",
+          "low_hz": 700,
+          "high_hz": 3400,
+          "amplitude": 0.06,
+          "decay_s": 0.058,
+          "attack_s": 0.006
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "cue_id": "ui_confirm",
+      "manifest_id": "sfx_ui_confirm",
+      "filename": "ui_confirm.wav",
+      "source_path": "source-assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "runtime_path": "assets/audio/sfx/sfx_ui_confirm/ui_confirm.wav",
+      "duration_seconds": 0.14,
+      "seed": 18001,
+      "intended_gain_db": -8,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -9,
+      "description": "Small felted wooden latch with a dry mineral tick; quiet affirmative tactile punctuation.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              676,
+              1211,
+              2083
+            ],
+            "amplitudes": [
+              0.25,
+              0.12,
+              0.045
+            ],
+            "decays_s": [
+              0.041,
+              0.026,
+              0.015
+            ]
+          },
+          {
+            "kind": "noise",
+            "low_hz": 520,
+            "high_hz": 3000,
+            "amplitude": 0.12,
+            "decay_s": 0.021
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "ui_back",
+      "manifest_id": "sfx_ui_back",
+      "filename": "ui_back.wav",
+      "source_path": "source-assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "runtime_path": "assets/audio/sfx/sfx_ui_back/ui_back.wav",
+      "duration_seconds": 0.16,
+      "seed": 18002,
+      "intended_gain_db": -8,
+      "target_rms_dbfs": -26.5,
+      "peak_ceiling_dbfs": -9.5,
+      "description": "Soft parchment release with a lower hollow wooden closure; quieter falling contour.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              418,
+              743,
+              1297
+            ],
+            "amplitudes": [
+              0.22,
+              0.11,
+              0.03
+            ],
+            "decays_s": [
+              0.042,
+              0.031,
+              0.019
+            ],
+            "glide_ratio": 0.92
+          },
+          {
+            "kind": "noise",
+            "low_hz": 350,
+            "high_hz": 2450,
+            "amplitude": 0.16,
+            "decay_s": 0.037,
+            "attack_s": 0.004
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "edit_place",
+      "manifest_id": "sfx_place",
+      "filename": "edit_place.wav",
+      "source_path": "source-assets/audio/sfx/sfx_place/edit_place.wav",
+      "runtime_path": "assets/audio/sfx/sfx_place/edit_place.wav",
+      "duration_seconds": 0.2,
+      "seed": 18003,
+      "intended_gain_db": -6,
+      "target_rms_dbfs": -24,
+      "peak_ceiling_dbfs": -7,
+      "description": "Stone rune seated into its socket: rounded ceramic body, short grain and restrained high grit.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              237,
+              403,
+              719,
+              1321
+            ],
+            "amplitudes": [
+              0.34,
+              0.22,
+              0.1,
+              0.025
+            ],
+            "decays_s": [
+              0.046,
+              0.034,
+              0.023,
+              0.015
+            ]
+          },
+          {
+            "kind": "noise",
+            "low_hz": 430,
+            "high_hz": 3700,
+            "amplitude": 0.19,
+            "decay_s": 0.019
+          },
+          {
+            "kind": "grains",
+            "count": 3,
+            "span_s": 0.029,
+            "grain_s": 0.012,
+            "low_hz": 750,
+            "high_hz": 4100,
+            "amplitude": 0.11,
+            "start_s": 0.012
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "edit_orient",
+      "manifest_id": "sfx_rotate",
+      "filename": "edit_orient.wav",
+      "source_path": "source-assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "runtime_path": "assets/audio/sfx/sfx_rotate/edit_orient.wav",
+      "duration_seconds": 0.17,
+      "seed": 18004,
+      "intended_gain_db": -6,
+      "target_rms_dbfs": -24.5,
+      "peak_ceiling_dbfs": -7.5,
+      "description": "Brief stone-on-stone quarter-turn scrape terminating in a small two-part detent.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 680,
+            "high_hz": 3300,
+            "amplitude": 0.21,
+            "decay_s": 0.047,
+            "attack_s": 0.004,
+            "pulse_hz": 24
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              349,
+              627,
+              1423
+            ],
+            "amplitudes": [
+              0.16,
+              0.07,
+              0.025
+            ],
+            "decays_s": [
+              0.039,
+              0.028,
+              0.018
+            ]
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              383,
+              691,
+              1637
+            ],
+            "amplitudes": [
+              0.12,
+              0.05,
+              0.017
+            ],
+            "decays_s": [
+              0.035,
+              0.023,
+              0.014
+            ],
+            "start_s": 0.043
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "edit_restore",
+      "manifest_id": "sfx_undo",
+      "filename": "edit_restore.wav",
+      "source_path": "source-assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "runtime_path": "assets/audio/sfx/sfx_undo/edit_restore.wav",
+      "duration_seconds": 0.22,
+      "seed": 18005,
+      "intended_gain_db": -6,
+      "target_rms_dbfs": -24.5,
+      "peak_ceiling_dbfs": -7.8,
+      "description": "Lifted stone and reverse-grain parchment breath followed by a muted refund tick; accepted Remove.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 320,
+            "high_hz": 2800,
+            "amplitude": 0.2,
+            "decay_s": 0.058,
+            "attack_s": 0.012
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              288,
+              511,
+              1049
+            ],
+            "amplitudes": [
+              0.23,
+              0.12,
+              0.035
+            ],
+            "decays_s": [
+              0.048,
+              0.032,
+              0.024
+            ],
+            "glide_ratio": 1.08
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              643,
+              1117
+            ],
+            "amplitudes": [
+              0.065,
+              0.028
+            ],
+            "decays_s": [
+              0.044,
+              0.025
+            ],
+            "start_s": 0.061
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "action_rejected",
+      "manifest_id": "sfx_invalid",
+      "filename": "action_rejected.wav",
+      "source_path": "source-assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "runtime_path": "assets/audio/sfx/sfx_invalid/action_rejected.wav",
+      "duration_seconds": 0.18,
+      "seed": 18006,
+      "intended_gain_db": -10,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -9,
+      "description": "Low, damp wooden stop with a soft secondary knock; restrained rejection without an alarm pitch.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              189,
+              293,
+              461,
+              827
+            ],
+            "amplitudes": [
+              0.27,
+              0.13,
+              0.08,
+              0.018
+            ],
+            "decays_s": [
+              0.042,
+              0.031,
+              0.022,
+              0.013
+            ]
+          },
+          {
+            "kind": "noise",
+            "low_hz": 240,
+            "high_hz": 1500,
+            "amplitude": 0.12,
+            "decay_s": 0.021
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              184,
+              287,
+              449
+            ],
+            "amplitudes": [
+              0.1,
+              0.05,
+              0.025
+            ],
+            "decays_s": [
+              0.032,
+              0.024,
+              0.018
+            ],
+            "start_s": 0.064
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "technique_draw",
+      "manifest_id": "sfx_technique",
+      "filename": "technique_draw.wav",
+      "source_path": "source-assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "runtime_path": "assets/audio/sfx/sfx_technique/technique_draw.wav",
+      "duration_seconds": 0.3,
+      "seed": 18007,
+      "intended_gain_db": -5,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -7.5,
+      "description": "Parchment card edge brushing past cloth, a small warm frame tap, and a low airy afterglow.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 600,
+            "high_hz": 3600,
+            "amplitude": 0.26,
+            "decay_s": 0.069,
+            "attack_s": 0.007
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              547,
+              971,
+              1631
+            ],
+            "amplitudes": [
+              0.16,
+              0.075,
+              0.027
+            ],
+            "decays_s": [
+              0.077,
+              0.048,
+              0.032
+            ]
+          },
+          {
+            "kind": "grains",
+            "count": 5,
+            "span_s": 0.048,
+            "grain_s": 0.014,
+            "low_hz": 1100,
+            "high_hz": 4300,
+            "amplitude": 0.11,
+            "start_s": 0.015
+          },
+          {
+            "kind": "noise",
+            "low_hz": 240,
+            "high_hz": 1300,
+            "amplitude": 0.055,
+            "decay_s": 0.105,
+            "start_s": 0.028,
+            "attack_s": 0.012
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "technique_conjure",
+      "manifest_id": "sfx_technique",
+      "filename": "technique_conjure.wav",
+      "source_path": "source-assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "runtime_path": "assets/audio/sfx/sfx_technique/technique_conjure.wav",
+      "duration_seconds": 0.42,
+      "seed": 18008,
+      "intended_gain_db": -5,
+      "target_rms_dbfs": -24.5,
+      "peak_ceiling_dbfs": -7,
+      "description": "A parchment body forms within a softly blooming rune resonance; warm breath and multiple drifting mineral modes.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 320,
+            "high_hz": 3100,
+            "amplitude": 0.24,
+            "decay_s": 0.104,
+            "attack_s": 0.015
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              369,
+              611,
+              1013,
+              1649
+            ],
+            "amplitudes": [
+              0.22,
+              0.17,
+              0.07,
+              0.025
+            ],
+            "decays_s": [
+              0.125,
+              0.108,
+              0.078,
+              0.052
+            ],
+            "glide_ratio": 1.09,
+            "glide_s": 0.18,
+            "wobble_cents": 8
+          },
+          {
+            "kind": "grains",
+            "count": 5,
+            "span_s": 0.085,
+            "grain_s": 0.018,
+            "low_hz": 1000,
+            "high_hz": 4300,
+            "amplitude": 0.065,
+            "start_s": 0.035
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.04
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.0172
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "cast",
+      "manifest_id": "sfx_cast",
+      "filename": "cast.wav",
+      "source_path": "source-assets/audio/sfx/sfx_cast/cast.wav",
+      "runtime_path": "assets/audio/sfx/sfx_cast/cast.wav",
+      "duration_seconds": 0.52,
+      "seed": 18009,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -5.3,
+      "description": "Stone-rune release blooms into a compact airy magical surge, with inharmonic bronze warmth and a granular sparkle.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 40,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              227,
+              367,
+              593,
+              977,
+              1571
+            ],
+            "amplitudes": [
+              0.29,
+              0.22,
+              0.14,
+              0.065,
+              0.02
+            ],
+            "decays_s": [
+              0.12,
+              0.13,
+              0.1,
+              0.066,
+              0.045
+            ],
+            "glide_ratio": 1.14,
+            "glide_s": 0.13,
+            "wobble_cents": 10
+          },
+          {
+            "kind": "noise",
+            "low_hz": 340,
+            "high_hz": 3900,
+            "amplitude": 0.31,
+            "decay_s": 0.115,
+            "attack_s": 0.016
+          },
+          {
+            "kind": "noise",
+            "low_hz": 1200,
+            "high_hz": 4700,
+            "amplitude": 0.055,
+            "decay_s": 0.084,
+            "start_s": 0.032,
+            "attack_s": 0.01
+          },
+          {
+            "kind": "grains",
+            "count": 7,
+            "span_s": 0.096,
+            "grain_s": 0.017,
+            "low_hz": 1000,
+            "high_hz": 4100,
+            "amplitude": 0.09,
+            "start_s": 0.01
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.05
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.021500000000000002
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "damage",
+      "manifest_id": "sfx_impact",
+      "filename": "damage.wav",
+      "source_path": "source-assets/audio/sfx/sfx_impact/damage.wav",
+      "runtime_path": "assets/audio/sfx/sfx_impact/damage.wav",
+      "duration_seconds": 0.27,
+      "seed": 18010,
+      "intended_gain_db": -2,
+      "target_rms_dbfs": -24.2,
+      "peak_ceiling_dbfs": -5,
+      "description": "Rounded mineral and cloth impact with a small crumbling edge; physical contact without sub-bass boom.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              181,
+              307,
+              529,
+              911
+            ],
+            "amplitudes": [
+              0.38,
+              0.22,
+              0.1,
+              0.035
+            ],
+            "decays_s": [
+              0.047,
+              0.044,
+              0.03,
+              0.019
+            ],
+            "glide_ratio": 0.93
+          },
+          {
+            "kind": "noise",
+            "low_hz": 300,
+            "high_hz": 3200,
+            "amplitude": 0.32,
+            "decay_s": 0.029
+          },
+          {
+            "kind": "grains",
+            "count": 4,
+            "span_s": 0.041,
+            "grain_s": 0.014,
+            "low_hz": 650,
+            "high_hz": 3900,
+            "amplitude": 0.14,
+            "start_s": 0.022
+          },
+          {
+            "kind": "noise",
+            "low_hz": 180,
+            "high_hz": 1400,
+            "amplitude": 0.05,
+            "decay_s": 0.072,
+            "start_s": 0.017
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.025
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.010750000000000001
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "shield",
+      "manifest_id": "sfx_shield",
+      "filename": "shield.wav",
+      "source_path": "source-assets/audio/sfx/sfx_shield/shield.wav",
+      "runtime_path": "assets/audio/sfx/sfx_shield/shield.wav",
+      "duration_seconds": 0.39,
+      "seed": 18011,
+      "intended_gain_db": -4,
+      "target_rms_dbfs": -24,
+      "peak_ceiling_dbfs": -6.4,
+      "description": "Soft hollow bronze membrane and quartz shimmer encasing a breath pulse; rounded rather than piercing.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              431,
+              719,
+              1217,
+              1963
+            ],
+            "amplitudes": [
+              0.27,
+              0.18,
+              0.07,
+              0.022
+            ],
+            "decays_s": [
+              0.109,
+              0.091,
+              0.06,
+              0.038
+            ],
+            "glide_ratio": 1.035,
+            "wobble_cents": 6
+          },
+          {
+            "kind": "noise",
+            "low_hz": 450,
+            "high_hz": 2500,
+            "amplitude": 0.16,
+            "decay_s": 0.09,
+            "attack_s": 0.012
+          },
+          {
+            "kind": "noise",
+            "low_hz": 1500,
+            "high_hz": 3800,
+            "amplitude": 0.045,
+            "decay_s": 0.064,
+            "start_s": 0.012,
+            "attack_s": 0.01
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.04
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.0172
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "spectral",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "spectral.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/spectral.wav",
+      "duration_seconds": 0.48,
+      "seed": 18012,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -5.5,
+      "description": "Shared contact body plus lantern-like spectral breath, hollow glass-resin flutter and a smoky release.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 270,
+            "high_hz": 2900,
+            "amplitude": 0.19,
+            "decay_s": 0.122,
+            "attack_s": 0.004,
+            "pulse_hz": 12
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              313,
+              487,
+              853,
+              1429
+            ],
+            "amplitudes": [
+              0.16,
+              0.14,
+              0.07,
+              0.02
+            ],
+            "decays_s": [
+              0.13,
+              0.11,
+              0.075,
+              0.048
+            ],
+            "glide_ratio": 0.91,
+            "glide_s": 0.15,
+            "wobble_cents": 11
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.045
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.01935
+          }
+        ],
+        "shared_enemy_base": true,
+        "shared_enemy_base_gain": 1
+      }
+    },
+    {
+      "cue_id": "flame",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "flame.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/flame.wav",
+      "duration_seconds": 0.46,
+      "seed": 18013,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -5.5,
+      "description": "Shared contact body with a warm paper-flame rush and sparse short ember crackles, no explosive bass.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 440,
+            "high_hz": 3400,
+            "amplitude": 0.22,
+            "decay_s": 0.116,
+            "attack_s": 0.004
+          },
+          {
+            "kind": "grains",
+            "count": 12,
+            "span_s": 0.16,
+            "grain_s": 0.016,
+            "low_hz": 1350,
+            "high_hz": 4600,
+            "amplitude": 0.15,
+            "start_s": 0.012
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              289,
+              491,
+              863
+            ],
+            "amplitudes": [
+              0.1,
+              0.075,
+              0.03
+            ],
+            "decays_s": [
+              0.115,
+              0.074,
+              0.043
+            ],
+            "glide_ratio": 0.94
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.03
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.0129
+          }
+        ],
+        "shared_enemy_base": true,
+        "shared_enemy_base_gain": 1
+      }
+    },
+    {
+      "cue_id": "stone",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "stone.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/stone.wav",
+      "duration_seconds": 0.44,
+      "seed": 18014,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -5.5,
+      "description": "Shared contact body reinforced by a heavy rounded stone resonance and short granular rubble.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              193,
+              317,
+              563,
+              953,
+              1511
+            ],
+            "amplitudes": [
+              0.29,
+              0.19,
+              0.1,
+              0.039,
+              0.01
+            ],
+            "decays_s": [
+              0.105,
+              0.08,
+              0.055,
+              0.035,
+              0.022
+            ]
+          },
+          {
+            "kind": "noise",
+            "low_hz": 280,
+            "high_hz": 2600,
+            "amplitude": 0.14,
+            "decay_s": 0.081
+          },
+          {
+            "kind": "grains",
+            "count": 8,
+            "span_s": 0.096,
+            "grain_s": 0.022,
+            "low_hz": 500,
+            "high_hz": 3200,
+            "amplitude": 0.17,
+            "start_s": 0.016
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.025
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.010750000000000001
+          }
+        ],
+        "shared_enemy_base": true,
+        "shared_enemy_base_gain": 1
+      }
+    },
+    {
+      "cue_id": "chain",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "chain.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/chain.wav",
+      "duration_seconds": 0.5,
+      "seed": 18015,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -5.5,
+      "description": "Shared contact body with three restrained interlinked iron clinks and a low chain drag.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 30,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              461,
+              827,
+              1423,
+              2257
+            ],
+            "amplitudes": [
+              0.16,
+              0.11,
+              0.04,
+              0.011
+            ],
+            "decays_s": [
+              0.09,
+              0.07,
+              0.045,
+              0.025
+            ]
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              503,
+              911,
+              1579
+            ],
+            "amplitudes": [
+              0.14,
+              0.09,
+              0.03
+            ],
+            "decays_s": [
+              0.1,
+              0.074,
+              0.044
+            ],
+            "start_s": 0.026
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              419,
+              769,
+              1307
+            ],
+            "amplitudes": [
+              0.115,
+              0.06,
+              0.022
+            ],
+            "decays_s": [
+              0.1,
+              0.07,
+              0.048
+            ],
+            "start_s": 0.059
+          },
+          {
+            "kind": "noise",
+            "low_hz": 610,
+            "high_hz": 2700,
+            "amplitude": 0.13,
+            "decay_s": 0.098,
+            "pulse_hz": 26
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.035
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.015050000000000001
+          }
+        ],
+        "shared_enemy_base": true,
+        "shared_enemy_base_gain": 1
+      }
+    },
+    {
+      "cue_id": "bell",
+      "manifest_id": "sfx_enemy_attack",
+      "filename": "bell.wav",
+      "source_path": "source-assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "runtime_path": "assets/audio/sfx/sfx_enemy_attack/bell.wav",
+      "duration_seconds": 0.56,
+      "seed": 18016,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -5.5,
+      "description": "Shared contact body inside a muted bronze bell with unequal partials and a compact breath tail.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 40,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              347,
+              709,
+              1081,
+              1699,
+              2381
+            ],
+            "amplitudes": [
+              0.22,
+              0.15,
+              0.07,
+              0.025,
+              0.008
+            ],
+            "decays_s": [
+              0.156,
+              0.119,
+              0.085,
+              0.05,
+              0.031
+            ],
+            "wobble_cents": 4
+          },
+          {
+            "kind": "noise",
+            "low_hz": 410,
+            "high_hz": 2000,
+            "amplitude": 0.075,
+            "decay_s": 0.103
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.035
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.015050000000000001
+          }
+        ],
+        "shared_enemy_base": true,
+        "shared_enemy_base_gain": 1
+      }
+    },
+    {
+      "cue_id": "temporary_expired",
+      "manifest_id": "sfx_expiry",
+      "filename": "temporary_expired.wav",
+      "source_path": "source-assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "runtime_path": "assets/audio/sfx/sfx_expiry/temporary_expired.wav",
+      "duration_seconds": 0.28,
+      "seed": 18017,
+      "intended_gain_db": -9,
+      "target_rms_dbfs": -26,
+      "peak_ceiling_dbfs": -8.5,
+      "description": "One quiet inward dust-and-paper collapse with a falling ceramic grain; shared coalesced cleanup accent.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 35,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "noise",
+            "low_hz": 500,
+            "high_hz": 2900,
+            "amplitude": 0.22,
+            "decay_s": 0.068,
+            "attack_s": 0.007
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              521,
+              907,
+              1447
+            ],
+            "amplitudes": [
+              0.13,
+              0.065,
+              0.025
+            ],
+            "decays_s": [
+              0.072,
+              0.046,
+              0.029
+            ],
+            "glide_ratio": 0.78,
+            "glide_s": 0.1
+          },
+          {
+            "kind": "grains",
+            "count": 4,
+            "span_s": 0.073,
+            "grain_s": 0.015,
+            "low_hz": 900,
+            "high_hz": 3400,
+            "amplitude": 0.07,
+            "start_s": 0.015
+          }
+        ],
+        "early_reflections": []
+      }
+    },
+    {
+      "cue_id": "reward",
+      "manifest_id": "sfx_reward",
+      "filename": "reward.wav",
+      "source_path": "source-assets/audio/sfx/sfx_reward/reward.wav",
+      "runtime_path": "assets/audio/sfx/sfx_reward/reward.wav",
+      "duration_seconds": 0.56,
+      "seed": 18018,
+      "intended_gain_db": -5,
+      "target_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -6.5,
+      "description": "Two gentle warm wooden-rune plucks with a soft paper lift, signaling a committed acquisition.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 40,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              391,
+              671,
+              1117
+            ],
+            "amplitudes": [
+              0.25,
+              0.12,
+              0.035
+            ],
+            "decays_s": [
+              0.112,
+              0.075,
+              0.047
+            ]
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              521,
+              887,
+              1481
+            ],
+            "amplitudes": [
+              0.21,
+              0.11,
+              0.027
+            ],
+            "decays_s": [
+              0.122,
+              0.085,
+              0.049
+            ],
+            "start_s": 0.113
+          },
+          {
+            "kind": "noise",
+            "low_hz": 420,
+            "high_hz": 2300,
+            "amplitude": 0.1,
+            "decay_s": 0.113,
+            "attack_s": 0.016
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.035
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.015050000000000001
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "victory",
+      "manifest_id": "sfx_victory",
+      "filename": "victory.wav",
+      "source_path": "source-assets/audio/sfx/sfx_victory/victory.wav",
+      "runtime_path": "assets/audio/sfx/sfx_victory/victory.wav",
+      "duration_seconds": 1.3,
+      "seed": 18019,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -6.5,
+      "description": "Restrained three-part warm rune flourish resolving upward over a soft enclosed-air cushion; short result sting.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 80,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              293,
+              499,
+              831
+            ],
+            "amplitudes": [
+              0.17,
+              0.09,
+              0.022
+            ],
+            "decays_s": [
+              0.21,
+              0.14,
+              0.1
+            ]
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              391,
+              667,
+              1111
+            ],
+            "amplitudes": [
+              0.19,
+              0.09,
+              0.022
+            ],
+            "decays_s": [
+              0.22,
+              0.17,
+              0.11
+            ],
+            "start_s": 0.15
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              521,
+              887,
+              1477
+            ],
+            "amplitudes": [
+              0.2,
+              0.1,
+              0.025
+            ],
+            "decays_s": [
+              0.31,
+              0.24,
+              0.14
+            ],
+            "start_s": 0.33
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              261,
+              443,
+              739
+            ],
+            "amplitudes": [
+              0.09,
+              0.045,
+              0.012
+            ],
+            "decays_s": [
+              0.34,
+              0.25,
+              0.16
+            ],
+            "start_s": 0.33
+          },
+          {
+            "kind": "noise",
+            "low_hz": 350,
+            "high_hz": 2200,
+            "amplitude": 0.073,
+            "decay_s": 0.32,
+            "attack_s": 0.026
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.05
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.021500000000000002
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "defeat",
+      "manifest_id": "sfx_defeat",
+      "filename": "defeat.wav",
+      "source_path": "source-assets/audio/sfx/sfx_defeat/defeat.wav",
+      "runtime_path": "assets/audio/sfx/sfx_defeat/defeat.wav",
+      "duration_seconds": 1.2,
+      "seed": 18020,
+      "intended_gain_db": -4,
+      "target_rms_dbfs": -23.5,
+      "peak_ceiling_dbfs": -7,
+      "description": "Descending muted clay and wooden resonances dissolve into a cloth-and-air sigh; subdued and non-punitive.",
+      "future_only": false,
+      "fade_in_ms": 2,
+      "fade_out_ms": 80,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              349,
+              593,
+              983
+            ],
+            "amplitudes": [
+              0.18,
+              0.08,
+              0.02
+            ],
+            "decays_s": [
+              0.21,
+              0.15,
+              0.09
+            ],
+            "glide_ratio": 0.98
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              261,
+              443,
+              739
+            ],
+            "amplitudes": [
+              0.2,
+              0.09,
+              0.022
+            ],
+            "decays_s": [
+              0.3,
+              0.22,
+              0.15
+            ],
+            "start_s": 0.2
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              195,
+              337,
+              563
+            ],
+            "amplitudes": [
+              0.12,
+              0.055,
+              0.016
+            ],
+            "decays_s": [
+              0.29,
+              0.22,
+              0.14
+            ],
+            "start_s": 0.34
+          },
+          {
+            "kind": "noise",
+            "low_hz": 250,
+            "high_hz": 1800,
+            "amplitude": 0.093,
+            "decay_s": 0.31,
+            "attack_s": 0.032
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.045
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.01935
+          }
+        ]
+      }
+    },
+    {
+      "cue_id": "guardian_phase_changed",
+      "manifest_id": "sfx_phase",
+      "filename": "guardian_phase_changed.wav",
+      "source_path": "source-assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "runtime_path": "assets/audio/sfx/sfx_phase/guardian_phase_changed.wav",
+      "duration_seconds": 0.72,
+      "seed": 18021,
+      "intended_gain_db": -3,
+      "target_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -5.8,
+      "description": "Single veiled bronze toll opens into a short spectral pressure release; future committed guardian transition.",
+      "future_only": true,
+      "fade_in_ms": 2,
+      "fade_out_ms": 50,
+      "recipe": {
+        "layers": [
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              277,
+              563,
+              859,
+              1351,
+              1927
+            ],
+            "amplitudes": [
+              0.27,
+              0.16,
+              0.075,
+              0.028,
+              0.009
+            ],
+            "decays_s": [
+              0.19,
+              0.153,
+              0.108,
+              0.069,
+              0.044
+            ],
+            "wobble_cents": 5
+          },
+          {
+            "kind": "noise",
+            "low_hz": 360,
+            "high_hz": 2600,
+            "amplitude": 0.16,
+            "decay_s": 0.162,
+            "attack_s": 0.018
+          },
+          {
+            "kind": "modal",
+            "frequencies_hz": [
+              415,
+              707,
+              1193
+            ],
+            "amplitudes": [
+              0.055,
+              0.03,
+              0.01
+            ],
+            "decays_s": [
+              0.14,
+              0.1,
+              0.063
+            ],
+            "start_s": 0.035
+          }
+        ],
+        "early_reflections": [
+          {
+            "delay_s": 0.027,
+            "amplitude": 0.05
+          },
+          {
+            "delay_s": 0.061,
+            "amplitude": -0.021500000000000002
+          }
+        ]
+      }
+    }
+  ]
+}

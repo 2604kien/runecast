@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RuneCast · The quiet crypt</title>
+  <style>
+    :root{color-scheme:dark;--bg:#101a1b;--panel:#172326;--line:#34484a;--ink:#edf0e6;--muted:#b2c0bb;--green:#bdd5bf;--gold:#dcc394}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 90% 0,#263735 0,transparent 44%),var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1020px;margin:auto;padding:56px 28px 72px}a{color:var(--green);text-underline-offset:4px}a:hover{color:white}.eyebrow,.label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}.eyebrow{color:var(--green)}h1{font:500 clamp(42px,7vw,70px)/1.1 Georgia,serif;letter-spacing:-.035em;margin:24px 0 20px}h2{font:500 30px/1.2 Georgia,serif;margin:0 0 14px}h3{font-size:18px;font-weight:550;margin:0 0 8px}p{margin:0 0 14px}.intro{max-width:700px;font-size:18px;color:var(--muted)}.pills{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0 33px}.pill{font-size:12px;border:1px solid var(--line);border-radius:30px;padding:5px 12px;color:var(--muted)}.pill.accent{border-color:#75896e;color:var(--green)}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:28px;margin:22px 0}.section-top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start}.label{color:var(--green);margin-bottom:10px}.number{font:italic 46px/1 Georgia,serif;color:#627e76}.description{max-width:680px;color:var(--muted);font-size:15px}.sources{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 18px}button,select{font:inherit}button{border:1px solid #526b63;border-radius:5px;background:#20332f;color:var(--ink);padding:9px 13px;font-size:13px;cursor:pointer}button:hover:not(:disabled){background:#2c453c}button[aria-pressed="true"],button.primary{background:var(--green);color:#14251e;border-color:var(--green)}button:disabled{opacity:.48;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,audio:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}audio{width:100%;display:block;height:48px;margin:14px 0}.file-info{font-size:13px;color:var(--muted);min-height:22px}.file-info strong{color:var(--ink);font-weight:550}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:17px}.volume{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin-left:auto}.volume input{width:100px;accent-color:var(--green)}.volume output{min-width:34px;font-variant-numeric:tabular-nums}.repeat{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}.repeat input{accent-color:var(--green)}.status{font-size:13px;min-height:22px;color:var(--green);margin:17px 0 0}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--line);padding-top:20px;margin-top:22px}.fact-label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:5px}.fact-value{font-size:15px;color:var(--ink)}
+    .seams{margin-top:25px;padding-top:22px;border-top:1px solid var(--line)}.seam-controls{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}select{max-width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:9px 12px;font-size:13px}.small{font-size:13px;color:var(--muted)}.note{border-left:2px solid var(--gold);padding-left:17px;color:var(--muted);font-size:14px;margin:25px 0 33px}.note strong{color:var(--gold);font-weight:600}.music-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.music{padding:23px;border:1px solid var(--line);border-radius:8px;background:#142023}.pending{display:inline-block;color:var(--gold);font-size:11px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;margin-bottom:13px}.music p{font-size:14px;color:var(--muted);margin-bottom:0}.music-section{margin-top:42px}.section-description{color:var(--muted);font-size:14px;max-width:770px}details{margin-top:30px;color:var(--muted);font-size:14px}summary{cursor:pointer;color:var(--ink);padding:6px 0}details p{margin:12px 0;max-width:850px}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:30px;color:var(--muted);font-size:12px}.links{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px}noscript{display:block;padding:14px;border:1px solid var(--gold);font-size:14px;color:var(--gold)}
+    @media(max-width:650px){main{padding:32px 17px 45px}.panel{padding:22px 17px}.music-grid{grid-template-columns:1fr}.facts{grid-template-columns:1fr;gap:12px}.volume{margin-left:0}.intro{font-size:16px}.number{font-size:38px}.sources button{flex:1 1 140px}h2{font-size:27px}.seam-controls{flex-direction:column}}
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">RuneCast / music & ambience / RC-019</div>
+  <h1>The quiet crypt.</h1>
+  <p class="intro">One atmospheric bed for the space around the runes. Compare the runtime loop with its working master, then listen across the seams. The two music tracks remain pending by your choice.</p>
+  <div class="pills"><span class="pill accent">Ambience audition</span><span class="pill">Music pending</span><span class="pill">RC-019 incomplete</span></div>
+
+  <section class="panel" aria-labelledby="crypt-title">
+    <div class="section-top"><div><div class="label">Ambience / one shared bed</div><h2 id="crypt-title">Crypt room tone</h2></div><div class="number" aria-hidden="true">01</div></div>
+    <p class="description" id="direction">A quiet atmospheric bed intended to leave space for RuneCast's material sounds and restrained magic. Its character and repeated-loop comfort still require listening review.</p>
+    <div class="sources" role="group" aria-label="Choose comparison source">
+      <button type="button" class="source" data-source="runtime" aria-pressed="true">Runtime · Ogg</button>
+      <button type="button" class="source" data-source="master" aria-pressed="false">Working master · WAV</button>
+      <button type="button" class="source" data-source="original" aria-pressed="false">Original generation · MP3</button>
+    </div>
+    <div class="file-info" id="file-info"><strong>Runtime Ogg Vorbis</strong> · stereo 48 kHz · 113.07 kbps average · 819,769 bytes</div>
+    <audio id="player" controls preload="metadata" loop aria-label="Selected crypt ambience source" src="../../../assets/audio/ambience/crypt.ogg"></audio>
+    <noscript>Native playback remains available for the runtime Ogg. Source selection, Stop, shared volume and seam controls require JavaScript. The source files are also linked below.</noscript>
+    <div class="controls">
+      <button type="button" id="stop">Stop</button>
+      <label class="repeat"><input id="repeat" type="checkbox" checked>Repeat selected clip</label>
+      <label class="volume" for="volume">Review volume <input id="volume" type="range" min="0" max="1" step="0.01" value="0.5"><output id="volume-value" for="volume">50%</output></label>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite">Runtime loop selected. Use the native play control to begin.</p>
+    <div class="facts">
+      <div><span class="fact-label">Loop duration</span><span class="fact-value" id="loop-duration">57.999833 seconds</span></div>
+      <div><span class="fact-label">Runtime format</span><span class="fact-value" id="runtime-format">Ogg Vorbis · stereo 48 kHz</span></div>
+      <div><span class="fact-label">Technical status</span><span class="fact-value" id="technical-status">437 technical checks passed</span></div>
+    </div>
+    <div class="seams" aria-labelledby="seam-title">
+      <h3 id="seam-title">Listen through the joins</h3>
+      <p class="small" id="seam-description">Six cycles of the decoded runtime Ogg provide five consecutive joins in one 347.999-second WAV, without relying on browser repeat scheduling.</p>
+      <div class="seam-controls"><select id="seam-choice" aria-label="Seam review position" disabled><option value="0">Full six-cycle / five-join review</option></select><button type="button" id="seam-play" class="primary" disabled>Play seam review</button><button type="button" id="excerpt-play">Play 10-second seam excerpt</button></div>
+      <p class="small">Listen for clicks, a dip in room tone, a sudden change in space or an obvious repeating event. Headphone and speaker seam acceptance is pending.</p>
+    </div>
+  </section>
+
+  <p class="note"><strong>MP3 source, edited loop.</strong> The original is a 30-second generated, lossy MP3. The 57.999833-second export repeats the same edited 28.999917-second source cycle twice; it adds no new generated variation. The stereo 48 kHz/24-bit working master does not recover missing source fidelity. Playback uses one active player and a shared 50% starting volume, with no added loudness matching or gameplay mixer gains. The original generation differs in length and level from the edited exports.</p>
+
+  <section class="music-section" aria-labelledby="music-title">
+    <h2 id="music-title">Music remains pending</h2>
+    <p class="section-description">Runway music generation required a paid plan. You chose to leave music pending. No substitute music, silent tracks or placeholder audio have been created.</p>
+    <div class="music-grid">
+      <article class="music"><div class="pending">Pending / no audio file</div><h3>Home & exploration</h3><p>The first of the two planned music loops. Generation and listening review remain open.</p></article>
+      <article class="music"><div class="pending">Pending / no audio file</div><h3>Combat</h3><p>The second planned music loop, shared across combat rather than expanded into extra actor tracks. Generation and listening review remain open.</p></article>
+    </div>
+  </section>
+
+  <details><summary>What this review establishes</summary><p id="evidence-note">The ambience passed 437 independent technical checks with no failures. Source hashes match the delivered files. These numerical results do not establish perceptual acceptance or an inaudible loop seam.</p><p>The six-cycle review plays five internal joins as one linear PCM16 stereo 48 kHz WAV decoded from the exported Ogg. The shorter excerpt presents one join in ten seconds. The runtime Ogg and working WAV use the browser's native repeat option. Browser repetition is an audition aid, not evidence of production-engine or physical-device behavior.</p><p>The loop spans stereo frame 0 through 2,783,992, with the end excluded. The renderer reports approximately −25.96 LUFS and −10.84 dBTP for the runtime file using implementation estimates. These measurements do not establish perceived balance or audible seam quality.</p><p>Headphone and speaker listening, final music/SFX balance, and in-game integration remain open. RC-020 owns production playback and settings. With both music loops pending, RC-019 is not complete.</p></details>
+  <footer>
+    <div class="links"><a href="../../../assets/audio/ambience/crypt.ogg">Runtime Ogg</a><a href="../../../source-assets/audio/ambience/crypt/crypt.wav">Working master WAV</a><a href="../../../source-assets/audio/ambience/crypt/originals/crypt.mp3">Original MP3</a><a href="crypt-five-joins.wav">Six-cycle WAV</a><a href="crypt-seam-ten-seconds.wav">Seam excerpt</a></div>
+    <div class="links"><a href="../../../docs/audio-loop-catalogue.json">Loop catalogue</a><a href="../../../source-assets/audio/ambience/crypt/delivery.md">Source delivery</a><a href="../../../source-assets/audio/loop-generation-report.json">Generation and edit report</a><a href="../../qa/rc-019/audio-loop-validation.json">Technical validation</a><a href="../../../docs/rc-019-verification.md">Verification notes</a><a href="README.md">Audition notes</a></div>
+    <p>RC-019 · one ambience bed · two music loops pending · no listening acceptance claimed</p>
+  </footer>
+</main>
+<script>
+  'use strict';
+  const REVIEW = {
+    loopSeconds: 57.999833333333335,
+    runtimeFormat: 'Ogg Vorbis · stereo 48 kHz',
+    technicalStatus: '437 technical checks passed',
+    evidenceNote: 'The ambience passed 437 independent technical checks with no failures. Source hashes match the delivered files. These numerical results do not establish perceptual acceptance or an inaudible loop seam.',
+    seamUrl: 'crypt-five-joins.wav',
+    seamSeconds: 347.999,
+    seamSource: 'Decoded runtime Ogg, rendered as one PCM16 stereo 48 kHz WAV.'
+  };
+  const SOURCES = {
+    runtime: {url: '../../../assets/audio/ambience/crypt.ogg', label: 'Runtime Ogg Vorbis', detail: 'Stereo 48 kHz · 113.07 kbps average · 819,769 bytes'},
+    master: {url: '../../../source-assets/audio/ambience/crypt/crypt.wav', label: 'Working master WAV', detail: 'Stereo 48 kHz / 24-bit PCM · 57.999833 seconds · derived from MP3'},
+    original: {url: '../../../source-assets/audio/ambience/crypt/originals/crypt.mp3', label: 'Original generation MP3', detail: 'Unedited 30-second provider source; level differs from edited exports'},
+    excerpt: {url: 'crypt-seam-ten-seconds.wav', label: '10-second seam excerpt', detail: 'One decoded-runtime boundary in a linear WAV'}
+  };
+  const $ = id => document.getElementById(id);
+  const player = $('player');
+  const status = $('status');
+  const repeat = $('repeat');
+  const sourceButtons = Array.from(document.querySelectorAll('.source'));
+  let selected = 'runtime';
+  let repeatPreference = true;
+  let request = 0;
+  let seekHandler = null;
+
+  function clearPendingSeek() {
+    if (seekHandler) player.removeEventListener('loadedmetadata', seekHandler);
+    seekHandler = null;
+  }
+  function selectSource(key, seekSeconds = 0, autoplay = false) {
+    const source = key === 'seams' ? {url: REVIEW.seamUrl, label: 'Six-cycle / five-join seam review', detail: REVIEW.seamSource} : SOURCES[key];
+    if (!source || !source.url) return;
+    const token = ++request;
+    clearPendingSeek();
+    player.pause();
+    selected = key;
+    sourceButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.source === key)));
+    const linearReview = key === 'seams' || key === 'excerpt';
+    repeat.disabled = linearReview;
+    repeat.checked = !linearReview && repeatPreference;
+    player.loop = repeat.checked;
+    player.src = source.url;
+    $('file-info').replaceChildren();
+    const name = document.createElement('strong');
+    name.textContent = source.label;
+    $('file-info').append(name, document.createTextNode(' · ' + source.detail));
+    player.setAttribute('aria-label', source.label);
+    status.textContent = source.label + ' selected.';
+    if (seekSeconds > 0) {
+      seekHandler = () => {
+        if (token !== request) return;
+        player.currentTime = Math.min(seekSeconds, Math.max(0, player.duration - 0.01));
+        seekHandler = null;
+      };
+      player.addEventListener('loadedmetadata', seekHandler, {once: true});
+    }
+    player.load();
+    if (autoplay) {
+      player.play().catch(() => {
+        if (token === request) status.textContent = 'Playback did not start. Use the native play control or check that the local audio file is available.';
+      });
+    }
+  }
+  function stop() {
+    request += 1;
+    clearPendingSeek();
+    player.pause();
+    try { player.currentTime = 0; } catch (_) { /* Metadata may not be loaded. */ }
+    status.textContent = 'Stopped. The selected source is ready to play again.';
+  }
+  sourceButtons.forEach(button => button.addEventListener('click', () => selectSource(button.dataset.source)));
+  $('stop').addEventListener('click', stop);
+  repeat.addEventListener('change', () => {
+    repeatPreference = repeat.checked;
+    player.loop = repeat.checked;
+  });
+  $('volume').addEventListener('input', () => { player.volume = Number($('volume').value); });
+  player.addEventListener('volumechange', () => {
+    $('volume').value = player.volume;
+    $('volume-value').textContent = Math.round(player.volume * 100) + '%';
+  });
+  player.addEventListener('play', () => {
+    if (!player.paused) status.textContent = 'Playing: ' + (selected === 'seams' ? 'six-cycle / five-join seam review' : SOURCES[selected].label) + (player.loop ? ' · repeat on' : '');
+  });
+  player.addEventListener('ended', () => { status.textContent = 'Playback complete. Listening acceptance is still pending.'; });
+  player.addEventListener('error', () => { status.textContent = 'The selected audio file is unavailable or unsupported by this browser.'; });
+  $('seam-play').addEventListener('click', () => selectSource('seams', Number($('seam-choice').value), true));
+  $('excerpt-play').addEventListener('click', () => selectSource('excerpt', 0, true));
+  window.addEventListener('pagehide', stop);
+  player.volume = 0.5;
+  $('runtime-format').textContent = REVIEW.runtimeFormat;
+  $('technical-status').textContent = REVIEW.technicalStatus;
+  $('evidence-note').textContent = REVIEW.evidenceNote;
+  if (Number.isFinite(REVIEW.loopSeconds)) $('loop-duration').textContent = REVIEW.loopSeconds.toFixed(6) + ' seconds';
+  if (REVIEW.seamUrl && Number.isFinite(REVIEW.loopSeconds)) {
+    $('seam-choice').disabled = false;
+    $('seam-play').disabled = false;
+    $('seam-description').textContent = 'Six consecutive cycles, five joins · ' + REVIEW.seamSeconds.toFixed(3) + ' seconds. ' + REVIEW.seamSource;
+    for (let join = 1; join <= 5; join++) {
+      const boundary = join * REVIEW.loopSeconds;
+      const option = document.createElement('option');
+      option.value = Math.max(0, boundary - 2);
+      option.textContent = 'Join ' + join + ' at ' + boundary.toFixed(3) + ' s · start 2 s before';
+      $('seam-choice').append(option);
+    }
+  }
+</script>
+</body>
+</html>

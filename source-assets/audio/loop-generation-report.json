@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "task": "RC-019",
+  "revision": "r001-runway-crypt",
+  "status": "ambience_exported_music_pending",
+  "settings_path": "source-assets/audio/loop-settings.json",
+  "renderer_path": "source-assets/audio/render_loop_audio.py",
+  "settings_sha256": "89ef5b1a89dc1f92da80ee620b43a0251a9dd2198c4fd7082fbc527e252a52e4",
+  "renderer_sha256": "2eda576190f4e0c8e7b83c0152fb5f32306ef3bc091edc8f3952b391fc51c4a1",
+  "decoder_sha256": "2f92bf9e0c35d551f47274935f25ea939a0f9ad2f9e4e63230403f93720bf264",
+  "python_version": "3.12.14",
+  "numpy_version": "2.3.5",
+  "encoder": "libsndfile-1.2.2",
+  "encoder_library": "C:/Program Files/Blender Foundation/Blender 5.2/blender.shared/sndfile.dll",
+  "encoder_library_sha256": "da751e5fbd35a62c1b76284a10fddebf74139d78ab406a9fbc97ba2a47592eb9",
+  "source_fidelity": "Original provider output is lossy MP3; 24-bit PCM is a consolidated editing master, not a lossless original recording or recovered fidelity.",
+  "loudness_method": "ITU-R BS.1770-5 stereo K-weighting coefficients at48kHz, FFT-realized causal IIR padded2s,400ms blocks/100ms hop, -70LUFS absolute and -10LU relative gate; implementation estimate, not certified meter",
+  "true_peak_method": "8x fractional reconstruction,96-tap Kaiser beta10, circular padding includes seam; estimate, not certified meter",
+  "measurement_reference": "https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1770-5-202311-I!!PDF-E.pdf",
+  "pending_music": [
+    "home_exploration",
+    "combat"
+  ],
+  "tracks": [
+    {
+      "cue_id": "crypt",
+      "manifest_id": "crypt_ambience",
+      "original_path": "source-assets/audio/ambience/crypt/originals/crypt.mp3",
+      "original_sha256": "8c7abdb028c34a8db2c6e71b20653aa97a1e869692f515a4e616b63b0815538b",
+      "source_path": "source-assets/audio/ambience/crypt/crypt.wav",
+      "source_sha256": "2866483bd286f184b000d29e25e90280dcc0447df514da54592ac02a26e8c310",
+      "runtime_path": "assets/audio/ambience/crypt.ogg",
+      "runtime_sha256": "d4b164ec3070d2e1e2b626d5c7badacedb6748335cb3c608a5c1e31c42bdfb13",
+      "runtime_decoded_float32_sha256": "ac16f4b77e6cd7ce3495c1131dfe595af4761c5fe90ed0a89fe15172cca7e6a6",
+      "decoder_engine": "4.7.2-stable (official)",
+      "decoder_rate": 44100,
+      "decoded_original_sha256": "771c379d2fe655b1e9b73d0c5877ad383e629ecde7fa061be08584c3285eed50",
+      "edit": {
+        "source_start_sample_at_48000": 0,
+        "source_end_sample_at_48000": 1439996,
+        "source_selected_seconds": 29.999916666666667,
+        "crossfade_samples": 48000,
+        "crossfade_seconds": 1.0,
+        "crossfade_curve": "equal-power cosine/sine",
+        "unique_cycle_samples": 1391996,
+        "unique_cycle_seconds": 28.999916666666667,
+        "source_cycle_repetitions": 2,
+        "additional_source_variation": false,
+        "boundary_rotation_samples": 38974,
+        "boundary_rotation_seconds": 0.8119583333333333,
+        "boundary_alignment": "Joint stereo near-zero, low-slope crossing with adjacent50ms RMS matched within0.5dB; circular shift only",
+        "crossfade_location_each_cycle_samples": [
+          1305022,
+          1353022
+        ],
+        "crossfade_sources_correlation": 0.09691935738010121,
+        "seam_method": "Overlap original tail/head inside cycle; boundary follows consecutive source samples. Source-derived cycle repeated twice, not new generated material.",
+        "transient_review": "Beat-free ambience requested; numerical seam checks do not establish absence of audible doubled water details. Human review pending."
+      },
+      "level_gain_db": 18.162719217195608,
+      "peak_guard_limited_level": false,
+      "loop_start_sample": 0,
+      "loop_end_sample_exclusive": 2783992,
+      "loop_sample_rate": 48000,
+      "intended_bus": "Ambience",
+      "intended_gain_db": 0.0,
+      "master": {
+        "integrated_lufs": -26.000000004211582,
+        "absolute_gate_lufs": -70,
+        "relative_gate_lufs": -36.000000004211586,
+        "blocks_total": 576,
+        "blocks_after_gates": 576,
+        "sample_count": 2783992,
+        "duration_seconds": 57.999833333333335,
+        "sample_rate": 48000,
+        "channels": 2,
+        "sample_peak_dbfs": -10.907068454382252,
+        "estimated_true_peak_dbtp": -10.906595881185874,
+        "dc_offset_per_channel": [
+          9.420301387781241e-12,
+          9.026361511564936e-11
+        ],
+        "clipped_samples": 0,
+        "stereo_correlation": 0.9848873134530469,
+        "seam": {
+          "boundary_sample_delta_max": 0.0006126165390014648,
+          "boundary_sample_delta_dbfs": -64.25622565172789,
+          "adjacent_delta_99_9_percentile": 0.001736283302307129,
+          "boundary_delta_to_99_9_percentile_ratio": 0.35283213182286305,
+          "one_second_rms_before_dbfs": -23.017657608561336,
+          "one_second_rms_after_dbfs": -23.29793397203604,
+          "one_second_level_change_db": -0.2802763634747057,
+          "fifty_ms_rms_before_dbfs": -26.420900440819246,
+          "fifty_ms_rms_after_dbfs": -26.78690192997322,
+          "fifty_ms_level_change_db": -0.3660014891539726
+        },
+        "bit_depth": 24,
+        "format": "PCM WAV"
+      },
+      "runtime": {
+        "integrated_lufs": -25.955762053691284,
+        "absolute_gate_lufs": -70,
+        "relative_gate_lufs": -35.95576205369129,
+        "blocks_total": 576,
+        "blocks_after_gates": 576,
+        "sample_count": 2783992,
+        "duration_seconds": 57.999833333333335,
+        "sample_rate": 48000,
+        "channels": 2,
+        "sample_peak_dbfs": -10.843246006979136,
+        "estimated_true_peak_dbtp": -10.842896657045472,
+        "dc_offset_per_channel": [
+          -2.099095340790895e-06,
+          1.99550617922201e-05
+        ],
+        "clipped_samples": 0,
+        "stereo_correlation": 0.9847129335264904,
+        "seam": {
+          "boundary_sample_delta_max": 0.00092429990763776,
+          "boundary_sample_delta_dbfs": -60.68374180722019,
+          "adjacent_delta_99_9_percentile": 0.0017372419759631372,
+          "boundary_delta_to_99_9_percentile_ratio": 0.5320501809342494,
+          "one_second_rms_before_dbfs": -22.964020462577267,
+          "one_second_rms_after_dbfs": -23.251032157253473,
+          "one_second_level_change_db": -0.2870116946762057,
+          "fifty_ms_rms_before_dbfs": -26.40755988359752,
+          "fifty_ms_rms_after_dbfs": -26.751235943665804,
+          "fifty_ms_level_change_db": -0.3436760600682856
+        },
+        "format": "Ogg Vorbis",
+        "encoder_quality": 0.5125,
+        "container_average_kbps": 113.07191112618139,
+        "bytes": 819769,
+        "encoding_attempts": [
+          {
+            "quality": 0.35,
+            "container_average_kbps": 84.53527740022241
+          },
+          {
+            "quality": 0.675,
+            "container_average_kbps": 136.10852904749726
+          },
+          {
+            "quality": 0.5125,
+            "container_average_kbps": 113.07191112618139
+          }
+        ]
+      },
+      "five_join_preview": "output/audio/rc-019/crypt-five-joins.wav",
+      "five_join_preview_seconds": 347.999,
+      "five_join_preview_source": "Decoded exported Vorbis; six cycles with five internal joins, quantized16bit stereo48kHz",
+      "seam_preview": "output/audio/rc-019/crypt-seam-ten-seconds.wav"
+    }
+  ],
+  "listening_review": "No headphone/speaker or agent perceptual review claimed. Six-cycle decoded-runtime audition provides five internal boundary joins for owner review."
+}

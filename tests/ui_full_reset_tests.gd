@@ -13,8 +13,7 @@ func run_followup(check: Callable, tree: SceneTree) -> void:
 	scene.sound_enabled = false
 	await tree.process_frame
 	await run(scene, check, tree)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 

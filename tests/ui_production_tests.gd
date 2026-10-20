@@ -5,6 +5,7 @@ const Controller = preload("res://scripts/ui/combat_controller.gd")
 const Circuit = preload("res://scripts/core/circuit.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
 const Delayed = preload("res://tests/delayed_presentation.gd")
+const PresentationSupport = preload("res://tests/presentation_test_support.gd")
 
 func run_followup(check: Callable, tree: SceneTree, capture_directory: String = "") -> void:
 	var scene: Control = load("res://scenes/main.tscn").instantiate()
@@ -27,7 +28,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 	check.call(scene.action_buttons.keys().size() == 2 and scene.action_buttons.has("erase") and scene.action_buttons.has("rotate") and scene.action_buttons.erase.text == "Remove" and not scene.inspect_button.is_visible_in_tree() and not scene.cancel_button.is_visible_in_tree() and scene.turn_pass_button.is_visible_in_tree(), "Production exposes only Remove/Rotate editing, four connector tools and a separate visible Pass turn action.")
 	check.call(scene.cells.all(func(cell): return cell.clean_board), "Every production cell uses the BEGIN/END-only undirected board renderer.")
 	scene._show_guide()
-	check.call(scene.dialog.dialog_text.contains("Every playable turn starts with only Begin and End") and scene.dialog.dialog_text.contains("Click Begin or End, then Rotate") and scene.dialog.dialog_text.contains("Join costs 0") and scene.dialog.dialog_text.contains("one total damage hit") and not scene.dialog.dialog_text.contains("remain installed"), "Actual production Guide explains reset, endpoint rotation, selected costs and aggregate damage.")
+	check.call(scene.dialog.dialog_text.contains("Every playable turn starts with only Begin and End") and scene.dialog.dialog_text.contains("Tap Begin or End, then Rotate") and scene.dialog.dialog_text.contains("Join costs 0") and scene.dialog.dialog_text.contains("one total damage hit") and not scene.dialog.dialog_text.contains("remain installed"), "Actual production Guide explains reset, endpoint rotation, selected costs and aggregate damage.")
 	await _capture(scene, tree, capture_directory, "production-guide.png", check, false)
 	scene.dialog.hide()
 	scene._open_menu()
@@ -37,6 +38,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 	await _endpoint_controls(scene, check)
 	scene._exact_replay()
 	_stock_exhaustion(scene, check)
+	board_reselection(scene, check)
 	scene._exact_replay()
 	check.call(scene.controller.snapshot() == initial, "Exact replay restores the same opening geometry, kit, cards and identities after edits.")
 	var built := _build(scene)
@@ -47,6 +49,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 		var spell: Dictionary = scene.game.forecast.duplicate(true)
 		var prior: Dictionary = scene.controller.snapshot()
 		scene.cast_button.pressed.emit()
+		PresentationSupport.finish(scene)
 		check.call(scene.game.enemy_hp == maxi(0, int(prior.enemy_hp) - int(spell.damage)) and scene.game.turn == 2 and _only_endpoints(scene.game.board) and scene.game.undo_count == 0 and _stock_labels(scene), "Cast applies its displayed spell once, then resets board/history and shows the new full kit.")
 		check.call(_moved(prior.board, scene.game.board) and scene.game.hand.size() == 3 and _stock_labels(scene) and scene.hand_count.text == "Hand 3" and scene.stat_values.turn.text == "Turn 2", "Next-turn endpoint movement, normal draw and kit refresh reach the real UI.")
 		_live_bindings(scene, check, "After Cast")
@@ -55,6 +58,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 		scene.menu.custom_action.emit("pass")
 		check.call(scene.inspector.visible and scene.inspector_confirm_pass.visible and scene.controller.snapshot() == prior, "Menu Pass opens the same consequence confirmation without advancing an unfinished turn.")
 		scene.inspector_confirm_pass.pressed.emit()
+		PresentationSupport.finish(scene)
 		check.call(scene.game.turn == 3 and scene.game.enemy_hp == prior.enemy_hp and _only_endpoints(scene.game.board) and _moved(prior.board, scene.game.board) and _stock_labels(scene), "Confirmed Menu Pass accepts an unfinished production board and enters another clean turn with moved endpoints.")
 		_live_bindings(scene, check, "After Pass")
 	scene.menu.confirmed.emit()
@@ -72,8 +76,7 @@ func run_followup(check: Callable, tree: SceneTree, capture_directory: String = 
 		scene._exact_replay()
 		scene._restart()
 		reentrant_controllers.append(scene.controller)
-	scene.player.stop()
-	scene.player.stream = null
+	scene.audio.dispose()
 	scene.queue_free()
 	await tree.process_frame
 	teardown.complete()
@@ -88,9 +91,9 @@ func _endpoint_controls(scene: Control, check: Callable) -> void:
 		var before: Dictionary = scene.controller.snapshot()
 		scene.stock_buttons.straight.pressed.emit()
 		scene.cells[cell].pressed.emit()
-		check.call(scene.selected_cell == cell and scene.selected_tool == "" and scene.selected_uid == -1 and scene.game.board == before.board and scene.cells[cell].chosen and scene.status.is_visible_in_tree() and scene.status.text.contains("Rotate") and scene.cells[cell].tooltip_text.is_empty(), "Holding a connector safely selects %s with visible rotation feedback instead of a hover tooltip." % kind)
+		check.call(scene.selected_cell == cell and scene.selected_tool == "" and scene.selected_uid == -1 and scene.game.board == before.board and scene.cells[cell].chosen and not scene.status.is_visible_in_tree() and scene.cells[cell].tooltip_text.is_empty(), "Holding a connector safely selects %s with its board highlight and no suggestion line or hover tooltip." % kind)
 		_press_edit(scene, "Rotate")
-		check.call(scene.game.board[cell].rotation == (int(before.board[cell].rotation) + 1) % 4 and scene.game.stock == before.stock and scene.status.text.contains("Rotate"), "Normal Rotate changes %s connectivity and direction feedback without spending stock." % kind)
+		check.call(scene.game.board[cell].rotation == (int(before.board[cell].rotation) + 1) % 4 and scene.game.stock == before.stock and not scene.status.is_visible_in_tree(), "Normal Rotate changes %s connectivity without spending stock or showing a suggestion line." % kind)
 		for _quarter in range(3): _press_edit(scene, "Rotate")
 		check.call(scene.game.board == before.board and scene.game.hand == before.hand and scene.game.stock == before.stock, "Four visible Rotate presses restore %s orientation together with unchanged hand and kit." % kind)
 		var uid := _effect_uid(scene.game, false)
@@ -110,10 +113,125 @@ func _stock_exhaustion(scene: Control, check: Callable) -> void:
 		scene.cells[empty_cells[index]].pressed.emit()
 	var before: Dictionary = scene.controller.snapshot()
 	scene.cells[empty_cells[total]].pressed.emit()
-	check.call(scene.game.board == before.board and scene.game.stock.straight == 0 and scene.game.undo_count == before.undo_count and scene.status.text.contains("You own") and _stock_labels(scene), "Production rejects exhausted Straight stock with visible feedback and no new Undo step.")
+	check.call(scene.game.board == before.board and scene.game.stock.straight == 0 and scene.game.undo_count == before.undo_count and not scene.status.is_visible_in_tree() and _stock_labels(scene), "Production rejects exhausted Straight stock with correct stock labels, no suggestion line and no new Undo step.")
 	_press_edit(scene, "Remove")
 	scene.cells[empty_cells[total - 1]].pressed.emit()
 	check.call(scene.game.stock.straight == 1 and scene.game.board[empty_cells[total - 1]].is_empty() and _stock_labels(scene), "Production Remove returns exactly one reserved Straight and refreshes its label.")
+
+func board_reselection(scene: Control, check: Callable) -> void:
+	for kind in ["straight", "corner", "split", "join"]:
+		scene._exact_replay()
+		var index: int = _empty_cells(scene.game.board)[0]
+		scene.stock_buttons[kind].pressed.emit()
+		scene.cells[index].pressed.emit()
+		_press_edit(scene, "Rotate")
+		check.call(scene.game.board[index].get("kind") == kind and int(scene.game.board[index].rotation) == 1,
+			"Reselection fixture places and rotates %s through actual production controls." % kind)
+		var before := _reselection_state(scene)
+		for tap in range(3): scene.cells[index].pressed.emit()
+		check.call(_reselection_state(scene) == before and scene.selected_cell == index and scene.cells[index].chosen,
+			"Tapping rotated %s again only selects it, preserving rotation, stock, history, action identity and every RNG stream." % kind)
+		before = _reselection_state(scene)
+		_press_edit(scene, "Rotate")
+		check.call(int(scene.game.board[index].rotation) == (int(before.snapshot.board[index].rotation) + 1) % 4
+			and scene.controller._combat._action_id == before.action_id + 1 and scene.game.undo_count == before.snapshot.undo_count + 1
+			and _reselection_state(scene).rng == before.rng and scene.game.stock == before.snapshot.stock,
+			"Explicit Rotate still advances reselected %s once without changing stock or RNG." % kind)
+		var replacement := "corner" if kind == "straight" else "straight"
+		var stock: Dictionary = scene.game.stock.duplicate(true)
+		scene.stock_buttons[replacement].pressed.emit()
+		scene.cells[index].pressed.emit()
+		check.call(scene.game.board[index].get("kind") == replacement and int(scene.game.stock[kind]) == int(stock[kind]) + 1
+			and int(scene.game.stock[replacement]) == int(stock[replacement]) - 1,
+			"Explicitly selecting %s still replaces %s and reconciles both connector stocks." % [replacement, kind])
+		_press_edit(scene, "Remove")
+		scene.cells[index].pressed.emit()
+		check.call(scene.game.board[index].is_empty() and int(scene.game.stock[replacement]) == int(stock[replacement]),
+			"Explicit Remove still clears the reselected %s replacement and refunds its connector." % kind)
+	_reselection_brush(scene, check)
+	scene._exact_replay()
+	var index: int = _empty_cells(scene.game.board)[0]
+	var uid := _effect_uid(scene.game, false)
+	check.call(uid >= 0, "Rune reselection fixture contains a real effect-card UID.")
+	if uid < 0: return
+	_press_hand_uid(scene, uid)
+	scene.cells[index].pressed.emit()
+	_press_edit(scene, "Rotate")
+	var before := _reselection_state(scene)
+	for tap in range(3): scene.cells[index].pressed.emit()
+	check.call(scene.game.board[index].get("uid", -1) == uid and int(scene.game.board[index].rotation) == 1
+		and _reselection_state(scene) == before and scene.selected_cell == index,
+		"Repeated board taps preserve the installed rune UID/rotation without card, action, history, stock or RNG mutation.")
+	_press_edit(scene, "Rotate")
+	check.call(scene.game.board[index].uid == uid and int(scene.game.board[index].rotation) == 2 and scene.controller._combat._action_id == before.action_id + 1,
+		"Explicit Rotate advances a reselected rune while keeping its physical UID.")
+	var other: int = _empty_cells(scene.game.board)[0]
+	scene.stock_buttons.corner.pressed.emit()
+	scene.cells[other].pressed.emit()
+	before = _reselection_state(scene)
+	scene.cells[index].pressed.emit()
+	check.call(_reselection_state(scene) == before and scene.selected_cell == index and scene.selected_tool == ""
+		and scene.game.board[index].uid == uid and int(scene.game.board[index].rotation) == 2,
+		"A retained connector brush selects an occupied rotated rune without replacing its UID or changing any model state.")
+	scene.stock_buttons.straight.pressed.emit()
+	scene.cells[index].pressed.emit()
+	check.call(scene.game.board[index].get("kind") == "straight" and scene.game.hand.filter(func(card): return int(card.uid) == uid).size() == 1,
+		"Explicit connector replacement returns the same rune UID to hand exactly once.")
+	_press_hand_uid(scene, uid)
+	scene.cells[index].pressed.emit()
+	_press_edit(scene, "Rotate")
+	_press_edit(scene, "Remove")
+	scene.cells[index].pressed.emit()
+	check.call(scene.game.board[index].is_empty() and scene.game.hand.filter(func(card): return int(card.uid) == uid).size() == 1,
+		"Explicit Remove returns a reinstalled rotated rune's original UID exactly once.")
+
+func _reselection_brush(scene: Control, check: Callable) -> void:
+	scene._exact_replay()
+	var corner_cell: int = _empty_cells(scene.game.board)[0]
+	scene.stock_buttons.corner.pressed.emit()
+	scene.cells[corner_cell].pressed.emit()
+	_press_edit(scene, "Rotate")
+	var empty: Array = _empty_cells(scene.game.board)
+	var supply: int = scene.game.stock.straight
+	scene.stock_buttons.straight.pressed.emit()
+	for index in range(supply): scene.cells[empty[index]].pressed.emit()
+	check.call(scene.game.stock.straight == 0 and scene.selected_tool == "straight"
+		and empty.slice(0, supply).all(func(index): return scene.game.board[index].get("kind") == "straight"),
+		"Connector brush still supports consecutive placements into empty cells until its real stock is exhausted.")
+	var before := _reselection_state(scene)
+	scene.cells[empty[supply]].pressed.emit()
+	check.call(_reselection_state(scene) == before and scene.selected_tool == "straight",
+		"A rejected exhausted-stock placement preserves the active brush and model state.")
+	scene.cells[corner_cell].pressed.emit()
+	check.call(_reselection_state(scene) == before and scene.selected_tool == "" and scene.selected_cell == corner_cell
+		and scene.game.board[corner_cell].get("kind") == "corner" and int(scene.game.board[corner_cell].rotation) == 1,
+		"After a rejected placement, the retained brush selects a different occupied connector without replacing its type or rotation.")
+	var target: int = empty[0]
+	scene.cells[target].pressed.emit()
+	_press_edit(scene, "Rotate")
+	scene.stock_buttons.straight.pressed.emit()
+	before = _reselection_state(scene)
+	scene.cells[target].pressed.emit()
+	check.call(scene.game.board[target].get("kind") == "straight" and int(scene.game.board[target].rotation) == 0
+		and scene.game.stock.straight == 0 and scene.controller._combat._action_id == before.action_id + 1,
+		"Explicitly rearming the same connector still performs a deliberate replacement even when stock is exhausted.")
+	_press_edit(scene, "Remove")
+	scene.cells[empty[0]].pressed.emit()
+	scene.cells[empty[1]].pressed.emit()
+	check.call(scene.game.board[empty[0]].is_empty() and scene.game.board[empty[1]].is_empty() and scene.game.stock.straight == 2 and scene.selected_tool == "erase",
+		"Remove remains continuous across occupied cells and refunds each actual connector.")
+
+func _press_hand_uid(scene: Control, uid: int) -> void:
+	for card in scene.hand_box.get_children():
+		if int(card.get_meta("uid", -1)) == uid:
+			card.pressed.emit()
+			return
+
+func _reselection_state(scene: Control) -> Dictionary:
+	var model: Combat = scene.controller._combat
+	return {"snapshot": scene.controller.snapshot(), "action_id": model._action_id,
+		"rng": [model.rng.state, model.endpoint_rng.state, model.kit_rng.state],
+		"history": model.history.duplicate(true), "next_uid": model.next_uid, "last_result": model.last_result()}
 
 func _busy_and_replay(scene: Control, initial: Dictionary, check: Callable) -> void:
 	scene._exact_replay()
@@ -169,6 +287,7 @@ func _adjacent(scene: Control, setup: Dictionary, check: Callable, tree: SceneTr
 	await _capture(scene, tree, capture_directory, "production-adjacent.png", check)
 	var before: Dictionary = scene.controller.snapshot()
 	scene.cast_button.pressed.emit()
+	PresentationSupport.finish(scene)
 	check.call(scene.game.turn == 2 and scene.game.enemy_hp == before.enemy_hp and scene.game.player_hp < before.player_hp and _only_endpoints(scene.game.board), "A direct adjacent Cast resolves its zero spell, retaliation and ordinary full turn reset.")
 
 func _terminal(scene: Control, setup: Dictionary, check: Callable, tree: SceneTree, capture_directory: String) -> void:
@@ -234,7 +353,7 @@ func _inject(scene: Control, source: Dictionary, seed_value: int = -1) -> Combat
 	scene.initial_setup = setup.duplicate(true)
 	scene.controller = Controller.new(model)
 	scene.controller.changed.connect(scene._refresh)
-	scene.controller.presentation_started.connect(scene._presentation_started)
+	scene.audio.bind_controller(scene.controller)
 	scene._clear_selection()
 	scene._refresh()
 	return model
@@ -245,6 +364,7 @@ func _build(scene: Control, damage_required: bool = false) -> bool:
 		for card in scene.game.hand.duplicate():
 			if scene.game.catalog[card.id].effect == "conjure" and scene.game.catalog[card.id].cost <= scene.game.energy:
 				scene._select_card(card.uid)
+				PresentationSupport.finish(scene)
 				uid = _effect_uid(scene.game, damage_required)
 				break
 	if uid < 0:
@@ -309,7 +429,7 @@ func _live_bindings(scene: Control, check: Callable, phase: String) -> void:
 	var spell: Dictionary = snapshot.forecast
 	var incoming: int = 0 if spell.valid and spell.damage >= snapshot.enemy_hp else maxi(0, int(snapshot.intent) - int(spell.shield)) if spell.valid else int(snapshot.intent)
 	check.call(scene.forecast_values == {"damage": spell.damage, "shield": spell.shield, "cost": spell.cost, "incoming": incoming} and scene.forecast_button.is_visible_in_tree(), "%s persistent damage/shield/cost/incoming reads the authoritative forecast." % phase)
-	check.call(scene.pile_values.draw_pile.text == str(snapshot.draw_pile.size()) and scene.pile_values.discard_pile.text == str(snapshot.discard_pile.size()) and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and scene.action_log.text == snapshot.log_text and scene.hand_box.get_child_count() == snapshot.hand.size(), "%s live hand, Draw/Discard counters and action log match the current snapshot." % phase)
+	check.call(scene.pile_values.draw_pile.text == str(snapshot.draw_pile.size()) and scene.pile_values.discard_pile.text == str(snapshot.discard_pile.size()) and scene.hand_count.text == "Hand %d" % snapshot.hand.size() and not scene.status.is_visible_in_tree() and scene.hand_box.get_child_count() == snapshot.hand.size(), "%s live hand and Draw/Discard counters match the current snapshot without a suggestion line." % phase)
 	var ids: Array = scene.hand_box.get_children().map(func(card): return int(card.get_meta("uid", -1)))
 	check.call(ids == snapshot.hand.map(func(card): return int(card.uid)) and scene.info_buttons.size() == snapshot.hand.size(), "%s detailed cards and individual Info controls keep the exact live hand identities." % phase)
 

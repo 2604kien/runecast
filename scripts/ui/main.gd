@@ -3,6 +3,7 @@ extends Control
 const Combat = preload("res://scripts/core/combat.gd")
 const Controller = preload("res://scripts/ui/combat_controller.gd")
 const Presentation = preload("res://scripts/ui/combat_presentation.gd")
+const AnimatedPresentation = preload("res://scripts/ui/animated_combat_presentation.gd")
 const Cell = preload("res://scripts/ui/board_cell.gd")
 const Arena = preload("res://scripts/ui/arena.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
@@ -10,9 +11,18 @@ const Experiments = preload("res://scripts/core/experiments.gd")
 const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 const InspectionData = preload("res://scripts/ui/inspection_data.gd")
 const TouchRouter = preload("res://scripts/ui/touch_router.gd")
-const BoardExamples = preload("res://scripts/dev/board_examples.gd")
 const Ui = preload("res://scenes/ui/theme/components.gd")
 const CombatSurface = preload("res://scenes/ui/theme/combat_surface.gd")
+const AudioCoordinator = preload("res://scripts/audio/audio_coordinator.gd")
+const AudioSettings = preload("res://scripts/audio/audio_settings.gd")
+const AudioOptions = preload("res://scripts/ui/audio_options.gd")
+
+signal home_requested
+# The application owns run state. The isolated scene still loads its fixture.
+var battle_model: Combat
+var run_managed := false
+var home_button: Button
+var _shell_modal := false
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -26,6 +36,8 @@ var _replacing_controller := false
 var _closing := false
 var startup_error := ""
 var controller: Controller
+var animation_presenter: AnimatedPresentation
+var reduced_motion := false
 # View-local snapshot and help text; neither is authoritative combat state.
 var game: Dictionary = {}
 var help_text := ""
@@ -33,6 +45,8 @@ var cells: Array = []
 var selected_tool := ""
 var selected_uid := -1
 var selected_cell := -1
+# A retained connector tool fills empty slots; replacement needs a fresh choice.
+var _repeat_connector_placement := false
 var arena: Control
 var stats: Label
 var encounter_title: Label
@@ -43,8 +57,21 @@ var cast_button: Button
 var stock_buttons := {}
 var edit_buttons: Array = []
 var sound_button: Button
-var sound_enabled := true
-var player: AudioStreamPlayer
+var sound_enabled := true:
+	set(value):
+		sound_enabled = value
+		if not audio_settings.is_empty(): audio_settings.enabled = value
+		if is_instance_valid(audio): audio.apply_settings(audio_settings)
+		if is_instance_valid(sound_button): _refresh_sound_button()
+var audio: Node
+var audio_settings: Dictionary = {}
+var settings_path := AudioSettings.DEFAULT_PATH
+var options: AudioOptions
+var options_button: Button
+var _ui_audio_dispatch := 0
+var _options_return_menu := false
+var _options_origin: WeakRef
+var _last_back_frame := -1
 var dialog: AcceptDialog
 var menu: ConfirmationDialog
 var pass_button: Button
@@ -96,7 +123,6 @@ var forecast_values := {}
 var draw_button: Button
 var discard_button: Button
 var hand_count: Label
-var action_log: Label
 var info_buttons := {}
 var inspector_origin: WeakRef
 var combat_column: VBoxContainer
@@ -126,23 +152,27 @@ func _ready() -> void:
 		experiment_seed = int(seed_text) if seed_text.is_valid_int() else -1
 		setup_path = _argument_value("--encounter=", ContentLoader.DEFAULT_ENCOUNTER)
 	var loaded: Dictionary
+	var board_examples: Script
 	if board_example_id != "":
 		if experiment_mode or (setup_path != "" and setup_path != ContentLoader.DEFAULT_ENCOUNTER) or board_example_step not in ["opening", "built", "cast"]:
 			loaded = {"ok": false, "errors": ["Board examples require their own development fixture and an opening, built or cast step."]}
 		else:
-			loaded = BoardExamples.load_example(board_example_id)
+			# Development examples are omitted from mobile exports. Ordinary
+			# production startup must not preload this optional tooling resource.
+			board_examples = load("res://scripts/dev/board_examples.gd")
+			loaded = board_examples.load_example(board_example_id)
 			if loaded.ok:
 				setup_path = loaded.example.encounter_path
 	else:
 		loaded = Experiments.load_setup(experiment_scenario, experiment_variant, experiment_seed) if experiment_mode else ContentLoader.load_setup(setup_path)
 	if loaded.ok:
 		initial_setup = loaded.setup.duplicate(true)
-		var model := Combat.new(loaded.setup)
+		var model := battle_model if battle_model != null else Combat.new(loaded.setup)
 		if experiment_mode:
 			experiment_setup = loaded.setup.duplicate(true)
 		controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(loaded.setup, model.snapshot()) if experiment_mode else null)
 		if board_example_id != "":
-			board_example_report = BoardExamples.apply(controller, loaded.example, board_example_step)
+			board_example_report = board_examples.apply(controller, loaded.example, board_example_step)
 			if not board_example_report.ok:
 				startup_error = "Cannot reproduce board example.\n" + "\n".join(board_example_report.errors)
 				printerr(startup_error)
@@ -160,13 +190,17 @@ func _ready() -> void:
 	_build_theme()
 	_build_ui()
 	if game.has("production"):
-		_track_page_focus(combat_column)
 		_apply_mobile_ui_policy(self)
 		get_tree().node_added.connect(_mobile_node_added)
 	_load_settings()
+	audio = AudioCoordinator.new()
+	add_child(audio)
+	audio.apply_settings(audio_settings)
 	if controller != null:
+		_install_animation_presenter()
 		controller.changed.connect(_refresh)
-		controller.presentation_started.connect(_presentation_started)
+		audio.bind_controller(controller)
+		audio.set_context("screen_combat", game.has("production"))
 		if experiment_mode:
 			controller.changed.connect(_save_experiment_record)
 			_save_experiment_record()
@@ -197,20 +231,63 @@ func _argument_value(prefix: String, fallback: String) -> String:
 	return fallback
 
 func _can_edit() -> bool:
-	return not _closing and not _replacing_controller and controller != null and controller.can_edit() and (inspector == null or not inspector.visible)
+	return not _closing and not _shell_modal and not _replacing_controller and controller != null and controller.can_edit() and (inspector == null or not inspector.visible) and (options == null or not options.visible)
 
 func _exit_tree() -> void:
+	prepare_for_exit()
+
+func prepare_for_exit() -> void:
+	if _closing: return
 	_closing = true
-	if gestures != null:
-		gestures.cancel_pending()
+	if get_tree() != null and get_tree().node_added.is_connected(_mobile_node_added):
+		get_tree().node_added.disconnect(_mobile_node_added)
+	if audio != null: audio.dispose()
+	_release_pointer_owners(self)
 	if controller != null:
 		if experiment_mode:
 			_save_experiment_record()
+		if controller.changed.is_connected(_refresh): controller.changed.disconnect(_refresh)
+		if controller.changed.is_connected(_save_experiment_record): controller.changed.disconnect(_save_experiment_record)
 		controller.dispose()
+	if animation_presenter != null: animation_presenter.dispose()
 
-func _presentation_started(result: Dictionary) -> void:
-	if result.command == "cast" and sound_enabled:
-		player.play()
+func _release_pointer_owners(node: Node) -> void:
+	if node is TouchRouter: node.cancel_pending(true)
+	for child in node.get_children(): _release_pointer_owners(child)
+
+func set_shell_modal(active: bool) -> void:
+	_shell_modal = active
+	# Back is broadcast through the scene tree. A shell dismissal and Combat
+	# must not interpret the same notification as two navigation actions.
+	if not active: _last_back_frame = Engine.get_process_frames()
+	_release_pointer_owners(self)
+	_sync_native_modal()
+	gestures.set_process_input(not active)
+
+func _request_home() -> void:
+	if not run_managed or _closing or _shell_modal or controller == null or controller.is_busy(): return
+	menu.hide()
+	home_requested.emit()
+
+func _install_animation_presenter() -> void:
+	if animation_presenter != null: animation_presenter.dispose()
+	animation_presenter = null
+	if game.has("production") and controller != null:
+		animation_presenter = AnimatedPresentation.new(self)
+		animation_presenter.reduced_motion = reduced_motion
+		controller.set_presenter(animation_presenter)
+		# Two retained 512-square poses avoid loading a painting at hit contact.
+		arena.actor.warm_poses()
+		if arena.actor.has_method("set_idle_enabled"):
+			arena.actor.set_idle_enabled(game.state == "playing", reduced_motion)
+
+func set_reduced_motion(enabled: bool) -> void:
+	reduced_motion = enabled
+	audio_settings["reduced_motion"] = enabled
+	if audio != null: audio.apply_settings(audio_settings)
+	if animation_presenter != null: animation_presenter.reduced_motion = enabled
+	if arena != null and controller != null and arena.actor.has_method("set_idle_enabled"):
+		arena.actor.set_idle_enabled(game.get("state", "playing") == "playing" and not controller.is_busy(), enabled)
 
 func _build_theme() -> void:
 	if game.has("production"):
@@ -261,6 +338,7 @@ func _icon_texture(icon_name: String) -> Texture2D:
 
 func _build_ui() -> void:
 	gestures = TouchRouter.new()
+	gestures.mobile_only = game.has("production")
 	add_child(gestures)
 	var background := ColorRect.new()
 	background.color = Color("#0c1525")
@@ -268,7 +346,7 @@ func _build_ui() -> void:
 	add_child(background)
 	var scroll := ScrollContainer.new()
 	page_scroll = scroll
-	scroll.follow_focus = game.has("production")
+	scroll.follow_focus = false
 	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
@@ -400,8 +478,7 @@ func _build_ui() -> void:
 		cell.catalog = game.get("catalog", {})
 		cell.pressed.connect(_cell_pressed.bind(index))
 		grid.add_child(cell)
-		gestures.register_target(cell, _cell_pressed.bind(index), _inspect_cell.bind(index))
-		cell.set_meta("inspect_shortcuts", game.has("production"))
+		gestures.register_target(cell, _cell_pressed.bind(index))
 		cells.append(cell)
 	wiring = GridContainer.new()
 	wiring.columns = 7 if game.has("production") else 4
@@ -420,7 +497,9 @@ func _build_ui() -> void:
 		turn_pass_button.add_theme_font_size_override("font_size", 15)
 		turn_pass_button.tooltip_text = "End this turn without a spell. Review the enemy attack before confirming."
 		_replace_surface(turn_pass_button, "parchment")
-		turn_pass_button.add_theme_color_override("font_color", Color("1e1721"))
+		# Match the Turn plaque's dark ink in every native Button state.
+		for colour in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color"]:
+			turn_pass_button.add_theme_color_override(colour, Color("171018"))
 		turn_pass_button.add_theme_constant_override("outline_size", 0)
 		Ui.style_combat_label(turn_pass_button, "label", 16)
 	for kind in ["straight", "corner", "split", "join"]:
@@ -461,9 +540,6 @@ func _build_ui() -> void:
 		button.toggle_mode = true
 		gestures.register_target(button, _select_tool.bind(kind), _inspect_tool.bind(kind))
 		edit_buttons.append(button)
-		if game.has("production"):
-			button.set_meta("inspect_action", _inspect_tool.bind(kind))
-			button.set_meta("inspect_shortcuts", true)
 	var editing := HBoxContainer.new()
 	editing_row = editing
 	column.add_child(editing)
@@ -499,19 +575,14 @@ func _build_ui() -> void:
 	inspection_actions.visible = not game.has("production")
 	var hand_hint := _label("RUNES / tap to use · hold to inspect · drag to scroll", 17)
 	if game.has("production"):
-		hand_hint.text = "Tap to use · Info or hold for details · I / right-click on pieces · tap selected item to clear"
+		hand_hint.text = "Tap to use · Info or hold for details · tap selected item to clear"
 	hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(hand_hint)
 	if game.has("production"): hand_hint.hide() # Guide and Info retain the full instructions.
 	if game.has("production"):
-		action_log = _label("", 17)
-		Ui.style_combat_label(action_log, "body", 16)
-		action_log.custom_minimum_size.y = 23
-		action_log.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		action_log.autowrap_mode = TextServer.AUTOWRAP_OFF
-		action_log.clip_text = true
-		action_log.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		column.add_child(action_log)
+		var hand_top_gap := Control.new()
+		hand_top_gap.custom_minimum_size.y = 10
+		column.add_child(hand_top_gap)
 		hand_row = HBoxContainer.new()
 		hand_row.add_theme_constant_override("separation", 32)
 		column.add_child(hand_row)
@@ -520,22 +591,26 @@ func _build_ui() -> void:
 		column.add_child(hand_count)
 		hand_count.hide() # Counts also live on both flanking piles; hand remains inspectable.
 	hand_scroll = ScrollContainer.new()
-	hand_scroll.custom_minimum_size.y = 104
+	# An empty hand reserves the same lane as its cards, so cleanup/draws do
+	# not move the forecast, Cast button or the page's scroll position.
+	hand_scroll.custom_minimum_size.y = Ui.COMPACT_CARD_MIN_HEIGHT if game.has("production") else 104
 	hand_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	if game.has("production"):
 		hand_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		# Drag/focus still scroll the hand. A conditional scrollbar must not
+		# Drag still scrolls the hand. A conditional scrollbar must not
 		# change the hand height and trigger a page/arena width feedback loop.
 		hand_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 		hand_row.add_child(hand_scroll)
 		discard_button = _combat_pile("Discard", "discard_pile", hand_row)
 	else:
 		column.add_child(hand_scroll)
-	hand_scroll.follow_focus = true
+	hand_scroll.follow_focus = not game.has("production")
 	gestures.register_scroll(hand_scroll)
 	hand_box = HBoxContainer.new()
 	hand_box.add_theme_constant_override("separation", 12 if game.has("production") else 8)
 	hand_scroll.add_child(hand_box)
+	if game.has("production"):
+		hand_box.sort_children.connect(func(): _reveal_incoming_card.call_deferred())
 	status = _label("", 17)
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.custom_minimum_size.y = 23 if game.has("production") else 46
@@ -547,7 +622,7 @@ func _build_ui() -> void:
 		status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	column.add_child(status)
 	if game.has("production"):
-		column.move_child(status, action_log.get_index())
+		status.hide()
 	if game.has("production"):
 		var hand_gap := Control.new()
 		hand_gap.custom_minimum_size.y = 10
@@ -676,8 +751,11 @@ func _build_ui() -> void:
 	guide_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	guide_scroll.add_child(guide_text)
 	var guide_gestures := TouchRouter.new()
+	guide_gestures.mobile_only = game.has("production")
 	dialog.add_child(guide_gestures)
 	guide_gestures.register_scroll(guide_scroll)
+	if game.has("production"):
+		guide_gestures.register_target(dialog.get_ok_button(), dialog.get_ok_button().pressed.emit)
 	dialog.about_to_popup.connect(func():
 		guide_text.text = dialog.dialog_text
 		guide_scroll.scroll_vertical = 0
@@ -690,9 +768,37 @@ func _build_ui() -> void:
 	pass_button = menu.add_button("Pass Turn", false, "pass")
 	production_replay_button = menu.add_button("Exact replay", false, "exact_replay")
 	production_next_button = menu.add_button("Next encounter", false, "next_encounter")
+	# Options gets a body row: adding a fourth footer action would push the
+	# existing Restart / Exact replay / Resume controls beyond 360 px.
+	menu.get_label().hide()
+	menu.get_label().max_lines_visible = 0
+	var menu_body := VBoxContainer.new()
+	menu_body.add_theme_constant_override("separation", 12)
+	menu.add_child(menu_body)
+	var menu_scroll := ScrollContainer.new()
+	menu_scroll.custom_minimum_size = Vector2(260, 110)
+	menu_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	menu_body.add_child(menu_scroll)
+	var menu_copy := Ui.label("", "body", 18)
+	menu.set_meta("body_copy", menu_copy)
+	menu_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	menu_scroll.add_child(menu_copy)
+	options_button = Ui.action("Options", false, Vector2(0, 50))
+	menu_body.add_child(options_button)
+	options_button.pressed.connect(func(): menu.custom_action.emit("options"))
+	if run_managed:
+		home_button = Ui.action("Quit to Home", false, Vector2(0, 50))
+		menu_body.add_child(home_button)
+		home_button.pressed.connect(_request_home)
+	menu.about_to_popup.connect(func(): menu_copy.text = menu.dialog_text)
 	production_replay_button.hide()
 	production_next_button.hide()
 	menu.confirmed.connect(_restart)
+	if run_managed: menu.get_ok_button().hide()
+	menu.canceled.connect(func(): _ui_feedback("ui_back", {"modal": "menu"}))
+	dialog.confirmed.connect(func(): _ui_feedback("ui_back", {"modal": "guide_or_map"}))
+	dialog.canceled.connect(func(): _ui_feedback("ui_back", {"modal": "guide_or_map"}))
 	menu.custom_action.connect(func(action):
 		if action == "pass":
 			menu.hide()
@@ -704,59 +810,55 @@ func _build_ui() -> void:
 		elif action == "next_encounter":
 			_next_production_encounter()
 			menu.hide()
+		elif action == "options":
+			_open_options()
 	)
 	add_child(menu)
 	if game.has("production"):
+		var menu_gestures := TouchRouter.new()
+		menu_gestures.mobile_only = true
+		menu.add_child(menu_gestures)
+		menu_gestures.register_scroll(menu_scroll)
 		# Native dialog actions keep their existing behavior. Compact painted
 		# padding lets Resume / Restart / Exact replay fit the 360px viewport.
-		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button]:
+		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button, options_button]:
+			menu_gestures.register_target(button, button.pressed.emit)
 			button.theme_type_variation = "RCSecondaryLive"
 			button.custom_minimum_size.y = 50
 			button.add_theme_font_size_override("font_size", 14)
 			var spacing := StyleBoxEmpty.new()
 			spacing.content_margin_left = 10
 			spacing.content_margin_right = 10
+			if run_managed and button == menu.get_cancel_button():
+				# ConfirmationDialog resets its native footer's custom minimum.
+				# Keep Resume's touch height in the style's intrinsic minimum.
+				spacing.content_margin_top = 15
+				spacing.content_margin_bottom = 15
 			button.add_theme_stylebox_override("normal", spacing)
 			Ui._skin(button, "res://assets/ui/buttons/secondary.png")
 			Ui.apply_states(button, {})
+		if run_managed:
+			menu_gestures.register_target(home_button, _request_home)
+			menu.get_ok_button().hide()
 	for popup in [dialog, menu]:
+		if game.has("production"): popup.dialog_close_on_escape = false
 		popup.about_to_popup.connect(func(): gestures.set_suspended(true))
 		popup.visibility_changed.connect(func():
 			_sync_native_modal()
 		)
 	_build_inspector()
-	player = AudioStreamPlayer.new()
-	var sound := AudioStreamWAV.new()
-	sound.format = AudioStreamWAV.FORMAT_8_BITS
-	sound.mix_rate = 22050
-	var samples := PackedByteArray()
-	for i in range(2205):
-		samples.append(int(128 + sin(float(i) / 22050.0 * TAU * 440.0) * 20 * (1.0 - float(i) / 2205.0)))
-	sound.data = samples
-	player.stream = sound
-	player.volume_db = -12
-	add_child(player)
+	options = AudioOptions.new()
+	add_child(options)
+	options.register_gestures(gestures)
+	options.setting_changed.connect(_change_option)
+	options.close_requested.connect(_close_options)
 	if experiment_mode:
 		_build_record_dialog()
 		record_dialog.about_to_popup.connect(func(): gestures.set_suspended(true))
 		record_dialog.visibility_changed.connect(_sync_native_modal)
 
 func _sync_native_modal() -> void:
-	gestures.set_suspended(dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible))
-
-func _track_page_focus(node: Node) -> void:
-	if node is Control and node.focus_mode != Control.FOCUS_NONE and not node.has_meta("page_focus_tracked"):
-		node.set_meta("page_focus_tracked", true)
-		node.focus_entered.connect(func(): _reveal_page_focus.call_deferred(node))
-	for child in node.get_children(): _track_page_focus(child)
-
-func _reveal_page_focus(control: Control) -> void:
-	# Explicitly support both the normal Window and native-size SubViewports.
-	# Native ScrollContainer follow_focus does not reveal every nested focus
-	# change in the latter. Never scroll the background for modal focus.
-	if not is_instance_valid(control) or not control.has_focus() or not page_scroll.is_ancestor_of(control): return
-	if hand_box.is_ancestor_of(control): hand_scroll.ensure_control_visible(control)
-	page_scroll.ensure_control_visible(control)
+	gestures.set_suspended(_shell_modal or dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible))
 
 func _combat_pile(title: String, zone: String, parent: Node) -> Button:
 	var pile := Ui.combat_pile(title, 0, zone == "discard_pile")
@@ -999,19 +1101,23 @@ func _fit_layout() -> void:
 			content.get_child(2).add_theme_font_size_override("font_size", 18)
 		_layout_forecast()
 
-func _refresh() -> void:
-	gestures.cancel_pending()
+func _refresh_sound_button() -> void:
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
 	if game.has("production"):
 		sound_button.text = "Sound"
 		sound_button.get_meta("navigation_caption").text = "Sound"
 		Ui.apply_combat_icon(sound_button.get_meta("stacked_icon"), "sound_on" if sound_enabled else "sound_off")
 		sound_button.tooltip_text = "Sound on" if sound_enabled else "Sound off"
+
+func _refresh() -> void:
+	if _closing: return
+	gestures.cancel_pending()
+	_refresh_sound_button()
 	if controller == null:
 		_refresh_startup_error()
 		return
 	var previous := game
-	game = controller.snapshot()
+	game = controller.display_snapshot()
 	if previous != game or controller.is_busy():
 		_close_inspector(false)
 		help_text = ""
@@ -1024,7 +1130,7 @@ func _refresh() -> void:
 	var spell: Dictionary = game.forecast
 	# Modal routing blocks background input without leaving controls visually
 	# disabled after a same-state refresh and dismissal.
-	var editable := not _closing and not _replacing_controller and controller.can_edit()
+	var editable := not _closing and not _shell_modal and not _replacing_controller and controller.can_edit()
 	encounter_title.text = "RUNE CAST   /   " + game.encounter.title.to_upper()
 	if game.has("production"): encounter_title.text = game.encounter.title.capitalize()
 	encounter_title.tooltip_text = game.encounter.help_text
@@ -1036,6 +1142,8 @@ func _refresh() -> void:
 	arena.enemy_id = game.encounter.get("enemy_id", "")
 	arena.tooltip_text = "%s: %d / %d health. Incoming attack: %d." % [game.enemy_name, game.enemy_hp, game.enemy_max_hp, game.intent]
 	arena.refresh()
+	if animation_presenter != null and not controller.is_busy() and arena.actor.has_method("reset_presentation"):
+		arena.actor.reset_presentation(game.state, reduced_motion)
 	stats.text = "HEALTH %d / %d       ENERGY %d / %d       TURN %d" % [game.player_hp, game.player_max_hp, game.energy, game.energy_per_turn, game.turn]
 	stats.tooltip_text = "Refreshes to %d energy and draws %d cards each turn." % [game.energy_per_turn, game.draw_per_turn]
 	if not stat_values.is_empty():
@@ -1051,10 +1159,23 @@ func _refresh() -> void:
 		stats.tooltip_text += "\nHand %d; draw pile %d; discard %d. %s." % [game.hand.size(), game.draw_pile.size(), game.discard_pile.size(), _kit_description()]
 	if experiment_mode:
 		menu.dialog_text = "Restart this experiment with continuing RNG.\nUse Exact replay above the board to restore the original seed.\n" + game.encounter.help_text
+	if run_managed:
+		menu.get_ok_button().hide()
+		production_replay_button.hide()
+		production_next_button.hide()
+		pass_button.hide()
+		menu.dialog_text = "Resume returns to this battle unchanged.\nQuit to Home keeps this session's battle-entry checkpoint. Continue replays that entry; current battle progress is discarded.\nThe session ends when the application closes."
+		home_button.text = "Quit to Home" if game.state == "playing" else "Return Home"
+		home_button.disabled = controller.is_busy()
+		if game.state != "playing":
+			menu.dialog_text = "Encounter won. The tower is not complete. No rewards are granted in this fixture." if game.state == "victory" else "This run has ended in defeat. Return Home to start a new run."
+		if menu.visible: menu.get_meta("body_copy").text = menu.dialog_text
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
+	if run_managed and game.state == "victory": banner.text = "ENCOUNTER WON"
 	if game.has("production"):
 		completion_ribbon.completed = spell.valid and game.state == "playing"
-		completion_ribbon.show_check = spell.valid and game.state == "playing"
+		# The energy warning replaces the completion label; it has no checkmark.
+		completion_ribbon.show_check = spell.valid and spell.cost <= game.energy and game.state == "playing"
 		completion_ribbon.queue_redraw()
 	banner.self_modulate = Color("#43f4c7") if spell.valid else Color("#edb26b")
 	banner.tooltip_text = spell.message
@@ -1069,7 +1190,7 @@ func _refresh() -> void:
 		cell.active = spell.active.has(index)
 		cell.chosen = index == selected_cell
 		cell.preview = 0
-		if not inspect_mode and (selected_tool != "" or selected_uid != -1):
+		if not inspect_mode and (selected_tool != "" or selected_uid != -1) and not _selects_existing_piece(index):
 			cell.preview = 1 if InspectionData.placement(game, index, selected_tool, selected_uid).allowed else -1
 		cell.end_value = int(spell.damage) if spell.valid else 0
 		cell.tooltip_text = "Row %d, column %d" % [index / 4 + 1, index % 4 + 1]
@@ -1111,7 +1232,11 @@ func _refresh() -> void:
 		hand_box.remove_child(child)
 		child.queue_free()
 	info_buttons.clear()
-	for card in game.hand:
+	var arriving_card := animation_presenter.incoming_card() if animation_presenter != null else {}
+	var shown_hand: Array = game.hand.duplicate()
+	if not arriving_card.is_empty(): shown_hand.append(arriving_card)
+	for card in shown_hand:
+		var is_incoming: bool = not arriving_card.is_empty() and int(card.uid) == int(arriving_card.uid)
 		var rune: Dictionary = game.catalog[card.id]
 		var button: Button
 		if game.has("production"):
@@ -1120,6 +1245,10 @@ func _refresh() -> void:
 			button = Ui.card({"name": rune.name, "cost": rune.cost, "icon": icon_name,
 				"kind": "technique" if rune.type == "technique" else rune.effect,
 				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false), "compact": true}, {"selected": card.uid == selected_uid}, 149)
+			if is_incoming:
+				button.set_meta("rc_incoming_card", true)
+				button.modulate.a = animation_presenter.incoming_card_opacity()
+				button.focus_mode = Control.FOCUS_NONE
 			hand_box.add_child(button)
 			button.pressed.connect(_select_card.bind(card.uid))
 			gestures.register_target(button, _select_card.bind(card.uid), _inspect_hand.bind(card.uid))
@@ -1135,10 +1264,9 @@ func _refresh() -> void:
 				info.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 			info.add_theme_font_size_override("font_size", 16)
 			info.tooltip_text = "Read " + str(rune.name) + " without using it"
-			info.disabled = not editable
+			info.disabled = not editable or is_incoming
+			if is_incoming: info.focus_mode = Control.FOCUS_NONE
 			info_buttons[int(card.uid)] = info
-			button.set_meta("inspect_action", _inspect_hand.bind(card.uid))
-			button.set_meta("inspect_shortcuts", true)
 		else:
 			button = _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
 			button.custom_minimum_size = Vector2(142, 92)
@@ -1149,12 +1277,11 @@ func _refresh() -> void:
 		if game.has("production"):
 			# Child Info must win hit testing over its encompassing card.
 			gestures.register_target(info_buttons[int(card.uid)], _inspect_hand.bind(card.uid))
-			_track_page_focus(button)
 		else:
 			button.modulate = Color(rune.color)
-		button.disabled = not editable
+		button.disabled = not editable or is_incoming
 		button.tooltip_text = _rune_description(rune) + " | %d energy%s" % [rune.cost, " | Temporary" if rune.get("temporary", false) else ""]
-		if editable and int(card.uid) == focus_uid:
+		if not game.has("production") and editable and int(card.uid) == focus_uid:
 			if focus_info and info_buttons.has(focus_uid): info_buttons[focus_uid].grab_focus()
 			else: button.grab_focus()
 	cast_button.text = "CAST    %d energy" % spell.cost if spell.valid else "CAST"
@@ -1168,8 +1295,6 @@ func _refresh() -> void:
 	cast_button.tooltip_text = "%d damage, %d shield. Incoming %d." % [spell.damage, spell.shield, incoming] if spell.valid else spell.message
 	status.text = help_text if help_text != "" else game.log_text
 	if game.has("production"):
-		action_log.text = game.log_text
-		action_log.tooltip_text = game.log_text
 		pile_values.draw_pile.text = str(game.draw_pile.size())
 		pile_values.discard_pile.text = str(game.discard_pile.size())
 		for entry in [[draw_button, "draw_pile"], [discard_button, "discard_pile"]]:
@@ -1189,12 +1314,9 @@ func _refresh() -> void:
 	pass_button.visible = not game.has("production")
 	if game.has("production"):
 		status.text = status.text.replace("open Details / Pass", "use Pass Turn").replace("Erase", "Remove")
-		# Avoid repeating the action log, kit and pile values in the page. Explicit
-		# editing feedback remains live; the forecast displays the spell totals.
+		# Keep diagnostic text available without a message row in the hand lane.
 		status.text = help_text.replace("Erase", "Remove")
-		status.visible = not status.text.is_empty()
-		status.tooltip_text = status.text
-		action_log.visible = not status.visible
+		status.hide()
 		for button in edit_buttons:
 			var disabled: bool = button.disabled
 			Ui.apply_states(button, {"selected": button.button_pressed, "disabled": disabled})
@@ -1203,8 +1325,32 @@ func _refresh() -> void:
 		_apply_mobile_ui_policy(self)
 
 func _mobile_node_added(node: Node) -> void:
-	if is_ancestor_of(node):
+	if not _closing and is_ancestor_of(node):
 		_apply_mobile_ui_policy.call_deferred(node)
+
+func _sample_card_arrival(uid: int, opacity: float) -> void:
+	if not is_instance_valid(hand_box): return
+	for card in hand_box.get_children():
+		if card.get_meta("rc_incoming_card", false) and int(card.get_meta("uid", -1)) == uid:
+			card.modulate.a = opacity
+
+func _clear_card_arrival() -> void:
+	if not is_instance_valid(hand_box): return
+	for card in hand_box.get_children():
+		if not card.get_meta("rc_incoming_card", false): continue
+		card.modulate.a = 1.0
+		info_buttons.erase(int(card.get_meta("uid", -1)))
+		hand_box.remove_child(card)
+		card.queue_free()
+
+func _reveal_incoming_card() -> void:
+	# Wait for container layout, then resolve the current instance. A cancelled
+	# or replaced draw has no marked card; no deferred callback retains a card.
+	if _closing or not is_instance_valid(hand_box): return
+	for card in hand_box.get_children():
+		if card.get_meta("rc_incoming_card", false) and card.size.x > 0.0:
+			hand_scroll.ensure_control_visible(card)
+			return
 
 func _apply_mobile_ui_policy(node: Node) -> void:
 	if not is_instance_valid(node) or node.is_queued_for_deletion(): return
@@ -1212,9 +1358,13 @@ func _apply_mobile_ui_policy(node: Node) -> void:
 		# Touch inspection/Info carry item descriptions.
 		# Never create desktop hover popups or floating availability badges.
 		node.tooltip_text = ""
+		node.focus_mode = Control.FOCUS_NONE
+		if node is ScrollContainer: node.follow_focus = false
 		node.set_meta("rc_show_state_badges", false)
 		if node.has_meta("rc_overlay"): node.get_meta("rc_overlay").queue_redraw()
-	for child in node.get_children(): _apply_mobile_ui_policy(child)
+	for child in node.get_children(true): _apply_mobile_ui_policy(child)
+	# Native dialogs focus OK while opening; release that focus after popup.
+	if node is AcceptDialog: node.get_ok_button().focus_mode = Control.FOCUS_CLICK
 
 func _rule_options() -> Dictionary:
 	return game.get("production", game.get("experiment", {}))
@@ -1356,7 +1506,8 @@ func _open_inspector(detail: Dictionary) -> void:
 	inspector_confirm_pass.hide()
 	inspector.show()
 	gestures.set_modal(inspector)
-	inspector_close.grab_focus()
+	if not game.has("production"): inspector_close.grab_focus()
+	_ui_feedback("ui_confirm", {"modal": "inspector", "title": detail.title})
 
 func _close_inspector(restore_focus: bool = true) -> void:
 	if inspector == null or not inspector.visible: return
@@ -1365,14 +1516,12 @@ func _close_inspector(restore_focus: bool = true) -> void:
 	inspector_close.release_focus()
 	var origin: Control = inspector_origin.get_ref() if inspector_origin != null else null
 	inspector_origin = null
-	if restore_focus and is_instance_valid(origin) and not origin.is_queued_for_deletion() and origin.is_visible_in_tree() and not (origin is BaseButton and origin.disabled):
+	if not game.has("production") and restore_focus and is_instance_valid(origin) and not origin.is_queued_for_deletion() and origin.is_visible_in_tree() and not (origin is BaseButton and origin.disabled):
 		origin.grab_focus()
+	if restore_focus: _ui_feedback("ui_back", {"modal": "inspector"})
 
 func _inspect_hand(uid: int) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_hand(controller.snapshot(), uid))
-
-func _inspect_cell(index: int) -> void:
-	if _can_edit(): _open_inspector(InspectionData.describe_cell(controller.snapshot(), index))
 
 func _inspect_tool(kind: String) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_tool(controller.snapshot(), kind))
@@ -1382,14 +1531,17 @@ func _toggle_inspect_mode() -> void:
 	var enabled := not inspect_mode
 	_clear_selection()
 	inspect_mode = enabled
-	help_text = "Inspect ON: tap a card, piece or connector for details. Nothing will be played or placed." if enabled else "Inspect off. Tap to use; hold to inspect."
+	help_text = "Inspect ON: tap a hand card or connector tool for details. Board slots remain editable." if enabled else "Inspect off. Tap to use; hold cards or tools to inspect."
 	_refresh()
+	_ui_feedback("ui_confirm" if enabled else "ui_back", {"selection": "inspect"})
 
 func _cancel_selection() -> void:
 	if not _can_edit(): return
+	var had_selection := selected_tool != "" or selected_uid != -1 or selected_cell != -1 or inspect_mode
 	_clear_selection()
 	help_text = "Selection cleared. Tap to use; hold to inspect."
 	_refresh()
+	if had_selection: _ui_feedback("ui_back", {"selection": "clear"})
 
 func _endpoint_direction(index: int) -> String:
 	var piece: Dictionary = game.board[index]
@@ -1430,12 +1582,53 @@ func _accept_pass_details() -> void:
 	_pass()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if game.has("production"): return
 	if event.is_action_pressed("ui_cancel"):
-		if inspector != null and inspector.visible:
+		if options != null and options.visible:
+			_close_options()
+		elif inspector != null and inspector.visible:
 			_close_inspector()
 		else:
 			_cancel_selection()
 		get_viewport().set_input_as_handled()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_node_ready():
+		# Godot 4.7.2 on Android delivered one Back twice in the same process
+		# frame (RC-021 emulator trace). Let one input batch dismiss one layer;
+		# a fresh frame can navigate again without a timed input cooldown.
+		var frame := Engine.get_process_frames()
+		if frame == _last_back_frame: return
+		_last_back_frame = frame
+		_go_back()
+
+func _go_back() -> void:
+	# Android's system Back is separate from the disabled production keyboard.
+	# Use existing dismissal actions; never confirm Pass, Restart or a card.
+	if _closing or _shell_modal or _replacing_controller: return
+	gestures.cancel_pending()
+	if options != null and options.visible:
+		_close_options()
+	elif inspector != null and inspector.visible:
+		_close_inspector()
+	elif record_dialog != null and record_dialog.visible:
+		_dismiss_back_dialog(record_dialog)
+	elif dialog != null and dialog.visible:
+		_dismiss_back_dialog(dialog)
+	elif menu != null and menu.visible:
+		_dismiss_back_dialog(menu)
+	elif selected_tool != "" or selected_uid != -1 or selected_cell != -1 or inspect_mode:
+		_cancel_selection()
+	else:
+		_open_menu()
+
+func _dismiss_back_dialog(popup: AcceptDialog) -> void:
+	# Its viewport will stop receiving the held pointer after hiding. Reset
+	# ownership so reopening it cannot retain a finger whose release was lost.
+	for child in popup.get_children():
+		if child is TouchRouter: child.cancel_pending(true)
+	popup.hide()
+	popup.canceled.emit()
 
 func _kit_description() -> String:
 	var kit: Dictionary = game.get("kit", {})
@@ -1488,6 +1681,7 @@ func _clear_selection() -> void:
 	selected_tool = ""
 	selected_uid = -1
 	selected_cell = -1
+	_repeat_connector_placement = false
 	help_text = ""
 	inspect_mode = false
 	if gestures != null: gestures.cancel_pending()
@@ -1505,13 +1699,18 @@ func _select_tool(kind: String) -> void:
 	selected_tool = kind
 	selected_uid = -1
 	selected_cell = -1
+	_repeat_connector_placement = false
 	help_text = "Tap a socket to place %s. Then Rotate or Flip if needed." % kind
-	if game.has("production"): help_text = "Tap a socket to place %s. Rotate changes its connections; hold or I/right-click for details." % kind
+	if game.has("production"): help_text = "Tap a socket to place %s. Rotate changes its connections; hold for details." % kind
 	if game.stock_totals.has(kind) and int(game.stock[kind]) == 0:
 		help_text = "No %s available. Erase one to refund it, or replace the same kind." % kind
 	elif kind == "erase":
 		help_text = "Remove selected. Tap an eligible piece to return it; endpoints are protected." if game.has("production") else "Erase selected. Tap an eligible piece to return it; endpoints are protected."
 	_refresh()
+	if game.stock_totals.has(kind) and int(game.stock[kind]) == 0:
+		_reject_audio({"tool": kind})
+	else:
+		_ui_feedback("ui_confirm", {"tool": kind})
 
 func _select_card(uid: int) -> void:
 	if not _can_edit():
@@ -1530,6 +1729,7 @@ func _select_card(uid: int) -> void:
 			if not availability.allowed:
 				help_text = availability.reason
 				_refresh()
+				_reject_audio({"uid": uid, "command": "technique"})
 				return
 			_clear_selection()
 			if not controller.command("technique", {"uid": uid}): help_text = controller.snapshot().log_text
@@ -1537,15 +1737,18 @@ func _select_card(uid: int) -> void:
 			selected_uid = uid
 			selected_tool = ""
 			selected_cell = -1
+			_repeat_connector_placement = false
 			help_text = "Tap a socket to install %s. Cost is paid when casting." % game.catalog[card.id].name
+			_ui_feedback("ui_confirm", {"uid": uid})
 		break
 	_refresh()
 
+func _selects_existing_piece(index: int) -> bool:
+	return game.has("production") and _repeat_connector_placement and selected_uid == -1 \
+		and selected_tool in ["straight", "corner", "split", "join"] and not game.board[index].is_empty()
+
 func _cell_pressed(index: int) -> void:
 	if not _can_edit():
-		return
-	if inspect_mode:
-		_inspect_cell(index)
 		return
 	if index < 0 or index >= game.board.size(): return
 	selected_cell = index
@@ -1553,16 +1756,24 @@ func _cell_pressed(index: int) -> void:
 	if _rule_options().get("endpoint_rotation") == "player" and game.board[index].get("kind") in ["begin", "end"]:
 		selected_tool = ""
 		selected_uid = -1
+		_repeat_connector_placement = false
 		help_text = "%s selected; protected from replacement/erase. Use Rotate to change its direction." % str(game.board[index].kind).capitalize()
 		if game.has("production"):
 			help_text += " " + _endpoint_direction(index)
 		_refresh()
+		_ui_feedback("ui_confirm", {"index": index})
 		return
+	if _selects_existing_piece(index):
+		# A board tap selects the installed piece, preserving its rotation/UID.
+		# Only an explicitly chosen tool may replace an occupied slot.
+		selected_tool = ""
+		_repeat_connector_placement = false
 	if selected_uid != -1 or selected_tool != "":
 		var preview: Dictionary = InspectionData.placement(game, index, selected_tool, selected_uid)
 		if not preview.allowed:
 			help_text = preview.reason
 			_refresh()
+			_reject_audio({"index": index, "kind": selected_tool, "uid": selected_uid})
 			return
 	if selected_uid != -1:
 		if controller.command("place_rune", {"index": index, "uid": selected_uid}):
@@ -1570,13 +1781,16 @@ func _cell_pressed(index: int) -> void:
 		else:
 			help_text = ""
 	elif selected_tool != "":
-		if not controller.command("place_wire", {"index": index, "kind": selected_tool}):
+		if controller.command("place_wire", {"index": index, "kind": selected_tool}):
+			_repeat_connector_placement = game.has("production") and selected_tool != "erase"
+		else:
 			help_text = ""
 	else:
 		var detail: Dictionary = InspectionData.describe_cell(game, index)
-		help_text = str(detail.get("title", "Socket")) + " selected. Hold to inspect."
+		help_text = str(detail.get("title", "Socket")) + " selected."
 		var reason: Dictionary = InspectionData.edit_action(game, index, "rotate")
 		if not reason.allowed: help_text += " " + str(reason.reason)
+		_ui_feedback("ui_confirm", {"index": index})
 	_refresh()
 
 func _rotate() -> void:
@@ -1586,6 +1800,7 @@ func _rotate() -> void:
 	if not availability.allowed:
 		help_text = availability.reason
 		_refresh()
+		_reject_audio({"index": selected_cell, "command": "rotate"})
 		return
 	if selected_cell >= 0:
 		if controller.command("rotate", {"index": selected_cell}) and game.board[selected_cell].get("kind") in ["begin", "end"]:
@@ -1599,6 +1814,7 @@ func _flip() -> void:
 	if not availability.allowed:
 		help_text = availability.reason
 		_refresh()
+		_reject_audio({"index": selected_cell, "command": "flip"})
 		return
 	if selected_cell >= 0:
 		controller.command("flip", {"index": selected_cell})
@@ -1620,52 +1836,68 @@ func _pass() -> void:
 	if not _can_edit():
 		return
 	_clear_selection()
-	controller.command("pass")
+	if controller.command("pass"): _ui_feedback("ui_confirm", {"command": "pass"})
 
 func _restart() -> void:
-	if controller == null or _replacing_controller or _closing:
+	if run_managed or controller == null or _replacing_controller or _closing:
 		return
 	_clear_selection()
-	controller.restart()
+	if controller.restart(): _ui_feedback("ui_confirm", {"command": "restart"})
 
 func _exact_replay() -> void:
-	if controller == null or _replacing_controller or _closing or not game.has("production"):
+	if run_managed or controller == null or _replacing_controller or _closing or not game.has("production"):
 		return
 	_replacing_controller = true
+	audio.bind_controller(null)
 	controller.dispose()
 	if not is_inside_tree():
 		_replacing_controller = false
 		return
 	controller = Controller.new(Combat.new(initial_setup), Presentation.new())
+	game = controller.snapshot()
+	_install_animation_presenter()
 	controller.changed.connect(_refresh)
-	controller.presentation_started.connect(_presentation_started)
+	audio.bind_controller(controller)
 	_replacing_controller = false
 	_clear_selection()
 	_refresh()
+	_ui_feedback("ui_confirm", {"command": "exact_replay"})
 
 func _next_production_encounter() -> void:
-	if controller == null or _replacing_controller or _closing or not game.has("production"):
+	if run_managed or controller == null or _replacing_controller or _closing or not game.has("production"):
 		return
 	_clear_selection()
 	controller.command("next_encounter")
 
-func _open_menu() -> void:
+func _open_menu(feedback: bool = true) -> void:
+	if _closing or _shell_modal: return
+	var was_visible := menu.visible
 	if game.has("production"):
-		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button]:
+		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button, options_button]:
 			Ui.apply_states(button, {"disabled": button.disabled})
 	menu.popup_centered(Vector2i(mini(int(size.x) - 32, 660), 250) if game.has("production") else Vector2i(540, 220))
+	if game.has("production"): menu.gui_release_focus()
+	if feedback and not was_visible: _ui_feedback("ui_confirm", {"modal": "menu"})
 
 func _show_map() -> void:
+	if _closing or _shell_modal: return
 	dialog.title = "Tower map"
 	dialog.dialog_text = startup_error if controller == null else "%s\n%s\n\nOne encounter at a time is available in this prototype.\n\n%s\n\nPlanned route: encounters, events, shops, recovery rooms and a final guardian. Branching routes and encounter saves are not implemented." % [game.encounter.title, game.enemy_name, game.encounter.help_text]
 	dialog.popup_centered(Vector2i(mini(550, int(size.x) - 32), mini(360, int(size.y) - 32)))
+	if game.has("production"): dialog.gui_release_focus()
+	_ui_feedback("ui_confirm", {"modal": "map"})
 
 func _show_guide() -> void:
+	if _closing or _shell_modal: return
 	dialog.title = "Circuit guide"
 	var context: String = startup_error if controller == null else game.encounter.help_text
 	if game.has("production"):
-		dialog.dialog_text = "Every playable turn starts with only Begin and End. Click Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass Turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again or press Escape to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info on a card or a hold opens details safely; keyboard I or right-click also inspects pieces/tools. The forecast is an information display only. Close/Escape dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
+		dialog.dialog_text = "Every playable turn starts with only Begin and End. Tap Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass Turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info or a hold on a hand card opens its details; holding a connector tool opens its details. Board slots never open an information window. The forecast is an information display only. Close dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
+		if run_managed:
+			dialog.dialog_text = dialog.dialog_text.replace("Menu offers Restart with continuing randomness and Exact replay of the original seed.", "Menu Resume returns to the current battle unchanged. Quit to Home asks before discarding battle progress; Continue replays the same battle entry. This session is available only while the application remains open.")
 		dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
+		dialog.gui_release_focus()
+		_ui_feedback("ui_confirm", {"modal": "guide"})
 		return
 	dialog.dialog_text = context + "\n\nConnect Begin to End. Every powered branch must finish; loops and half-connected joins are invalid.\n\nTap a wiring tool or rune, then a socket. Tap an installed piece to select it, then Rotate. Flip reverses a wire's direction. Erase returns installed runes to your hand. Undo reverses edits until a technique is played.\n\nSplit copies the incoming spell and costs 1 energy. Join combines its branches. Regular effect runes pay once per cast and remain installed. Temporary runes expire into straight wires.\n\nTechniques resolve immediately when tapped. On desktop, hover for costs and details. Cast ends your turn; surviving enemies attack. Menu includes Pass Turn and Restart."
 	if game.has("production"):
@@ -1677,23 +1909,77 @@ func _show_guide() -> void:
 		dialog.dialog_text = context + "\n\nPROVISIONAL EXPERIMENT RULES\n" + (experiment_label.text if experiment_label != null else startup_error) + "\n\nTap a tool/card then a cell; Rotate/Flip change orientation. Undo restores edits until a technique commits them. Cast and Menu > Pass end the turn. " + endpoint_help + " Exact replay restores the selected starting setup and seed; Menu Restart continues RNG. Inspect / export shows local command observations. See docs/circuit-experiments.md for solutions and the paired protocol."
 	if controller != null and game.stock_totals.has("straight") and game.stock_totals.has("corner"):
 		dialog.dialog_text += "\n\nStraight, Corner, Split and Join show available / total quantities. Every installed connector reserves one piece, including disconnected pieces. Erase or replacement returns the displaced connector; installing a rune over a connector returns it too. Rotate and Flip preserve quantities. Undo restores the board, hand and connector supply together."
-	dialog.dialog_text = dialog.dialog_text.replace("On desktop, hover for costs and details.", "Hold any card or piece to inspect costs and details.")
-	dialog.dialog_text += "\n\nTOUCH CONTROLS\nTap effects/tools, then an eligible + socket. A legal unfinished circuit is allowed; x sockets explain protected or unavailable targets. Tap an installed piece, then Rotate; Flip supports straight/corner wires only. Rotate/Flip/Undo show actual availability. Cancel selection clears the active card, tool and Inspect mode.\n\nHold a card, piece or stock button for details without using it. Or switch Inspect ON, then tap any item safely, including techniques. Close returns to the board; Inspect stays ON until switched off or cancelled. Normal short taps still play techniques immediately. Drag horizontally over the hand or vertically over the page to scroll; movement cancels tap and hold. Details / Pass explains the circuit and offers a confirmed Pass even when Cast is unavailable."
+	dialog.dialog_text = dialog.dialog_text.replace("On desktop, hover for costs and details.", "Hold a hand card or connector tool to inspect costs and details.")
+	dialog.dialog_text += "\n\nTOUCH CONTROLS\nTap effects/tools, then an eligible + socket. A legal unfinished circuit is allowed; x sockets explain protected or unavailable targets. Tap an installed piece, then Rotate; Flip supports straight/corner wires only. Rotate/Flip/Undo show actual availability. Cancel selection clears the active card, tool and Inspect mode.\n\nHold a hand card or stock button for details without using it. Or switch Inspect ON, then tap a hand card or stock button safely, including techniques. Board slots never open an information window. Close returns to the board; Inspect stays ON until switched off or cancelled. Normal short taps still play techniques immediately. Drag horizontally over the hand or vertically over the page to scroll; movement cancels tap and hold. Details / Pass explains the circuit and offers a confirmed Pass even when Cast is unavailable."
 	dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
+	_ui_feedback("ui_confirm", {"modal": "guide"})
 
 func _toggle_sound() -> void:
-	sound_enabled = not sound_enabled
-	if not sound_enabled:
-		player.stop()
-	var config := ConfigFile.new()
-	config.set_value("audio", "enabled", sound_enabled)
-	config.save("user://settings.cfg")
-	_refresh()
+	_change_option("enabled", not sound_enabled)
 
 func _load_settings() -> void:
-	var config := ConfigFile.new()
-	if config.load("user://settings.cfg") == OK:
-		sound_enabled = bool(config.get_value("audio", "enabled", true))
+	audio_settings = AudioSettings.load_values(settings_path)
+	if "--reduced-motion" in OS.get_cmdline_user_args(): audio_settings.reduced_motion = true
+	sound_enabled = audio_settings.enabled
+	reduced_motion = audio_settings.reduced_motion
+	options.set_values(audio_settings)
+
+func _change_option(key: String, value: Variant) -> void:
+	if not AudioSettings.DEFAULTS.has(key) or audio_settings.get(key) == value: return
+	audio_settings[key] = value
+	audio_settings = AudioSettings.normalize(audio_settings)
+	sound_enabled = audio_settings.enabled
+	set_reduced_motion(audio_settings.reduced_motion)
+	options.set_values(audio_settings)
+	_refresh_sound_button()
+	var saved_values := audio_settings.duplicate()
+	# A launch-time --reduced-motion override or a test/presentation adjustment
+	# is not an accessibility preference change caused by an audio slider.
+	if key != "reduced_motion": saved_values.reduced_motion = AudioSettings.load_values(settings_path).reduced_motion
+	var error := AudioSettings.save_values(saved_values, settings_path)
+	if error != OK: push_warning("Options could not be saved: " + error_string(error))
+	# Continuous slider movement never queues preview effects. Muting takes effect
+	# before this explicit confirmation, so a muted SFX bus stays quiet.
+	if not key.ends_with("_volume"): _ui_feedback("ui_confirm", {"option": key})
+
+func _open_options() -> void:
+	if _closing or _shell_modal or options.visible: return
+	var origin := get_viewport().gui_get_focus_owner()
+	_options_origin = weakref(origin) if origin != null else null
+	_options_return_menu = menu.visible
+	menu.hide()
+	_close_inspector(false)
+	options.set_values(audio_settings)
+	options.body_scroll.scroll_vertical = 0
+	options.show()
+	gestures.set_modal(options)
+	_sync_native_modal()
+	if not game.has("production"): options.close_button.grab_focus()
+	_ui_feedback("ui_confirm", {"modal": "options"})
+
+func _close_options() -> void:
+	if options == null or not options.visible: return
+	options.hide()
+	gestures.set_modal(null)
+	options.close_button.release_focus()
+	if _options_return_menu:
+		_open_menu(false)
+	else:
+		var origin: Control = _options_origin.get_ref() if _options_origin != null else null
+		if not game.has("production") and is_instance_valid(origin) and origin.is_visible_in_tree(): origin.grab_focus()
+	_options_origin = null
+	_options_return_menu = false
+	_ui_feedback("ui_back", {"modal": "options"})
+
+func _ui_feedback(cue: String, target: Dictionary = {}) -> void:
+	if audio == null or _closing: return
+	_ui_audio_dispatch += 1
+	audio.ui_feedback(cue, _ui_audio_dispatch, target)
+
+func _reject_audio(target: Dictionary = {}) -> void:
+	if audio == null or _closing: return
+	_ui_audio_dispatch += 1
+	audio.reject_attempt(_ui_audio_dispatch, target)
 
 func _build_experiment_controls(column: VBoxContainer) -> void:
 	column.add_child(_label("EXPERIMENT LAB / testing only", 19))
@@ -1766,7 +2052,8 @@ func _launch_experiment(scenario: String, variant: String, seed_value: int, cach
 			return false
 	_replacing_controller = true
 	gestures.cancel_pending()
-	_close_inspector()
+	_close_inspector(false)
+	audio.bind_controller(null)
 	if controller != null:
 		controller.dispose()
 	if _closing or not is_inside_tree():
@@ -1781,7 +2068,8 @@ func _launch_experiment(scenario: String, variant: String, seed_value: int, cach
 	controller = Controller.new(model, Presentation.new(), ExperimentRecord.new(experiment_setup, model.snapshot()))
 	controller.changed.connect(_refresh)
 	controller.changed.connect(_save_experiment_record)
-	controller.presentation_started.connect(_presentation_started)
+	audio.bind_controller(controller)
+	audio.set_context("screen_combat", false)
 	_replacing_controller = false
 	_clear_selection()
 	menu.get_ok_button().disabled = false

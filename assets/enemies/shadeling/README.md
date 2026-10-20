@@ -1,5 +1,7 @@
 # Shadeling character pack — RC-014
 
+**October 16, RC-017:** production Combat uses the approved-atlas neutral with the retained attack/hit artwork, deterministic production sampling and explicit cancellation/terminal restoration. [Actor animation contract](../../../docs/actor-animation-contract.md) supersedes historical feasibility-only and pending-integration statements below. Editable production timings/curves live in [motion.tres](motion.tres). Source PNGs and the owner-retained hit pose are unchanged.
+
 Instantiate [character.tscn](character.tscn) under the arena's presentation node. Its root is the **foot position**. The full 512×512 pose starts at `(-256,-448)`; the common source foot is `(512,896)` on the 1024×1024 master. Position and uniformly scale the root in the consumer. Never independently crop or center the poses.
 
 Shadeling is the boss for one designated map encounter. Preserve training fixtures; release placement and tuning belong to RC-025/RC-034/RC-036. Names, health, intent, damage and role labels belong to live UI; none is baked into the pack. The character scene is isolated from gameplay and has no combat/controller dependency. See the [source delivery](../../../source-assets/characters/shadeling/delivery.md) for artwork, rights, measured scale, bounds and actual preview evidence.

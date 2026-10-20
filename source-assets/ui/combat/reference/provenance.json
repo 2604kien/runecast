@@ -185,8 +185,10 @@
     "mask": "assets/enemies/shadeling/reference/approved_actor_mask.gdshaderinc",
     "mask_coordinate_quantization": 0.015625,
     "unchanged": "Existing neutral/attack/hit canonical PNGs, attachment resource, isolated masters, foot-local API and four-state API. Attack/hit restore ordinary full-texture rendering.",
-    "motion_limit": "RC-017 must reconcile the original approved neutral with retained attack/hit before event-driven animation is accepted.",
-    "rendered_proof": "output/qa/rc-016/whole-screen-art/arena-focused/results.json"
+    "motion_limit": "RC-017 deterministic production animation, full restoration and stationary neutral reduced-motion path verified; see docs/actor-animation-contract.md.",
+    "rendered_proof": "output/qa/rc-016/whole-screen-art/arena-focused/results.json",
+    "production_motion": "assets/enemies/shadeling/motion.tres",
+    "production_proof": "output/qa/rc-017/actor/results.json"
   },
   "environment_contract": {
     "crop": [
@@ -201,7 +203,7 @@
       841,
       450
     ],
-    "actor_exclusion": "Same shared actor silhouette; original neutral overlays the corresponding hole in a separate layer.",
+    "actor_exclusion": "RC-017 fixed broad clean center covers the entire original actor, its shadow and intent, then feathers to retained outer scenery. The actor remains a separate unchanged approved-atlas mask.",
     "dynamic_ui_holes_source_bounds": [
       [
         376,
@@ -229,12 +231,19 @@
       ]
     ],
     "label_exclusion_feather_pixels": 2,
-    "actor_exclusion_feather_pixels": 0,
+    "actor_exclusion_feather_pixels": 44,
     "actor_mask_coordinate_quantization": 0.015625,
     "full_bleed": "Arena keeps one uniform reference transform; content/status positioning is owned by scripts/ui/arena.gd.",
     "lighting": "base_cool=(1,1,1); separate environment-only lighting leaves actor/UI unchanged.",
-    "proof": "360002 visible source pixels outside four live-UI holes recombined with zero RGB difference at original resolution.",
-    "proof_file": "output/qa/rc-016/whole-screen-art/arena-focused/results.json"
+    "proof": "101088 center pixels match an actual clean-plate-only Godot render with maximum RGB error zero; old silhouette-shaped seams and outline remnants removed.",
+    "proof_file": "output/qa/rc-017/actor/scenery-proof.json",
+    "clean_center_bounds": [
+      280,
+      94,
+      570,
+      449
+    ],
+    "historical_proof": "360002 visible source pixels outside four live-UI holes recombined with zero RGB difference at original resolution."
   },
   "live_content": "All combat state, ordinary labels, card copy, costs, stock, HP, intent, piles, paths, input and feedback remain live. The Rune Cast product wordmark is intentionally static artwork.",
   "preserved_overrides": [
@@ -246,8 +255,8 @@
   ],
   "retirement_manifest": "output/qa/rc-016/reference-art/deletion-manifest.json",
   "limits": [
-    "The flattened reference has no clean pixels behind its actor or live labels. Generated hidden fill supplies those small regions.",
-    "Original neutral actor and visible scenery recombine approved source pixels outside live UI holes. Original navigation/resource icons are contour-masked atlas samples; remaining generated glyphs, live fonts and reconstructed hidden textures are fidelity limits.",
+    "The flattened reference has no clean pixels behind actor or live labels. RC-017 reuses the generated plate in a fixed broad center with a feathered boundary; the hidden architecture is reconstructed.",
+    "Original neutral actor pixels remain unchanged. RC-017 intentionally replaces center scenery to support animation; outer scenery, navigation/resource icons and separable decoration remain approved-atlas samples.",
     "Exact sampled regions do not make the complete rendered screen pixel-identical; geometry, live values, owner overrides and the source font remain independent.",
     "No new owner aesthetic approval, device result or release-rights clearance is inferred."
   ],
