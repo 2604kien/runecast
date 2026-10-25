@@ -1,5 +1,6 @@
 extends Button
 const Circuit = preload("res://scripts/core/circuit.gd")
+const InstanceEffects = preload("res://scripts/core/instance_effects.gd")
 const ReferenceIcons = preload("res://scenes/ui/theme/reference_icons.gd")
 const COMBAT_ENDPOINT_BASE_FONT = preload("res://assets/fonts/combat/display.tres")
 static var endpoint_font: FontVariation = _reference_endpoint_font()
@@ -97,10 +98,11 @@ func _draw() -> void:
 		"split": symbol = "x2"
 		"join": symbol = "+"
 		"rune":
-			var rune: Dictionary = catalog[piece.rune_id]
+			var rune: Dictionary = InstanceEffects.resolve(catalog, piece).get("definition", {})
+			if rune.is_empty(): return
 			name_text = rune.get("board_label", rune.name).to_upper()
 			symbol = rune.symbol
-			amount = str(int(rune.value))
+			amount = "%d / %d" % [rune.value.damage, rune.value.shield] if rune.get("effect") == "damage_shield" else str(int(rune.value))
 			tint = Color(rune.color)
 		_: name_text = ""
 	if name_text != "":
@@ -216,6 +218,9 @@ func _draw_clean_board() -> void:
 	else:
 		draw_texture_rect(painted if painted != null else SYMBOLS[symbol], Rect2(Vector2(-extent / 2, -extent / 2), Vector2(extent, extent)), false, glyph_color)
 	draw_set_transform(Vector2.ZERO)
+	if kind == "rune" and int(piece.get("upgrade_rank", 0)) > 0:
+		draw_string_outline(get_theme_default_font(), Vector2(size.x - 22, 23), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 2, Color("11191d"))
+		draw_string(get_theme_default_font(), Vector2(size.x - 22, 23), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("eee0bf"))
 	if endpoint:
 		var font := endpoint_font
 		var font_size: int = endpoint_layout.font_size

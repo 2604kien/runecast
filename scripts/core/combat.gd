@@ -4,6 +4,8 @@ extends RefCounted
 const Circuit = preload("res://scripts/core/circuit.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
 const ProductionRules = preload("res://scripts/core/production_rules.gd")
+const InstanceEffects = preload("res://scripts/core/instance_effects.gd")
+const RelicPolicy = preload("res://scripts/core/relic_policy.gd")
 var catalog: Dictionary
 var encounter: Dictionary
 var board: Array
@@ -12,6 +14,7 @@ var draw_pile: Array = []
 var discard_pile: Array = []
 var history: Array = []
 var owned_cards: Array = []
+var relics: Array = []
 var stock_totals: Dictionary = {}
 var player_hp := 0
 var enemy_hp := 0
@@ -35,6 +38,9 @@ var _owned_instances: Dictionary = {}
 var _encounter_number := 1
 var _endpoint_layout_id := "opening"
 var _run_entry: Dictionary = {}
+var _enemy_phase := 1
+var _enemy_sequence_index := 0
+var _announced_attack := 0
 
 func _init(validated_setup: Dictionary, seed_override: Variant = null, run_entry: Dictionary = {}) -> void:
 	# Loading/validation belong to the caller. Keep a private restart template and
@@ -52,6 +58,8 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null, run_entry
 	kit_rng.seed = int(_setup.encounter.seed) ^ 0x52434B49
 	_run_entry = run_entry.duplicate(true)
 	if not _run_entry.is_empty():
+		for card in _run_entry.owned_cards:
+			if not card.has("upgrade_rank"): card.upgrade_rank = 0
 		rng.state = _run_entry.rng_states.cards
 		endpoint_rng.state = _run_entry.rng_states.endpoints
 		kit_rng.state = _run_entry.rng_states.kits
@@ -72,6 +80,7 @@ func reset() -> void:
 	if _rules().get("endpoint_policy", "fixed") == "random_any_cells":
 		_move_free_endpoints(true)
 	owned_cards = _setup.owned_cards.duplicate()
+	relics = _run_entry.get("relics", []).duplicate()
 	stock_totals = _setup.inventory.duplicate(true)
 	if not _production.is_empty():
 		_select_turn_kit(true)
@@ -86,8 +95,9 @@ func reset() -> void:
 		encounter.player_health = player_hp
 		encounter.player_max_health = _run_entry.player_max_hp
 	enemy_hp = int(encounter.max_health)
-	energy = int(encounter.energy_per_turn)
+	energy = int(encounter.energy_per_turn) + RelicPolicy.opening_energy_bonus(relics)
 	turn = 1
+	_reset_enemy_action()
 	state = "playing"
 	log_text = encounter.opening_log
 	var remaining := owned_cards.duplicate()
@@ -113,16 +123,17 @@ func reset() -> void:
 		next_uid = _run_entry.next_uid
 	_shuffle(draw_pile)
 	_draw(int(_setup.opening_draw))
+	_draw(RelicPolicy.opening_draw_bonus(relics))
 	_owned_instances.clear()
 	if not _production.is_empty():
 		for card in hand + draw_pile + discard_pile:
 			if not catalog[card.id].get("temporary", false):
-				_owned_instances[card.uid] = card.id
+				_owned_instances[card.uid] = card.duplicate(true)
 	# Initial dealing is setup, not an action or a presentation batch.
 	_events.clear()
 
-# A narrow in-memory entry contract, separate from presentation snapshots and
-# any future disk-save schema. Callers supply already validated content.
+# An explicit entry contract, separate from presentation snapshots. RC-028
+# persists this boundary; callers still supply already validated content.
 static func create_for_run(validated_setup: Dictionary, entry: Dictionary) -> Dictionary:
 	var error := validate_run_entry(validated_setup, entry)
 	if not error.is_empty():
@@ -144,7 +155,14 @@ static func validate_run_entry(setup: Dictionary, entry: Dictionary) -> String:
 	if begins != 1 or ends != 1: return "Run entry requires one Begin and End."
 	if entry.get("version") != 1 or not entry.get("run_id") is String or entry.run_id.is_empty() or entry.get("encounter_id") != setup.get("encounter", {}).get("id"):
 		return "Run entry identity is incompatible."
-	if not entry.get("seed") is int or entry.seed < 0 or entry.seed > 2147483647:
+	if entry.has("battle_identity"):
+		var identity: Variant = entry.battle_identity
+		if not identity is Dictionary or identity.get("run_id") != entry.run_id or identity.size() != 5:
+			return "Run battle ownership is invalid."
+		for key in ["route_id", "node_id", "visit_id"]:
+			if not identity.get(key) is String or str(identity[key]).is_empty(): return "Run battle ownership is incomplete."
+		if not identity.get("generation") is int or identity.generation <= 0: return "Run battle generation is invalid."
+	if not entry.get("seed") is int or entry.seed < 0:
 		return "Run seed is invalid."
 	if not entry.get("player_hp") is int or not entry.get("player_max_hp") is int or entry.player_hp <= 0 or entry.player_hp > entry.player_max_hp or entry.player_max_hp > Loader.MAX_HEALTH:
 		return "Run entry health is invalid."
@@ -154,13 +172,15 @@ static func validate_run_entry(setup: Dictionary, entry: Dictionary) -> String:
 		if not entry.rng_states.get(stream) is int: return "Run entry random stream is invalid."
 	if not entry.get("owned_cards") is Array or not entry.get("next_uid") is int or entry.next_uid < 0 or entry.next_uid == 9223372036854775807:
 		return "Run entry card identities are invalid."
+	var relic_error := RelicPolicy.validate_owned(entry.get("relics", []))
+	if not relic_error.is_empty(): return relic_error
 	var seen := {}
 	var actual: Array = []
 	for card in entry.owned_cards:
 		if not card is Dictionary or not card.get("id") is String or not setup.catalog.has(card.id) or not card.get("uid") is int:
 			return "Run entry card is invalid."
-		if card.size() != 2:
-			return "Run entry card must contain only its definition and instance identity."
+		if card.size() != (3 if card.has("upgrade_rank") else 2) or not InstanceEffects.resolve(setup.catalog, card).ok:
+			return "Run entry card must contain its definition, instance identity and valid rank only."
 		if setup.catalog[card.id].get("temporary", false) or card.uid < 0 or card.uid >= entry.next_uid or seen.has(card.uid):
 			return "Run entry cannot own temporary or duplicate card identities."
 		seen[card.uid] = true
@@ -177,6 +197,13 @@ static func validate_run_entry(setup: Dictionary, entry: Dictionary) -> String:
 func run_handoff() -> Dictionary:
 	if _run_entry.is_empty() or catalog != _setup.catalog or owned_cards != _setup.owned_cards or encounter.id != _run_entry.encounter_id:
 		return {"ok": false, "error": "This is not the run's configured encounter."}
+	if relics != _run_entry.get("relics", []):
+		return {"ok": false, "error": "Battle relic ownership changed after entry."}
+	var expected_encounter: Dictionary = _setup.encounter.duplicate(true)
+	expected_encounter.player_health = _run_entry.player_hp
+	expected_encounter.player_max_health = _run_entry.player_max_hp
+	if encounter != expected_encounter:
+		return {"ok": false, "error": "Battle configuration changed after entry."}
 	if encounter.player_max_health != _run_entry.player_max_hp or player_hp < 0 or player_hp > encounter.player_max_health:
 		return {"ok": false, "error": "Battle health is inconsistent."}
 	if not state in ["playing", "victory", "defeat"] or (state == "playing" and (player_hp <= 0 or enemy_hp <= 0)) or (state == "defeat" and (player_hp != 0 or enemy_hp <= 0)) or (state == "victory" and (enemy_hp != 0 or player_hp <= 0)):
@@ -193,27 +220,32 @@ func run_handoff() -> Dictionary:
 			return {"ok": false, "error": "Temporary cards cannot enter draw or discard piles."}
 	var cards: Array = hand.duplicate(true) + draw_pile.duplicate(true) + discard_pile.duplicate(true)
 	for piece in board:
-		if piece.get("kind") == "rune": cards.append({"id": piece.get("rune_id"), "uid": piece.get("uid")})
+		if piece.get("kind") == "rune": cards.append(InstanceEffects.card_from_piece(piece))
 	var seen := {}
 	var permanents: Array = []
 	for card in cards:
 		if not card is Dictionary or not card.get("id") is String or not catalog.has(card.id) or not card.get("uid") is int or card.uid < 0 or card.uid >= next_uid or seen.has(card.uid):
 			return {"ok": false, "error": "Battle card identities are inconsistent."}
+		if card.size() != (3 if card.has("upgrade_rank") else 2) or not InstanceEffects.resolve(catalog, card).ok:
+			return {"ok": false, "error": "Battle card rank or schema is inconsistent."}
 		seen[card.uid] = true
 		if not catalog[card.id].get("temporary", false):
-			if _owned_instances.get(card.uid) != card.id:
+			if _owned_instances.get(card.uid) != card:
 				return {"ok": false, "error": "A run-owned instance changed identity."}
-			permanents.append({"id": card.id, "uid": card.uid})
+			permanents.append(card.duplicate(true))
 	permanents.sort_custom(func(first, second): return first.uid < second.uid)
 	var expected: Array = _run_entry.owned_cards.duplicate(true)
 	expected.sort_custom(func(first, second): return first.uid < second.uid)
 	if permanents != expected:
 		return {"ok": false, "error": "Run ownership is inconsistent."}
-	return {"ok": true, "error": "", "run_id": _run_entry.run_id,
+	var handoff := {"ok": true, "error": "", "run_id": _run_entry.run_id,
 		"encounter_id": encounter.id, "state": state,
 		"player_hp": player_hp, "player_max_hp": encounter.player_max_health,
 		"owned_cards": permanents, "next_uid": next_uid,
 		"rng_states": {"cards": rng.state, "endpoints": endpoint_rng.state, "kits": kit_rng.state}}.duplicate(true)
+	if _run_entry.has("battle_identity"): handoff.battle_identity = _run_entry.battle_identity.duplicate(true)
+	if _run_entry.has("relics"): handoff.relics = relics.duplicate()
+	return handoff
 
 # The UI receives values, never references to authoritative collections.
 func snapshot() -> Dictionary:
@@ -232,8 +264,9 @@ func snapshot() -> Dictionary:
 		"enemy_name": encounter.name, "energy_per_turn": encounter.energy_per_turn,
 		"draw_per_turn": encounter.draw_per_turn, "stock_totals": stock_totals,
 		"owned_cards": owned_cards, "encounter_content_id": encounter.id,
+		"relics": relics,
 		"encounter_title": encounter.title, "encounter_help_text": encounter.help_text,
-		"log_text": log_text, "intent": intent(), "forecast": forecast(),
+		"log_text": log_text, "intent": intent(), "enemy_action": enemy_action(), "forecast": forecast(),
 		"stock": available_stock,
 		"undo_count": history.size()
 	}
@@ -315,6 +348,7 @@ func pass_turn() -> void:
 
 func _card(id: String) -> Dictionary:
 	var card := {"id": id, "uid": next_uid}
+	if not _run_entry.is_empty(): card.upgrade_rank = 0
 	next_uid += 1
 	return card
 
@@ -326,10 +360,46 @@ func _shuffle(cards: Array) -> void:
 		cards[j] = previous
 
 func intent() -> int:
-	return int(encounter.intents[(turn - 1) % encounter.intents.size()])
+	return _announced_attack
+
+# Read-only detached action data is shared by inspection, confirmation and
+# presentation. HP never recalculates an already announced retaliation.
+func enemy_action() -> Dictionary:
+	var action := {"kind": "attack", "amount": _announced_attack,
+		"phase": _enemy_phase, "phase_count": 2 if encounter.has("phase_two") else 1,
+		"sequence_index": _enemy_sequence_index, "sequence": _enemy_sequence()}
+	if encounter.has("phase_two"):
+		action.health_threshold = encounter.phase_two.health_threshold
+		action.next_sequence = encounter.phase_two.intents
+	return action.duplicate(true)
+
+func _enemy_sequence() -> Array:
+	return encounter.phase_two.intents if _enemy_phase == 2 else encounter.intents
+
+func _reset_enemy_action() -> void:
+	_enemy_phase = 1
+	_enemy_sequence_index = 0
+	_announced_attack = int(encounter.intents[0])
+
+func _advance_enemy_action() -> void:
+	# Only surviving turns reach this boundary, after old retaliation and cleanup.
+	# Deterministic cycling must not consume any of the three random streams.
+	if _enemy_phase == 1 and encounter.has("phase_two") and enemy_hp <= encounter.phase_two.health_threshold:
+		var previous := enemy_action()
+		_enemy_phase = 2
+		_enemy_sequence_index = 0
+		_announced_attack = int(_enemy_sequence()[0])
+		_record("enemy_phase_changed", {"before": previous, "after": enemy_action(),
+			"enemy_hp": enemy_hp, "health_threshold": encounter.phase_two.health_threshold,
+			"turn_after": turn + 1})
+	else:
+		_enemy_sequence_index = (_enemy_sequence_index + 1) % _enemy_sequence().size()
+		_announced_attack = int(_enemy_sequence()[_enemy_sequence_index])
 
 func forecast() -> Dictionary:
-	return Circuit.evaluate(board, catalog, _rules())
+	var options := _rules().duplicate(true)
+	if not relics.is_empty(): options.relics = relics.duplicate()
+	return Circuit.evaluate(board, catalog, options)
 
 func _rules() -> Dictionary:
 	return _production if not _production.is_empty() else _experiment
@@ -356,7 +426,7 @@ func _editable(index: int) -> bool:
 func _return_rune(index: int) -> void:
 	var piece: Dictionary = board[index]
 	if piece.get("kind") == "rune":
-		hand.append({"id": piece.rune_id, "uid": piece.uid})
+		hand.append(InstanceEffects.card_from_piece(piece))
 
 func _place_wire(index: int, kind: String) -> bool:
 	if not _editable(index) or not ["straight", "corner", "split", "join", "erase"].has(kind):
@@ -382,13 +452,15 @@ func _place_rune(index: int, uid: int) -> bool:
 	if hand_index == -1:
 		return false
 	var card: Dictionary = hand[hand_index]
-	if catalog[card.id].type != "rune":
+	var resolved := InstanceEffects.resolve(catalog, card)
+	if not resolved.ok or resolved.definition.type != "rune":
 		return false
 	_remember()
 	hand.remove_at(hand_index)
 	_return_rune(index)
 	var rotation: int = board[index].get("rotation", 0)
 	board[index] = {"kind": "rune", "rotation": rotation, "rune_id": card.id, "uid": card.uid}
+	if card.has("upgrade_rank"): board[index].upgrade_rank = card.upgrade_rank
 	if catalog[card.id].has("port_shape"):
 		board[index].port_shape = catalog[card.id].port_shape
 	return true
@@ -423,9 +495,13 @@ func _play_technique(uid: int) -> bool:
 		return false
 	for i in range(hand.size()):
 		var card: Dictionary = hand[i]
-		var rune: Dictionary = catalog[card.id]
 		if card.uid != uid:
 			continue
+		var resolved := InstanceEffects.resolve(catalog, card)
+		if not resolved.ok:
+			log_text = resolved.error
+			return false
+		var rune: Dictionary = resolved.definition
 		if rune.type != "technique" or not rune.effect in ["draw", "conjure"]:
 			log_text = "Unsupported technique type/effect for %s." % card.id
 			return false
@@ -522,7 +598,7 @@ func _consume_effects(active: Array) -> void:
 	for index in range(board.size()):
 		var piece: Dictionary = board[index]
 		if active.has(index) and piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
-			var card := {"id": piece.rune_id, "uid": piece.uid}
+			var card := InstanceEffects.card_from_piece(piece)
 			discard_pile.append(card)
 			board[index] = _connector(piece, "retained")
 			_record("effect_consumed", {"cell": index, "card": card, "before": piece,
@@ -582,6 +658,7 @@ func _end_turn() -> void:
 		_record("battle_ended", {"state": state, "player_hp": player_hp, "enemy_hp": enemy_hp})
 	else:
 		var energy_before := energy
+		_advance_enemy_action()
 		if not _production.is_empty():
 			# Production events follow the actual mutations: geometry, supply,
 			# then turn/energy refresh. Historical experiments keep their order.
@@ -597,7 +674,8 @@ func _end_turn() -> void:
 			elif _experiment.get("endpoint_policy", "fixed") == "random_any_cells":
 				_move_free_endpoints()
 		_record("turn_started", {"turn_before": turn - 1, "turn_after": turn,
-			"energy_before": energy_before, "energy_after": energy, "intent": intent()})
+			"energy_before": energy_before, "energy_after": energy, "intent": intent(),
+			"enemy_action": enemy_action()})
 		_draw(int(encounter.draw_per_turn))
 		if not _production.is_empty():
 			log_text += " Board cleared; turn %d draws %d cards and receives a new kit." % [turn, hand.size()]
@@ -614,7 +692,7 @@ func _clear_turn_board() -> void:
 			if catalog[piece.rune_id].get("temporary", false):
 				_record("temporary_expired", {"cell": index, "before": piece, "after": {}})
 			else:
-				var card := {"id": piece.rune_id, "uid": piece.uid}
+				var card := InstanceEffects.card_from_piece(piece)
 				discard_pile.append(card)
 				_record("effect_consumed", {"cell": index, "card": card, "before": piece,
 					"after": {}, "from": "board", "to": "discard"})
@@ -683,7 +761,7 @@ func _next_encounter() -> bool:
 			cards.append(card.duplicate(true))
 	for piece in board:
 		if piece.get("kind") == "rune" and not catalog[piece.rune_id].get("temporary", false):
-			cards.append({"id": piece.rune_id, "uid": piece.uid})
+			cards.append(InstanceEffects.card_from_piece(piece))
 	cards.sort_custom(func(first, second): return first.uid < second.uid)
 	var previous_board := board.duplicate(true)
 	var mode: String = _experiment.transfer
@@ -716,13 +794,15 @@ func _next_encounter() -> bool:
 	_encounter_id += 1
 	_encounter_number = 2
 	enemy_hp = int(encounter.max_health)
-	energy = int(encounter.energy_per_turn)
+	energy = int(encounter.energy_per_turn) + RelicPolicy.opening_energy_bonus(relics)
 	turn = 1
+	_reset_enemy_action()
 	state = "playing"
 	log_text = "Experiment encounter 2 of 2: %s topology. Health and permanent instances carried." % mode
 	_record("encounter_transition", {"mode": mode, "encounter_before": 1, "encounter_after": 2,
 		"player_hp": player_hp, "board_before": previous_board, "board_after": board})
 	_draw(int(_setup.opening_draw))
+	_draw(RelicPolicy.opening_draw_bonus(relics))
 	return true
 
 func _select_turn_kit(initial: bool = false) -> void:
@@ -749,15 +829,18 @@ func _next_production_encounter() -> bool:
 		cards.append(card.duplicate(true))
 	for piece in board:
 		if piece.get("kind") == "rune":
-			cards.append({"id": piece.get("rune_id"), "uid": piece.get("uid")})
+			cards.append(InstanceEffects.card_from_piece(piece))
 	var permanents: Array = []
 	for card in cards:
 		if not card.get("id") is String or not catalog.has(card.id) or not card.get("uid") is int or card.uid < 0 or seen.has(card.uid):
 			log_text = "Encounter transition rejected: card identities are inconsistent."
 			return false
+		if not InstanceEffects.resolve(catalog, card).ok:
+			log_text = "Encounter transition rejected: card rank is invalid."
+			return false
 		seen[card.uid] = true
 		if not catalog[card.id].get("temporary", false):
-			if _owned_instances.get(card.uid) != card.id:
+			if _owned_instances.get(card.uid) != card:
 				log_text = "Encounter transition rejected: a permanent instance changed identity."
 				return false
 			permanents.append(card)
@@ -793,8 +876,9 @@ func _next_production_encounter() -> bool:
 	_encounter_id += 1
 	_encounter_number = 2
 	enemy_hp = int(encounter.max_health)
-	energy = int(encounter.energy_per_turn)
+	energy = int(encounter.energy_per_turn) + RelicPolicy.opening_energy_bonus(relics)
 	turn = 1
+	_reset_enemy_action()
 	state = "playing"
 	log_text = "Entered %s. Health and permanent cards carried; build a new circuit." % encounter.title
 	_record("encounter_transition", {"mode": "production_reset", "encounter_before": 1, "encounter_after": 2,
@@ -808,5 +892,6 @@ func _next_production_encounter() -> bool:
 		"zones_before": previous_zones, "permanents": permanents,
 		"draw_after": draw_pile, "hand_after": [], "discard_after": []})
 	_draw(int(encounter.draw_per_turn))
+	_draw(RelicPolicy.opening_draw_bonus(relics))
 	return true
 

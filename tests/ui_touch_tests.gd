@@ -417,7 +417,7 @@ func _android_back(scene: Control, viewport: SubViewport, tree: SceneTree, check
 	check.call(not scene.dialog.visible and _state(scene) == before, "Reopened Guide accepts a fresh touch after Back even when the old native release was dropped.")
 	scene._show_map()
 	await _send_android_back(scene, tree)
-	check.call(not scene.dialog.visible and _state(scene) == before, "Android Back closes Map using its existing dismissal route.")
+	check.call(scene.standalone_map == null and not scene.menu.visible and _state(scene) == before, "Android Back closes Map once without opening Menu or changing Combat.")
 	scene._open_menu()
 	scene._open_options()
 	await _send_android_back(scene, tree, 2)
@@ -533,7 +533,8 @@ func _small_inspector(scene: Control, viewport: SubViewport, tree: SceneTree, ch
 	_touch(scene.dialog, guide_origin, true)
 	_drag(scene.dialog, guide_origin - Vector2(0, 120), Vector2(0, -120))
 	_touch(scene.dialog, guide_origin - Vector2(0, 120), false)
-	check.call(scene.dialog.size.x <= viewport.size.x and scene.dialog.size.y <= viewport.size.y and guide_scroll.scroll_vertical > 0 and _state(scene) == before, "The bounded native Guide scrolls through its own Window touch router without activating the background scene.")
+	check.call(scene.dialog.size.x <= viewport.size.x and scene.dialog.size.y <= viewport.size.y and guide_scroll.scroll_vertical > 0 and _state(scene) == before,
+		"The bounded native Guide scrolls through its own Window touch router without activating the background scene. window=%s viewport=%s scroll=%d scroll_rect=%s text_size=%s state_unchanged=%s" % [scene.dialog.size, viewport.size, guide_scroll.scroll_vertical, guide_scroll.get_global_rect(), scene.guide_text.size, _state(scene) == before])
 	var guide_offset: int = guide_scroll.scroll_vertical
 	for keycode in [KEY_ESCAPE, KEY_ENTER, KEY_TAB, KEY_DOWN]: _key(scene.dialog, keycode)
 	check.call(scene.dialog.visible and scene.dialog.gui_get_focus_owner() == null and guide_scroll.scroll_vertical == guide_offset and _state(scene) == before,

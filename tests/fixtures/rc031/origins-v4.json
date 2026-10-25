@@ -1,0 +1,44 @@
+[
+  {
+    "file": "ranked-history-v4.json",
+    "source": "output/qa/rc-031/process/465155120b/heart-mender/active.json",
+    "sha256": "eea32a0c4441989415ceeb16ab6a1a75d3b0d6caf82523478672a5dabb9de229",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  },
+  {
+    "file": "active-reliquary-v4.json",
+    "source": "output/qa/rc-031/process/465155120b/heart-mender/active.json.previous",
+    "sha256": "55888fdfad768a920303a30b4539d6d106e9820a76a21f224c5cfb9cc9f3f41f",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  },
+  {
+    "file": "ranked-relic-shop-v4.json",
+    "source": "output/qa/rc-031/process/465155120b/failure-relic-write/active.json",
+    "sha256": "c723630e5ce26d005a88aede7b184321f70cea57bcedfe95b684824ca4581556",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  },
+  {
+    "file": "interrupted-entry-v4.json",
+    "source": "output/qa/rc-031/legacy-process/17bb52af25/rune_first/active.json",
+    "sha256": "c0014bb3fca413e382ff4a89629f8a340a8d2cfeb3ef161013cc65a1673969d4",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  },
+  {
+    "file": "pending-reward-v4.json",
+    "source": "output/qa/rc-031/regression/c1578e3648/persistence-shell/evidence/rc-028/shell-persistence/gameplay-6309953.json.previous",
+    "sha256": "8b0192af99c54ab50b085b67ad8f5330a8baeca1b71c8aff446cf3c754b48c83",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  },
+  {
+    "file": "pending-defeat-v4.json",
+    "source": "output/qa/rc-031/legacy-process/17bb52af25/defeat/active.json.previous",
+    "sha256": "25833790148a73136c657f340a66b4ccab1d079bf9e34f8c088fe13d50fcf18a",
+    "captured": "2026-10-24",
+    "provenance": "Original RC-031 output envelope, copied before RC-032 schema changes; no field or version rewrite."
+  }
+]

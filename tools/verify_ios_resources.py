@@ -194,7 +194,7 @@ def decode(pack: Path, engine: Path, evidence: Path) -> dict:
         (evidence / "ios-resource-probe-console.txt").write_text(output, encoding="utf-8")
         summary = re.search(r"(\d+) iOS payload desktop decode checks, (\d+) failures", output)
         errors = [line for line in output.splitlines() if "ERROR:" in line or "SCRIPT ERROR:" in line]
-        passed = result.returncode == 0 and bool(summary) and int(summary[1]) == 60 and int(summary[2]) == 0 and not errors
+        passed = result.returncode == 0 and bool(summary) and int(summary[1]) >= 98 and int(summary[2]) == 0 and not errors
         return {"passed": passed, "engine": actual, "command": command,
                 "fresh_empty_project": True, "isolated_user_data": True,
                 "workspace_resource_fallback": False, "return_code": result.returncode,

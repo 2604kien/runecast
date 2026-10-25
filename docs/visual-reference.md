@@ -1,5 +1,7 @@
 # Rune Cast visual reference
 
+**October 20, 2026 — RC-025 live Map:** the approved Map below remains the direction. Runtime now uses live branching connections, reusable `Ui.map_node()` rings/checks, room labels and known roles, health/Gold/depth, inspection sheets and fixed dismissal/navigation. Restrained parchment geometry and temporary distinct room symbols stand in for RC-041 artwork; RC-042 owns final integration. Neither the approved screenshot nor a crop of it is a runtime surface. [RC-025 verification and captures](rc-025-verification.md).
+
 **Asset cleanup:** All six approved images below remain. Superseded generated study images/prompts were removed at the owner's request; [the cleanup ledger](../output/art/rc-011/cleanup/deletion-manifest.json) retains their exact hashes and reasons. Dated history below records earlier states and no longer requires those alternate images to remain in the workspace.
 
 **Current owner-approved final:** [combat-final-v2-clean-board.png](../output/imagegen/approved/combat-final-v2-clean-board.png), preserved from the latest attachment exactly. [Approval record](../source-assets/pilot/revisions/r005/delivery.md). Its pixels match v10; this explicit approval supersedes the earlier final image and the r004 reconstruction's board treatment. Only Begin/End labels remain inside the board; all board values/cost badges/TEMP are absent; Split and Join use the corrected fork/trident silhouettes.

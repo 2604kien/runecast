@@ -216,6 +216,10 @@ func get_geometry() -> Dictionary:
 	var outline := PackedVector2Array()
 	if kind == "cast":
 		outline = PackedVector2Array([Vector2(126, 1708), Vector2(167, 1663), Vector2(670, 1663), Vector2(714, 1707), Vector2(669, 1751), Vector2(168, 1751)])
+	elif kind == "nav":
+		# The caption above the source bar extends into its rectangular
+		# top corners. Keep only the navigation frame's gold chamfers.
+		outline = PackedVector2Array([Vector2(57, 1778), Vector2(784, 1778), Vector2(801, 1795), Vector2(801, 1851), Vector2(782, 1869), Vector2(58, 1869), Vector2(43, 1853), Vector2(43, 1793)])
 	elif kind == "parchment":
 		outline = PackedVector2Array([Vector2(660, 525), Vector2(674, 526), Vector2(680, 525), Vector2(747, 525), Vector2(751, 527), Vector2(779, 525), Vector2(783, 535), Vector2(784, 557), Vector2(776, 562), Vector2(777, 567), Vector2(662, 567), Vector2(659, 561), Vector2(652, 559), Vector2(651, 539), Vector2(658, 531)])
 	elif kind == "ribbon":

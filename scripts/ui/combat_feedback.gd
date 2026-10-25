@@ -115,6 +115,8 @@ func _draw() -> void:
 	# Window modals are already above this canvas; in-page inspection is z=100.
 	var kind := str(_event.type)
 	match kind:
+		"enemy_phase_changed":
+			_enemy_label(view, "Phase %d" % int(_event.after.phase), Color("ead18e"))
 		"damage":
 			if int(_event.applied) > 0:
 				_enemy_label(view, "−%d HP" % _event.applied, style.damage_color)

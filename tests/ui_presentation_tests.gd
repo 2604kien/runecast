@@ -53,7 +53,7 @@ func run(scene: Control, check: Callable, tree: SceneTree) -> void:
 	check.call(scene.menu.visible, "Menu remains available during presentation.")
 	scene.menu.hide()
 	scene._show_map()
-	check.call(scene.dialog.visible, "Read-only Map remains available during presentation.")
+	check.call(scene.standalone_map == null and not scene.dialog.visible, "Map waits until the active presentation settles.")
 	scene.dialog.hide()
 	scene._show_guide()
 	check.call(scene.dialog.visible, "Guide remains available during presentation.")

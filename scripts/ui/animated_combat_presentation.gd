@@ -122,6 +122,7 @@ func _event_seconds(event: Dictionary) -> float:
 		"card_drawn", "card_created": seconds = STYLE.draw_seconds
 		"battle_ended": seconds = STYLE.terminal_seconds
 		"encounter_transition": seconds = STYLE.cards_seconds
+		"enemy_phase_changed": seconds = STYLE.cards_seconds
 	return (minf(seconds, STYLE.reduced_seconds) if reduced_motion else seconds) * repetitions
 
 func _tick(delta: float) -> void:
@@ -262,10 +263,15 @@ func _apply_event(event: Dictionary) -> void:
 			_state.kit = event.after.duplicate(true)
 			_state.stock_totals = event.after.totals.duplicate(true)
 			_state.stock = event.after.totals.duplicate(true)
+		"enemy_phase_changed":
+			_state.enemy_action = event.after.duplicate(true)
+			_state.intent = int(event.after.amount)
+			_state.log_text = "Enemy phase %d" % int(event.after.phase)
 		"turn_started":
 			_state.turn = event.turn_after
 			_state.energy = event.energy_after
 			_state.intent = event.intent
+			if event.has("enemy_action"): _state.enemy_action = event.enemy_action.duplicate(true)
 			_state.forecast = _result.after.forecast.duplicate(true)
 			_state.log_text = "Turn %d" % event.turn_after
 		"reshuffled":

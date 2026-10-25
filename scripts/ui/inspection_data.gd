@@ -3,12 +3,34 @@ extends RefCounted
 # Read-only presentation helpers. Inputs are detached controller snapshots; this
 # file has no model/controller reference and never executes a gameplay command.
 const Circuit = preload("res://scripts/core/circuit.gd")
+const InstanceEffects = preload("res://scripts/core/instance_effects.gd")
 const DIRECTIONS := ["North", "East", "South", "West"]
 const TOOL_NAMES := {"straight": "Straight wire", "corner": "Corner wire", "split": "Split", "join": "Join", "erase": "Erase"}
 
+static func describe_intent(snapshot: Dictionary) -> Dictionary:
+	# Combat supplies the announcement and its sequence position. Never derive
+	# either from turn modulo or current HP: this turn's retaliation is fixed.
+	var action: Dictionary = snapshot.get("enemy_action", {})
+	if action.is_empty() or snapshot.get("state") != "playing": return {}
+	var sequence: Array = action.get("sequence", [])
+	var lines: Array[String] = ["Announced attack: %d damage. Cast shield blocks this attack if the enemy survives. Pass uses no shield." % int(action.amount),
+		"Repeating sequence: %s.\nCurrent position: %d of %d." % [_attack_sequence(sequence), int(action.sequence_index) + 1, sequence.size()]]
+	if int(action.get("phase_count", 1)) > 1:
+		lines.append("Active phase: %d of %d." % [int(action.phase), int(action.phase_count)])
+		lines.append("Phase 2 threshold: %d HP or less.\nPhase 2 sequence: %s." % [int(action.health_threshold), _attack_sequence(action.next_sequence)])
+		lines.append("Crossing the threshold preserves this turn's announced attack. After that retaliation and cleanup, if both combatants survive, the next turn starts with phase 2's first attack. The transition happens once.")
+		if int(action.phase) == 2: lines.append("Phase 2 is active. Its sequence continues and repeats without restarting at the threshold.")
+	return {"title": "Enemy intent", "text": "\n\n".join(lines), "kind": "enemy_intent"}
+
+static func _attack_sequence(sequence: Array) -> String:
+	var values: Array[String] = []
+	for amount in sequence: values.append(str(int(amount)))
+	# The shared body font has no arrow glyph; use its ordinary separator.
+	return " / ".join(values)
+
 static func describe_hand(snapshot: Dictionary, uid: int) -> Dictionary:
 	var card := _hand_card(snapshot, uid)
-	var rune: Dictionary = snapshot.get("catalog", {}).get(card.get("id", ""), {})
+	var rune: Dictionary = InstanceEffects.resolve(snapshot.get("catalog", {}), card).get("definition", {})
 	if card.is_empty() or rune.is_empty():
 		return {}
 	var technique: bool = rune.get("type") == "technique"
@@ -22,7 +44,8 @@ static func describe_hand(snapshot: Dictionary, uid: int) -> Dictionary:
 		lines.append("Unrotated " + _ports({"kind": "rune", "port_shape": rune.get("port_shape", "straight")}, snapshot.has("production")))
 		lines.append("Placement keeps the target's rotation. Use Rotate after placing.")
 		lines.append(_rune_cleanup(snapshot, rune, {}, false))
-	return {"title": str(rune.name), "text": "\n\n".join(lines), "uid": uid, "kind": str(rune.type)}
+	if int(card.get("upgrade_rank", 0)) > 0: lines.append("Upgraded · rank 1. This upgrade belongs to copy %d." % uid)
+	return {"title": display_name(rune), "text": "\n\n".join(lines), "uid": uid, "kind": str(rune.type)}
 
 static func describe_cell(snapshot: Dictionary, index: int) -> Dictionary:
 	var board: Array = snapshot.get("board", [])
@@ -38,10 +61,11 @@ static func describe_cell(snapshot: Dictionary, index: int) -> Dictionary:
 	var lines: Array[String] = [location]
 	var title := str(TOOL_NAMES.get(kind, kind.capitalize()))
 	if kind == "rune":
-		var rune: Dictionary = snapshot.get("catalog", {}).get(piece.get("rune_id", ""), {})
+		var rune: Dictionary = InstanceEffects.resolve(snapshot.get("catalog", {}), piece).get("definition", {})
 		if rune.is_empty():
 			return {}
-		title = str(rune.name)
+		title = display_name(rune)
+		if int(piece.get("upgrade_rank", 0)) > 0: lines.append("Upgraded · rank 1 · copy %d." % int(piece.get("uid", -1)))
 		lines.append("Installed effect rune. " + _effect(snapshot, rune))
 		lines.append("Energy: %d, paid once on a valid Cast if powered. Editing costs no energy." % int(rune.cost))
 		lines.append(_rune_cleanup(snapshot, rune, piece, true))
@@ -202,6 +226,9 @@ static func _rules(snapshot: Dictionary) -> Dictionary:
 	return production if not production.is_empty() else snapshot.get("experiment", {})
 
 static func _effect(snapshot: Dictionary, rune: Dictionary) -> String:
+	if rune.get("effect") == "damage_shield":
+		var values: Dictionary = rune.get("value", {})
+		return "Adds %d damage and %d shield to the signal." % [int(values.get("damage", 0)), int(values.get("shield", 0))]
 	var value := int(rune.get("value", 0))
 	match rune.get("effect"):
 		"damage": return "Adds %d damage to the signal." % value
@@ -211,6 +238,9 @@ static func _effect(snapshot: Dictionary, rune: Dictionary) -> String:
 			var generated: Dictionary = snapshot.get("catalog", {}).get(rune.get("generated_rune_id", ""), {})
 			return "Creates %d temporary %s in hand immediately." % [value, generated.get("name", "runes")]
 	return "Effect unavailable."
+
+static func display_name(rune: Dictionary) -> String:
+	return str(rune.get("name", "Rune")) + (" +" if int(rune.get("upgrade_rank", 0)) > 0 else "")
 
 static func _ports(piece: Dictionary, undirected: bool = false) -> String:
 	if undirected:

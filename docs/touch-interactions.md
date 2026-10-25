@@ -1,5 +1,17 @@
 # Touch inspection and board editing
 
+## October 25, 2026 — Enemy intent inspection
+
+Tap or hold the existing enemy attack area to open **Enemy intent**. Its small Info marker and outline surround the unchanged attack icon/number; the target is at least 96×68 logical pixels and has no keyboard focus. The shared scrollable popup shows the authoritative announced amount, repeating sequence and position, active phase, threshold and next sequence. It explains that crossing preserves this turn's attack and only surviving cleanup starts phase two. Long text scrolls above fixed Close; Back dismisses one layer.
+
+This is a read-only detached snapshot consumer. Opening, refreshing, holding, dragging or dismissing it cannot issue a gameplay command, consume RNG/resources or change preparation. Busy and modal guards apply; old popup gestures/signals cannot become Pass. Pass confirmation reads the same model announcement as retaliation. Forecast remains display-only, board slots remain uninspectable, and production keeps tap/hold/drag with no keyboard/right-click controls. [Actual-window evidence and checks](rc-033-verification.md).
+
+## October 20, 2026 — Live route Map
+
+Tap any Map node to inspect without entering. Available nodes offer Enter followed by shell confirmation; current rooms offer Resume, completed rooms are summary-only, and locked branches explain their state. Drag the parchment vertically; the top Close and bottom navigation remain fixed. Inspection body text scrolls independently above fixed actions.
+
+Map opens only after Combat presentation settles, clears stale pointer holds and blocks input below it. Close/Resume keeps the exact Combat scene, controller, model, preparation, selection and scroll. Android Back dismisses one layer per input frame: confirmation, inspection, then Map. Closing Map cannot also clear Combat selection or open its Menu. Generation-bound callbacks from disposed Maps cannot affect a later screen. [RC-025 verification](rc-025-verification.md) separates synthetic input/layout evidence from pending physical-device acceptance.
+
 ## October 19, 2026 — Session shell transitions
 
 Home reuses the production touch router and shared Options. Menu Resume retains the attached battle. Quit to Home is disabled during an unsettled action; its confirmation explains entry replay before discarding progress. Opening/cancelling/replacing a shell modal clears held-pointer ownership and blocks Combat input underneath it. Android Back cancels this confirmation once without also opening Combat Menu; Home Back dismisses Options without starting or replacing a run. Teardown disconnects controller, presenter, audio and tree listeners before detaching the scene. [RC-024 verification](rc-024-verification.md) records synthetic touch-to-mouse, pause and stale-callback checks; physical-device acceptance remains pending.

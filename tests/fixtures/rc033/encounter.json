@@ -1,0 +1,6 @@
+{
+  "id": "rc033_phase_framework", "ruleset": "rc007_production_v1",
+  "enemy_id": "dev_rc033_phase_probe", "board_id": "board_training", "loadout_id": "rc033_observer",
+  "title": "RC-033 FIXTURE", "help_text": "Excluded enemy-phase framework fixture. This is not Bell Keeper content or production balance. Tap the enemy attack to inspect its sequence and threshold.",
+  "opening_log": "Fixture resources: 400 HP, 20 energy, eight cards per turn. Build normal legal circuits.", "seed": 42
+}

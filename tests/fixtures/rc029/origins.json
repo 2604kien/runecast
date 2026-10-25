@@ -1,0 +1,72 @@
+[
+  {
+    "file": "active-shop-v2.json",
+    "source": "output/qa/rc-029/shell/450x1000-2704747.json.previous",
+    "sha256": "d4d9823b650dcdd4c6e80b3c09bd40168b776b84597bceb4f3fc1395deb03826",
+    "version": "2",
+    "status": "room_active",
+    "shop": "active",
+    "pending": {}
+  },
+  {
+    "file": "completed-shop-v2.json",
+    "source": "output/qa/rc-029/shell/450x1000-2704747.json",
+    "sha256": "19fba58f7a6cff82b43b883020fcf768ebb8aacf34194dec6a1085d52c711cba",
+    "version": "2",
+    "status": "route_ready",
+    "shop": "left",
+    "pending": {}
+  },
+  {
+    "file": "replay-shop-v2.json",
+    "source": "output/qa/rc-029/process/48cb774f4f/ordinary/active.json",
+    "sha256": "5ba48417c0ae8088b898267806659adc2e4e23acda8da44792a9c29878030a4a",
+    "version": "2",
+    "status": "replay_pending",
+    "shop": "left",
+    "pending": {}
+  },
+  {
+    "file": "pending-reward-v2.json",
+    "source": "output/qa/rc-029/regression/evidence/rc-028/shell-persistence/unlock-9106478.json.previous",
+    "sha256": "390bc701287a38bfb2386886370c85face75068a555f7c2872918b383e5a2ebb",
+    "version": "2",
+    "status": "result_pending",
+    "shop": null,
+    "pending": {
+      "encounter_id": "training_shadeling",
+      "encounter_name": "TRAINING CRYPT",
+      "enemy_name": "Shadeling",
+      "identity": {
+        "generation": {
+          "__rc_i64__": "1"
+        },
+        "node_id": "d1a",
+        "route_id": "rc027_boss_boundary_fixture-42",
+        "run_id": "run-3d18035a5cc838349c417a56ede2320e",
+        "visit_id": "run-3d18035a5cc838349c417a56ede2320e/visit-01/d1a"
+      },
+      "outcome": "victory",
+      "pending_choices": [
+        "permanent_unlock"
+      ],
+      "player_hp": {
+        "__rc_i64__": "16"
+      },
+      "player_max_hp": {
+        "__rc_i64__": "30"
+      },
+      "reward_policy": "Reward-free verification fixture: no Gold, cards, healing, relics, perks or permanent unlocks.",
+      "role": "boss"
+    }
+  },
+  {
+    "file": "production-v2.json",
+    "source": "output/qa/rc-029/legacy-process/964ddbec63/production/active.json",
+    "sha256": "04a4aa6e62c454336f2bbd8d9ef559fcc8dd4965ff8c979288fa7190cb22fd18",
+    "version": "2",
+    "status": "route_ready",
+    "shop": null,
+    "pending": {}
+  }
+]

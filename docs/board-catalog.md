@@ -1,5 +1,7 @@
 # Board catalog
 
+**Current encounter placement:** the later owner decision and RC-025/026 route contract place Shadeling at the explicit depth-six boss node, distinct from the ninth-depth guardian. Historical onboarding references below describe teaching examples and do not relocate the boss. RC-026 validates the selected board identity but samples ordinary endpoints/kit from continuing run streams; it never preloads these authored witnesses. [Integration verification](rc-026-verification.md).
+
 RC-009 identities, updated October 13, 2026 for RC-016A. The four stable identities below use the same accepted [production rules](production-rules-spec.md), including undirected logical ports and Remove/Rotate controls. A **board identity** is a content/encounter reference. A **runtime layout** is the sampled endpoints and the player's current construction. An **authored example** is a reproducible witness for one sampled setup. These definitions do not create mechanically different difficulty. The original directed witness document remains [historical evidence](../output/qa/rc-016a/rc009-board-examples-directed.json).
 
 | Identity / display name | Teaching/content role | Future assignment and presentation |

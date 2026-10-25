@@ -1,0 +1,38 @@
+{
+  "captured": "2026-10-25 Australia/Sydney",
+  "provenance": "Byte-for-byte copies of retained saves from the previously enabled Store implementation, before the accepted-default reenabling. Source envelopes, payloads, versions and signatures were not edited or regenerated.",
+  "specimens": [
+    {
+      "fixture": "tests/fixtures/rc032/store-rune-settled-v6.json",
+      "source": "output/qa/rc-032-store/process/33b2678f07/relic-second-replace-retry/active.json",
+      "sha256": "54912d09ae78be86892b57e9ccc0a4b019263543618ebc360beed6c88bc7166a",
+      "run_version": 6,
+      "store_policy": "rc032_store_v1",
+      "transactions": 1
+    },
+    {
+      "fixture": "tests/fixtures/rc032/store-relic-settled-v6.json",
+      "source": "output/qa/rc-032-store/process/96e2cfb816/rune-second-write-retry/active.json",
+      "sha256": "a6235bc1622f247e1dbdcad95f14cd71b31889904627dcf149d5aaf827098de1",
+      "run_version": 6,
+      "store_policy": "rc032_store_v1",
+      "transactions": 1
+    },
+    {
+      "fixture": "tests/fixtures/rc032/store-normal-victory-v6.json",
+      "source": "output/qa/rc-032-store/ui/normal-450x1000-3258904.json.previous",
+      "sha256": "1e7d216538ed5c70963a518208b463e33fe8ffdb7ddac09a8068b761431a8e11",
+      "run_version": 6,
+      "store_policy": "rc032_store_v1",
+      "transactions": 2
+    },
+    {
+      "fixture": "tests/fixtures/rc032/store-elite-victory-v6.json",
+      "source": "output/qa/rc-032-store/ui/elite-360x640-20635363.json.previous",
+      "sha256": "e142836892aae6dca355a0887bef0e9562936d41412557279559bc9f5ace0417",
+      "run_version": 6,
+      "store_policy": "rc032_store_v1",
+      "transactions": 2
+    }
+  ]
+}

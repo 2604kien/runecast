@@ -1,0 +1,160 @@
+{
+  "captured_utc": "2026-10-24T15:53:02.302659+00:00",
+  "method": "Exact unmodified local-save envelopes produced by RC-032 v5 runtime before Store implementation. Versions and terminal signatures were not rewritten. Earlier full-route subtitle is an explicit historical test context; never production or save-controlled context.",
+  "specimens": [
+    {
+      "fixture": "tests/fixtures/rc032/production-v5.json",
+      "source": "output/qa/rc-032/ui/home-450x1000-3591079.json",
+      "sha256": "921d1f6bfbaf6ea2bab1ae7b146364b9d183e16f3ad213a70f3f9c7fd3aa0f5d",
+      "bytes": 8342,
+      "run_version": 5,
+      "status": "route_ready",
+      "terminal": "",
+      "context": "production",
+      "registered_graph_display_name": ""
+    },
+    {
+      "fixture": "tests/fixtures/rc032/interrupted-entry-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/abandon-battle-write-restart/active.json",
+      "sha256": "4f9d26beada199803ce33c39d7524fdee5a629c80812d5c5b23eb2a4fdc5afac",
+      "bytes": 14007,
+      "run_version": 5,
+      "status": "replay_pending",
+      "terminal": "",
+      "context": "rc027_reward_fixture",
+      "registered_graph_display_name": "Reward-enabled test fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/abandoned-entry-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/abandon-battle-write-retry/active.json",
+      "sha256": "a2edf816c3179b1a13ed346c0ee47934cf03f94ce021ba3dd64d346d3ebf5ddf",
+      "bytes": 14285,
+      "run_version": 5,
+      "status": "abandoned",
+      "terminal": "abandoned",
+      "context": "rc027_reward_fixture",
+      "registered_graph_display_name": "Reward-enabled test fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/active-ranked-shop-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/abandon-shop-write-restart/active.json",
+      "sha256": "400e2a7dcc063520dbd5883ae47633cfff1b3af8796712b56dd1968459a59671",
+      "bytes": 14852,
+      "run_version": 5,
+      "status": "room_active",
+      "terminal": "",
+      "context": "rc031_upgrade_relic_fixture",
+      "registered_graph_display_name": "Upgrade and relic history fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/abandoned-ranked-shop-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/abandon-shop-write-retry/active.json",
+      "sha256": "4fbfd907a869e9f123a444ff144d630421c1210399534212ec11415a9a19f72e",
+      "bytes": 15130,
+      "run_version": 5,
+      "status": "abandoned",
+      "terminal": "abandoned",
+      "context": "rc031_upgrade_relic_fixture",
+      "registered_graph_display_name": "Upgrade and relic history fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/pending-defeat-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/defeat-write-retry/active.json",
+      "sha256": "de018cc610a3522958dcf9cf997d66484473f2d593e6275fd4df405fc93c72ae",
+      "bytes": 13301,
+      "run_version": 5,
+      "status": "result_pending",
+      "terminal": "defeat",
+      "context": "rc027_reward_fixture",
+      "registered_graph_display_name": "Reward-enabled test fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/defeat-review-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/final-ack-write-restart/active.json",
+      "sha256": "a690f4f198393829dc9ea017c98012eb18c7f8220a58c456199df6ecc93757ea",
+      "bytes": 10380,
+      "run_version": 5,
+      "status": "defeated",
+      "terminal": "defeat",
+      "context": "rc027_reward_fixture",
+      "registered_graph_display_name": "Reward-enabled test fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/acknowledged-defeat-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/final-ack-write-retry/active.json",
+      "sha256": "d543354f5696cd9bfb74c23d631f29d00f3ca7fa58a3aa5c81c1f50d534b480f",
+      "bytes": 10379,
+      "run_version": 5,
+      "status": "defeated",
+      "terminal": "defeat",
+      "context": "rc027_reward_fixture",
+      "registered_graph_display_name": "Reward-enabled test fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/ranked-history-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/replacement-write-restart/active.json",
+      "sha256": "b2cd17a2b24a1a195608c377be6e225e3b9d1752570a1ac072b24c34c105dad0",
+      "bytes": 25891,
+      "run_version": 5,
+      "status": "route_ready",
+      "terminal": "",
+      "context": "rc031_upgrade_relic_fixture",
+      "registered_graph_display_name": "Upgrade and relic history fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/pending-guardian-choice-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/guardian-choice-write-restart/active.json",
+      "sha256": "b8f416edd7554876a9470c0ef8c12482fb02036d52bcc8725a43aecb0352cee2",
+      "bytes": 27954,
+      "run_version": 5,
+      "status": "pending_choices",
+      "terminal": "",
+      "context": "rc032_full_route_fixture",
+      "registered_graph_display_name": "RC-032 development tower \u00b7 calibration content"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/pending-guardian-reward-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/guardian-outcome-write-retry/active.json",
+      "sha256": "888eca933c5ab4ddc1ba95047364a7e0db64356e23223be5b2aa75dfb2cf8b13",
+      "bytes": 28499,
+      "run_version": 5,
+      "status": "result_pending",
+      "terminal": "",
+      "context": "rc032_full_route_fixture",
+      "registered_graph_display_name": "RC-032 development tower \u00b7 calibration content"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/victory-review-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/victory-final-ack-write-restart/active.json",
+      "sha256": "705c1c9664dc9c14cd3c1d74bdc198a1fbe9581cd6be7fd723db2b6ed1570777",
+      "bytes": 28343,
+      "run_version": 5,
+      "status": "tower_completed",
+      "terminal": "victory",
+      "context": "rc032_full_route_fixture",
+      "registered_graph_display_name": "RC-032 development fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/acknowledged-victory-v5.json",
+      "source": "output/qa/rc-032/process/45e1bf8cd1/victory-final-ack-write-retry/active.json",
+      "sha256": "c25f15e62d6b1e51a0b0ae8e5f1f2129c9afc899b61701672e0d69192f71b67a",
+      "bytes": 28342,
+      "run_version": 5,
+      "status": "tower_completed",
+      "terminal": "victory",
+      "context": "rc032_full_route_fixture",
+      "registered_graph_display_name": "RC-032 development fixture"
+    },
+    {
+      "fixture": "tests/fixtures/rc032/abandoned-service-v5.json",
+      "source": "output/qa/rc-032/ui/abandon-room-service-450x1000-12538416.json",
+      "sha256": "8f5aceb226fcd4d3ec9e544d719d94e7246f3bd5ec33778cc7ebea035ff4a90d",
+      "bytes": 25914,
+      "run_version": 5,
+      "status": "abandoned",
+      "terminal": "abandoned",
+      "context": "rc031_upgrade_relic_fixture",
+      "registered_graph_display_name": "Upgrade and relic history fixture"
+    }
+  ]
+}

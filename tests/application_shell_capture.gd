@@ -1,6 +1,6 @@
 extends SceneTree
 ## Actual application captures at native logical portrait sizes, not mockups.
-const DESTINATION := "res://output/qa/rc-024/screenshots"
+const DESTINATION := "res://output/qa/rc-025/shell-screenshots"
 var checks := 0
 var failures := 0
 var assertions: Array = []
@@ -23,7 +23,7 @@ func _run() -> void:
 	var file := FileAccess.open(DESTINATION.path_join("results.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify({"checks": checks, "failures": failures, "assertions": assertions,
 		"engine": Engine.get_version_info().string, "scope": "Actual desktop renders at native logical sizes; no physical-device acceptance."}, "  ") + "\n")
-	print("%d RC-024 capture checks, %d failures" % [checks, failures])
+	print("%d RC-025 shell compatibility capture checks, %d failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)
 
 func _capture(dimensions: Vector2i) -> void:
@@ -34,6 +34,7 @@ func _capture(dimensions: Vector2i) -> void:
 	root.add_child(viewport)
 	var app: Control = load("res://scenes/application.tscn").instantiate()
 	app.settings_path = DESTINATION.path_join("capture-settings.cfg")
+	app.save_path = app.settings_path + ".save-" + str(Time.get_ticks_usec())
 	var settings := preload("res://scripts/audio/audio_settings.gd")
 	var values: Dictionary = settings.DEFAULTS.duplicate(true)
 	values.enabled = false
@@ -52,22 +53,31 @@ func _capture(dimensions: Vector2i) -> void:
 	app.close_options()
 	app.request_new_run(294)
 	await settle()
-	check(app.combat_scene != null and app.combat_scene.cells.size() == 16, tag + " New Run enters the original sixteen-cell Combat scene.")
+	check(app.map_screen.visible and app.combat_scene == null, tag + " New Run now opens the fresh RC-025 route.")
+	app.close_map()
+	# Retain historical Home/Menu capture coverage with an explicit standalone
+	# fixture; never imply New Run entered or completed tower rooms.
+	app.run_state = preload("res://scripts/core/run_state.gd").new(preload("res://scripts/core/content_loader.gd").load_setup().setup, 294)
+	app.persistence_context = app.run_state.restore_context_for_tests()
+	var entered: Dictionary = app.run_state.enter_battle()
+	app._attach_battle(entered.combat)
+	await settle()
+	check(app.combat_scene != null and app.combat_scene.cells.size() == 16, tag + " Explicit standalone fixture enters the original sixteen-cell Combat scene.")
 	await save(viewport, "combat-entry-" + tag)
 	app.combat_scene.page_scroll.scroll_vertical = 100000
 	await settle()
 	await save(viewport, "combat-controls-" + tag)
 	app.combat_scene._open_menu()
 	await settle()
-	check(app.combat_scene.menu.size.x <= dimensions.x and app.combat_scene.menu.size.y <= dimensions.y, tag + " Session Combat Menu fits the viewport.")
-	for button in [app.combat_scene.home_button, app.combat_scene.options_button, app.combat_scene.menu.get_cancel_button()]:
-		check(button.is_visible_in_tree() and button.size.y >= 44 and Rect2(Vector2.ZERO, Vector2(app.combat_scene.menu.size)).encloses(button.get_global_rect()), tag + " Session Menu exposes a touch-sized " + button.text)
+	check(app.route_menu.visible and not app.combat_scene.menu.visible and Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(app._route_menu_panel.get_global_rect()), tag + " Session Combat opens the shared Menu inside the viewport.")
+	for button in [app.route_menu_quit, app.route_menu_options, app.route_menu_resume]:
+		check(button.is_visible_in_tree() and button.size.y >= 44 and app._route_menu_panel.get_global_rect().encloses(button.get_global_rect()), tag + " Session Menu exposes a touch-sized " + button.text)
 	await save(viewport, "combat-menu-" + tag)
-	app.combat_scene.menu.hide()
+	app._close_route_menu()
 	app.request_home()
 	await settle()
 	check(app.confirmation.visible, tag + " Quit explains entry-checkpoint replay.")
-	check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(app._confirmation_panel.get_global_rect()) and app._confirmation_panel.size.y <= minf(440.0, dimensions.y - 32.0), tag + " Quit panel fits and returns to its intended bounded height after text wraps.")
+	check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(app._confirmation_panel.get_global_rect()) and app._confirmation_panel.size.y <= minf(480.0, dimensions.y - 48.0), tag + " Quit panel fits and returns to its intended bounded height after text wraps.")
 	for button in [app.confirmation_confirm, app.confirmation_cancel]:
 		check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(button.get_global_rect()) and button.size.y >= 44, tag + " Quit confirmation control is reachable: " + button.text)
 	await save(viewport, "quit-confirmation-" + tag)
@@ -77,7 +87,7 @@ func _capture(dimensions: Vector2i) -> void:
 	await save(viewport, "returned-home-" + tag)
 	app.request_new_run(39)
 	await settle()
-	check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(app._confirmation_panel.get_global_rect()) and app._confirmation_panel.size.y <= minf(440.0, dimensions.y - 32.0), tag + " New Run panel fits after text wraps.")
+	check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(app._confirmation_panel.get_global_rect()) and app._confirmation_panel.size.y <= minf(480.0, dimensions.y - 48.0), tag + " New Run panel fits after text wraps.")
 	for button in [app.confirmation_confirm, app.confirmation_cancel]:
 		check(Rect2(Vector2.ZERO, Vector2(dimensions)).encloses(button.get_global_rect()), tag + " Replacement confirmation fits: " + button.text)
 	await save(viewport, "new-run-confirmation-" + tag)

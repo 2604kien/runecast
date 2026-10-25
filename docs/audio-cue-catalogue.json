@@ -3,7 +3,7 @@
   "task": "RC-018",
   "revision": "r003-runway-library",
   "date": "2026-10-17",
-  "purpose": "Current r003 source catalogue and RC-020 production binding contract; runtime uses scripts/audio/audio_catalogue.gd",
+  "purpose": "Current r003 source catalogue and RC-020 production binding contract, with RC-027 committed reward integration; runtime uses scripts/audio/audio_catalogue.gd",
   "expected_manifest_families": 16,
   "expected_runtime_files": 21,
   "paths_are": "Repository-relative; prepend res:// for Godot runtime_path only",
@@ -99,9 +99,16 @@
       "api": "CombatController.presentation_invalidated / presenter_changed; AnimatedPresentation.presentation_cancelled; AudioCoordinator.dispose"
     },
     {
+      "id": "reward_transaction_committed",
+      "current": true,
+      "api": "AudioCoordinator.reward_committed(transaction_id, receipt)",
+      "timing": "After a successful authoritative card, Gold or definition-unlock transaction; no offer, inspection, Skip or duplicate feedback",
+      "implementation": "scripts/audio/audio_coordinator.gd"
+    },
+    {
       "id": "future_transaction_committed",
       "current": false,
-      "rc020_work": "Await actual owning gameplay system and stable committed transaction ID; RC-042 binds"
+      "rc020_work": "Purchase, upgrade and heal aliases await their owning gameplay systems and stable committed transaction IDs; RC-027 binds only rewards"
     },
     {
       "id": "future_phase_committed",
@@ -1014,30 +1021,29 @@
       "duration_seconds": 0.4275,
       "intended_gain_db": -5,
       "description": "Small warm ascending magical reward flourish.",
-      "future_only": true,
+      "future_only": false,
       "priority": 75,
       "duration_range_seconds": [
         0.2,
         0.65
       ],
       "grouping": "One shared file per committed transaction; no offer/picker/inspection feedback",
-      "deduplication": "future run/session + committed_transaction_id",
+      "deduplication": "Run-scoped committed transaction ID, retained independently of Combat presentation sessions; muted/dropped cues are consumed",
       "cancellation_owner": "RC-020 audio coordinator; global owner_cancelled policy",
       "bindings": [
         {
           "role": "committed_acquisition",
-          "binding_kind": "future_alias",
+          "binding_kind": "committed_reward_receipt",
           "event_types": [],
-          "condition": "Owning future system reports successful committed reward/purchase/upgrade/heal mutation with stable transaction ID",
+          "condition": "Run state reports a successful committed card, Gold or definition-unlock reward with a matching stable transaction ID; Skip and no-op receipts are silent",
           "target": "actual committed recipient/card/service transaction",
           "timing": {
             "moment": "consequence_commit",
-            "hook_id": "future_transaction_committed"
+            "hook_id": "reward_transaction_committed"
           },
           "normal_motion": "One shared acquisition cue after commit at base -5dB",
           "reduced_motion": "Same committed semantics; meaningful cue replaces lower tail",
           "future_aliases": [
-            "reward_committed",
             "purchase_committed",
             "upgrade_committed",
             "heal_committed"
@@ -1046,7 +1052,6 @@
           "future_systems": [
             "RC-024",
             "RC-024A",
-            "RC-027",
             "RC-029",
             "RC-029A",
             "RC-030",
@@ -1063,7 +1068,7 @@
         }
       ],
       "bus": "SFX",
-      "playback_hook_implemented": false,
+      "playback_hook_implemented": true,
       "source_record": "source-assets/audio/sfx/runway-settings.json#reward",
       "rights_record": "source-assets/audio/sfx/provenance.json"
     },

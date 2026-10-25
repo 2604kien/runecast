@@ -11,10 +11,10 @@ config_version=5
 [application]
 
 config/name="Rune Cast"
-config/quit_on_go_back.android=false
 run/main_scene="res://scenes/application.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/ui/app_icon.svg"
+config/quit_on_go_back.android=false
 
 [display]
 

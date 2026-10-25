@@ -120,7 +120,7 @@ func _native_layout(dimensions: Vector2i) -> void:
 	scene._show_map()
 	await _layout()
 	_mobile_chrome_contract(scene, suffix + " Map")
-	scene.dialog.hide()
+	scene._close_standalone_map()
 	await _layout()
 
 	scene._exact_replay()

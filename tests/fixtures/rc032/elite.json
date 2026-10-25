@@ -1,0 +1,6 @@
+{
+  "id": "rc032_calibration_elite", "ruleset": "rc007_production_v1",
+  "enemy_id": "dev_rc032_elite", "board_id": "board_ossuary", "loadout_id": "starter",
+  "title": "RC-032 DEVELOPMENT ELITE", "help_text": "Excluded lifecycle fixture. This explicit calibration elite is not delivered Chain Warden content.",
+  "opening_log": "Development elite: build an ordinary legal circuit.", "seed": 42
+}

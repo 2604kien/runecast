@@ -1,5 +1,86 @@
 # Rune Cast decisions
 
+## October 25, 2026 — RC-033 bounded enemy intent framework
+
+The owner's RC-033 request authorizes deterministic repeating scalar attacks and one optional HP threshold leading to one second repeating sequence. Current-turn announced retaliation stays fixed when Cast damage crosses the threshold, resolves using that Cast's shield, and is followed by normal cleanup. If both survive, phase two starts at its first attack on the next playable turn; lethal enemy/player outcomes suppress transition. State belongs to the battle, with immutable configuration, detached inspection/events and no RNG for cycling. Existing no-phase configuration signatures and run v6/profile v1/local-envelope persistence remain intact.
+
+Visible touch intent inspection and ordered, deliberately silent phase feedback use current UI/art. The provisional guardian numbers belong only to an excluded framework fixture. RC-034 owns production enemy/guardian definitions, tuning, boards and pools; remaining packs retain RC-037–040. No defend, armour, status, summon, healing, extra target/phase, random attack selection or scripting engine is added. Shadeling's retained hit pose still confers no dodge rule. Current accepted Store behavior remains complete and unchanged. [Implementation and verification](rc-033-verification.md).
+
+## October 25, 2026 — Store defaults accepted and production enablement authorized
+
+The owner accepted the concrete Store proposal and explicitly authorized re-enabling the existing implementation, completing and verifying RC-029A/RC-032, preserving save compatibility and updating the handoff/plan. This supersedes the temporary unavailable-Store instruction below. No Git operations are authorized.
+
+- Use existing run Gold, offline and local, with zero starting Gold. No accounts, payments, purchasable Gold or additional currency.
+- Map → Menu → Store is available between fully settled rooms, including initial zero-Gold browsing. Result acknowledgement and every required reward/permanent choice must finish first. Active rooms, interrupted entries, pending choices, failed/busy transactions and terminal runs cannot purchase.
+- The fixed catalogue contains the four currently registered ownable definitions (Spark, Shield, Focus, Conjure Spark), filtered by profile unlocks, and the six existing relics. Generated Free Spark and unauthored/unregistered definitions are excluded. Future definitions require explicit compatible registration; they do not enter automatically.
+- Keep **45 Gold per rune / 90 Gold per relic** and **one rune plus one relic purchase total per run**, with independent category limits. Prices remain provisional RC-036/045 tuning. No rotations, rerolls or restocking.
+- Rune purchases allocate one fresh rank-zero UID; owning another copy of the definition is allowed. Relics are unique across every source and use existing effects, including Heart Stone's once-only HP/maxHP increase. Later room upgrade/removal is allowed; removal neither refunds Gold nor restores Store allowance.
+- Purchases and allowances persist through Home/Continue/restart and reset on New Run. Ended runs retain read-only history. Store never changes permanent definition unlocks or the eight-card starter; existing free boss/guardian awards remain separate.
+- Defer perks, consumables, equipment, crafting and additional item families. Store sells no permanent definition unlocks, healing, upgrades or removal; route shops keep their independent 30/60 prices and services.
+- Retain compact 32px-icon rows, category prices/status, detailed exact-cost/benefit confirmation, fixed Back and the shared Menu/Options presentation. Cancellation changes nothing. Clone → validate/save → publish commits payment, grant, health and receipt together; same-process Retry retains the identical candidate, and fresh restart uses only durable progress.
+- Preserve run **v6**, Store **`rc032_store_v1`**, profile/route **v1**, and **`rc028_local_v1`**. Existing receipts/limits remain valid. Future price or catalogue changes need explicit versioned policy handling, not reinterpretation of historical receipts.
+
+This acceptance resolves RC-024A's remaining Store gate. RC-029A/RC-032 completion requires current default-shell and integrated verification, not the prior test-only opt-in. Missing production encounters/catalogue, final balance/art and physical-device acceptance retain their existing owners. The development fixture's 250-Gold payouts are verification funding, not balance evidence. [Current completion handoff](rc-032-store-verification.md).
+
+## Historical October 25 scope — Store temporarily unavailable
+
+The current attached RC-032 instruction explicitly says to keep the separate Store unavailable and retain RC-024A/RC-029A as blockers to full RC-032 completion. For this delivery that instruction supersedes the Store-enablement/completion claims below. Preserve the existing later Store code, v6 receipt validation and historical evidence without exposing purchases or treating them as completion of this request. No new Store economy or item contract is selected here. Independent lifecycle behavior remains delivered; [current handoff](rc-032-verification.md).
+
+## October 25, 2026 — Compact Store presentation
+
+After reviewing the delivered Store, the owner asked to reduce oversized rune imagery and excessive text. The catalogue now uses compact item rows with 32px existing icons, names and brief effect summaries. Category prices and purchase status appear once per section; full effect conditions, energy cost, exact payment and run ownership remain in purchase confirmation. Keep the shared outer popup, fixed Back action, readable type and at least 68px row targets. This is a presentation correction; Store rules, prices, limits and save contracts are unchanged.
+
+## October 25, 2026 — Separate Store contract accepted
+
+The owner approved the proposed simple Store rules and authorized RC-029A implementation plus the remaining RC-032 integration. This resolves RC-024A's remaining Store decisions and supersedes earlier unresolved statements:
+
+- The shared Menu opens a separate Store between rooms, after every result and required reward/permanent choice is resolved. It is unavailable during an active room, interrupted battle or terminal results. The initial unvisited Map permits browsing with zero Gold. Opening or closing it consumes no room or turn; Back returns to the same Menu.
+- Purchases use existing **run Gold**, offline in the local save. There are no accounts, real-money payments or additional currencies.
+- The fixed catalogue contains all validated, implemented rune definitions already unlocked by the player, plus the six supported relic definitions. Generated Free Spark and unimplemented definitions are excluded. There are no rotations, rerolls or restocks.
+- A rune costs **45 Gold** and a relic costs **90 Gold**, provisional defaults for later balance. Across all Store visits in a run, the player may buy **one rune total and one relic total**. These limits survive Home, Continue and process restart.
+- A rune purchase creates a fresh rank-zero UID in the run collection for later battles. Another copy of an owned definition is allowed. Relics remain unique by definition across every acquisition source and use their existing run-only effects, including Heart Stone's one-time health change. An owned relic cannot be charged again.
+- Purchases last for the current run. Permanent definition unlocks, their free boss/guardian milestone rules and the unchanged eight-card starter remain separate. The Store sells no definition unlocks, perks, upgrades, removal, healing or extra item families; consumables, equipment and crafting are deferred.
+- Each purchase confirms its exact cost and benefit. Payment, item grant and receipt save atomically before ownership or success feedback is published. Failed saves preserve the previous owners and offer the identical candidate on Retry; fresh-process recovery uses the last durable checkpoint.
+
+Route shops retain their existing 30-Gold rune and 60-Gold relic prices and their upgrade/removal services. RC-036/045 must assess the Store's 45/90 prices against ordinary income; the excluded RC-032 development route's 250-Gold fight rewards are test funding, not balance evidence. RC-035/041/042 retain remaining catalogue, art and production presentation work. No complete production tower or physical-device acceptance is implied.
+
+## October 24, 2026 — RC-031 bounded run modifiers authorized
+
+The owner's RC-031 request authorizes one upgrade rank per eligible run-owned UID, all eight roster upgrade contracts with real behavior for the four present bases, and six unique run-only relic hooks. Rune costs/ports and permanent definition ownership remain unchanged. Shops, Recovery, Etched Desk and Sealed Reliquary use the existing durable transaction boundary. Missing bases remain ineligible until RC-035 authors/validates them; excluded fixtures may prove framework behavior, including two mixed contributions with one physical cost. Relic offers are retained and independently versioned, with no exhausted-pool compensation.
+
+Heart Stone changes current/max HP once at acquisition; Mender affects only later recovery. Save v4 must preserve real v1/v2/v3 history and active legacy room policies. [Implementation and evidence](rc-031-verification.md) complete this bounded scope. Store currency/payment, permanent purchase ownership, accounts, distinct perks and extra item families remain unresolved under RC-024A. Final writing/balance/artwork retain their existing owners; no complete production tower or device acceptance follows.
+
+## October 23, 2026 — Less explanatory text on Home
+
+The owner asked to remove both marked Home text blocks: the run-status summary above Continue and the footer's checkpoint, battle-replay and music-availability notes. Preserve the tower artwork, logo and Continue, New Run and Options actions. Routine status, tutorial and development notes do not belong in those Home regions.
+
+The broader copy preference is to let players discover the game through play and avoid unnecessary explanations. Essential action labels and actionable confirmations or errors remain appropriate. This change is scoped to Home; it does not remove text from other screens or supersede the shared Menu and popup appearance decisions in [the UI theme](ui-theme.md).
+
+## October 23, 2026 — RC-028 local run and rune persistence
+
+The accepted October 22 ownership contract now has explicit version-one run, route and profile save records in one local envelope, separate from Options. Every supported checkpoint stages detached owners, validates and writes them safely, then publishes success. Profile definition unlocks survive restart and New Run; run-owned instances keep their original UIDs. Interrupted battles replay their saved entry, while live Resume retains the scene and preparation. Result acknowledgement and required reward completion remain distinct. Invalid saves require explicit recovery from a validated previous copy; unreadable originals are preserved.
+
+This is the first save schema, with no fictitious shipped predecessor or migration. Unsupported versions, incompatible registered content and corrupt ownership/receipts are rejected with explanations. [RC-028 verification](rc-028-verification.md) records actual durability limits and tests. Store currency/payment, purchase ownership/lifetime, catalogue, accounts and other families remain RC-024A; no save rules for those systems are implied. Earlier session-only statements below describe their dated implementations.
+
+## October 22, 2026 — RC-027 reward and definition-unlock contract accepted
+
+The owner selected **“Unlock definitions”** and accepted both concrete reward/eligibility proposals during RC-027. This resolves the reward-specific portion of RC-024A, superseding earlier unresolved/no-progression proposals:
+
+- Across-run acquisition unlocks definitions; it does not grant stored copies. Run cards remain separate UID-bearing instances.
+- Shadeling victory and final-guardian/map completion each offer one still-locked, validated and implemented definition to unlock. Repeats consider only still-locked definitions; an exhausted pool grants nothing, with no duplicate or compensation.
+- Run-level victories offer up to three distinct eligible definitions, choose one new run-owned copy or Skip. Existing owned copies do not exclude that definition. Small pools display fewer options; empty pools explicitly allow Skip. No Gold payout exists unless explicitly configured; older economy tables do not authorize boss payouts.
+- The existing eight-card starter remains unchanged. Spark, Shield, Focus and Conjure Spark are initially eligible/unlocked. New unlocks join reward/shop eligibility without altering the starter. Unimplemented catalogue entries and generated Free Spark are never eligible.
+
+All four currently implemented ownable definitions start unlocked, so the current production permanent pool is honestly exhausted. No new content is invented to fill it. Runtime policy binds the implemented Shadeling encounter by exact ID and explicit boss role; missing normal/elite/guardian definitions require corresponding validated dispatch/policy entries when delivered. The approved rule for those future victories is unchanged. Fixtures use separately named explicit test policies.
+
+The session progression owner survives New Run in memory. Process-restart persistence, atomic saves, recovery and migration remain RC-028; settings contain no run/profile data. Store currency/payment, catalogue, purchase ownership/lifetime, accounts, perks and other item families remain unresolved under RC-024A. These reward answers do **not** complete RC-024A or authorize the separate Store. [Implementation and verification](rc-027-verification.md).
+
+## October 20, 2026 — RC-025 route and Map implementation boundary
+
+The requested structural fixture uses nine visits: normal, event, normal, normal, normal/elite choice, Shadeling boss, shop, recovery, guardian. Shadeling is represented by `room_normal` plus the explicit `boss` encounter role, with its retained fixture ID; it is excluded from ordinary pools. This reuses six room families and does not decide boss rewards, dodge mechanics, phases or final balance.
+
+New Run opens an unvisited route. The route model owns eligibility, entry tokens, visit completion and required-choice locks. Production room handlers report pending availability without advancing; only isolated tests supply traversal adapters. Combat Map overlays keep the same scene/controller/model and audio. No completed earlier rooms are fabricated for standalone encounters. [RC-025 verification](rc-025-verification.md) records scope and evidence; RC-026 owns general battle entry/transfer.
+
 ## October 19, 2026 — RC-024 bounded session implementation
 
 The owner requested independent run-state and Home/application-shell groundwork now, preserving the current Combat fixture and all mobile preparation. Run-owned card instances remain separate from unresolved across-run ownership; Free Spark is always temporary. Use the scoped 30/30 health, two each of Spark/Shield/Focus/Conjure, zero run Gold and no relics baseline. Shadeling victory completes this encounter only.

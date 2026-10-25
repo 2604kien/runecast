@@ -20,7 +20,7 @@ func _defaults(check: Callable, setup: Dictionary) -> void:
 	var counts := {}
 	for card in initial.owned_cards: counts[card.id] = int(counts.get(card.id, 0)) + 1
 	check.call(counts == {"spark": 2, "shield": 2, "focus": 2, "conjure": 2} and initial.owned_cards.map(func(card): return card.uid) == range(8), "RC-024: eight run-owned instances have distinct stable UIDs and the accepted two-of-each starter.")
-	check.call(initial.session_only and not initial.tower_completed and initial.completed_encounters.is_empty() and initial.current_encounter_id == setup.encounter.id, "RC-024: run snapshot declares its bounded session-only encounter and no tower completion.")
+	check.call(not initial.session_only and not initial.tower_completed and initial.completed_encounters.is_empty() and initial.current_encounter_id == setup.encounter.id, "RC-028: persistent run snapshot retains its bounded encounter and no tower completion.")
 	var detached := run.snapshot()
 	detached.owned_cards[0].id = "free_spark"
 	detached.rng_states.cards = 0

@@ -197,10 +197,13 @@ func _move(position: Vector2) -> void:
 	if _gesture.moved:
 		var scroll := _scroll_ref(_gesture.scroll)
 		if scroll != null:
+			# Pointer positions are viewport coordinates; scrolling uses the
+			# content's local units, including the Menu-sized popup transform.
+			var local_displacement := scroll.get_global_transform_with_canvas().affine_inverse().basis_xform(displacement)
 			if _gesture.axis == "horizontal":
-				scroll.scroll_horizontal = roundi(_gesture.scroll_start - displacement.x)
+				scroll.scroll_horizontal = roundi(_gesture.scroll_start - local_displacement.x)
 			else:
-				scroll.scroll_vertical = roundi(_gesture.scroll_start - displacement.y)
+				scroll.scroll_vertical = roundi(_gesture.scroll_start - local_displacement.y)
 
 func _finish(position: Vector2, cancelled: bool) -> void:
 	_move(position)
@@ -316,7 +319,11 @@ func _native_control_at(node: Node, position: Vector2) -> bool:
 	for child in node.get_children():
 		if _native_control_at(child, position):
 			return true
-	return node is Control and _allowed(node) and (node is BaseButton or node is LineEdit or node is TextEdit or node is Range) and _contains(node, position)
+	# Passive card faces reuse Button visuals but explicitly ignore pointer
+	# input. They must not block their containing scroll gesture. Children are
+	# still inspected above: an interactive child keeps its native GUI routing.
+	return node is Control and node.mouse_filter != Control.MOUSE_FILTER_IGNORE and _allowed(node) \
+		and (node is BaseButton or node is LineEdit or node is TextEdit or node is Range) and _contains(node, position)
 
 func _prune_targets() -> void:
 	for index in range(_targets.size() - 1, -1, -1):

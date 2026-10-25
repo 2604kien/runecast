@@ -1,6 +1,7 @@
 extends Control
-## Independent overlays compose selection, keyboard focus and availability.
+## Independent overlays compose selection, keyboard focus and invalidity.
 ## Board decorations are limited to corners, leaving exact edge ports clear.
+## Disabled/unavailable controls use muted skins and live reasons, never a badge.
 var states: Dictionary = {}
 var board := false
 var observed_control: Control
@@ -28,6 +29,9 @@ func _corners(inset: float, length: float, colour: Color, line_width: float) -> 
 func _badge_rect() -> Rect2:
 	var bounds := Rect2(Vector2.ZERO, size)
 	if observed_control != null:
+		if observed_control.get_meta("rc_button_frame", false):
+			var margins: Vector4 = observed_control.get_meta("rc_content_margins")
+			return Rect2(Vector2(margins.x, margins.y), size - Vector2(margins.x + margins.z, margins.y + margins.w))
 		var painted_bounds = observed_control.get_meta("rc_state_rect", bounds)
 		if painted_bounds is Rect2:
 			return bounds.intersection(painted_bounds.abs())
@@ -43,13 +47,27 @@ func _draw() -> void:
 		draw_texture_rect(ENERGY, Rect2(p - Vector2(13, 13), Vector2(26, 26)), false)
 	var selected := bool(states.get("selected", false))
 	var focused := bool(states.get("focused", false)) or (observed_control != null and observed_control.has_focus())
+	var framed: bool = observed_control != null and bool(observed_control.get_meta("rc_button_frame", false))
 	if states.get("powered", false) and not (observed_control != null and observed_control.get_meta("rc_clean_board", false)):
 		_corners(11, minf(size.x, size.y) * 0.14, GOLD, 3)
-	if selected:
+	if framed and (selected or focused):
+		# Follow the pointed button silhouette instead of painting square
+		# corners outside its transparent tips.
+		var inset := 6.0
+		var skin: Control = observed_control.get_meta("rc_skin")
+		var cap := minf(skin.source_caps.x * size.y / skin.texture.get_height(), size.x * 0.45)
+		var outline := PackedVector2Array([
+			Vector2(cap, inset), Vector2(size.x - cap, inset),
+			Vector2(size.x - inset, size.y / 2),
+			Vector2(size.x - cap, size.y - inset), Vector2(cap, size.y - inset),
+			Vector2(inset, size.y / 2), Vector2(cap, inset),
+		])
+		draw_polyline(outline, CREAM if focused else TEAL, 2, true)
+	if selected and not framed:
 		_corners(4, minf(size.x, size.y) * 0.22, TEAL, 2)
 		# A filled corner notch remains distinguishable without colour.
 		draw_colored_polygon(PackedVector2Array([Vector2(4, 4), Vector2(18, 4), Vector2(4, 18)]), TEAL)
-	if focused:
+	if focused and not framed:
 		# Dashes stay in corner quarters on sockets, never across a port channel.
 		var length := minf(size.x, size.y) * 0.24 if board else minf(size.x, size.y) * 0.42
 		for i in range(0, int(length), 8):
@@ -71,8 +89,3 @@ func _draw() -> void:
 		draw_circle(p, 8 * badge_scale, Color("231d29"))
 		draw_line(p - Vector2(4, 4) * badge_scale, p + Vector2(4, 4) * badge_scale, ALERT, 2 * badge_scale, true)
 		draw_line(p + Vector2(-4, 4) * badge_scale, p + Vector2(4, -4) * badge_scale, ALERT, 2 * badge_scale, true)
-	if states.get("unavailable", false) or states.get("disabled", false):
-		var p := badge_bounds.end - badge_inset
-		draw_circle(p, 8 * badge_scale, Color("172330"))
-		draw_arc(p, 6 * badge_scale, 0, TAU, 24, CREAM, 1.5 * badge_scale, true)
-		draw_line(p + Vector2(-4, 4) * badge_scale, p + Vector2(4, -4) * badge_scale, CREAM, 1.5 * badge_scale, true)

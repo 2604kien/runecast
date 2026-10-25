@@ -1,0 +1,8 @@
+[
+  {
+    "id": "rc033_observer", "max_health": 400, "current_health": 400,
+    "energy_per_turn": 20, "draw_per_turn": 8,
+    "owned_cards": ["spark", "spark", "spark", "spark", "spark", "spark", "shield", "shield"],
+    "opening_policy": "draw", "opening_draw": 8
+  }
+]

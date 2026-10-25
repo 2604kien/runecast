@@ -1,6 +1,8 @@
 class_name RuneCircuit
 extends RefCounted
 
+const InstanceEffects = preload("res://scripts/core/instance_effects.gd")
+const RelicPolicy = preload("res://scripts/core/relic_policy.gd")
 const WIDTH := 4
 const BEGIN := 0
 const END := 14
@@ -79,6 +81,9 @@ static func logical_ports(piece: Dictionary) -> Array:
 	return rotated
 
 static func evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}) -> Dictionary:
+	return RelicPolicy.final_cast(_evaluate(board, catalog, options), options.get("relics", []))
+
+static func _evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}) -> Dictionary:
 	if options.get("version") is String and options.version == "rc007_production_v1":
 		return _evaluate_undirected(board, catalog, options)
 	var result := {"valid": false, "damage": 0, "shield": 0, "cost": 0, "message": "", "active": []}
@@ -128,13 +133,17 @@ static func evaluate(board: Array, catalog: Dictionary, options: Dictionary = {}
 			signal_value.hits.append_array(signals[parent].hits)
 		var piece: Dictionary = board[index]
 		if piece.kind == "rune":
-			var rune: Dictionary = catalog.get(piece.rune_id, {})
-			if rune.is_empty() or rune.get("type") != "rune":
+			var resolved := InstanceEffects.resolve(catalog, piece)
+			if not resolved.ok or resolved.definition.get("type") != "rune":
 				result.message = "Unknown effect rune."
+				result.cost = 0
 				return result
-			signal_value[rune.effect] += int(rune.value)
-			if rune.effect == "damage" and int(rune.value) > 0:
-				signal_value.hits.append(int(rune.value))
+			var rune: Dictionary = resolved.definition
+			var values := InstanceEffects.contributions(rune)
+			signal_value.damage += values.damage
+			signal_value.shield += values.shield
+			if int(values.damage) > 0:
+				signal_value.hits.append(int(values.damage))
 			result.cost += int(rune.cost)
 		elif piece.kind == "split":
 			result.cost += int(options.get("split_cost", 1))
@@ -267,11 +276,14 @@ static func _evaluate_undirected(board: Array, catalog: Dictionary, options: Dic
 			signal_value.shield += signals[parent].shield
 		var piece: Dictionary = board[index]
 		if piece.kind == "rune":
-			var rune: Dictionary = catalog.get(piece.get("rune_id", ""), {})
-			if rune.is_empty() or rune.get("type") != "rune" or not rune.get("effect") in ["damage", "shield"]:
+			var resolved := InstanceEffects.resolve(catalog, piece)
+			if not resolved.ok or resolved.definition.get("type") != "rune":
 				result.message = "Unknown effect rune."
 				return result
-			signal_value[rune.effect] += int(rune.value)
+			var rune: Dictionary = resolved.definition
+			var values := InstanceEffects.contributions(rune)
+			signal_value.damage += values.damage
+			signal_value.shield += values.shield
 			cost += int(rune.cost)
 		elif piece.kind == "split":
 			cost += int(options.get("split_cost", 1))

@@ -3,6 +3,7 @@ extends RefCounted
 ## No evaluator, stock mutation, save handling or navigation model lives here.
 const THEME = preload("res://assets/ui/rune_cast_theme.tres")
 const PaintedSkin = preload("res://scenes/ui/theme/painted_skin.gd")
+const ButtonFrame = preload("res://scenes/ui/theme/button_frame.gd")
 const StateLayer = preload("res://scenes/ui/theme/state_layer.gd")
 const CombatSurface = preload("res://scenes/ui/theme/combat_surface.gd")
 const ReferencePile = preload("res://scenes/ui/theme/reference_pile.gd")
@@ -17,6 +18,12 @@ const MUTED := Color("c7c3b6")
 const TEAL := Color("64f0dd")
 const GOLD := Color("edbc66")
 const COMPACT_CARD_MIN_HEIGHT := 146.0
+const MODAL_OUTER_MARGIN := 24.0
+const POPUP_TITLE_SIZE := 22
+const POPUP_BODY_SIZE := 16
+const POPUP_ACTION_SIZE := 18
+const POPUP_ACTION_HEIGHT := 68.0
+const POPUP_MAX_HEIGHT := 660.0
 
 static func label(text: String, role: String = "body", font_size: int = 0) -> Label:
 	var result := Label.new()
@@ -163,6 +170,14 @@ static func action(text: String, primary: bool = false, minimum: Vector2 = Vecto
 	apply_states(result, states)
 	result.button_down.connect(func(): _pressed(result, true))
 	result.button_up.connect(func(): _pressed(result, false))
+	return result
+
+static func menu_action(text: String, primary: bool = false, minimum: Vector2 = Vector2(180, 56), states: Dictionary = {}) -> Button:
+	# Menu styling is opt-in so combat tools, Cast, cards and navigation keep
+	# their existing artwork and layout.
+	var result := action(text, primary, minimum, states)
+	ButtonFrame.attach(result, "primary" if primary else "secondary")
+	apply_states(result, states)
 	return result
 
 static func _pressed(control: Control, pressed: bool) -> void:
@@ -677,7 +692,7 @@ static func status_bar(title: String, value: float, maximum: float, kind: String
 	return result
 
 static func settings_toggle(title: String, enabled: bool) -> Button:
-	var result := action(title + ": " + ("On" if enabled else "Off"), false, Vector2(240, 56), {"selected":enabled})
+	var result := menu_action(title + ": " + ("On" if enabled else "Off"), false, Vector2(0, 56), {"selected":enabled})
 	result.name = title.validate_node_name()
 	result.toggle_mode = true
 	result.button_pressed = enabled
@@ -693,7 +708,7 @@ static func settings_slider(title: String, value: float) -> VBoxContainer:
 	result.add_child(caption)
 	var slider := HSlider.new()
 	slider.theme = THEME
-	slider.custom_minimum_size = Vector2(240, 44)
+	slider.custom_minimum_size = Vector2(0, 44)
 	slider.min_value = 0
 	slider.max_value = 100
 	slider.step = 1
@@ -712,7 +727,7 @@ static func modal(title: String, body: String, width: float = 312, height: float
 	result.custom_minimum_size = Vector2(width, height)
 	result.size = Vector2(width, height)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 12)
+	column.add_theme_constant_override("separation", 20)
 	result.add_child(column)
 	column.add_child(label(title, "title", 22))
 	var scroll := ScrollContainer.new()
@@ -727,19 +742,105 @@ static func modal(title: String, body: String, width: float = 312, height: float
 	scroll.add_child(copy)
 	var footer := VBoxContainer.new()
 	footer.name = "FixedFooter"
-	footer.add_theme_constant_override("separation", 6)
+	footer.add_theme_constant_override("separation", 14)
 	column.add_child(footer)
 	if not confirm_text.is_empty():
-		var confirm := action(confirm_text, true, Vector2(0, 52))
+		var confirm := menu_action(confirm_text, true, Vector2(0, POPUP_ACTION_HEIGHT))
 		confirm.name = "Confirm"
 		footer.add_child(confirm)
 		result.set_meta("rc_confirm", confirm)
-	var close := action("Close", false, Vector2(0, 52))
+	var close := menu_action("Close", false, Vector2(0, POPUP_ACTION_HEIGHT))
 	close.name = "Close"
 	footer.add_child(close)
 	result.set_meta("rc_close", close)
 	result.set_meta("rc_body_scroll", scroll)
 	return result
+
+static func prepare_popup_content(root: Node) -> void:
+	# Popup sizes are display pixels, shared with Menu. Font copies avoid
+	# enlarging glyphs rasterized for the smaller underlying game canvas.
+	# Theme variants resolve only after attachment; never cache fallback fonts.
+	if not root.is_inside_tree(): return
+	_prepare_popup_node(root, {})
+
+static func _prepare_popup_node(node: Node, fonts: Dictionary) -> void:
+	if node is Label or node is LineEdit or node is TextEdit or (node is Button and not node.text.is_empty()):
+		var font_size := POPUP_ACTION_SIZE if node is Button else POPUP_TITLE_SIZE if node.theme_type_variation == "RCTitle" else POPUP_BODY_SIZE
+		if node.get_theme_font_size("font_size") != font_size:
+			node.add_theme_font_size_override("font_size", font_size)
+		var original: Font = node.get_theme_font("font")
+		if not original.get_meta("rc_popup_font", false):
+			var identity := original.get_instance_id()
+			if not fonts.has(identity):
+				var clone: Font = original.duplicate(true)
+				if clone is FontVariation and clone.base_font is FontFile:
+					clone.base_font.oversampling = 1.0
+				elif clone is FontFile:
+					clone.oversampling = 1.0
+				clone.set_meta("rc_popup_font", true)
+				fonts[identity] = clone
+			node.add_theme_font_override("font", fonts[identity])
+	if node is Button and not node.text.is_empty():
+		node.custom_minimum_size.y = maxf(POPUP_ACTION_HEIGHT, node.custom_minimum_size.y)
+		node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	elif node is HSlider or node is LineEdit:
+		node.custom_minimum_size.y = maxf(POPUP_ACTION_HEIGHT, node.custom_minimum_size.y)
+	for child in node.get_children(): _prepare_popup_node(child, fonts)
+
+static func fit_popup_overlay(overlay: Control, panel: PanelContainer, preferred_size: Vector2, minimum: Vector2 = Vector2(280, 340)) -> void:
+	if not overlay.is_inside_tree() or overlay.is_queued_for_deletion() or not is_instance_valid(panel): return
+	var parent := overlay.get_parent_control()
+	var canvas_size := parent.size if parent != null else overlay.get_viewport_rect().size
+	var canvas_scale := overlay.get_viewport().get_final_transform().get_scale().abs()
+	if parent != null: canvas_scale *= parent.get_global_transform_with_canvas().get_scale().abs()
+	if canvas_scale.x <= 0 or canvas_scale.y <= 0 or canvas_size.x <= 0 or canvas_size.y <= 0: return
+	var rendered_size := canvas_size * canvas_scale
+	# Keep the same Menu proportions on narrow letterboxed windows, including
+	# its >=44px action targets. Long panel content scrolls above fixed actions.
+	var fit_scale := minf(1.0, minf(rendered_size.x / 360.0, rendered_size.y / 640.0))
+	overlay.scale = Vector2.ONE * fit_scale / canvas_scale
+	overlay.size = rendered_size / fit_scale
+	fit_modal(panel, overlay.size, preferred_size, minimum)
+
+static func fit_modal(panel: PanelContainer, viewport_size: Vector2, preferred_size: Vector2, minimum: Vector2 = Vector2(280, 340)) -> void:
+	# Grow short dialogs to show their complete copy before enabling overflow.
+	# Menu's height is the upper bound for every popup; long content keeps its
+	# scroll lane and fixed actions instead of stretching beyond that limit.
+	var available := (viewport_size - Vector2.ONE * MODAL_OUTER_MARGIN * 2).max(Vector2.ONE)
+	available.y = minf(available.y, POPUP_MAX_HEIGHT)
+	panel.custom_minimum_size = minimum.min(available)
+	var desired := preferred_size.min(available)
+	if panel.has_meta("rc_body_scroll"):
+		var scroll: ScrollContainer = panel.get_meta("rc_body_scroll")
+		var column: Control = scroll.get_parent()
+		var style := panel.get_theme_stylebox("panel")
+		# Wrapped labels must be measured at the actual text width, including
+		# on the first opening or after changing the title/body of a reused panel.
+		var text_width := maxf(1, desired.x - style.get_minimum_size().x)
+		column.size.x = text_width
+		for child in column.get_children():
+			if child is Label: child.size.x = text_width
+		var content_height := 0.0
+		for child in scroll.get_children():
+			if child is Control and child.visible:
+				# Containers keep ScrollContainer's layout width, which reserves
+				# the scrollbar lane. Only plain copy needs early wrap measurement.
+				if child is Label: child.size.x = text_width
+				content_height = maxf(content_height, child.get_combined_minimum_size().y)
+		var fixed_height := column.get_combined_minimum_size().y - scroll.get_combined_minimum_size().y + style.get_content_margin(SIDE_TOP) + style.get_content_margin(SIDE_BOTTOM)
+		scroll.custom_minimum_size.y = minf(90, maxf(0, available.y - fixed_height))
+		if fixed_height + content_height > available.y:
+			for child in scroll.get_children():
+				if child is Label:
+					child.size.x = maxf(1, text_width - scroll.get_v_scroll_bar().get_combined_minimum_size().x)
+		desired.y = minf(available.y, maxf(desired.y, ceilf(fixed_height + content_height)))
+	panel.size = desired
+	panel.position = (viewport_size - panel.size) / 2.0
+	if panel.has_meta("rc_body_scroll"):
+		# Reused dialogs can keep a stale footer allocation after actions hide
+		# or text wraps. Give the newly available height to the scrolling body.
+		var column: Container = panel.get_meta("rc_body_scroll").get_parent()
+		column.queue_sort()
 
 static func map_node(state: String, icon_name: String = "spark", extent: float = 72) -> Button:
 	var states := {"selected":state == "current", "powered":state == "available", "unavailable":state == "locked"}

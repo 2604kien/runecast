@@ -1,9 +1,10 @@
-[gd_resource type="Theme" load_steps=28 format=3]
+[gd_resource type="Theme" load_steps=29 format=3]
 
 [ext_resource type="FontVariation" path="res://assets/fonts/ui/labels.tres" id="labels"]
 [ext_resource type="FontVariation" path="res://assets/fonts/display/title.tres" id="title"]
 [ext_resource type="FontVariation" path="res://assets/fonts/ui/location.tres" id="location"]
 [ext_resource type="StyleBox" path="res://assets/ui/styles/panel.tres" id="panel"]
+[ext_resource type="StyleBox" path="res://assets/ui/styles/modal_panel.tres" id="modal_panel"]
 [ext_resource type="StyleBox" path="res://assets/ui/styles/menu.tres" id="menu"]
 [ext_resource type="StyleBox" path="res://assets/ui/styles/secondary.tres" id="secondary"]
 [ext_resource type="StyleBox" path="res://assets/ui/styles/primary.tres" id="primary"]
@@ -189,7 +190,7 @@ RCMuted/colors/font_color = Color(0.78, 0.765, 0.714, 1)
 RCPanel/base_type = &"PanelContainer"
 RCPanel/styles/panel = ExtResource("panel")
 RCDialog/base_type = &"PanelContainer"
-RCDialog/styles/panel = ExtResource("panel")
+RCDialog/styles/panel = ExtResource("modal_panel")
 RCMenu/base_type = &"PanelContainer"
 RCMenu/styles/panel = ExtResource("menu")
 RCForecast/base_type = &"PanelContainer"
@@ -204,6 +205,10 @@ RCCardMixed/base_type = &"PanelContainer"
 RCCardMixed/styles/panel = ExtResource("mixed")
 PanelContainer/styles/panel = ExtResource("panel")
 Panel/styles/panel = ExtResource("panel")
+AcceptDialog/styles/panel = ExtResource("modal_panel")
+AcceptDialog/constants/buttons_separation = 12
+AcceptDialog/constants/h_separation = 12
+AcceptDialog/constants/v_separation = 12
 RCHealth/base_type = &"ProgressBar"
 RCHealth/styles/background = ExtResource("track")
 RCHealth/styles/fill = ExtResource("health_fill")
@@ -239,7 +244,7 @@ LineEdit/styles/focus = ExtResource("focus")
 TextEdit/styles/normal = ExtResource("secondary")
 TextEdit/styles/read_only = ExtResource("secondary")
 TextEdit/styles/focus = ExtResource("focus")
-PopupMenu/styles/panel = ExtResource("panel")
+PopupMenu/styles/panel = ExtResource("modal_panel")
 TabContainer/styles/panel = ExtResource("panel")
 VBoxContainer/constants/separation = 8
 HBoxContainer/constants/separation = 8

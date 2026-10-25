@@ -52,6 +52,7 @@ func run(check: Callable, tree: SceneTree) -> void:
 	router.register_scroll(hand)
 	await tree.process_frame
 	await tree.process_frame
+	check.call(router._gesture_candidate(native.get_global_rect().get_center()).is_empty(), "Native editable fields retain their GUI pointer ownership inside registered scrolling content.")
 	var position := card.get_global_rect().get_center()
 	_touch(viewport, position, true)
 	router.advance_time(Router.LONG_PRESS_SECONDS - 0.01)
@@ -147,6 +148,13 @@ func run(check: Callable, tree: SceneTree) -> void:
 	var modal_body := Control.new()
 	modal_body.custom_minimum_size = Vector2(330, 1000)
 	modal_scroll.add_child(modal_body)
+	var passive_card := _button(modal_body, Vector2(20, 120), Vector2(250, 140))
+	passive_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	passive_card.focus_mode = Control.FOCUS_NONE
+	var native_child := _button(passive_card, Vector2(20, 10), Vector2(100, 40))
+	var passive_events := {"card": 0, "child": 0}
+	passive_card.pressed.connect(func(): passive_events.card += 1)
+	native_child.pressed.connect(func(): passive_events.child += 1)
 	var close := _button(modal, Vector2(20, 350), Vector2(150, 80))
 	router.register_scroll(modal_scroll)
 	router.register_target(close, func():
@@ -156,6 +164,11 @@ func run(check: Callable, tree: SceneTree) -> void:
 	)
 	router.set_modal(modal)
 	await tree.process_frame
+	var native_position := native_child.get_global_rect().get_center()
+	check.call(router._gesture_candidate(native_position).is_empty(), "An interactive child of a pointer-ignored card retains native GUI ownership; ignored parents do not prune children.")
+	_mouse(viewport, native_position, true)
+	_mouse(viewport, native_position, false)
+	check.call(passive_events.child == 1 and passive_events.card == 0 and modal_scroll.scroll_vertical == 0, "The native child remains clickable without activating its passive card or scrolling.")
 	board.grab_focus()
 	_key(viewport, KEY_ENTER, true)
 	_key(viewport, KEY_ENTER, false)
@@ -165,7 +178,17 @@ func run(check: Callable, tree: SceneTree) -> void:
 	_touch(viewport, Vector2(150, 220), true)
 	_drag(viewport, Vector2(150, 140))
 	_touch(viewport, Vector2(150, 140), false)
-	check.call(modal_scroll.scroll_vertical > 0 and page.scroll_vertical == 0 and count.board == 0, "Synthetic inspector scrolling affects only its own content, never the background board/page.")
+	check.call(modal_scroll.scroll_vertical > 0 and page.scroll_vertical == 0 and count.board == 0 and passive_events.card == 0 and passive_events.child == 1, "Native touch drag starting on a passive Button card scrolls only its containing modal without activating the card, child or background.")
+	modal.scale = Vector2(1.6, 1.6)
+	modal_scroll.scroll_vertical = 0
+	await tree.process_frame
+	var scaled_origin := modal_scroll.get_global_transform_with_canvas() * Vector2(100, 180)
+	_touch(viewport, scaled_origin, true)
+	_drag(viewport, scaled_origin - Vector2(0, 128))
+	_touch(viewport, scaled_origin - Vector2(0, 128), false)
+	check.call(modal_scroll.scroll_vertical == 80 and page.scroll_vertical == 0 and passive_events.card == 0, "A 128px drag in a 1.6x popup moves content by 128 displayed pixels, without activating the card or background.")
+	modal.scale = Vector2.ONE
+	await tree.process_frame
 	_touch(viewport, close.get_global_rect().get_center(), true)
 	_touch(viewport, close.get_global_rect().get_center(), false)
 	check.call(count.close == 1 and count.board == 0 and count.tap == 5, "Synthetic modal dismissal consumes its release without clicking background controls.")

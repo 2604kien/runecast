@@ -1,0 +1,65 @@
+[
+  {
+    "fixture": "production-v3.json",
+    "source": "output/qa/rc-030/legacy-process/a13eb7ec5d/production/active.json",
+    "sha256": "cf90371b55edba096151692013a67d210e323465049c2c9250d29ea423d90162",
+    "status": "route_ready",
+    "services": 0
+  },
+  {
+    "fixture": "completed-services-v3.json",
+    "source": "output/qa/rc-030/process/a145a31adc/ordinary-recovery/active.json",
+    "sha256": "d8b5a0ef74712e3604f3a3d20b61caa5326b4d646b97f130f8d7b8945c02b460",
+    "status": "route_ready",
+    "services": 2
+  },
+  {
+    "fixture": "replay-recovery-v3.json",
+    "source": "output/qa/rc-030/process/41a8abcc3d/ordinary-recovery/active.json",
+    "sha256": "5762a0b261805c3106d1c5c44a58b3f862c1d26a56b4ffe6a98c3a9e54a27833",
+    "status": "replay_pending",
+    "services": 1
+  },
+  {
+    "fixture": "pending-reward-v3.json",
+    "source": "output/qa/rc-030/process/6284b5c8f4/migration-replay-shop-v2/active.json",
+    "sha256": "52be276cc6a3366868009f0088f9ad89e99ebd82671cf85f0657d40b593d8f29",
+    "status": "pending_choices",
+    "services": 0
+  },
+  {
+    "fixture": "active-event_etched_desk-v3.json",
+    "source": "output/qa/rc-030/shell/desk-360x640-17958020.json.previous",
+    "sha256": "c1404fac2b85a2227402157091470362f973fd7931a3ab25187653b4f2e28f29",
+    "status": "room_active",
+    "services": 1
+  },
+  {
+    "fixture": "active-recovery-v3.json",
+    "source": "output/qa/rc-030/shell/recovery-360x640-10368178.json.previous",
+    "sha256": "06787b3ea29ecea1d804762141d12566479629a04068a01945ee70f857d00461",
+    "status": "room_active",
+    "services": 1
+  },
+  {
+    "fixture": "active-event_sealed_reliquary-v3.json",
+    "source": "output/qa/rc-030/shell/reliquary-360x640-16345941.json.previous",
+    "sha256": "67f62fed39993f2809692ebeee8da2c678e2b260ed0c24bb70f35563a92b5e58",
+    "status": "room_active",
+    "services": 1
+  },
+  {
+    "fixture": "active-event_lost_satchel-v3.json",
+    "source": "output/qa/rc-030/shell/satchel-360x640-12929148.json.previous",
+    "sha256": "cf1252d9f91ee8ca99613b573abd5a0ae143035f6951f71cd1918dc95e0a7773",
+    "status": "room_active",
+    "services": 1
+  },
+  {
+    "fixture": "active-event_blood_tithe-v3.json",
+    "source": "output/qa/rc-030/shell/tithe-360x640-14290335.json.previous",
+    "sha256": "3a45b267c81d9f0ed7007b717dfb7c30f58258b89605c1822c3babe1174547c1",
+    "status": "room_active",
+    "services": 2
+  }
+]

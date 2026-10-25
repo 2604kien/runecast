@@ -22,7 +22,7 @@ const SFX := {
 	"chain": {"runtime_path": "res://assets/audio/sfx/sfx_enemy_attack/chain.wav", "gain_db": -3.0, "priority": 70, "future_only": true, "manifest_id": "sfx_enemy_attack"},
 	"bell": {"runtime_path": "res://assets/audio/sfx/sfx_enemy_attack/bell.wav", "gain_db": -3.0, "priority": 70, "future_only": true, "manifest_id": "sfx_enemy_attack"},
 	"temporary_expired": {"runtime_path": "res://assets/audio/sfx/sfx_expiry/temporary_expired.wav", "gain_db": -9.0, "priority": 20, "future_only": false, "manifest_id": "sfx_expiry"},
-	"reward": {"runtime_path": "res://assets/audio/sfx/sfx_reward/reward.wav", "gain_db": -5.0, "priority": 75, "future_only": true, "manifest_id": "sfx_reward"},
+	"reward": {"runtime_path": "res://assets/audio/sfx/sfx_reward/reward.wav", "gain_db": -5.0, "priority": 75, "future_only": false, "manifest_id": "sfx_reward"},
 	"victory": {"runtime_path": "res://assets/audio/sfx/sfx_victory/victory.wav", "gain_db": -3.0, "priority": 100, "future_only": false, "manifest_id": "sfx_victory"},
 	"defeat": {"runtime_path": "res://assets/audio/sfx/sfx_defeat/defeat.wav", "gain_db": -4.0, "priority": 100, "future_only": false, "manifest_id": "sfx_defeat"},
 	"guardian_phase_changed": {"runtime_path": "res://assets/audio/sfx/sfx_phase/guardian_phase_changed.wav", "gain_db": -3.0, "priority": 90, "future_only": true, "manifest_id": "sfx_phase"},

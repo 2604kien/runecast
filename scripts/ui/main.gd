@@ -10,19 +10,33 @@ const ContentLoader = preload("res://scripts/core/content_loader.gd")
 const Experiments = preload("res://scripts/core/experiments.gd")
 const ExperimentRecord = preload("res://scripts/core/experiment_record.gd")
 const InspectionData = preload("res://scripts/ui/inspection_data.gd")
+const InstanceEffects = preload("res://scripts/core/instance_effects.gd")
 const TouchRouter = preload("res://scripts/ui/touch_router.gd")
 const Ui = preload("res://scenes/ui/theme/components.gd")
 const CombatSurface = preload("res://scenes/ui/theme/combat_surface.gd")
+const ButtonFrame = preload("res://scenes/ui/theme/button_frame.gd")
 const AudioCoordinator = preload("res://scripts/audio/audio_coordinator.gd")
 const AudioSettings = preload("res://scripts/audio/audio_settings.gd")
 const AudioOptions = preload("res://scripts/ui/audio_options.gd")
+const RouteMap = preload("res://scripts/ui/route_map.gd")
+const NavigationBar = preload("res://scenes/ui/theme/navigation_bar.gd")
 
 signal home_requested
+signal map_requested
+signal collection_requested
+signal menu_requested(feedback: bool)
 # The application owns run state. The isolated scene still loads its fixture.
 var battle_model: Combat
 var run_managed := false
+# Validated model-owned setup supplied by the encounter adapter. Preparation
+# builds the real view/controller, but starts no audio or user input until commit.
+var entry_setup: Dictionary = {}
+var entry_prepared := false
 var home_button: Button
+var collection_button: Button
 var _shell_modal := false
+var standalone_map: Control
+var _standalone_map_generation := 0
 
 # Set before adding the scene to the tree to select a fixture in integration tests.
 # An explicit injected path takes precedence over the development command line.
@@ -74,6 +88,8 @@ var _options_origin: WeakRef
 var _last_back_frame := -1
 var dialog: AcceptDialog
 var menu: ConfirmationDialog
+var menu_store_button: Button
+var _native_popup_shade: ColorRect
 var pass_button: Button
 var production_replay_button: Button
 var production_next_button: Button
@@ -125,6 +141,7 @@ var discard_button: Button
 var hand_count: Label
 var info_buttons := {}
 var inspector_origin: WeakRef
+var _inspector_kind := ""
 var combat_column: VBoxContainer
 var page_margin: MarginContainer
 var board_frame: PanelContainer
@@ -153,7 +170,9 @@ func _ready() -> void:
 		setup_path = _argument_value("--encounter=", ContentLoader.DEFAULT_ENCOUNTER)
 	var loaded: Dictionary
 	var board_examples: Script
-	if board_example_id != "":
+	if battle_model != null and not entry_setup.is_empty():
+		loaded = {"ok": true, "setup": entry_setup.duplicate(true)}
+	elif board_example_id != "":
 		if experiment_mode or (setup_path != "" and setup_path != ContentLoader.DEFAULT_ENCOUNTER) or board_example_step not in ["opening", "built", "cast"]:
 			loaded = {"ok": false, "errors": ["Board examples require their own development fixture and an opening, built or cast step."]}
 		else:
@@ -193,20 +212,20 @@ func _ready() -> void:
 		_apply_mobile_ui_policy(self)
 		get_tree().node_added.connect(_mobile_node_added)
 	_load_settings()
-	audio = AudioCoordinator.new()
-	add_child(audio)
-	audio.apply_settings(audio_settings)
 	if controller != null:
 		_install_animation_presenter()
 		controller.changed.connect(_refresh)
-		audio.bind_controller(controller)
-		audio.set_context("screen_combat", game.has("production"))
 		if experiment_mode:
 			controller.changed.connect(_save_experiment_record)
 			_save_experiment_record()
 	_refresh()
 	resized.connect(_fit_layout)
+	get_viewport().size_changed.connect(_refit_popups)
 	_fit_layout()
+	if entry_prepared:
+		set_shell_modal(true)
+	else:
+		activate_entry()
 	if "--capture" in OS.get_cmdline_user_args():
 		if experiment_mode and controller != null:
 			var capture_step := _argument_value("--capture-step=", "opening")
@@ -223,6 +242,18 @@ func _ready() -> void:
 		var error := get_viewport().get_texture().get_image().save_png(capture_path)
 		print("Screenshot saved: ", error_string(error))
 		get_tree().quit(0 if error == OK and startup_error == "" else 1)
+
+func activate_entry() -> void:
+	if _closing: return
+	entry_prepared = false
+	if audio == null:
+		audio = AudioCoordinator.new()
+		add_child(audio)
+		audio.apply_settings(audio_settings)
+		if controller != null:
+			audio.bind_controller(controller)
+			audio.set_context("screen_combat", game.has("production"))
+	set_shell_modal(false)
 
 func _argument_value(prefix: String, fallback: String) -> String:
 	for argument in OS.get_cmdline_user_args():
@@ -268,6 +299,11 @@ func _request_home() -> void:
 	if not run_managed or _closing or _shell_modal or controller == null or controller.is_busy(): return
 	menu.hide()
 	home_requested.emit()
+
+func _request_collection() -> void:
+	if not run_managed or _closing or _shell_modal or controller == null or controller.is_busy(): return
+	menu.hide()
+	collection_requested.emit()
 
 func _install_animation_presenter() -> void:
 	if animation_presenter != null: animation_presenter.dispose()
@@ -435,6 +471,9 @@ func _build_ui() -> void:
 	arena.reference_art = game.has("production")
 	arena.custom_minimum_size.y = 90 if experiment_mode else 310
 	column.add_child(arena)
+	arena.intent_inspection_enabled = game.has("production")
+	arena.intent_button.pressed.connect(_inspect_intent)
+	gestures.register_target(arena.intent_button, _inspect_intent, _inspect_intent)
 	stats = _label("")
 	stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(stats)
@@ -671,81 +710,57 @@ func _build_ui() -> void:
 		cast_button.custom_minimum_size.y = 64
 		cast_button.add_theme_font_size_override("font_size", 28)
 		column.add_child(_label("Cast ends turn", 16))
-	var navigation := HBoxContainer.new()
+	var navigation: HBoxContainer = NavigationBar.new() if game.has("production") else HBoxContainer.new()
 	combat_navigation = navigation
 	if game.has("production"):
-		navigation.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		navigation.add_theme_constant_override("separation", 0)
 		var navigation_gap := Control.new()
 		navigation_gap.custom_minimum_size.y = 18
 		column.add_child(navigation_gap)
 	column.add_child(navigation)
-	_button("Menu", _open_menu, navigation)
-	_button("Map", _show_map, navigation)
-	_button("Guide", _show_guide, navigation)
-	sound_button = _button("Sound: On", _toggle_sound, navigation)
-	for button in navigation.get_children():
-		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		if game.has("production"): button.add_theme_font_size_override("font_size", 15)
 	if game.has("production"):
-		var names := ["menu", "map", "guide", "sound_on"]
-		for i in navigation.get_child_count():
-			var button: Button = navigation.get_child(i)
-			button.autowrap_mode = TextServer.AUTOWRAP_OFF
-			button.icon = _icon_texture(names[i])
-			button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-			button.expand_icon = true
-			button.add_theme_constant_override("icon_max_width", 30)
-			Ui.style_combat_label(button, "label", 20)
-			button.custom_minimum_size.y = 82
-			_stacked_button_icon(button, names[i], 58 if i in [1, 2] else 40 if i == 0 else 46, 52)
-			button.get_meta("stacked_icon").offset_top = 13
-			button.get_meta("stacked_icon").offset_bottom = 49
-			# Native Button text has no reliable painted-frame padding. Keep its
-			# semantic title and draw the caption in an explicit inset lane.
-			for colour in ["font_color", "font_hover_color", "font_pressed_color", "font_disabled_color", "font_focus_color", "font_hover_pressed_color", "font_outline_color"]:
-				button.add_theme_color_override(colour, Color.TRANSPARENT)
-			var caption := Ui.combat_label(button.text, "label", 19)
-			var caption_font: FontVariation = Ui.COMBAT_LABEL_FONT.duplicate()
-			caption_font.spacing_top = -5
-			caption_font.spacing_bottom = -5
-			caption.add_theme_font_override("font", caption_font)
-			caption.name = "NavigationCaption"
-			caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-			caption.autowrap_mode = TextServer.AUTOWRAP_OFF
-			button.add_child(caption)
-			caption.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-			caption.offset_left = 8
-			caption.offset_right = -8
-			caption.offset_top = 52
-			caption.offset_bottom = 70
-			# End segments also contain the sloped outer gold rails. Center their
-			# contents in the remaining slate, with four pixels beyond the rail.
-			var outer_inset := ceilf(CombatSurface.SOURCE_CAPS.nav.x * 720.0 / 841.0 + 4)
-			var content_shift := (outer_inset - 8) * (0.5 if i == 0 else -0.5 if i == 3 else 0.0)
-			if i == 0: caption.offset_left = outer_inset
-			if i == 3: caption.offset_right = -outer_inset
-			button.get_meta("stacked_icon").offset_left += content_shift
-			button.get_meta("stacked_icon").offset_right += content_shift
-			button.set_meta("navigation_caption", caption)
-			Ui.remove_skin(button)
-		_surface(navigation, "nav", 4)
+		for entry in [["menu", _open_menu], ["map", _show_map], ["guide", _show_guide], ["sound", _toggle_sound]]:
+			var button: Button = navigation.buttons[entry[0]]
+			button.pressed.connect(entry[1])
+			gestures.register_target(button, entry[1])
+		sound_button = navigation.buttons.sound
 		_build_combat_stats()
+	else:
+		_button("Menu", _open_menu, navigation)
+		_button("Map", _show_map, navigation)
+		_button("Guide", _show_guide, navigation)
+		sound_button = _button("Sound: On", _toggle_sound, navigation)
+		for button in navigation.get_children():
+			button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if game.has("production"):
+		_native_popup_shade = ColorRect.new()
+		_native_popup_shade.color = Color(0.015, 0.025, 0.045, 0.88)
+		_native_popup_shade.z_index = 105
+		_native_popup_shade.mouse_filter = Control.MOUSE_FILTER_STOP
+		add_child(_native_popup_shade)
+		_native_popup_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_native_popup_shade.hide()
 	dialog = AcceptDialog.new()
-	dialog.min_size = Vector2i(550, 360)
+	dialog.borderless = true
 	dialog.dialog_autowrap = true
 	add_child(dialog)
 	# Keep native help dialogs bounded: their text scrolls instead of increasing
 	# the Window's minimum height as help grows.
 	dialog.get_label().hide()
 	dialog.get_label().max_lines_visible = 0
+	var guide_body := VBoxContainer.new()
+	guide_body.add_theme_constant_override("separation", 20)
+	dialog.add_child(guide_body)
+	dialog.set_meta("rc_body_column", guide_body)
+	var guide_title := Ui.label("", "title", 22)
+	guide_body.add_child(guide_title)
+	dialog.set_meta("rc_title", guide_title)
 	var guide_scroll := ScrollContainer.new()
 	guide_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	guide_scroll.custom_minimum_size = Vector2(260, 240)
-	dialog.add_child(guide_scroll)
-	guide_text = _label("", 20)
+	guide_scroll.custom_minimum_size = Vector2(220, 160)
+	guide_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	guide_body.add_child(guide_scroll)
+	dialog.set_meta("rc_body_scroll", guide_scroll)
+	guide_text = Ui.label("", "body", 16)
 	guide_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	guide_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	guide_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -754,42 +769,76 @@ func _build_ui() -> void:
 	guide_gestures.mobile_only = game.has("production")
 	dialog.add_child(guide_gestures)
 	guide_gestures.register_scroll(guide_scroll)
-	if game.has("production"):
-		guide_gestures.register_target(dialog.get_ok_button(), dialog.get_ok_button().pressed.emit)
+	guide_gestures.register_target(dialog.get_ok_button(), dialog.get_ok_button().pressed.emit)
+	ButtonFrame.attach(dialog.get_ok_button())
+	var guide_native_footer := dialog.get_ok_button().get_parent()
+	dialog.get_ok_button().reparent(guide_body)
+	guide_native_footer.hide()
+	_style_dialog_action(dialog.get_ok_button())
+	Ui.apply_states(dialog.get_ok_button(), {})
 	dialog.about_to_popup.connect(func():
+		# A hidden wrapped heading initially has width 1. Give it its real text
+		# lane before assigning copy so first-open minimums cannot grow tall.
+		var frame: PanelContainer = dialog.get_meta("rc_popup_panel")
+		guide_title.size.x = maxf(1, frame.size.x - frame.get_theme_stylebox("panel").get_minimum_size().x)
+		guide_title.text = dialog.title
 		guide_text.text = dialog.dialog_text
 		guide_scroll.scroll_vertical = 0
+		var preferred: Vector2 = dialog.get_meta("rc_preferred_size", Vector2(620, 620))
+		_fit_native_popup.call_deferred(dialog, int(preferred.y), int(preferred.x))
 	)
 	menu = ConfirmationDialog.new()
+	menu.borderless = true
 	menu.dialog_autowrap = true
-	menu.title = "Rune Cast"
+	menu.title = "Menu"
 	menu.ok_button_text = "Restart"
 	menu.cancel_button_text = "Resume"
 	pass_button = menu.add_button("Pass Turn", false, "pass")
 	production_replay_button = menu.add_button("Exact replay", false, "exact_replay")
 	production_next_button = menu.add_button("Next encounter", false, "next_encounter")
-	# Options gets a body row: adding a fourth footer action would push the
-	# existing Restart / Exact replay / Resume controls beyond 360 px.
+	# Stack menu actions inside the panel so every button keeps Continue's
+	# horizontal proportions, including the native Restart and Resume actions.
 	menu.get_label().hide()
 	menu.get_label().max_lines_visible = 0
 	var menu_body := VBoxContainer.new()
-	menu_body.add_theme_constant_override("separation", 12)
+	menu_body.add_theme_constant_override("separation", 20)
 	menu.add_child(menu_body)
+	menu.set_meta("rc_body_column", menu_body)
+	var menu_title := Ui.label("Menu", "title", 22)
+	menu_body.add_child(menu_title)
+	menu.set_meta("rc_title", menu_title)
 	var menu_scroll := ScrollContainer.new()
-	menu_scroll.custom_minimum_size = Vector2(260, 110)
+	menu_scroll.custom_minimum_size = Vector2(220, 32)
 	menu_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	menu_body.add_child(menu_scroll)
-	var menu_copy := Ui.label("", "body", 18)
+	menu.set_meta("rc_body_scroll", menu_scroll)
+	var menu_scroll_body := VBoxContainer.new()
+	menu_scroll_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	menu_scroll_body.add_theme_constant_override("separation", 14)
+	menu_scroll.add_child(menu_scroll_body)
+	var menu_copy := Ui.label("", "body", 16)
 	menu.set_meta("body_copy", menu_copy)
 	menu_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	menu_scroll.add_child(menu_copy)
-	options_button = Ui.action("Options", false, Vector2(0, 50))
-	menu_body.add_child(options_button)
+	menu_scroll_body.add_child(menu_copy)
+	var menu_footer := VBoxContainer.new()
+	menu_footer.add_theme_constant_override("separation", 14)
+	menu_body.add_child(menu_footer)
+	menu.set_meta("rc_actions", menu_footer)
+	for button in [production_replay_button, production_next_button]:
+		button.reparent(menu_footer)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	options_button = Ui.menu_action("Options", false, Vector2(0, 50))
+	menu_footer.add_child(options_button)
 	options_button.pressed.connect(func(): menu.custom_action.emit("options"))
 	if run_managed:
-		home_button = Ui.action("Quit to Home", false, Vector2(0, 50))
-		menu_body.add_child(home_button)
+		collection_button = Ui.menu_action("Collection", false, Vector2(0, 50))
+		menu_footer.add_child(collection_button)
+		collection_button.pressed.connect(_request_collection)
+		menu_store_button = Ui.menu_action("Store · unavailable", false, Vector2(0, 68), {"unavailable": true})
+		menu_footer.add_child(menu_store_button)
+		home_button = Ui.menu_action("Quit to Home", false, Vector2(0, 50))
+		menu_footer.add_child(home_button)
 		home_button.pressed.connect(_request_home)
 	menu.about_to_popup.connect(func(): menu_copy.text = menu.dialog_text)
 	production_replay_button.hide()
@@ -814,33 +863,39 @@ func _build_ui() -> void:
 			_open_options()
 	)
 	add_child(menu)
-	if game.has("production"):
-		var menu_gestures := TouchRouter.new()
-		menu_gestures.mobile_only = true
-		menu.add_child(menu_gestures)
-		menu_gestures.register_scroll(menu_scroll)
-		# Native dialog actions keep their existing behavior. Compact painted
-		# padding lets Resume / Restart / Exact replay fit the 360px viewport.
-		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button, options_button]:
-			menu_gestures.register_target(button, button.pressed.emit)
-			button.theme_type_variation = "RCSecondaryLive"
-			button.custom_minimum_size.y = 50
-			button.add_theme_font_size_override("font_size", 14)
-			var spacing := StyleBoxEmpty.new()
-			spacing.content_margin_left = 10
-			spacing.content_margin_right = 10
-			if run_managed and button == menu.get_cancel_button():
-				# ConfirmationDialog resets its native footer's custom minimum.
-				# Keep Resume's touch height in the style's intrinsic minimum.
-				spacing.content_margin_top = 15
-				spacing.content_margin_bottom = 15
-			button.add_theme_stylebox_override("normal", spacing)
-			Ui._skin(button, "res://assets/ui/buttons/secondary.png")
-			Ui.apply_states(button, {})
-		if run_managed:
-			menu_gestures.register_target(home_button, _request_home)
-			menu.get_ok_button().hide()
+	var menu_gestures := TouchRouter.new()
+	menu_gestures.mobile_only = game.has("production")
+	menu.add_child(menu_gestures)
+	menu_gestures.register_scroll(menu_scroll)
+	# Keep original native button objects and callbacks inside our scaled panel.
+	for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button, options_button]:
+		menu_gestures.register_target(button, button.pressed.emit)
+		ButtonFrame.attach(button)
+		_style_dialog_action(button)
+		Ui.apply_states(button, {})
+	var menu_native_footer := menu.get_ok_button().get_parent()
+	for button in [pass_button, menu.get_ok_button(), menu.get_cancel_button()]:
+		button.reparent(menu_footer)
+	menu_native_footer.hide()
+	var resume := menu.get_cancel_button()
+	resume.text = "Resume Combat"
+	resume.theme_type_variation = "RCPointed"
+	ButtonFrame.attach(resume, "primary")
+	menu_footer.move_child(resume, 0)
+	menu_footer.move_child(options_button, 1)
+	# Standalone development encounters have more actions than the shared
+	# gameplay Menu. Scroll those extras rather than growing beyond its cap;
+	# Resume and Options remain fixed and keep their original native callbacks.
+	for button in [production_replay_button, production_next_button, pass_button, menu.get_ok_button()]:
+		button.reparent(menu_scroll_body)
+	if run_managed:
+		menu_gestures.register_target(collection_button, _request_collection)
+		_style_dialog_action(collection_button)
+		menu_gestures.register_target(home_button, _request_home)
+		_style_dialog_action(home_button)
+		menu.get_ok_button().hide()
 	for popup in [dialog, menu]:
+		_prepare_native_popup(popup)
 		if game.has("production"): popup.dialog_close_on_escape = false
 		popup.about_to_popup.connect(func(): gestures.set_suspended(true))
 		popup.visibility_changed.connect(func():
@@ -858,7 +913,19 @@ func _build_ui() -> void:
 		record_dialog.visibility_changed.connect(_sync_native_modal)
 
 func _sync_native_modal() -> void:
-	gestures.set_suspended(_shell_modal or dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible))
+	var popup_visible := dialog.visible or menu.visible or (record_dialog != null and record_dialog.visible)
+	gestures.set_suspended(_shell_modal or popup_visible)
+	if _native_popup_shade != null: _native_popup_shade.visible = popup_visible
+
+func _style_dialog_action(button: Button, height: float = 68) -> void:
+	# Reparenting the original native buttons keeps their signal behavior and
+	# accessors while the body container gives them the whole padded row.
+	button.theme = Ui.THEME
+	button.theme_type_variation = "RCSecondaryLive"
+	button.custom_minimum_size = Vector2(180, height)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.add_theme_font_size_override("font_size", 18)
 
 func _combat_pile(title: String, zone: String, parent: Node) -> Button:
 	var pile := Ui.combat_pile(title, 0, zone == "discard_pile")
@@ -1062,10 +1129,7 @@ func _fit_layout() -> void:
 			card.custom_minimum_size.x = 149
 		hand_row.add_theme_constant_override("separation", 6 if width < 640 else 32)
 		forecast_button.custom_minimum_size.x = minf(640, width - margin * 2)
-		combat_navigation.custom_minimum_size.x = minf(640, width - margin * 2)
-		for button in combat_navigation.get_children():
-			var caption_size := (16 if button == sound_button else 17) if width < 400 else 19
-			button.get_meta("navigation_caption").add_theme_font_size_override("font_size", caption_size)
+		combat_navigation.fit_viewport(width)
 		cast_button.custom_minimum_size.x = minf(500, width - margin * 2 - 36)
 		cast_cost.add_theme_font_size_override("font_size", 28 if width < 500 else 44)
 		for child in cast_button.get_children():
@@ -1073,7 +1137,6 @@ func _fit_layout() -> void:
 				child.get_child(0).add_theme_font_size_override("font_size", 28 if width < 500 else 43)
 	for cell in cells:
 		cell.custom_minimum_size = Vector2(side, cell_height)
-	dialog.min_size = Vector2i(mini(550, int(width) - 32), 300)
 	if game.has("production"):
 		wiring.columns = 7 if width >= 640 else 4
 		wiring.add_theme_constant_override("h_separation", 7 if width >= 640 else 5)
@@ -1100,14 +1163,12 @@ func _fit_layout() -> void:
 				content.get_child(1).get_child(0).custom_minimum_size = Vector2(53, 10)
 			content.get_child(2).add_theme_font_size_override("font_size", 18)
 		_layout_forecast()
+	_refit_popups()
 
 func _refresh_sound_button() -> void:
 	sound_button.text = "Sound: On" if sound_enabled else "Sound: Off"
 	if game.has("production"):
-		sound_button.text = "Sound"
-		sound_button.get_meta("navigation_caption").text = "Sound"
-		Ui.apply_combat_icon(sound_button.get_meta("stacked_icon"), "sound_on" if sound_enabled else "sound_off")
-		sound_button.tooltip_text = "Sound on" if sound_enabled else "Sound off"
+		combat_navigation.set_sound_enabled(sound_enabled)
 
 func _refresh() -> void:
 	if _closing: return
@@ -1140,6 +1201,7 @@ func _refresh() -> void:
 	arena.attack = game.intent
 	arena.battle_state = game.state
 	arena.enemy_id = game.encounter.get("enemy_id", "")
+	arena.intent_button.disabled = not editable or game.get("enemy_action", {}).is_empty()
 	arena.tooltip_text = "%s: %d / %d health. Incoming attack: %d." % [game.enemy_name, game.enemy_hp, game.enemy_max_hp, game.intent]
 	arena.refresh()
 	if animation_presenter != null and not controller.is_busy() and arena.actor.has_method("reset_presentation"):
@@ -1164,11 +1226,11 @@ func _refresh() -> void:
 		production_replay_button.hide()
 		production_next_button.hide()
 		pass_button.hide()
-		menu.dialog_text = "Resume returns to this battle unchanged.\nQuit to Home keeps this session's battle-entry checkpoint. Continue replays that entry; current battle progress is discarded.\nThe session ends when the application closes."
+		menu.dialog_text = "Resume keeps this battle unchanged. Quit to Home discards battle progress; Continue replays its entry."
 		home_button.text = "Quit to Home" if game.state == "playing" else "Return Home"
 		home_button.disabled = controller.is_busy()
 		if game.state != "playing":
-			menu.dialog_text = "Encounter won. The tower is not complete. No rewards are granted in this fixture." if game.state == "victory" else "This run has ended in defeat. Return Home to start a new run."
+			menu.dialog_text = "Encounter won. Review the encounter result to return to progression." if game.state == "victory" else "This run has ended in defeat. Review the encounter result before returning."
 		if menu.visible: menu.get_meta("body_copy").text = menu.dialog_text
 	banner.text = game.state.to_upper() if game.state != "playing" else ("CIRCUIT COMPLETE" if spell.valid else "CONNECT BEGIN TO END")
 	if run_managed and game.state == "victory": banner.text = "ENCOUNTER WON"
@@ -1237,12 +1299,13 @@ func _refresh() -> void:
 	if not arriving_card.is_empty(): shown_hand.append(arriving_card)
 	for card in shown_hand:
 		var is_incoming: bool = not arriving_card.is_empty() and int(card.uid) == int(arriving_card.uid)
-		var rune: Dictionary = game.catalog[card.id]
+		var rune: Dictionary = InstanceEffects.resolve(game.catalog, card).get("definition", {})
+		if rune.is_empty(): continue
 		var button: Button
 		if game.has("production"):
 			var icon_name: String = rune.effect if rune.type == "technique" else ("shield" if rune.effect == "shield" else "spark")
 			if icon_name == "draw": icon_name = "focus"
-			button = Ui.card({"name": rune.name, "cost": rune.cost, "icon": icon_name,
+			button = Ui.card({"name": InspectionData.display_name(rune), "cost": rune.cost, "icon": icon_name,
 				"kind": "technique" if rune.type == "technique" else rune.effect,
 				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false), "compact": true}, {"selected": card.uid == selected_uid}, 149)
 			if is_incoming:
@@ -1268,7 +1331,7 @@ func _refresh() -> void:
 			if is_incoming: info.focus_mode = Control.FOCUS_NONE
 			info_buttons[int(card.uid)] = info
 		else:
-			button = _button("%s\n%s\n%d" % [rune.name, rune.symbol, rune.value], _select_card.bind(card.uid), hand_box)
+			button = _button("%s\n%s\n%s" % [InspectionData.display_name(rune), rune.symbol, "%d / %d" % [rune.value.damage, rune.value.shield] if rune.get("effect") == "damage_shield" else str(rune.value)], _select_card.bind(card.uid), hand_box)
 			button.custom_minimum_size = Vector2(142, 92)
 		button.toggle_mode = true
 		button.set_pressed_no_signal(card.uid == selected_uid)
@@ -1431,7 +1494,9 @@ func _inspect_pile(zone: String) -> void:
 	var names: Array[String] = []
 	var counts := {}
 	for card in cards:
-		var name_text: String = game.catalog[card.id].name
+		var rune: Dictionary = InstanceEffects.resolve(game.catalog, card).get("definition", {})
+		if rune.is_empty(): continue
+		var name_text := "%s · %s" % [InspectionData.display_name(rune), _rune_description(rune)]
 		counts[name_text] = int(counts.get(name_text, 0)) + 1
 	var sorted_names: Array = counts.keys()
 	sorted_names.sort()
@@ -1440,7 +1505,7 @@ func _inspect_pile(zone: String) -> void:
 
 func _request_pass() -> void:
 	if not _can_edit(): return
-	_open_inspector({"title": "Pass this turn?", "text": ""})
+	_open_inspector({"title": "Pass this turn?", "text": "", "kind": "pass"})
 	_confirm_pass_details()
 
 func _build_inspector() -> void:
@@ -1449,39 +1514,28 @@ func _build_inspector() -> void:
 	inspector.mouse_filter = Control.MOUSE_FILTER_STOP
 	inspector.z_index = 100
 	add_child(inspector)
+	inspector.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	var shade := ColorRect.new()
 	shade.color = Color(0.015, 0.025, 0.045, 0.9)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	inspector.add_child(shade)
 	inspector_panel = PanelContainer.new()
-	inspector_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	inspector_panel.anchor_left = 0.04
-	inspector_panel.anchor_right = 0.96
-	inspector_panel.anchor_top = 0.12
-	inspector_panel.anchor_bottom = 0.88
-	var frame := StyleBoxFlat.new()
-	frame.bg_color = Color("#142535")
-	frame.border_color = Color("#cfad69")
-	frame.set_border_width_all(2)
-	frame.set_corner_radius_all(12)
-	for side in ["left", "right", "top", "bottom"]:
-		frame.set("content_margin_" + side, 18)
-	inspector_panel.add_theme_stylebox_override("panel", frame)
-	if game.has("production"):
-		inspector_panel.add_theme_stylebox_override("panel", preload("res://assets/ui/styles/panel.tres"))
+	inspector_panel.theme = Ui.THEME
+	inspector_panel.add_theme_stylebox_override("panel", preload("res://assets/ui/styles/modal_panel.tres"))
 	inspector.add_child(inspector_panel)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 14)
+	column.add_theme_constant_override("separation", 20)
 	inspector_panel.add_child(column)
-	inspector_title = _label("Inspection", 28)
+	inspector_title = Ui.label("Inspection", "title", 22)
 	inspector_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(inspector_title)
 	inspector_scroll = ScrollContainer.new()
 	inspector_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inspector_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	column.add_child(inspector_scroll)
+	inspector_panel.set_meta("rc_body_scroll", inspector_scroll)
 	gestures.register_scroll(inspector_scroll)
-	inspector_text = _label("", 23)
+	inspector_text = Ui.label("", "body", 16)
 	inspector_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	inspector_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inspector_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1490,14 +1544,25 @@ func _build_inspector() -> void:
 	inspector_confirm_pass = _button("Confirm Pass / enemy acts", _accept_pass_details, column)
 	inspector_close = _button("Close", _close_inspector, column)
 	for button in [inspector_pass, inspector_confirm_pass, inspector_close]:
-		button.custom_minimum_size.y = 64
+		ButtonFrame.attach(button)
+		_style_dialog_action(button)
+		Ui.apply_states(button, {})
+		button.custom_minimum_size.y = 68
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	Ui.prepare_popup_content(inspector)
+	inspector_panel.minimum_size_changed.connect(func(): _fit_inspector.call_deferred())
 	inspector.hide()
+
+func _fit_inspector() -> void:
+	if _closing or inspector_panel == null: return
+	Ui.fit_popup_overlay(inspector, inspector_panel, Vector2(620, 660))
 
 func _open_inspector(detail: Dictionary) -> void:
 	if detail.is_empty() or not _can_edit(): return
 	gestures.cancel_pending()
 	var origin := get_viewport().gui_get_focus_owner()
 	inspector_origin = weakref(origin) if origin != null else null
+	_inspector_kind = str(detail.get("kind", "details"))
 	inspector_title.text = detail.title
 	inspector_close.text = "Close"
 	inspector_text.text = detail.text
@@ -1505,6 +1570,7 @@ func _open_inspector(detail: Dictionary) -> void:
 	inspector_pass.hide()
 	inspector_confirm_pass.hide()
 	inspector.show()
+	_fit_inspector()
 	gestures.set_modal(inspector)
 	if not game.has("production"): inspector_close.grab_focus()
 	_ui_feedback("ui_confirm", {"modal": "inspector", "title": detail.title})
@@ -1512,6 +1578,7 @@ func _open_inspector(detail: Dictionary) -> void:
 func _close_inspector(restore_focus: bool = true) -> void:
 	if inspector == null or not inspector.visible: return
 	inspector.hide()
+	_inspector_kind = ""
 	gestures.set_modal(null)
 	inspector_close.release_focus()
 	var origin: Control = inspector_origin.get_ref() if inspector_origin != null else null
@@ -1522,6 +1589,10 @@ func _close_inspector(restore_focus: bool = true) -> void:
 
 func _inspect_hand(uid: int) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_hand(controller.snapshot(), uid))
+
+func _inspect_intent() -> void:
+	if not _can_edit() or menu.visible or dialog.visible: return
+	_open_inspector(InspectionData.describe_intent(controller.display_snapshot()))
 
 func _inspect_tool(kind: String) -> void:
 	if _can_edit(): _open_inspector(InspectionData.describe_tool(controller.snapshot(), kind))
@@ -1563,13 +1634,18 @@ func _show_details() -> void:
 			if game.has("production") and action in ["flip", "undo"]: continue
 			var availability: Dictionary = InspectionData.edit_action(game, selected_cell, action)
 			text += "\n%s: %s" % [action.capitalize(), availability.reason]
-	_open_inspector({"title": "Circuit details", "text": text})
+	_open_inspector({"title": "Circuit details", "text": text, "kind": "circuit_details"})
 	inspector_pass.visible = not game.has("production")
 
 func _confirm_pass_details() -> void:
 	if controller == null or not controller.can_edit() or not inspector.visible: return
+	# Reused hidden buttons can retain signals from an older popup. They cannot
+	# turn a new read-only inspector into a gameplay confirmation.
+	if _inspector_kind != "pass" and not (_inspector_kind == "circuit_details" and inspector_pass.visible): return
+	_inspector_kind = "pass"
+	var announced := controller.snapshot()
 	inspector_title.text = "Pass this turn?"
-	inspector_text.text = "The enemy attacks for %d damage. No spell or shield is used.\n\n%s" % [game.intent, "All non-endpoint pieces clear, permanent runes discard and temporaries expire. A surviving player gets a new turn, hand and kit." if game.has("production") else "Normal turn cleanup and the active profile's board rules apply."]
+	inspector_text.text = "The enemy attacks for %d damage. No spell or shield is used.\n\n%s" % [announced.intent, "All non-endpoint pieces clear, permanent runes discard and temporaries expire. A surviving player gets a new turn, hand and kit." if game.has("production") else "Normal turn cleanup and the active profile's board rules apply."]
 	inspector_pass.hide()
 	inspector_confirm_pass.show()
 	inspector_close.text = "Cancel" if game.has("production") else "Close"
@@ -1577,7 +1653,7 @@ func _confirm_pass_details() -> void:
 	gestures.cancel_pending()
 
 func _accept_pass_details() -> void:
-	if controller == null or not controller.can_edit() or not inspector.visible or not inspector_confirm_pass.visible: return
+	if controller == null or not controller.can_edit() or not inspector.visible or _inspector_kind != "pass" or not inspector_confirm_pass.visible: return
 	_close_inspector(false)
 	_pass()
 
@@ -1605,6 +1681,9 @@ func _notification(what: int) -> void:
 func _go_back() -> void:
 	# Android's system Back is separate from the disabled production keyboard.
 	# Use existing dismissal actions; never confirm Pass, Restart or a card.
+	if standalone_map != null:
+		standalone_map.dismiss_top()
+		return
 	if _closing or _shell_modal or _replacing_controller: return
 	gestures.cancel_pending()
 	if options != null and options.visible:
@@ -1638,6 +1717,7 @@ func _rune_description(rune: Dictionary) -> String:
 	match rune.effect:
 		"damage": return "Adds %d damage" % rune.value
 		"shield": return "Adds %d shield" % rune.value
+		"damage_shield": return "Adds %d damage and %d shield" % [int(rune.value.damage), int(rune.value.shield)]
 		"draw": return "Draw up to %d cards" % rune.value
 		"conjure": return "Create %d temporary %s" % [rune.value, game.catalog[rune.generated_rune_id].name]
 	return ""
@@ -1871,21 +1951,161 @@ func _next_production_encounter() -> void:
 
 func _open_menu(feedback: bool = true) -> void:
 	if _closing or _shell_modal: return
+	if run_managed:
+		# Map and Combat use the application's one menu instance and canvas.
+		# This native dialog belongs only to standalone development encounters.
+		menu_requested.emit(feedback)
+		return
 	var was_visible := menu.visible
 	if game.has("production"):
 		for button in [menu.get_ok_button(), menu.get_cancel_button(), pass_button, production_replay_button, production_next_button, options_button]:
 			Ui.apply_states(button, {"disabled": button.disabled})
-	menu.popup_centered(Vector2i(mini(int(size.x) - 32, 660), 250) if game.has("production") else Vector2i(540, 220))
-	if game.has("production"): menu.gui_release_focus()
+	_show_native_popup(menu, Vector2(560, 660))
+	if game.has("production"):
+		menu.gui_release_focus()
 	if feedback and not was_visible: _ui_feedback("ui_confirm", {"modal": "menu"})
 
+func _prepare_native_popup(popup: AcceptDialog) -> void:
+	# AcceptDialog lays direct Control children out in its raw parent-canvas
+	# units. Put the original body/buttons inside a separate scaled panel so
+	# native Window input and callbacks stay intact at the Menu's display size.
+	var native_theme: Theme = Ui.THEME.duplicate()
+	native_theme.set_stylebox("panel", "AcceptDialog", StyleBoxEmpty.new())
+	native_theme.set_constant("buttons_separation", "AcceptDialog", 0)
+	popup.theme = native_theme
+	popup.borderless = true
+	popup.wrap_controls = true
+	popup.min_size = Vector2i.ZERO
+	popup.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	popup.content_scale_size = Vector2i.ZERO
+	var wrapper := Control.new()
+	popup.add_child(wrapper)
+	popup.set_meta("rc_popup_wrapper", wrapper)
+	var panel := PanelContainer.new()
+	panel.theme = Ui.THEME
+	panel.theme_type_variation = "RCDialog"
+	wrapper.add_child(panel)
+	var body: Control = popup.get_meta("rc_body_column")
+	body.reparent(panel)
+	if popup.has_meta("rc_body_scroll"):
+		panel.set_meta("rc_body_scroll", popup.get_meta("rc_body_scroll"))
+	popup.set_meta("rc_popup_panel", panel)
+	Ui.prepare_popup_content(panel)
+	panel.minimum_size_changed.connect(func():
+		if popup.visible:
+			var preferred: Vector2 = popup.get_meta("rc_preferred_size", Vector2(560, 660))
+			_fit_native_popup.call_deferred(popup, int(preferred.y), int(preferred.x))
+	)
+
+func _show_native_popup(popup: AcceptDialog, preferred: Vector2) -> void:
+	preferred.y = minf(preferred.y, Ui.POPUP_MAX_HEIGHT)
+	popup.set_meta("rc_preferred_size", preferred)
+	_layout_native_popup(popup, preferred)
+	popup.popup_centered(popup.size)
+	_fit_native_popup.call_deferred(popup, int(preferred.y), int(preferred.x))
+
+func _layout_native_popup(popup: Window, preferred: Vector2) -> void:
+	if _closing or not is_instance_valid(popup) or not popup.has_meta("rc_popup_panel") or not is_inside_tree(): return
+	var canvas_scale := get_viewport().get_final_transform().get_scale().abs()
+	if canvas_scale.x <= 0 or canvas_scale.y <= 0 or size.x <= 0 or size.y <= 0: return
+	var rendered_size := size * canvas_scale
+	var fit_scale := minf(1.0, minf(rendered_size.x / 360.0, rendered_size.y / 640.0))
+	var panel: PanelContainer = popup.get_meta("rc_popup_panel")
+	panel.scale = Vector2.ONE * fit_scale / canvas_scale
+	var layout_size := rendered_size / fit_scale
+	var available_size := layout_size - Vector2.ONE * Ui.MODAL_OUTER_MARGIN * 2
+	available_size.y = minf(available_size.y, Ui.POPUP_MAX_HEIGHT)
+	var desired_size := preferred.min(available_size)
+	# Hidden wrapped headings initially measure at width 1. Seed their real
+	# text lane before reading the panel minimum, including the record title.
+	var body: Control = popup.get_meta("rc_body_column")
+	var text_width := maxf(1, desired_size.x - panel.get_theme_stylebox("panel").get_minimum_size().x)
+	body.size.x = text_width
+	for child in body.get_children():
+		if child is Label: child.size.x = text_width
+	Ui.fit_modal(panel, layout_size, preferred)
+	panel.position = Vector2.ZERO
+	# Deferred container sorting may retain an old wrapped minimum briefly.
+	# Keep the native Window on screen while that local content settles.
+	var fitted_size := panel.size.min(available_size)
+	var window_size := Vector2i((fitted_size * panel.scale).ceil())
+	var wrapper: Control = popup.get_meta("rc_popup_wrapper")
+	wrapper.custom_minimum_size = Vector2(window_size)
+	popup.size = window_size
+	popup.position = Vector2i((size - Vector2(popup.size)) / 2.0)
+
+func _fit_native_popup(popup: Window, preferred_height: int, preferred_width: int = 560) -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if _closing or not is_instance_valid(popup) or not popup.visible: return
+	_layout_native_popup(popup, Vector2(preferred_width, preferred_height))
+
+func _refit_popups() -> void:
+	if _closing or not is_node_ready(): return
+	_fit_inspector()
+	for popup in [dialog, menu, record_dialog]:
+		if popup == null or not popup.visible: continue
+		var preferred: Vector2 = popup.get_meta("rc_preferred_size", Vector2(620, 620))
+		_fit_native_popup.call_deferred(popup, int(preferred.y), int(preferred.x))
+
 func _show_map() -> void:
-	if _closing or _shell_modal: return
-	dialog.title = "Tower map"
-	dialog.dialog_text = startup_error if controller == null else "%s\n%s\n\nOne encounter at a time is available in this prototype.\n\n%s\n\nPlanned route: encounters, events, shops, recovery rooms and a final guardian. Branching routes and encounter saves are not implemented." % [game.encounter.title, game.enemy_name, game.encounter.help_text]
-	dialog.popup_centered(Vector2i(mini(550, int(size.x) - 32), mini(360, int(size.y) - 32)))
-	if game.has("production"): dialog.gui_release_focus()
+	if _closing or _shell_modal or inspector.visible or options.visible or menu.visible or dialog.visible: return
+	if controller == null:
+		dialog.title = "Map unavailable"
+		dialog.dialog_text = startup_error
+		_show_native_popup(dialog, Vector2(550, 360))
+		return
+	if controller.is_busy(): return
+	if run_managed:
+		map_requested.emit()
+		return
+	# Explicit encounter/example/experiment entry points remain independent from
+	# a tower session. Their Map reports that boundary without invented visits.
+	set_shell_modal(true)
+	_standalone_map_generation += 1
+	standalone_map = RouteMap.new()
+	add_child(standalone_map)
+	standalone_map.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	standalone_map.set_snapshot({"mode": "standalone", "status": "battle",
+		"player_hp": game.player_hp, "player_max_hp": game.player_max_hp,
+		"gold": 0, "route": {}, "current_node_id": "standalone_" + str(game.encounter.id),
+		"current_encounter_id": game.encounter.id, "current_enemy_name": game.enemy_name,
+		"current_encounter_role": "boss" if game.enemy_name == "Shadeling" else "fixture",
+		"current_encounter_help": game.encounter.help_text, "can_resume_room": true})
+	standalone_map.set_sound_enabled(sound_enabled)
+	standalone_map.close_requested.connect(_standalone_map_closed.bind(_standalone_map_generation))
+	standalone_map.resume_requested.connect(_standalone_map_closed.bind(_standalone_map_generation))
+	standalone_map.menu_requested.connect(_standalone_map_menu_requested.bind(_standalone_map_generation))
+	standalone_map.sound_requested.connect(_standalone_map_sound_requested.bind(_standalone_map_generation))
 	_ui_feedback("ui_confirm", {"modal": "map"})
+
+func _standalone_map_closed(token: int) -> void:
+	if token == _standalone_map_generation: _close_standalone_map()
+
+func _standalone_map_menu_requested(token: int) -> void:
+	if not _standalone_map_navigation_allowed(token): return
+	_close_standalone_map()
+	_open_menu()
+
+func _standalone_map_sound_requested(token: int) -> void:
+	if not _standalone_map_navigation_allowed(token): return
+	_toggle_sound()
+	standalone_map.set_sound_enabled(sound_enabled)
+
+func _standalone_map_navigation_allowed(token: int) -> bool:
+	return not _closing and standalone_map != null and token == _standalone_map_generation \
+		and not standalone_map.inspection.visible
+
+func _close_standalone_map() -> void:
+	if standalone_map == null: return
+	var old_map := standalone_map
+	standalone_map = null
+	_standalone_map_generation += 1
+	old_map.set_blocked(true)
+	old_map.hide()
+	old_map.queue_free()
+	set_shell_modal(false)
+	_ui_feedback("ui_back", {"modal": "map"})
 
 func _show_guide() -> void:
 	if _closing or _shell_modal: return
@@ -1895,7 +2115,7 @@ func _show_guide() -> void:
 		dialog.dialog_text = "Every playable turn starts with only Begin and End. Tap Begin or End, then Rotate to change its connection. Endpoints may be adjacent or face outward; Remove cannot erase them.\n\nCompatible ports connect in either direction. Straight runes and wires rotate geometrically. Split has three logical ports and branches one route into two; Join merges two into one. Their decorative tips are not extra ports. Every powered port must connect, every branch must reach End, and conflicting feedback is invalid. Disconnected pieces contribute nothing.\n\nSplit copies the incoming signal and costs 1 energy; Join costs 0. A Spark before two branches contributes twice, while a shared Spark after Join contributes once. Every physical rune pays once. Cast resolves one total damage hit, then shield and retaliation only if the enemy survives. The live forecast above Cast shows the same evaluation; an unaffordable preview cannot Cast.\n\nPass Turn beside the wiring tools opens confirmation of the enemy's unshielded attack. It remains available with an incomplete circuit or empty hand. Cast or Pass clears all non-endpoints. Permanent hand/installed cards discard; temporary cards disappear. Surviving players get new endpoints, a fresh finite kit, refreshed energy and a normal draw. No useful hand or opening is guaranteed.\n\nTap a card/tool then a cell; tap it again to clear selection. Remove returns runes to hand or connectors to stock. Rotate turns the selected piece clockwise. Techniques activate immediately when tapped. Info or a hold on a hand card opens its details; holding a connector tool opens its details. Board slots never open an information window. The forecast is an information display only. Close dismisses details.\n\nDrag the hand horizontally and the page vertically to scroll. Movement cancels tap/hold. Menu offers Restart with continuing randomness and Exact replay of the original seed."
 		if run_managed:
 			dialog.dialog_text = dialog.dialog_text.replace("Menu offers Restart with continuing randomness and Exact replay of the original seed.", "Menu Resume returns to the current battle unchanged. Quit to Home asks before discarding battle progress; Continue replays the same battle entry. This session is available only while the application remains open.")
-		dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
+		_show_native_popup(dialog, Vector2(620, 620))
 		dialog.gui_release_focus()
 		_ui_feedback("ui_confirm", {"modal": "guide"})
 		return
@@ -1911,7 +2131,7 @@ func _show_guide() -> void:
 		dialog.dialog_text += "\n\nStraight, Corner, Split and Join show available / total quantities. Every installed connector reserves one piece, including disconnected pieces. Erase or replacement returns the displaced connector; installing a rune over a connector returns it too. Rotate and Flip preserve quantities. Undo restores the board, hand and connector supply together."
 	dialog.dialog_text = dialog.dialog_text.replace("On desktop, hover for costs and details.", "Hold a hand card or connector tool to inspect costs and details.")
 	dialog.dialog_text += "\n\nTOUCH CONTROLS\nTap effects/tools, then an eligible + socket. A legal unfinished circuit is allowed; x sockets explain protected or unavailable targets. Tap an installed piece, then Rotate; Flip supports straight/corner wires only. Rotate/Flip/Undo show actual availability. Cancel selection clears the active card, tool and Inspect mode.\n\nHold a hand card or stock button for details without using it. Or switch Inspect ON, then tap a hand card or stock button safely, including techniques. Board slots never open an information window. Close returns to the board; Inspect stays ON until switched off or cancelled. Normal short taps still play techniques immediately. Drag horizontally over the hand or vertically over the page to scroll; movement cancels tap and hold. Details / Pass explains the circuit and offers a confirmed Pass even when Cast is unavailable."
-	dialog.popup_centered(Vector2i(mini(620, int(size.x) - 32), mini(620, int(size.y) - 32)))
+	_show_native_popup(dialog, Vector2(620, 620))
 	_ui_feedback("ui_confirm", {"modal": "guide"})
 
 func _toggle_sound() -> void:
@@ -2128,27 +2348,41 @@ func _save_experiment_record() -> void:
 
 func _build_record_dialog() -> void:
 	record_dialog = AcceptDialog.new()
+	record_dialog.borderless = true
 	record_dialog.title = "Local experiment observation"
-	record_dialog.min_size = Vector2i(660, 720)
 	add_child(record_dialog)
+	record_dialog.get_label().hide()
+	record_dialog.get_label().max_lines_visible = 0
 	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 20)
 	record_dialog.add_child(body)
+	record_dialog.set_meta("rc_body_column", body)
+	body.add_child(Ui.label(record_dialog.title, "title", 22))
 	note_input = LineEdit.new()
 	note_input.placeholder_text = "Optional tester note (avoid personal information)"
 	body.add_child(note_input)
-	_button("Add note and export", _add_experiment_note, body)
+	var export_button := _button("Add note and export", _add_experiment_note, body)
+	ButtonFrame.attach(export_button)
+	_style_dialog_action(export_button)
 	record_text = TextEdit.new()
 	record_text.editable = false
-	record_text.custom_minimum_size = Vector2(620, 550)
+	record_text.custom_minimum_size = Vector2(220, 120)
+	record_text.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
 	record_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(record_text)
+	var native_footer := record_dialog.get_ok_button().get_parent()
+	record_dialog.get_ok_button().reparent(body)
+	native_footer.hide()
+	ButtonFrame.attach(record_dialog.get_ok_button())
+	_style_dialog_action(record_dialog.get_ok_button())
+	_prepare_native_popup(record_dialog)
 
 func _inspect_experiment_record() -> void:
 	if controller == null:
 		return
 	_save_experiment_record()
 	record_text.text = (last_record_path if record_error == "" else record_error) + "\n\n" + JSON.stringify(controller.record_document(), "  ")
-	record_dialog.popup_centered(Vector2i(660, 720))
+	_show_native_popup(record_dialog, Vector2(660, 660))
 
 func _add_experiment_note() -> void:
 	if controller == null:

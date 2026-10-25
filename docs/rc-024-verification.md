@@ -1,5 +1,11 @@
 # RC-024 — Run-state model and application shell
 
+**October 23 persistence update:** [RC-028](rc-028-verification.md) supersedes the session-only limits below for supported runs and approved rune definition unlocks. Home, replay, replacement and recovery now use durable checkpoints; this document retains the original RC-024 evidence. Store/item decisions remain open.
+
+**October 21 superseding integration:** [RC-026](rc-026-verification.md) now connects selected route definitions to transactional real Combat entry, committed results and collection/RNG transfer. It distinguishes live Resume, exact entry replay and pending-result review. The evidence below remains historical; permanent progression still awaits RC-024A.
+
+**October 20 superseding launch note:** [RC-025](rc-025-verification.md) changes normal New Run to a fresh route Map. The Shadeling entry below is retained as an explicit standalone fixture and in isolated run-managed boundary tests; it is never presented as six rooms of fabricated tower progress. This document records RC-024's historical evidence. General route-to-battle initialization remains RC-026.
+
 October 19, 2026 (Australia/Sydney). **Independent run-state and shell groundwork is delivered. Permanent-progression integration remains pending RC-024A.** No Git operations were performed. RC-022 remains deferred, RC-023 remains pending human/device acceptance, and both music tracks remain unavailable.
 
 ## Try the implemented flow

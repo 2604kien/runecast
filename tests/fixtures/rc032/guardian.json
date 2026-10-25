@@ -1,0 +1,6 @@
+{
+  "id": "rc032_calibration_guardian", "ruleset": "rc007_production_v1",
+  "enemy_id": "dev_rc032_guardian", "board_id": "board_belfry", "loadout_id": "starter",
+  "title": "RC-032 DEVELOPMENT GUARDIAN", "help_text": "Excluded lifecycle fixture. This calibration guardian is not Bell Keeper production content. Resolve all required awards before completion.",
+  "opening_log": "Development guardian: build an ordinary legal circuit.", "seed": 42
+}

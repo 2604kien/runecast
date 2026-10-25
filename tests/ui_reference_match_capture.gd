@@ -42,6 +42,14 @@ func _run() -> void:
 	var file := FileAccess.open(destination.path_join("results.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "  ") + "\n")
 	print("%d reference-layout measurements/checks, %d failures" % [checks, failures])
+	# Release this coroutine's references before shutdown, and allow the audio
+	# mixer to retire the final disposed ambience playback after queue_free.
+	call_deferred("_finish")
+
+func _finish() -> void:
+	await create_timer(0.2).timeout
+	await process_frame
+	await process_frame
 	quit(0 if failures == 0 else 1)
 
 func _capture_scene(dimensions: Vector2i, example_id: String = "") -> void:

@@ -17,6 +17,7 @@ signal cue_started(record: Dictionary)
 
 var automatic_timing := true
 var trace_enabled := false
+var defer_terminal_results := false
 var trace: Array = []
 var session := 0
 var peak_voices := 0
@@ -29,6 +30,8 @@ var _connections: Array = []
 var _batch: Dictionary = {}
 var _seen: Dictionary = {}
 var _ui_seen: Dictionary = {}
+var _reward_seen: Dictionary = {}
+var _result_seen: Dictionary = {}
 var _voices: Array = []
 var _music: Array = []
 var _ambience: Dictionary = {}
@@ -226,11 +229,25 @@ func _contact_reached(notice: Dictionary, token: int) -> void:
 		_play_once("shield", _event_key(event, "block"), "block", target, -4.0, -1, true)
 
 func _event_committed(event: Dictionary, token: int) -> void:
+	# Run-managed results wait for their durable run/profile transaction. The
+	# standalone encounter tools retain their existing presentation timing.
+	if defer_terminal_results: return
 	if token != session or _closed or _batch.is_empty() or not _sfx_enabled(): return
 	if event.action_id != _batch.action_id or event.encounter_id != _batch.encounter_id: return
 	if event.type != "battle_ended" or event.state not in ["victory", "defeat"]: return
 	var key := "%d:%d:result:%s" % [session, event.encounter_id, event.state]
 	_play_once(event.state, key, "result", {"event": event.duplicate(true), "moment": "committed"}, -999.0, -1, true, bool(_settings.reduced_motion))
+
+func result_committed(identity: Dictionary, outcome: String) -> bool:
+	if _closed or not outcome in ["victory", "defeat"] or identity.size() != 5: return false
+	for field in ["run_id", "route_id", "node_id", "visit_id"]:
+		if not identity.get(field) is String or identity[field].is_empty(): return false
+	if not identity.get("generation") is int or identity.generation <= 0: return false
+	var key := JSON.stringify(identity)
+	if _result_seen.has(key): return false
+	_result_seen[key] = true
+	return _start_cue(outcome, "result:" + key, "result", {"identity": identity.duplicate(true),
+		"outcome": outcome, "moment": "saved"}, -999.0, -1, true, bool(_settings.reduced_motion))
 
 func ui_feedback(cue: String, dispatch_id, target: Dictionary = {}) -> void:
 	if cue not in ["ui_confirm", "ui_back"] or _closed: return
@@ -240,6 +257,26 @@ func ui_feedback(cue: String, dispatch_id, target: Dictionary = {}) -> void:
 	# UI IDs are independent of model action IDs, including during Exact replay.
 	if _ui_seen.size() > 2048: _ui_seen.erase(_ui_seen.keys()[0])
 	_start_cue(cue, "ui:" + key, "ui", target, -999.0, -1, false, bool(_settings.reduced_motion))
+
+func reward_committed(transaction_id: String, receipt: Dictionary) -> bool:
+	# Only the authoritative transaction result reaches this seam. Offering,
+	# inspection and result acknowledgement never ask audio to grant a reward.
+	# This ledger deliberately survives controller rebinding and muted playback.
+	if _closed or transaction_id.is_empty() or receipt.get("ok") != true or receipt.get("transaction_id") != transaction_id:
+		return false
+	var card: Dictionary = receipt.get("granted_card", {})
+	var claim: Dictionary = receipt.get("claim", {})
+	var gold: Variant = receipt.get("gold_granted", 0)
+	var has_card: bool = not str(card.get("id", "")).is_empty() and card.get("id") != "free_spark" and card.get("uid") is int and int(card.uid) >= 0
+	var has_gold: bool = gold is int and gold > 0
+	var has_unlock: bool = claim.get("component") == "definition_unlock" and claim.get("resolution") == "unlocked" and not str(claim.get("unlocked_definition_id", "")).is_empty()
+	if not has_card and not has_gold and not has_unlock: return false
+	if _reward_seen.has(transaction_id): return false
+	_reward_seen[transaction_id] = true
+	return _start_cue("reward", "reward:" + transaction_id, "reward", {
+		"transaction_id": transaction_id, "granted_card": card.duplicate(true),
+		"gold_granted": gold, "claim": claim.duplicate(true), "moment": "committed"
+	}, -999.0, -1, true, bool(_settings.reduced_motion))
 
 func reject_attempt(dispatch_id, target: Dictionary = {}) -> void:
 	var key := "reject:" + str(dispatch_id)

@@ -149,12 +149,8 @@ func state_frame(r:Rect2,state:String) -> void:
 		for y in range(int(r.position.y+4),int(r.end.y-3),10):
 			draw_line(Vector2(r.position.x+3,y),Vector2(r.position.x+3,minf(y+5,r.end.y-3)),cream,2)
 			draw_line(Vector2(r.end.x-3,y),Vector2(r.end.x-3,minf(y+5,r.end.y-3)),cream,2)
-	elif state == "disabled":
+	elif state == "disabled" or state == "unavailable":
 		draw_rect(r,Color(0.1,0.15,0.2,0.48))
-		draw_line(r.position+Vector2(7,8),r.position+Vector2(23,8),cream,3)
-	elif state == "unavailable":
-		draw_circle(r.position+Vector2(14,14),8,cream,false,2,true)
-		draw_line(r.position+Vector2(9,19),r.position+Vector2(19,9),cream,2,true)
 	elif state == "invalid":
 		draw_rect(r.grow(-3),Color("efb092"),false,2)
 		draw_line(r.position+Vector2(7,7),r.position+Vector2(21,21),cream,3,true)
@@ -201,7 +197,7 @@ func states() -> void:
 			cell(kinds[j],x,y,137,turn)
 			txt(x+40,y+165,str(turn*90)+"°",16)
 	txt(30,1299,"Split and Join are isolated silhouettes here: their visual tips are not a new port-count contract.",18)
-	txt(30,1341,"Selection check · focus dashes · disabled dash · unavailable slash · invalid cross",18)
+	txt(30,1341,"Selection check · focus dashes · disabled/unavailable muted · invalid cross",18)
 	txt(30,1383,"State markers are corner overlays. No rune names, values, cost badges or TEMP appear inside cells.",17)
 	txt(30,1422,"Undirected evaluator / no-cast behavior: RC-016A. These specimens do not execute circuits.",17,"location",gold)
 

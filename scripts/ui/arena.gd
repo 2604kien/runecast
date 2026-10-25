@@ -49,6 +49,9 @@ var role_label: Label
 var name_label: Label
 var intent_label: Label
 var intent_icon: TextureRect
+var intent_button: Button
+var intent_info: Label
+var intent_inspection_enabled := false
 var health_bar: ProgressBar
 var health_label: Label
 var stage_scale := 1.0
@@ -85,6 +88,27 @@ func _ready() -> void:
 	intent_icon.z_index = 22
 	add_child(intent_icon)
 	intent_label = _label("Intent", "value")
+	# Preserve the attack icon/number geometry. This compact hit area adds a
+	# visible Info affordance and uses the main view's ordinary touch router.
+	intent_button = Button.new()
+	intent_button.name = "IntentDetails"
+	intent_button.focus_mode = Control.FOCUS_NONE
+	intent_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	intent_button.z_index = 23
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		var frame := StyleBoxFlat.new()
+		frame.bg_color = Color(0.04, 0.08, 0.12, 0.12 if state != "pressed" else 0.35)
+		frame.border_color = Color(0.86, 0.74, 0.43, 0.5)
+		frame.set_border_width_all(1)
+		frame.set_corner_radius_all(8)
+		intent_button.add_theme_stylebox_override(state, frame)
+	add_child(intent_button)
+	intent_info = Ui.label("i", "body", 13)
+	intent_info.name = "IntentInfo"
+	intent_info.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intent_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	intent_info.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	intent_button.add_child(intent_info)
 	role_label = _label("EnemyRole", "body")
 	role_label.add_theme_color_override("font_color", Color("ffcf2f"))
 	name_label = _label("EnemyName", "body")
@@ -151,6 +175,7 @@ func _sync_values() -> void:
 	role_label.visible = not role_label.text.is_empty()
 	name_label.text = enemy_name
 	intent_icon.visible = battle_state == "playing"
+	intent_button.visible = battle_state == "playing" and intent_inspection_enabled
 	intent_label.text = str(attack) if battle_state == "playing" else battle_state.to_upper()
 	intent_label.add_theme_color_override("font_color", Color("fffdf3") if battle_state == "playing" else Ui.GOLD)
 	health_bar.max_value = maxi(enemy_max_hp, 1)
@@ -192,6 +217,15 @@ func _layout() -> void:
 		intent_label.position.x = 8
 		intent_label.size.x = size.x - 16
 	_layout_status(_status_top(k), _name_height(k), _health_height(k), k)
+	_layout_intent_button()
+
+func _layout_intent_button() -> void:
+	var visual := intent_icon.get_rect().merge(intent_label.get_rect())
+	var target_size := Vector2(maxf(96, visual.size.x + 38), maxf(68, visual.size.y + 12))
+	intent_button.position = Vector2((size.x - target_size.x) * 0.5, maxf(0, visual.get_center().y - target_size.y * 0.5))
+	intent_button.size = target_size
+	intent_info.position = Vector2(target_size.x - 20, 4)
+	intent_info.size = Vector2(16, 18)
 
 func _status_top(k: float) -> float:
 	# Removing the role must not pull the name up over the actor's feet.
@@ -239,6 +273,7 @@ func _layout_compact() -> void:
 	_layout_status(0, 20, 22, minf(stage_scale, 0.6))
 	health_bar.position.y = 62
 	health_label.position.y = 62
+	_layout_intent_button()
 
 func _draw() -> void:
 	# Retain compatibility with existing callers that assign fields then redraw.

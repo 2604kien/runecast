@@ -70,7 +70,7 @@ class ActualPackPolicyTests(unittest.TestCase):
         # Historical RC-022 artifacts remain evidence of that delivered source,
         # not fixtures that can satisfy today's changed runtime inventory.
         selected_pack = os.environ.get("RUNECAST_RESOURCE_TEST_PACK")
-        pack = Path(selected_pack) if selected_pack else cls.root / "builds/ios/rc-024-resource-final/RuneCast.pck"
+        pack = Path(selected_pack) if selected_pack else cls.root / "builds/rc-027-resources/RuneCast.pck"
         if not pack.is_file():
             if selected_pack:
                 raise FileNotFoundError(f"Explicit RUNECAST_RESOURCE_TEST_PACK is unavailable: {pack}")
@@ -105,13 +105,36 @@ class ActualPackPolicyTests(unittest.TestCase):
         self.assertTrue(any("substitute" in check["description"] for check in self.failures(resources)))
 
     def test_missing_application_entry_or_run_model_rejected(self):
-        for path in ("scenes/application.tscn", "scripts/ui/application_shell.gd", "scripts/core/run_state.gd"):
+        for path in (
+            "scenes/application.tscn", "scripts/ui/application_shell.gd",
+            "scripts/core/run_state.gd", "scripts/core/route_state.gd", "scripts/ui/route_map.gd",
+            "scripts/core/local_save.gd",
+            "scripts/core/shop_policy.gd", "scripts/ui/shop_viewer.gd",
+            "scripts/core/service_policy.gd", "scripts/ui/service_viewer.gd",
+            "scripts/core/instance_effects.gd", "scripts/core/relic_policy.gd",
+            "scripts/core/encounter_resolver.gd",
+            "scripts/core/progression_state.gd",
+            "scripts/ui/reward_viewer.gd", "scripts/ui/collection_viewer.gd",
+            "scripts/ui/collection_data.gd",
+            "scripts/ui/route_map_canvas.gd", "scripts/ui/route_map_symbol.gd",
+            "scripts/ui/route_map_node.gd", "scripts/ui/route_map_chrome.gd",
+            "scenes/ui/theme/navigation_bar.gd",
+            "scenes/ui/theme/combat_surface.gd",
+            "scenes/ui/theme/modal_panel.gd", "assets/ui/styles/modal_panel.tres",
+        ):
             with self.subTest(path=path):
                 resources = self.resources.copy()
                 # Exported scripts/scenes may resolve through compiled remaps.
                 resources.pop(path, None)
                 resources.pop(path + ".remap", None)
                 self.assertTrue(any(check.get("path") == path for check in self.failures(resources)))
+
+    def test_missing_map_parchment_rejected(self):
+        resources = self.resources.copy()
+        path = "assets/ui/map/parchment.png"
+        resources.pop(path, None)
+        resources.pop(path + ".import", None)
+        self.assertTrue(any(check.get("path") == path for check in self.failures(resources)))
 
 
 if __name__ == "__main__":

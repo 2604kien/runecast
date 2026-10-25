@@ -197,7 +197,7 @@ def build():
             filtering="linear; preview at integer-aligned positions; nearest is inappropriate for these antialiased outlines", decoded_rgba8_mib=len(records)*256*256*4/1048576,
             notes="6 MiB conservative all-24 decoded estimate at scale2; engine font atlases, buffers and transient copies excluded. Source SVGs excluded by source-assets/.gdignore."),
         appearance=dict(shader="assets/icons/symbol_tint.gdshader", modes={"0":"original color", "1":"luminance monochrome; retains outline/facet readability", "2":"one-color alpha silhouette; diagnostic/accessibility supplemental preview"},
-            selected="outline plus corner check", focused="dashed outer outline", disabled="reduced opacity plus disabled treatment and live label", unavailable="struck slot/slash plus unavailable live label",
+            selected="outline plus corner check", focused="dashed outer outline", disabled="muted appearance plus existing live reason or status and input guard; no disabled symbol", unavailable="muted appearance plus existing live reason or status and input guard; no unavailable symbol or barred-circle badge",
             invalid="cross plus live explanation", note="Interaction overlays are theme/consumer geometry, never copied glyph files. Monochrome mode1 is the preferred working monochrome; alpha-only mode2 loses interior detail.",
             monochrome_on_dark="mode1 with light ink and default black monochrome_paper",
             monochrome_on_parchment="mode1 with dark ink (#111b29) and light monochrome_paper (#e8d5aa); direct dark multiplication loses internal detail"),

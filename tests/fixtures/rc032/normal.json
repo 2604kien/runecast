@@ -1,0 +1,6 @@
+{
+  "id": "rc032_calibration_normal", "ruleset": "rc007_production_v1",
+  "enemy_id": "dev_rc032_spark", "board_id": "board_gallery", "loadout_id": "starter",
+  "title": "RC-032 DEVELOPMENT NORMAL", "help_text": "Excluded lifecycle fixture. Standard starter and legal Combat rules; explicit calibration enemy and rewards, not production balance.",
+  "opening_log": "Development fixture: build an ordinary legal circuit.", "seed": 42
+}

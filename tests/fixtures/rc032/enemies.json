@@ -1,0 +1,5 @@
+[
+  {"id": "dev_rc032_spark", "name": "FIXTURE Calibration Spark", "max_health": 12, "intents": [1, 2, 1]},
+  {"id": "dev_rc032_elite", "name": "FIXTURE Calibration Elite", "max_health": 16, "intents": [2, 3, 2]},
+  {"id": "dev_rc032_guardian", "name": "FIXTURE Calibration Guardian", "max_health": 18, "intents": [1, 3, 2]}
+]

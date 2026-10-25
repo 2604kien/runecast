@@ -149,7 +149,8 @@ def state_packs():
       'selected':p(inner,'#6ffff0')+p('M18 23L23 28L34 16','#fff1bd',4),
       'powered':p(inner,'#ffd86b',4)+p('M15 35L21 41L27 35 M93 107L99 113L105 107','#fff0bb',3),
       'invalid':p(inner,'#f2a080',3,'stroke-dasharray="8 4"')+p('M99 96L113 110M113 96L99 110','#ffe5c1',4),
-      'unavailable':p(inner,'#b9c5ca',2)+ '<circle cx="25" cy="104" r="10" fill="#152237" stroke="#e2d3b4" stroke-width="2"/>'+p('M19 110L31 98','#e2d3b4',3),
+      # Owner correction: availability uses muted controls and live reasons, never a symbol.
+      'unavailable':'',
       'eligible':p('M25 16V34M16 25H34','#96fff0',4),
       'protected':p('M17 17L33 33M33 17L17 33','#ffcea4',4),
       'upgrade': '<path d="M64 12L101 40L91 95L64 116L37 95L27 40Z" fill="#192837" stroke="#e9bf62" stroke-width="6"/>'+p('M44 67L64 43L84 67M64 43V88','#ffe4a0',7),
@@ -271,7 +272,10 @@ def validate(report):
             composite=blank(size);layers=list(tree.find('stack'));hashes=[]
             for layer in reversed(layers):
                 im=Image.open(BytesIO(z.read(layer.attrib['src']))).convert('RGBA')
-                check(source['id']+'/'+layer.attrib['name']+' canvas and nonempty alpha',im.size==size and im.getchannel('A').getbbox() is not None)
+                # Preserve validation of historical archives while accepting the
+                # deliberately empty unavailable layer in future builds.
+                empty_availability=source['id']=='ui_state_overlays' and layer.attrib['name']=='unavailable vector raster preview'
+                check(source['id']+'/'+layer.attrib['name']+' canvas and intended alpha',im.size==size and (empty_availability or im.getchannel('A').getbbox() is not None))
                 hashes.append(hashlib.sha256(im.tobytes()).hexdigest())
                 if layer.attrib.get('visibility')!='hidden':composite.alpha_composite(im)
             stored=Image.open(BytesIO(z.read('mergedimage.png'))).convert('RGBA')

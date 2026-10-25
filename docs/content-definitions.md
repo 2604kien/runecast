@@ -1,6 +1,12 @@
 # Validated content definitions
 
-The current production profile combines the RC-007 scalar damage/shield runes, draw/conjure techniques, endpoints-only boards, random connector kits and normal draws with the October 13 RC-016A undirected evaluator and controls. The existing production marker remains `rc007_production_v1`. RC-004 historical definitions and all 22 RC-005/RC-006 experiment fixtures retain their original directed semantics and versions. The future roster, relics, statuses, combined effects and guardian phases remain unimplemented.
+**October 25 RC-033:** scalar enemy attacks now support one optional, validated `phase_two` object. Combat owns the announced action and sequence position independently of immutable encounter configuration. Existing no-phase normalized setup shapes and save fingerprints are unchanged. [Schema, phase timing and verification](rc-033-verification.md). Production enemy/guardian definitions, boards, pools and tuning remain RC-034.
+
+**October 24 RC-031:** the loader now validates bounded mixed `damage_shield` rune values as exactly `{damage, shield}`, using two nonnegative integer contributions and one physical cost. Shared `instance_effects.gd` validates and resolves run-owned `{id, uid, upgrade_rank}` without editing base definitions. `relic_policy.gd` registers six unique run-only bounded hooks. Only the existing four eligible base definitions ship; representative missing bases are excluded validated fixtures. [Contracts, supported content and migration](rc-031-verification.md). Statuses and the remaining production catalogue are still future work; RC-033 above now supplies the bounded phase framework. Older statements below about absent relic/mixed mechanics are historical.
+
+**October 21 RC-026:** `load_selected_encounter(path, board_id, loadout_id="")` validates one selected encounter through the same loader and rejects successor chains. `EncounterResolver` checks definition/enemy/role/board identity before `Combat.validate_run_entry()`. Its bounded supported definitions are production Shadeling with boss role and the existing development Calibration Wisp; missing roster entries remain unavailable. Run-owned instances and resources override encounter loadout starting resources, while energy/draw come from the selected configuration. The test-only resolver selects existing loadout IDs to prove transfer without changing enemy tuning. [Integration contract](rc-026-verification.md).
+
+The current production profile combines the RC-007 scalar damage/shield runes, draw/conjure techniques, endpoints-only boards, random connector kits and normal draws with the October 13 RC-016A undirected evaluator and controls, RC-031 instance/mixed/relic effects and RC-033 enemy phase framework. The existing production marker remains `rc007_production_v1`. RC-004 historical definitions and all 22 RC-005/RC-006 experiment fixtures retain their original directed semantics and versions. The remaining production roster and any unsupported statuses remain future work.
 
 ## Files and entry points
 
@@ -73,7 +79,11 @@ Production results include sorted `reached` cells for Begin's physical component
 
 ### Enemies
 
-Required fields are `id`, `name`, `max_health` and `intents`. Maximum health is 1–100,000. `intents` contains 1–100 integer scalar attack amounts, each 0–100,000. Combat cycles through the sequence once per turn. Object intents, phases, statuses and other future enemy behaviors are unsupported. Enemies start at maximum health.
+Required fields are `id`, `name`, `max_health` and `intents`. Maximum health is 1–100,000. `intents` contains 1–100 integer scalar attack amounts, each 0–100,000, including zero. Enemies start at maximum health and announce the first item. Each surviving turn advances and wraps the active sequence without consuming RNG.
+
+Optional `phase_two` is exactly `{ "health_threshold": 40, "intents": [12, 16, 20] }`: one object with a positive integer threshold strictly below `max_health` and a second attack array with the same bounds. Missing/extra fields, extra phases, object attacks, empty/oversized arrays, fractional/nonfinite values and incompatible types fail validation before setup publication. Omission adds no normalized default keys; explicit null is invalid. Mathematical integer JSON numbers normalize as elsewhere in the loader.
+
+Crossing the threshold preserves the current announced attack and Cast shield. Only after retaliation and normal cleanup, with both combatants alive, does phase two begin at index zero for the next playable turn. The transition occurs once. No defend, armour, status, summon, healing, dodge, extra target or general scripting behavior is supported. [RC-033 interface and fixture](rc-033-verification.md).
 
 ### Loadouts/player setup
 

@@ -16,7 +16,7 @@ const TOGGLE_LABELS := {"enabled": "Sound", "music_muted": "Music muted", "sfx_m
 const SLIDER_LABELS := {"music_volume": "Music volume", "sfx_volume": "SFX volume"}
 
 func _ready() -> void:
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 110
 	var shade := ColorRect.new()
@@ -31,7 +31,7 @@ func _ready() -> void:
 	placeholder.queue_free()
 	var body := VBoxContainer.new()
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation", 10)
+	body.add_theme_constant_override("separation", 14)
 	body_scroll.add_child(body)
 	for key in ["enabled", "music_volume", "music_muted", "sfx_volume", "sfx_muted", "reduced_motion"]:
 		if SLIDER_LABELS.has(key):
@@ -50,8 +50,11 @@ func _ready() -> void:
 	body.add_child(note)
 	close_button = panel.get_meta("rc_close")
 	close_button.pressed.connect(func(): close_requested.emit())
-	resized.connect(_fit)
+	panel.minimum_size_changed.connect(func(): _fit.call_deferred())
+	resized.connect(func(): _fit.call_deferred())
+	get_viewport().size_changed.connect(func(): _fit.call_deferred())
 	set_values(_values)
+	Ui.prepare_popup_content(panel)
 	_fit()
 	hide()
 
@@ -76,5 +79,4 @@ func register_gestures(router: Node) -> void:
 
 func _fit() -> void:
 	if panel == null: return
-	panel.size = Vector2(minf(560.0, size.x - 32.0), minf(690.0, size.y - 32.0))
-	panel.position = (size - panel.size) / 2.0
+	Ui.fit_popup_overlay(self, panel, Vector2(560, 690), Vector2(280, 430))

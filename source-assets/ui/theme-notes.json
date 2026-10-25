@@ -226,7 +226,8 @@
       "unavailable",
       "powered"
     ],
-    "composable": "Independent state_layer draws shape cues after content. selected corner notch, dashed focused corners, double/corner powered collar, invalid cross, unavailable barred circle. Exact board port centers remain unobstructed.",
+    "composable": "Independent state_layer draws shape cues after content: selected corner notch, dashed focused corners, double/corner powered collar and invalid cross. Exact board port centers remain unobstructed.",
+    "availability": "October 21, 2026 owner correction applies to all screens and shared UI: disabled/unavailable uses muted appearance, the existing live reason or status and appropriate input guard. Never draw a barred-circle badge or any other disabled/unavailable symbol. Earlier specimens and source artwork showing these symbols are historical.",
     "actual_focus": "State overlay also observes Control focus_entered/focus_exited. focused=true independently forces a specimen or presentation focus ring.",
     "activation": "disabled or unavailable disables the BaseButton and suppresses ordinary pressed callbacks. Disabled buttons are not ordinary tab targets; unavailable reason is visible in surrounding live text. Combined focused+unavailable is explicit display coverage, not an integration decision about inspection.",
     "no_board_badges": "Only live BEGIN and END allowed inside sockets. Card temporary/upgraded text and markers never transfer to sockets."

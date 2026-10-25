@@ -17,8 +17,10 @@ func run(check: Callable, tree: SceneTree) -> void:
 	_loops(check, tree)
 	await _playable(check, tree)
 
-func _fixture(tree: SceneTree, reduced := false) -> Dictionary:
-	var model := Combat.new(Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup)
+func _fixture(tree: SceneTree, reduced := false, attacks: Array = []) -> Dictionary:
+	var setup: Dictionary = Loader.load_setup(Loader.LEGACY_ENCOUNTER).setup
+	if not attacks.is_empty(): setup.encounter.intents = attacks.duplicate()
+	var model := Combat.new(setup)
 	var presenter := Animated.new()
 	presenter.automatic_timing = false
 	presenter.reduced_motion = reduced
@@ -44,13 +46,12 @@ func _cues(audio, cue: String) -> Array:
 	return audio.trace.filter(func(record): return record.cue == cue)
 
 func _action(check: Callable, tree: SceneTree, kind: String, reduced: bool) -> void:
-	var f := _fixture(tree, reduced)
+	var f := _fixture(tree, reduced, [20] if kind == "partial" else [])
 	var command := "cast"
 	var arguments := {}
 	match kind:
 		"shield", "partial":
 			f.model.board[1].rune_id = "shield"
-			if kind == "partial": f.model.encounter.intents = [20]
 		"zero": f.model.catalog.free_spark.value = 0
 		"pass", "defeat": command = "pass"
 		"lethal": f.model.enemy_hp = 1
@@ -137,8 +138,7 @@ func _edits(check: Callable, tree: SceneTree) -> void:
 
 func _contact_roles(check: Callable, tree: SceneTree) -> void:
 	for reduced in [false, true]:
-		var f := _fixture(tree, reduced)
-		f.model.encounter.intents = [0]
+		var f := _fixture(tree, reduced, [0])
 		f.controller.command("pass")
 		f.presenter.finish()
 		check.call(_cues(f.audio, "spectral").size() == 1 and _cues(f.audio, "damage").is_empty() and _cues(f.audio, "shield").is_empty(), "Zero applied/blocked retaliation chooses actor only")

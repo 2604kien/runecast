@@ -153,10 +153,21 @@ static func validate_experiment(context: Variant) -> Dictionary:
 static func load_setup(encounter_path: String = DEFAULT_ENCOUNTER, definition_paths: Dictionary = {}) -> Dictionary:
 	return _load_setup(encounter_path, definition_paths, false)
 
-static func _load_setup(encounter_path: String, definition_paths: Dictionary, successor: bool) -> Dictionary:
+# Route selection resolves exactly one definition. Overrides are references
+# validated with the source documents, never normalized setup edits.
+static func load_selected_encounter(encounter_path: String, board_id: String, loadout_id: String = "") -> Dictionary:
+	return _load_setup(encounter_path, {}, false, board_id, loadout_id, true)
+
+static func _load_setup(encounter_path: String, definition_paths: Dictionary, successor: bool, board_id: String = "", loadout_id: String = "", single: bool = false) -> Dictionary:
 	var selected := read_document(encounter_path)
 	if not selected.ok:
 		return _result(selected.errors)
+	if single:
+		if not selected.document is Dictionary or selected.document.has("next_encounter"):
+			return _result(["Route entry requires one encounter without a successor chain."])
+		selected.document = selected.document.duplicate(true)
+		selected.document.board_id = board_id
+		if not loadout_id.is_empty(): selected.document.loadout_id = loadout_id
 	var production: Variant = null
 	var next_path := ""
 	var paths := DEFINITION_PATHS.duplicate()
@@ -322,6 +333,9 @@ static func validate_documents(documents: Dictionary, source_names: Dictionary =
 	encounter.name = enemy.name
 	encounter.max_health = enemy.max_health
 	encounter.intents = enemy.intents
+	# Preserve the exact normalized shape/signature of encounters without phases.
+	if enemy.has("phase_two"):
+		encounter.phase_two = enemy.phase_two.duplicate(true)
 	encounter.player_health = loadout.current_health
 	encounter.player_max_health = loadout.max_health
 	encounter.energy_per_turn = loadout.energy_per_turn
@@ -373,14 +387,23 @@ static func _validate_rune(rune: Dictionary, context: String, errors: Array, exp
 		rune.board_label = rune.get("name", "")
 	_string(rune.get("board_label"), context + ".board_label", errors)
 	_integer(rune, "cost", 0, MAX_TURN_AMOUNT, context, errors)
-	_integer(rune, "value", 0, 10000, context, errors)
+	if _matches(rune.get("effect"), "damage_shield"):
+		if not rune.get("value") is Dictionary:
+			_error(errors, context + ".value", "mixed effects require separate damage and shield contributions")
+			_error(errors, context + ".effect", "damage_shield requires an explicit two-contribution value")
+		else:
+			_fields(rune.value, ["damage", "shield"], context + ".value", errors)
+			for contribution in ["damage", "shield"]:
+				_integer(rune.value, contribution, 0, 10000, context + ".value", errors)
+	else:
+		_integer(rune, "value", 0, 10000, context, errors)
 	_boolean(rune, "temporary", context, errors, false)
 	if rune.get("color") is String and not Color.html_is_valid(rune.color):
 		_error(errors, context + ".color", "expected an HTML color such as #efb553")
 	match rune.get("type"):
 		"rune":
-			if not rune.get("effect") in ["damage", "shield"]:
-				_error(errors, context + ".effect", "effect runes support only damage or shield")
+			if not rune.get("effect") in ["damage", "shield", "damage_shield"]:
+				_error(errors, context + ".effect", "effect runes support only damage or shield or the explicit damage_shield pair")
 			if _matches(rune.get("temporary"), true) and not _matches(rune.get("cost"), 0):
 				_error(errors, context + ".cost", "temporary runes must have zero cost")
 		"technique":
@@ -397,15 +420,30 @@ static func _validate_rune(rune: Dictionary, context: String, errors: Array, exp
 		_error(errors, context + ".generated_rune_id", "only conjure techniques accept a generated target")
 
 static func _validate_enemy(enemy: Dictionary, context: String, errors: Array) -> void:
-	_fields(enemy, ["id", "name", "max_health", "intents"], context, errors)
+	_fields(enemy, ["id", "name", "max_health", "intents", "phase_two"], context, errors)
 	_string(enemy.get("name"), context + ".name", errors)
-	_integer(enemy, "max_health", 1, MAX_HEALTH, context, errors)
-	if not enemy.get("intents") is Array or enemy.intents.is_empty() or enemy.intents.size() > MAX_CARDS:
-		_error(errors, context + ".intents", "expected 1 to 100 scalar attack values")
+	var valid_health := _integer(enemy, "max_health", 1, MAX_HEALTH, context, errors)
+	_validate_attacks(enemy.get("intents"), context + ".intents", errors)
+	if not enemy.has("phase_two"):
 		return
-	for index in range(enemy.intents.size()):
-		if _number(enemy.intents[index], 0, MAX_HEALTH, context + ".intents[%d]" % index, errors):
-			enemy.intents[index] = int(enemy.intents[index])
+	var phase_context := context + ".phase_two"
+	if not enemy.phase_two is Dictionary:
+		_error(errors, phase_context, "expected one object with health_threshold and intents")
+		return
+	var phase: Dictionary = enemy.phase_two
+	_fields(phase, ["health_threshold", "intents"], phase_context, errors)
+	var valid_threshold := _integer(phase, "health_threshold", 1, MAX_HEALTH, phase_context, errors)
+	if valid_health and valid_threshold and phase.health_threshold >= enemy.max_health:
+		_error(errors, phase_context + ".health_threshold", "must be below the enemy's maximum health")
+	_validate_attacks(phase.get("intents"), phase_context + ".intents", errors)
+
+static func _validate_attacks(attacks: Variant, context: String, errors: Array) -> void:
+	if not attacks is Array or attacks.is_empty() or attacks.size() > MAX_CARDS:
+		_error(errors, context, "expected 1 to 100 scalar attack values")
+		return
+	for index in range(attacks.size()):
+		if _number(attacks[index], 0, MAX_HEALTH, context + "[%d]" % index, errors):
+			attacks[index] = int(attacks[index])
 
 static func _validate_loadout(loadout: Dictionary, catalog: Dictionary, context: String, errors: Array, production: Dictionary = {}) -> void:
 	var fields := ["id", "max_health", "current_health", "energy_per_turn", "draw_per_turn", "owned_cards", "opening_policy", "opening_hand", "opening_draw"]

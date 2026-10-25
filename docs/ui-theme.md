@@ -1,5 +1,67 @@
 # Reusable UI theme and wordmark — RC-013
 
+## October 25, 2026 — Focused enemy intent details
+
+Keep the existing attack icon and value geometry. A compact outlined tap/hold target with a small **i** opens the shared navy/gold inspector; the body scrolls and Close stays fixed. Sequence values use ordinary slash separators supported by the shipped body font. Phase changes use the existing transient text overlay, without new artwork, poses or sound. No Incoming row, BOSS caption, Pause control, forecast action or board-slot inspection returns. The accepted compact Store and surrounding Combat layout remain intact. [RC-033 captures and verification](rc-033-verification.md).
+
+## October 25, 2026 — Accepted Store restored to normal navigation
+
+The owner accepted the concrete Store defaults and authorized re-enablement, superseding the temporary global-unavailable state. Keep the Menu label **Store** stable: enable it at a settled Map boundary and otherwise use disabled styling with its actual state-dependent reason. Reuse the compact catalogue below, detailed purchase confirmation and fixed Back. Preserve shared Menu/Options sizing, literal **Resume Combat**, caller-specific shop/service information and approved Home/Map/Combat composition. [Accepted contract](decisions.md#october-25-2026--store-defaults-accepted-and-production-enablement-authorized), [current handoff](rc-032-store-verification.md).
+
+## October 25, 2026 — Compact Store catalogue correction
+
+The owner found the Store's rune imagery oversized and its copy excessive. Store now uses simple navy list rows with 32px existing glyphs, an item name and short effect summary. Prices and purchase availability are grouped at the category heading instead of repeated purchase buttons and error paragraphs. Full descriptions and exact costs remain in the confirmation; rune energy cost is shown there after removing the large catalogue card. The shared gold outer frame and fixed Back action remain. Rows keep 68px minimum targets and expand when text wraps; unavailable states stay visible with one contextual reason per category. This supersedes the full-card catalogue layout in the initial Store delivery below.
+
+## October 25, 2026 — Functional separate Store
+
+The [accepted Store contract](decisions.md#october-25-2026--separate-store-contract-accepted) supersedes the generic unavailable-only destination. The existing shared Menu opens Store between fully settled rooms and states why it is unavailable otherwise. Store uses the same navy/gold popup components, typography, 68px actions, scrolling body and fixed **Back to Menu** action. Rune cards reuse current definition presentation; relic names/descriptions reuse the supported six definitions. Purchase confirmation shows exact cost, remaining Gold, benefit and the once-per-category run limit. Store returns to the same Menu/Map without consuming a visit. Home artwork/actions, literal **Resume Combat**, route-shop main screens and Combat composition remain unchanged.
+
+## October 23, 2026 — Fit popup content up to the Menu height
+
+Popups grow only as needed to display their complete text, with the shared Menu's **660 px height** as the maximum before narrow-window fitting. Correct wrap-width measurement and body allocation remove unnecessary scrollbars from short confirmations, including New Run replacement at every tested size. Long guides and lists scroll only within the cap, with fixed bottom actions and a reserved scrollbar lane. Collection/reward panels omit duplicate cost/effect copy already visible on their cards. The approved Menu, shared text/control sizes and padding remain unchanged. [Verification and captures](popup-sizing-verification.md#october-23-follow-up--fit-complete-text-within-the-menu-height) record **889 rendered checks**, **1,175 UI checks** and the final resource-only audit.
+
+## October 23, 2026 — Keep Home focused on artwork and actions
+
+The owner removed the run-status summary above Continue and the checkpoint, battle-replay and music-availability notes below Options. Home presents its tower artwork, logo and Continue, New Run and Options actions, without routine status, tutorial or development notes in those regions.
+
+Favor discovery through play over unnecessary explanatory UI copy. Keep essential action labels and actionable confirmations or errors concise. This correction targets the two marked Home text blocks; the shared Menu and popup sizing/style decisions below remain in force.
+
+## October 23, 2026 — All popups share Menu text and control sizing
+
+The owner extended the restored gameplay Menu sizing to every popup: **22 px headings, 16 px body text, 18 px action labels and 68 px minimum action rows**, with the same sharp serif fonts and 36/40 px panel padding. Options, Collection, Rewards, Map inspection/Guide, confirmations/results/save recovery and Combat native/inspection dialogs share one display-size policy. Long content scrolls above fixed actions; narrow windows use Menu's existing uniform fit. Native dialogs retain borderless frames and their original input callbacks. The approved Menu interior remains pixel-identical. [Implementation, captures and validation](popup-sizing-verification.md) record **438 rendered checks**, **1,175 UI checks**, clean lifecycle/persistence regressions and a fresh resource audit.
+
+## October 23, 2026 — Gameplay screenshot is the shared Menu reference
+
+The owner selected the **large gameplay Menu screenshot** as the canonical appearance for both Map and Combat, explicitly rejecting the smaller Map reference used in the October 22 follow-up below. Both screens still open the same `route_menu` instance. They use the gameplay body copy, “Resume keeps this battle unchanged. Quit to Home discards battle progress; Continue replays its entry.”, and the exact **Resume Combat** label in both contexts. Resume still returns to the caller.
+
+At the actual **450×1000** game window, the panel is **402×660 physical pixels at (24, 170)**. It retains **68 px** action minima, **14 px** action gaps, **22/16/18 px** heading/body/action fonts and **36/40 px** horizontal/vertical padding. A local inverse canvas transform restores this Menu size without changing project stretch, gameplay art, Combat layout or the shared 82 px navigation. At **360×640**, the existing letterboxed content is **288×640**; the fitted panel is **249.6×528** physical pixels with **54.4 px** action minima.
+
+Menu-local copies of the existing fonts render at the intended display size without changing shared font imports. Final configured-root checks pass **143/0**, with **1,174/0 UI** and **118/0 shell** regressions. The fresh resource-only package passes **386 integrity, 106 payload-decode and 32 Python checks**. [Current verification](rc-027-verification.md#gameplay-screenshot-restored-as-the-shared-menu-reference), [measurements](../output/qa/gameplay-menu/results.json), [Map Menu](../output/qa/gameplay-menu/map-menu-450x1000.png) and [Combat Menu](../output/qa/gameplay-menu/combat-menu-450x1000.png).
+
+## October 22, 2026 — One shared Map and Combat Menu
+
+**Historical sizing decision:** the smaller Map Menu selection in this section is superseded by the October 23 gameplay-screenshot contract above. The single-instance implementation remains in force.
+
+The owner clarified that both screens must use the exact same Menu. Normal run-managed Combat now requests the application's existing Map Menu instance instead of showing its separate native dialog. Both entry points use identical heading, body copy, Resume label, buttons, sizing, canvas and artwork. Resume returns to the caller; Options and Collection return to the retained Menu. Combat Quit keeps its checkpoint warning in the confirmation. Explicit standalone development encounters retain their separate development actions.
+
+The earlier comparison mixed an unscaled 450×1000 test viewport with a normal 720×1600 game canvas displayed at 450×1000. The previous audited runtime's two menus actually scale alike under the same configured window, but their copy and separate implementations differed. Verification included the real root-window stretch configuration, exact text and instance identity, plus matching panel pixels at the same physical size. This revision used the normal Map Menu as its sizing reference; the owner subsequently replaced that selection on October 23. No global stretch, Combat or navigation geometry changed. [Historical verification](rc-027-verification.md#one-shared-menu-and-configured-window-scaling).
+
+## October 22, 2026 — Matching menus and borderless popups
+
+The latest owner correction makes Combat's Menu match Map's Menu: the same 560×660 preferred panel, internal Menu heading, dimmed background, 18 px action labels, 68 px minimum button height, padding and footer positions. Both show Resume first in turquoise, then Options, Collection, unavailable Store and Quit to Home; Resume names its current screen. Combat copy retains the battle-entry replay warning. Standalone development actions retain their existing callbacks.
+
+All three native popup constructors (Menu, Guide/error/result text and experiment observations) are borderless. Titles appear inside the content panel, and visible dismiss actions retain their existing signals and Back handling. Production Menu/Guide no longer reserve native footer spacing or title-bar geometry, so their full panels keep the same 24 px outer gutter as Map. This supersedes the earlier embedded-chrome exception below. [Verification](rc-027-verification.md#matching-menus-and-borderless-popups), [Combat Menu](../output/qa/menu-match/combat-menu-450x1000.png) and [narrow Guide](../output/qa/menu-match/combat-guide-360x640.png).
+
+## October 22, 2026 — Taller Menu and shared panel spacing
+
+The owner's spacing correction gives Map and Combat Menus a preferred height of 660 px, with 68 px action buttons and 14 px gaps. Short portrait screens reduce the scrolling copy area so the actions remain reachable. Shared modal bodies now use 36 px horizontal and 40 px vertical padding, with 20 px between title, body and footer. Panels fit within a 24 px outer gutter; embedded native window decoration extends beyond its client area.
+
+Options, Guide, room inspection, confirmations, collection, rewards and Combat inspection use the same padded gold-frame/navy-body treatment. Current cards, board and the shared 82 px navigation retain their geometry. [Verification](rc-027-verification.md#menu-and-panel-spacing-follow-up), [Map Menu](../output/qa/menu-spacing/map-menu-450x1000.png) and [narrow Combat Menu](../output/qa/menu-spacing/combat-menu-360x640.png) supersede the earlier Menu/panel spacing captures.
+
+## October 21, 2026 — Disabled and unavailable symbols removed
+
+The owner's correction applies to every screen and shared UI component, including Home, menus, Combat and previews. Disabled or unavailable controls use muted appearance, their existing live reason or status, and the appropriate input guard. Never add a barred-circle badge or any other disabled/unavailable symbol. Focus and selection remain independent states. Earlier specimens and dated records showing availability symbols are historical and do not authorize their return.
+
 ## October 18, 2026 — Reused Options in playable Combat
 
 RC-020 adds Menu access to [reusable Audio Options](../scripts/ui/audio_options.gd), built with the existing `Ui.modal`, `settings_slider` and `settings_toggle`. Music/SFX levels and independent mutes, compatible Sound master and reduced motion bind to the shared ConfigFile service; rebuilding controls is silent. Options sits in the existing Menu body, preserving Restart/Exact replay/Resume and bounded narrow-layout text scrolling. No Home/run navigation is added. Nine actual-scene captures at 720×1600, 450×1000 and 360×640 pass 42 bounds/scroll/fixed-Close checks. [Verification](rc-020-verification.md), [360 Options](../output/qa/rc-020/options/options-top-360x640.png), [360 Menu](../output/qa/rc-020/options/menu-360x640.png).
@@ -234,7 +296,7 @@ At narrow widths, stack forecast cells and toolbar groups, scroll detailed hands
 
 ## States and input
 
-Normal and pressed treatments preserve the same painted construction. Selection has a persistent shape cue; focus has its own high-contrast outline and remains visible with selection or unavailability. Invalid uses a cross/broken-path cue plus live explanation. Unavailable combines muted material with a shape marker and reason; it is not a colour-only state. Stock counters show `remaining / owned`, including exhausted zero. In the isolated RC-013 delivery, `unavailable` and `disabled` both disable the native Button and suppress its ordinary pressed callback; put the reason in visible sibling text. Disabled Buttons are not ordinary tab targets. The combined focused/unavailable gallery state deliberately forces the visual focus overlay; it does not establish a keyboard or touch inspection flow. Production RC-016A keeps exhausted connector tools inspectable, adds a separate focusable Info button to each hand card, and uses hold/I/right-click inspection. RC-042 must apply the appropriate inspectable affordances when integrating other screens.
+Normal and pressed treatments preserve the same painted construction. Selection has a persistent shape cue; focus has its own high-contrast outline and remains visible with selection or unavailability. Invalid uses a cross/broken-path cue plus live explanation. Unavailable combines muted material with the existing live reason or status; disabled/unavailable symbols, including barred-circle badges, are prohibited on every screen and shared UI component. Stock counters show `remaining / owned`, including exhausted zero. In the isolated RC-013 delivery, `unavailable` and `disabled` both disable the native Button and suppress its ordinary pressed callback; put the reason in visible sibling text. Disabled Buttons are not ordinary tab targets. The combined focused/unavailable gallery state deliberately forces the visual focus overlay; it does not establish a keyboard or touch inspection flow. Production RC-016A keeps exhausted connector tools inspectable, adds a separate focusable Info button to each hand card, and uses hold/I/right-click inspection. RC-042 must apply the appropriate inspectable affordances when integrating other screens.
 
 Decorative textures, text, symbols and state layers must ignore pointer input. For an action, its underlying rectangular Control owns the full touch region, including transparent pointed tips. Visual alpha must not define or reduce that action's hit area. Display-only controls such as the forecast have no input target or activation callback. Consumer callbacks must be connected to the owning actionable control; state renderers do not apply gameplay commands, consume stock, validate a circuit, save a run or navigate a shop.
 
