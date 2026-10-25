@@ -4,6 +4,9 @@ const Settings = preload("res://scripts/audio/audio_settings.gd")
 const Delayed = preload("res://tests/delayed_presentation.gd")
 const RunState = preload("res://scripts/core/run_state.gd")
 const Loader = preload("res://scripts/core/content_loader.gd")
+class RejectedContentResolver extends "res://scripts/core/encounter_resolver.gd":
+	func _load(_node: Dictionary, _path: String) -> Dictionary:
+		return {"ok": false, "errors": ["Registered encounter content is not available yet; your route choice has not been consumed."]}
 var destination := "res://output/qa/rc-025"
 var checks := 0
 var failures := 0
@@ -320,10 +323,15 @@ func _route_navigation(app: Control, viewport: SubViewport) -> void:
 	app.propagate_notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST)
 	check(app.map_screen.visible and not app.map_screen.inspection.visible, "The next duplicate Android Back dismisses only node inspection.")
 	await settle()
+	# RC-034 registers ordinary normals. Simulate an unavailable content load at
+	# the resolver seam to retain this no-consumption failure regression.
+	var production_resolver = run._resolver
+	run._resolver = RejectedContentResolver.new()
 	app.request_node_entry(entry)
 	app.confirm_node_entry()
 	app.confirm_node_entry()
-	check(run.snapshot() == initial and app.combat_scene == null, "Unsupported production room entry reports pending availability without consuming a choice or granting anything.")
+	run._resolver = production_resolver
+	check(run.snapshot() == initial and app.combat_scene == null, "Unavailable registered content consumes no choice and grants nothing.")
 	check(app.map_screen.status_label.text.contains("not available yet") and app.map_screen.status_label.text.contains("not been consumed"), "Unsupported encounter entry explains pending availability and retained route choice visibly.")
 	var stale_map_generation: int = app._map_generation
 	app.close_map()

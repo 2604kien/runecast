@@ -1,0 +1,2553 @@
+[
+  {
+    "encounter": "wickling",
+    "seed": 0,
+    "remaining_hp": 29,
+    "commands": [
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 8
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "uid": 9
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 10
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      }
+    ]
+  },
+  {
+    "encounter": "stone_sentinel",
+    "seed": 0,
+    "remaining_hp": 22,
+    "commands": [
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 8
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "uid": 9
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "uid": 10
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 3
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 11
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 12
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      }
+    ]
+  },
+  {
+    "encounter": "chain_warden",
+    "seed": 0,
+    "remaining_hp": 3,
+    "commands": [
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 8
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "uid": 9
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "uid": 10
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 3
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 11
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 12
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 4
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "uid": 13
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "uid": 0
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11,
+          "uid": 14
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      }
+    ]
+  },
+  {
+    "encounter": "bell_keeper",
+    "seed": 5,
+    "remaining_hp": 8,
+    "commands": [
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 8
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "uid": 9
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "uid": 4
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 4
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 10
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 11
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "uid": 4
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 6
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 12
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "uid": 13
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 5
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "uid": 4
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 4,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 5
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "uid": 14
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 8
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 9
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 2
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "uid": 7
+        },
+        "command": "technique"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 0
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 1,
+          "uid": 1
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 2,
+          "kind": "split"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 3,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6,
+          "uid": 15
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 6
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7,
+          "uid": 16
+        },
+        "command": "place_rune"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 7
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 10
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 11
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 12
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 13,
+          "kind": "straight"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14,
+          "kind": "join"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 14
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15,
+          "kind": "corner"
+        },
+        "command": "place_wire"
+      },
+      {
+        "accepted": true,
+        "arguments": {
+          "index": 15
+        },
+        "command": "rotate"
+      },
+      {
+        "accepted": true,
+        "arguments": {},
+        "command": "cast"
+      }
+    ]
+  }
+]

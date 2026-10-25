@@ -1,0 +1,140 @@
+{
+  "captured": "2026-10-25 Australia/Sydney",
+  "specimens": [
+    {
+      "source": "output/qa/rc-034/process-01/elite-seed6-d5-entry.json",
+      "fixture": "tests/fixtures/rc035/production-warden-entry-v6.json",
+      "sha256": "3326d9369eaa58302bb73910f9e21ad8da3982126851a55dfa12ce9727e1569a",
+      "bytes": 18043
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d6-entry.json",
+      "fixture": "tests/fixtures/rc035/production-shadeling-entry-v6.json",
+      "sha256": "19e1d69131f0f389a929661e185a3405b60675b6f71c4173bba807efa7a0173f",
+      "bytes": 19681
+    },
+    {
+      "source": "output/qa/rc-034/process-01/elite-seed6-d3-entry.json",
+      "fixture": "tests/fixtures/rc035/production-ranked-v6.json",
+      "sha256": "428e6bf306b5671729da392a2b21ce950f1d6aef9b6f4f29349a8fcd47588e8f",
+      "bytes": 14375
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d8-active-service.json",
+      "fixture": "tests/fixtures/rc035/production-active-service-v6.json",
+      "sha256": "556f8e393cf7bfb6457e58a52d437460e21f79424b565985daf07c84e2c361ec",
+      "bytes": 22521
+    },
+    {
+      "source": "tests/fixtures/rc032/store-relic-settled-v6.json",
+      "fixture": "tests/fixtures/rc035/store-relic-v6.json",
+      "sha256": "a6235bc1622f247e1dbdcad95f14cd71b31889904627dcf149d5aaf827098de1",
+      "bytes": 13167
+    },
+    {
+      "source": "tests/fixtures/rc032/abandoned-service-v5.json",
+      "fixture": "tests/fixtures/rc035/abandoned-service-v5.json",
+      "sha256": "8f5aceb226fcd4d3ec9e544d719d94e7246f3bd5ec33778cc7ebea035ff4a90d",
+      "bytes": 25914
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-final.json",
+      "fixture": "tests/fixtures/rc035/production-victory-v6.json",
+      "sha256": "3872ff359c9b20cbfe4606f8c133091d6a16f79ae3a3351b4b8eaeecb5d1d6ba",
+      "bytes": 25688
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d6-settled.json",
+      "fixture": "tests/fixtures/rc035/production-exhausted-v6.json",
+      "sha256": "2fa33fca471a859141438409c37d76fb3b5d19f15ae13d282b1d65dd462a04fd",
+      "bytes": 19456
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d3-entry.json",
+      "fixture": "tests/fixtures/rc035/production-sentinel-entry-v6.json",
+      "sha256": "19006fde8e19974a8faff4a86268096152d1c662a375c0867328bd64f003b30e",
+      "bytes": 14177
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d6-pending-outcome.json",
+      "fixture": "tests/fixtures/rc035/production-pending-rune-v6.json",
+      "sha256": "ddb1315314569c2b452565ea077098702afaa06f7efa3978ed5ae6faae6a7ee2",
+      "bytes": 19935
+    },
+    {
+      "source": "tests/fixtures/rc032/store-rune-settled-v6.json",
+      "fixture": "tests/fixtures/rc035/store-rune-v6.json",
+      "sha256": "54912d09ae78be86892b57e9ccc0a4b019263543618ebc360beed6c88bc7166a",
+      "bytes": 13315
+    },
+    {
+      "source": "tests/fixtures/rc032/abandoned-ranked-shop-v5.json",
+      "fixture": "tests/fixtures/rc035/abandoned-ranked-v5.json",
+      "sha256": "4fbfd907a869e9f123a444ff144d630421c1210399534212ec11415a9a19f72e",
+      "bytes": 15130
+    },
+    {
+      "source": "output/qa/rc-035/before/permanent/active.json",
+      "fixture": "tests/fixtures/rc035/pending-permanent-v6.json",
+      "sha256": "ff605b73528a5f4c47f69ba120dd346b6decabc9d012465d57a43b1cb5428c53",
+      "bytes": 28054
+    },
+    {
+      "source": "tests/fixtures/rc032/abandoned-entry-v5.json",
+      "fixture": "tests/fixtures/rc035/abandoned-entry-v5.json",
+      "sha256": "a2edf816c3179b1a13ed346c0ee47934cf03f94ce021ba3dd64d346d3ebf5ddf",
+      "bytes": 14285
+    },
+    {
+      "source": "output/qa/rc-034/process-01/elite-seed6-final.json",
+      "fixture": "tests/fixtures/rc035/production-defeat-v6.json",
+      "sha256": "5423eb1d5ad390fe2a2db1b0c3c4ccd3fa31964cbc95b0031cf1642393e5bed1",
+      "bytes": 24097
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d1-entry.json",
+      "fixture": "tests/fixtures/rc035/production-wickling-entry-v6.json",
+      "sha256": "2e7d117b0e381308faeb3e680ccd267694f4c77c04e4f6ce4706d9fc6f25a208",
+      "bytes": 11133
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d7-active-service.json",
+      "fixture": "tests/fixtures/rc035/production-active-shop-v6.json",
+      "sha256": "c25b6ac144d67cead55e1f2d284d3d31afcce8521aab9e5cb1d4681fa0b2dde7",
+      "bytes": 21495
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-d9-entry.json",
+      "fixture": "tests/fixtures/rc035/production-guardian-entry-v6.json",
+      "sha256": "bf41229b4bbfd0258fb49008e7b6178aeee872e6ea565b9aaa4e3a4a9cbbcc04",
+      "bytes": 25655
+    },
+    {
+      "source": "output/qa/rc-034/process-01/normal-seed1-map.json",
+      "fixture": "tests/fixtures/rc035/production-map-v6.json",
+      "sha256": "fb0fe85014011818881d34322ee9476fb645a707e9923344355dc1b5e365c04c",
+      "bytes": 8531
+    },
+    {
+      "note": "Existing pre-RC035 genuine v6 source retained throughout implementation; added byte-identical indexed copy after focused review.",
+      "source": "output/qa/rc-034/regression-cleanup-rerun/01c1a1b044/rc032-ui/evidence/rc-032/ui/abandon-room-shop-450x1000-8583924.json",
+      "bytes": 15230,
+      "fixture": "tests/fixtures/rc035/abandoned-ranked-v6.json",
+      "sha256": "a23c15e494c3d6e386b0cc3b44fdecf7dbc214416e6e3fb2410cced37a05907b"
+    },
+    {
+      "note": "Existing pre-RC035 genuine v6 source retained throughout implementation; added byte-identical indexed copy after focused review.",
+      "source": "output/qa/rc-034/regression-cleanup-rerun/01c1a1b044/rc032-ui/evidence/rc-032/ui/abandon-room-service-450x1000-9311519.json",
+      "bytes": 26014,
+      "fixture": "tests/fixtures/rc035/abandoned-service-v6.json",
+      "sha256": "3b540840ab741f2884a26ad8564d740d5314f2f6aa210f1d2d0303b4f466843c"
+    }
+  ],
+  "method": "Before RC-035 catalogue/schema edits. Exact copies of real RC-034 process/RC-032 saves. Pending permanent v6 produced by genuine v5 import and unchanged current v6 validated commit: 41 import and 4 commit checks passed. Versions and signatures were never fabricated.",
+  "replay_evidence": {
+    "fixture": "tests/fixtures/rc035/production-replay.bin",
+    "purpose": "Original pre-RC035 exact opening/command/terminal trace of RC034 production checkpoint process. Read-only source retained alongside genuine specimens.",
+    "sha256": "c531c1f6b10408814cb700b3ac83cb53b8022869c97606dffebaf831304baa28",
+    "source": "output/qa/rc-034/process-01/expected.bin"
+  }
+}

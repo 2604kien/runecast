@@ -10,6 +10,9 @@ const ProductionContent = preload("res://tests/production_content_tests.gd")
 
 func run(check: Callable) -> void:
 	var source := ProductionContent.documents()
+	# Retain the original RC-031 framework specimen rather than colliding with
+	# the now-registered RC-035 definitions or relabelling its historical content.
+	source.runes = Loader.read_document("res://tests/fixtures/rc035/runes-before.json").document
 	source.runes.append_array(Loader.read_document("res://tests/fixtures/rc031/upgrade_framework_runes.json").document)
 	source.enemies.append({"id": "rc031_effect_target", "name": "Effect Test Target", "max_health": 1000, "intents": [1]})
 	source.encounter.id = "rc031_effect_framework"
@@ -59,13 +62,15 @@ func _path(game: Combat, card: Dictionary) -> void:
 	game.place_rune(1, card.uid)
 
 func _contracts(check: Callable, setup: Dictionary, documents: Dictionary) -> void:
-	var production: Dictionary = Loader.load_setup().setup.catalog
-	check.call(Effects.contracts().size() == 8 and production.size() == 5, "RC-031: eight explicit contracts do not add missing bases to the five-definition production catalogue.")
+	var legacy := ProductionContent.documents()
+	legacy.runes = Loader.read_document("res://tests/fixtures/rc035/runes-before.json").document
+	var production: Dictionary = Loader.validate_documents(legacy, {}, null, Rules.production_options(Rules.load_rules().rules)).setup.catalog
+	check.call(Effects.contracts().size() == 8 and production.size() == 5, "RC-031 legacy: eight explicit contracts do not add missing bases to the retained five-definition catalogue.")
 	var eligible: Array = []
 	for id in production:
 		if Effects.eligible(production, {"id": id}): eligible.append(id)
 	eligible.sort()
-	check.call(eligible == ["conjure", "focus", "shield", "spark"], "RC-031: only the four existing permanent production bases are eligible.")
+	check.call(eligible == ["conjure", "focus", "shield", "spark"], "RC-031 legacy: only its four present permanent bases are eligible.")
 	for id in Effects.contracts():
 		var base := {"id": id, "uid": 123, "upgrade_rank": 0}
 		var upgraded := {"id": id, "uid": 123, "upgrade_rank": 1}

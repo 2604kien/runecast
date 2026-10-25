@@ -145,7 +145,34 @@ def audit_resources(resources: dict[str, bytes], project: Path) -> dict:
             json.loads(resources[path])
     data_paths = sorted(name for name in resources if name.startswith("data/"))
     check(data_paths == sorted("data/" + name for name in PRODUCTION_DATA),
-          "Only the eight production JSON definitions are packaged", actual=data_paths)
+          "Only the explicitly registered production JSON definitions are packaged", actual=data_paths)
+    expected_runes = {
+        "spark": ("rune", "damage", 6, 2),
+        "shield": ("rune", "shield", 5, 1),
+        "focus": ("technique", "draw", 2, 1),
+        "conjure": ("technique", "conjure", 1, 0),
+        "ember": ("rune", "damage", 3, 1),
+        "flare": ("rune", "damage", 10, 3),
+        "barrier": ("rune", "shield", 9, 2),
+        "bulwark": ("rune", "shield", 13, 3),
+        "deep_focus": ("technique", "draw", 4, 2),
+        "twin_conjure": ("technique", "conjure", 2, 1),
+        "cinder_guard": ("rune", "damage_shield", {"damage": 4, "shield": 3}, 2),
+        "ward_spark": ("rune", "damage_shield", {"damage": 2, "shield": 2}, 1),
+        "free_spark": ("rune", "damage", 6, 0),
+    }
+    packed_runes = json.loads(resources.get("data/runes.json", b"[]"))
+    definitions = {item.get("id"): item for item in packed_runes if isinstance(item, dict)} if isinstance(packed_runes, list) else {}
+    check(isinstance(packed_runes, list) and len(packed_runes) == 13 and set(definitions) == set(expected_runes),
+          "RC-035 payload contains exactly twelve ownable definitions and generated Free Spark")
+    for rune_id, expected in expected_runes.items():
+        definition = definitions.get(rune_id, {})
+        actual = tuple(definition.get(key) for key in ("type", "effect", "value", "cost"))
+        check(actual == expected and definition.get("temporary", False) == (rune_id == "free_spark"),
+              "RC-035 payload preserves exact effect, energy and lifetime", definition_id=rune_id)
+        if expected[1] == "conjure":
+            check(definition.get("generated_rune_id") == "free_spark",
+                  "Conjure creates only temporary Free Spark", definition_id=rune_id)
     for path in ATTRIBUTION:
         require(path, "font_attribution", exact_source=True)
     required = set(LIVE_REFERENCE) | set(APPLICATION_RUNTIME)

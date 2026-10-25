@@ -3,6 +3,7 @@ extends "res://scripts/ui/combat_presentation.gd"
 const STYLE = preload("res://scenes/vfx/combat_feedback_style.tres")
 const FEEDBACK = preload("res://scenes/vfx/combat_feedback.tscn")
 const SHADELING_MOTION = preload("res://assets/enemies/shadeling/motion.tres")
+const TEMPORARY_ACTOR = preload("res://scripts/ui/temporary_enemy_actor.gd")
 ## Slow the presentation clock through frame hitches so short steps stay visible.
 const MAX_AUTOMATIC_DELTA := 1.0 / 30.0
 
@@ -198,9 +199,15 @@ func _actor_contact_fraction() -> float:
 	var motion: Resource
 	var view = _view.get_ref() if _view != null else null
 	if is_instance_valid(view) and is_instance_valid(view.arena.actor) and view.arena.actor.visible and str(view.arena.enemy_id) == enemy_id:
+		if view.arena.actor.has_method("attack_contact_fraction"):
+			return clampf(float(view.arena.actor.attack_contact_fraction()), 0.0, 1.0)
 		motion = view.arena.actor.get("motion")
 	elif enemy_id == "shadeling":
 		motion = SHADELING_MOTION
+	elif enemy_id in TEMPORARY_ACTOR.IDS:
+		# Explicit shared token contact also covers detached/headless playback.
+		# Never inherit the hidden Shadeling's motion or actor accent.
+		return TEMPORARY_ACTOR.ATTACK_CONTACT
 	if motion == null: return -1.0
 	var value = motion.get("attack_contact")
 	if value == null or not is_finite(float(value)): return -1.0
@@ -316,11 +323,11 @@ func _publish() -> void:
 
 func _sample(event: Dictionary) -> void:
 	var overlay = _overlay.get_ref() if _overlay != null else null
-	if is_instance_valid(overlay): overlay.sample_event(event, _result.before, phase_progress, reduced_motion)
+	if is_instance_valid(overlay): overlay.sample_event(event, _result.before, phase_progress, reduced_motion, _contact_fraction)
 	var view = _view.get_ref() if _view != null else null
 	if is_instance_valid(view) and phase in ["card_drawn", "card_created"]:
 		view._sample_card_arrival(int(event.card.uid), incoming_card_opacity())
-	if not is_instance_valid(view) or not is_instance_valid(view.arena.actor): return
+	if not is_instance_valid(view) or not is_instance_valid(view.arena.actor) or not view.arena.actor.visible: return
 	var actor = view.arena.actor
 	if not actor.has_method("sample_presentation"): return
 	actor.set_idle_enabled(false, reduced_motion)

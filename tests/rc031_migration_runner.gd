@@ -67,7 +67,7 @@ func _initialize() -> void:
 func _context() -> Dictionary:
 	if fixture.begins_with("production-"): return {}
 	if fixture == "reward-v1": return ShopFixture.context_for(RewardFixture.new_run())
-	if fixture == "pending-reward-v2": return RewardTests.new()._boss_run(Profile.new(setup.catalog, ["spark"])).restore_context_for_tests()
+	if fixture == "pending-reward-v2": return RewardTests.new()._boss_run(Profile.new(setup.catalog, ["spark"]), true).restore_context_for_tests()
 	if fixture.ends_with("v1") or fixture.ends_with("v2") or fixture == "pending-reward-v3": return ShopFixture.context_for(ShopFixture.new_run())
 	var variant := "recovery"
 	for label in ["desk", "reliquary", "satchel", "tithe"]:
@@ -101,7 +101,8 @@ func _exercise(store, loaded: Dictionary, subject) -> void:
 		evidence.promoted = payload
 		for key in loaded.payload.run:
 			if key in ["version", "shop_policy_id", "service_policy_id"]: continue
-			check(_without_new_zero_fields(current[key]) == _without_new_zero_fields(loaded.payload.run[key]), "Migration preserves predecessor field " + key + ".")
+			var expected: Variant = preload("res://tests/helpers/legacy_route_shape.gd").expected_hydration(loaded.payload.run[key]) if key == "route" and fixture.begins_with("production-") else loaded.payload.run[key]
+			check(_without_new_zero_fields(current[key]) == _without_new_zero_fields(expected), "Migration preserves predecessor field " + key + ", allowing only registered planned-route ID/availability hydration.")
 		check(current.version == Run.SAVE_VERSION and current.version > 3, "Detached candidate uses the new current model version.")
 		check(payload.profile == loaded.payload.profile, "Migration leaves permanent definition unlocks unchanged.")
 		check(current.relics.is_empty(), "Migration never manufactures relic acquisition.")

@@ -34,7 +34,7 @@ static func describe_hand(snapshot: Dictionary, uid: int) -> Dictionary:
 	if card.is_empty() or rune.is_empty():
 		return {}
 	var technique: bool = rune.get("type") == "technique"
-	var lines: Array[String] = ["Technique - in hand" if technique else "Effect rune - in hand", _effect(snapshot, rune)]
+	var lines: Array[String] = ["Technique - in hand" if technique else "Effect rune - in hand", detail_effect(snapshot, rune)]
 	if technique:
 		lines.append("Energy: %d, paid immediately when activated. Inspection does not activate it." % int(rune.cost))
 		lines.append("Ports: none; techniques do not occupy board cells.")
@@ -236,7 +236,28 @@ static func _effect(snapshot: Dictionary, rune: Dictionary) -> String:
 		"draw": return "Draws up to %d cards immediately." % value
 		"conjure":
 			var generated: Dictionary = snapshot.get("catalog", {}).get(rune.get("generated_rune_id", ""), {})
-			return "Creates %d temporary %s in hand immediately." % [value, generated.get("name", "runes")]
+			var generated_name := str(generated.get("name", "rune")) + ("s" if value != 1 else "")
+			return "Creates %d temporary %s in hand immediately." % [value, generated_name]
+	return "Effect unavailable."
+
+static func detail_effect(snapshot: Dictionary, rune: Dictionary) -> String:
+	var text := _effect(snapshot, rune)
+	if rune.get("effect") == "conjure":
+		var generated: Dictionary = snapshot.get("catalog", {}).get(rune.get("generated_rune_id", ""), {})
+		text += " Each costs %d energy and adds %d damage. They disappear after Cast or Pass and never enter the owned collection, draw pile or discard." % [int(generated.get("cost", 0)), int(generated.get("value", 0))]
+	return text
+
+static func compact_effect(snapshot: Dictionary, rune: Dictionary) -> String:
+	# The hand's fixed-height card must show every essential contribution without
+	# requiring a nested scroll. Full timing/expiry rules remain in Info and hold.
+	match rune.get("effect"):
+		"damage": return "Adds %d damage" % int(rune.value)
+		"shield": return "Adds %d shield" % int(rune.value)
+		"damage_shield": return "%d damage\n%d shield" % [int(rune.value.damage), int(rune.value.shield)]
+		"draw": return "Draw up to %d cards" % int(rune.value)
+		"conjure":
+			var generated: Dictionary = snapshot.get("catalog", {}).get(rune.get("generated_rune_id", ""), {})
+			return "%d %s%s\nTemporary" % [int(rune.value), str(generated.get("name", "rune")), "s" if int(rune.value) != 1 else ""]
 	return "Effect unavailable."
 
 static func display_name(rune: Dictionary) -> String:

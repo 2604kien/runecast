@@ -256,6 +256,7 @@ func _run_and_replay(check: Callable) -> void:
 func _upgrades(check: Callable) -> void:
 	for id in ["spark", "cinder_guard"]:
 		var source := documents()
+		source.runes = Loader.read_document("res://tests/fixtures/rc035/runes-before.json").document
 		source.runes.append_array(Loader.read_document("res://tests/fixtures/rc031/upgrade_framework_runes.json").document)
 		source.loadouts[0].owned_cards.fill(id)
 		var setup: Dictionary = validated(source).setup

@@ -86,7 +86,7 @@ func _context() -> Dictionary:
 		if fixture in ["ranked-history-v4", "active-reliquary-v4", "ranked-relic-shop-v4"]: return ItemFixture.context_for(ItemFixture.new_run(15))
 		return ShopFixture.context_for(RewardFixture.new_run(42))
 	if fixture == "reward-v1": return ShopFixture.context_for(RewardFixture.new_run())
-	if fixture == "pending-reward-v2": return RewardTests.new()._boss_run(Profile.new(setup.catalog, ["spark"])).restore_context_for_tests()
+	if fixture == "pending-reward-v2": return RewardTests.new()._boss_run(Profile.new(setup.catalog, ["spark"]), true).restore_context_for_tests()
 	if fixture.ends_with("v1") or fixture.ends_with("v2") or fixture == "pending-reward-v3": return ShopFixture.context_for(ShopFixture.new_run())
 	var variant := "recovery"
 	for label in ["desk", "reliquary", "satchel", "tithe"]:
@@ -120,6 +120,13 @@ func _exercise(store, loaded: Dictionary, subject) -> void:
 		evidence.promoted = payload
 		for key in loaded.payload.run:
 			if key in ["version", "shop_policy_id", "service_policy_id"]: continue
+			if key == "route" and fixture.begins_with("production-"):
+				var expected_route: Dictionary = loaded.payload.run.route.duplicate(true)
+				for node in expected_route.graph.nodes:
+					if node.encounter_role in ["normal", "elite", "guardian"]: node.encounter_id = node.enemy_id
+					node.content_pending = false
+				check(current.route == expected_route, "RC-034 hydrates only trusted encounter references/availability; original route, nodes, visits, branches, events, edges and RNG survive.")
+				continue
 			if key == "terminal" and loaded.payload.run.terminal.get("outcome", "") == "abandoned":
 				var old_terminal: Dictionary = loaded.payload.run.terminal.duplicate(true)
 				var new_terminal: Dictionary = current.terminal.duplicate(true)

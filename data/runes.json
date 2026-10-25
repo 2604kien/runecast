@@ -51,6 +51,87 @@
     "effect": "damage",
     "temporary": true,
     "color": "#efb553"
+  },
+  {
+    "id": "ember",
+    "name": "Ember",
+    "symbol": "*",
+    "value": 3,
+    "cost": 1,
+    "type": "rune",
+    "effect": "damage",
+    "color": "#efb553"
+  },
+  {
+    "id": "flare",
+    "name": "Flare",
+    "symbol": "*",
+    "value": 10,
+    "cost": 3,
+    "type": "rune",
+    "effect": "damage",
+    "color": "#efb553"
+  },
+  {
+    "id": "barrier",
+    "name": "Barrier",
+    "symbol": "<>",
+    "value": 9,
+    "cost": 2,
+    "type": "rune",
+    "effect": "shield",
+    "color": "#82d6a0"
+  },
+  {
+    "id": "bulwark",
+    "name": "Bulwark",
+    "symbol": "<>",
+    "value": 13,
+    "cost": 3,
+    "type": "rune",
+    "effect": "shield",
+    "color": "#82d6a0"
+  },
+  {
+    "id": "deep_focus",
+    "name": "Deep Focus",
+    "symbol": "?",
+    "value": 4,
+    "cost": 2,
+    "type": "technique",
+    "effect": "draw",
+    "color": "#ba9bef"
+  },
+  {
+    "id": "twin_conjure",
+    "name": "Twin Conjure",
+    "symbol": "+",
+    "value": 2,
+    "cost": 1,
+    "type": "technique",
+    "effect": "conjure",
+    "generated_rune_id": "free_spark",
+    "color": "#ba9bef"
+  },
+  {
+    "id": "cinder_guard",
+    "name": "Cinder Guard",
+    "symbol": "*<>",
+    "value": {"damage": 4, "shield": 3},
+    "cost": 2,
+    "type": "rune",
+    "effect": "damage_shield",
+    "color": "#efb553"
+  },
+  {
+    "id": "ward_spark",
+    "name": "Ward Spark",
+    "symbol": "*<>",
+    "value": {"damage": 2, "shield": 2},
+    "cost": 1,
+    "type": "rune",
+    "effect": "damage_shield",
+    "color": "#efb553"
   }
 ]
 

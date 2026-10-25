@@ -90,7 +90,7 @@ func present(record: Dictionary, catalog: Dictionary) -> void:
 	if not available:
 		_body.add_child(Ui.label(str(record.get("error", "This reward policy is unavailable. The choice remains pending.")), "body", 17))
 	else:
-		_body.add_child(Ui.label("An unlock adds definition eligibility for future rewards and shops; it grants no stored card copy. Closing keeps this choice pending." if record.get("kind") == "definition_unlock" else "A chosen card joins your run collection for the next encounter. Closing keeps any unresolved choice pending.", "muted", 16))
+		_body.add_child(Ui.label("An unlock enables future rewards, shops and Store entries. It grants no card copy and does not change the starter. Closing keeps this choice pending." if record.get("kind") == "definition_unlock" else "A chosen card joins your run collection for the next encounter. Closing keeps any unresolved choice pending.", "muted", 16))
 		var policy_id := str(record.get("policy_id", ""))
 		if "test" in policy_id:
 			_body.add_child(Ui.label("TEST FIXTURE · configured rewards are verification values.", "body", 16))

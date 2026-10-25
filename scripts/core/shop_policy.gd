@@ -2,7 +2,7 @@ extends RefCounted
 ## Registered, provisional RC-036 tuning. Shop rules never enter Combat setup.
 const LEGACY_POLICY_ID := "rc029_shop_v1"
 const POLICY_ID := "rc031_shop_v2"
-const ELIGIBILITY_VERSION := 1
+const ELIGIBILITY_VERSION := 2
 const STOCK_COUNT := 3
 const RUNE_PRICE := 30
 const REMOVAL_PRICE := 40
@@ -11,6 +11,7 @@ const UPGRADE_PRICE := 35
 const MIN_OWNED := 4
 const RNG_SALT := 0x52435348
 const INITIAL_IDS := ["spark", "shield", "focus", "conjure"]
+const REGISTERED_IDS := preload("res://scripts/core/catalogue_policy.gd").REGISTERED_IDS
 
 static func offerings(eligible: Array, rng: RandomNumberGenerator) -> Array:
 	var pool := eligible.duplicate()

@@ -1307,7 +1307,7 @@ func _refresh() -> void:
 			if icon_name == "draw": icon_name = "focus"
 			button = Ui.card({"name": InspectionData.display_name(rune), "cost": rune.cost, "icon": icon_name,
 				"kind": "technique" if rune.type == "technique" else rune.effect,
-				"type": rune.type, "description": _rune_description(rune), "temporary": rune.get("temporary", false), "compact": true}, {"selected": card.uid == selected_uid}, 149)
+				"type": rune.type, "description": InspectionData.compact_effect(game, rune), "temporary": rune.get("temporary", false), "compact": true}, {"selected": card.uid == selected_uid}, 149)
 			if is_incoming:
 				button.set_meta("rc_incoming_card", true)
 				button.modulate.a = animation_presenter.incoming_card_opacity()
@@ -1501,7 +1501,7 @@ func _inspect_pile(zone: String) -> void:
 	var sorted_names: Array = counts.keys()
 	sorted_names.sort()
 	for name_text in sorted_names: names.append("%s × %d" % [name_text, counts[name_text]])
-	_open_inspector({"title": "Draw pile" if zone == "draw_pile" else "Discard pile", "text": "%d cards\n\n%s" % [cards.size(), "\n".join(names) if not names.is_empty() else "Empty"]})
+	_open_inspector({"title": "Draw pile" if zone == "draw_pile" else "Discard pile", "text": "%d card%s\n\n%s" % [cards.size(), "" if cards.size() == 1 else "s", "\n".join(names) if not names.is_empty() else "Empty"]})
 
 func _request_pass() -> void:
 	if not _can_edit(): return
@@ -1719,7 +1719,7 @@ func _rune_description(rune: Dictionary) -> String:
 		"shield": return "Adds %d shield" % rune.value
 		"damage_shield": return "Adds %d damage and %d shield" % [int(rune.value.damage), int(rune.value.shield)]
 		"draw": return "Draw up to %d cards" % rune.value
-		"conjure": return "Create %d temporary %s" % [rune.value, game.catalog[rune.generated_rune_id].name]
+		"conjure": return "Create %d temporary %s%s" % [rune.value, game.catalog[rune.generated_rune_id].name, "s" if int(rune.value) != 1 else ""]
 	return ""
 
 func _refresh_startup_error() -> void:

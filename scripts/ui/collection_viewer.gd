@@ -120,7 +120,7 @@ func present(run_snapshot: Dictionary, catalog: Dictionary, live_snapshot: Dicti
 			_listing.add_child(Ui.label("%s · UID %d · %s\nCost %d · %s" % [item.card.name, item.uid, item.label, item.card.cost, item.card.description], "body", 16))
 	if presentation.has_profile:
 		_listing.add_child(Ui.label("Permanent definition unlocks", "title", 20))
-		_listing.add_child(Ui.label("Saved unlocks remain after restarting the application and starting a New Run. They enable future reward and shop eligibility, grant no stored card copies and do not change the starter collection.", "muted", 16))
+		_listing.add_child(Ui.label("Saved unlocks remain after restarting the application and starting a New Run. They enable future rewards, shops and Store entries, grant no stored card copies and do not change the starter collection.", "muted", 16))
 		var names: Array[String] = []
 		for definition in presentation.unlocked_definitions: names.append(str(definition.name))
 		_listing.add_child(Ui.label("Unlocked: " + (", ".join(names) if not names.is_empty() else "None"), "body", 16))
@@ -146,6 +146,8 @@ func _inspect_group(group: Dictionary) -> void:
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.focus_mode = Control.FOCUS_NONE
 	_detail.add_child(card)
+	if group.card.get("inspection", "") != group.card.description:
+		_detail.add_child(Ui.label(str(group.card.inspection), "body", 16))
 	_detail.add_child(Ui.label("Owned × %d\n%s" % [group.count, _instances_text(group.instances)], "body", 18))
 	_detail.add_child(Ui.label("Upgraded · rank 1. These copies retain their upgrade for this run." if int(group.get("upgrade_rank", 0)) > 0 else "Unupgraded copies. Each eligible copy may be upgraded once during this run.", "body", 16))
 	_detail.add_child(Ui.label("Inspection is read-only. Techniques activate only from the battle hand.", "muted", 16))

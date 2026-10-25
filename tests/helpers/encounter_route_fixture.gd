@@ -8,6 +8,7 @@ const Loader = preload("res://scripts/core/content_loader.gd")
 class FixtureRoute extends "res://scripts/core/route_state.gd":
 	func _init(run_id: String, seed: int) -> void:
 		super(run_id, seed)
+		preload("res://tests/helpers/legacy_route_shape.gd").retain(self)
 		# Preserve nine depths, branches, d6 Shadeling and d9 guardian. Only the
 		# first two fixture depths substitute actual supported development Wisp.
 		_graph.route_id = "rc026_reward_free_fixture-%d" % seed
@@ -28,6 +29,10 @@ class FixtureRoute extends "res://scripts/core/route_state.gd":
 				_nodes[node.id] = node
 
 class FixtureResolver extends "res://scripts/core/encounter_resolver.gd":
+	func _supports_node(node: Dictionary) -> bool:
+		# The retained boss-boundary fixture predates production board binding.
+		# This capability exists only in the excluded resolver, never saved data.
+		return super(node) or (node.get("encounter_id") == "training_shadeling" and node.get("enemy_id") == "shadeling" and node.get("encounter_role") == "boss" and node.get("board_id") == "board_gallery")
 	func _load(node: Dictionary, path: String) -> Dictionary:
 		return Loader.load_selected_encounter(path, str(node.get("board_id", "")), str(node.get("fixture_loadout", "")))
 	func _choices(_node: Dictionary) -> Array:

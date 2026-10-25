@@ -66,7 +66,7 @@ func _boundaries_and_allowances() -> void:
 	var subject = _new()
 	var original: Dictionary = subject.export_save()
 	var store: Dictionary = subject.store_snapshot()
-	check(original.version == 6 and original.size() == 34 and original.store == {"version": 1, "policy_id": "rc032_store_v1", "transactions": []}, "New v6 run contains only its empty versioned Store authority.")
+	check(original.version == 6 and original.size() == 34 and original.store == {"version": 2, "policy_id": "rc035_store_v2", "transactions": []}, "New v6 run contains only its empty expanded-catalogue Store authority.")
 	check(store.enabled and store.gold == 0 and store.runes.size() == 2 and store.relics.size() == 6, "Initial unvisited Map permits browsing with two fixture unlocked runes and all six relic definitions.")
 	check(store.runes.all(func(slot): return not slot.enabled and slot.cost == 45) and store.relics.all(func(slot): return not slot.enabled and slot.cost == 90), "Zero Gold disables every priced slot without closing the between-room boundary.")
 	check(subject.export_save() == original and not subject.purchase_store_rune(store.identity, "spark").ok, "Repeated browsing and insufficient funds do not mutate authority or consume allowance.")
@@ -231,8 +231,12 @@ func _hostile_receipts() -> void:
 	corrupt.gold += 45
 	check(not _restore(subject, corrupt).ok, "Coordinated receipt and final Gold changes cannot waive a fixed Store price.")
 	corrupt = source.duplicate(true)
-	corrupt.store.version = 2
+	corrupt.store.version = 3
 	check(not _restore(subject, corrupt).ok, "Unknown Store version fails closed.")
+	corrupt = source.duplicate(true)
+	corrupt.store.version = 1
+	corrupt.store.policy_id = "rc032_store_v1"
+	check(not _restore(subject, corrupt).ok, "Historical Store semantics cannot be substituted into an expanded-catalogue run.")
 	corrupt = source.duplicate(true)
 	corrupt.store.policy_id = "free_supplies"
 	check(not _restore(subject, corrupt).ok, "Unknown Store policy fails closed.")

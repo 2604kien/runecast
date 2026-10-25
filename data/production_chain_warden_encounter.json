@@ -1,0 +1,11 @@
+{
+  "id": "chain_warden",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "chain_warden",
+  "board_id": "board_ossuary",
+  "loadout_id": "starter",
+  "title": "OSSUARY TURN",
+  "help_text": "Build from Begin and End each turn. Inspect the announced attack, then combine damage and shield within your energy.",
+  "opening_log": "Chain Warden blocks the way. Its announced attack is 8.",
+  "seed": 42
+}

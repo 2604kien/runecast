@@ -153,22 +153,24 @@ func _disabled_and_replay(check: Callable) -> void:
 	win(subject)
 	check.call(subject.pending_reward().status == "unavailable" and subject.snapshot().reward_rng_state == before_rng, "RC-027: room_normal dispatch family never substitutes for an explicit encounter role policy.")
 
-func _boss_run(profile):
-	return Run.new(Loader.load_setup().setup, 42, true,
-		func(run_id, seed): return BossFixtureRoute.new(run_id, seed), RewardResolver.new(), Profile.production_rules(), profile)
+func _boss_run(profile, legacy: bool = false):
+	var setup: Dictionary = Loader.load_setup().setup
+	if legacy: setup = preload("res://scripts/core/catalogue_policy.gd").legacy_setup(setup)
+	return Run.new(setup, 42, true,
+		func(run_id, seed): return BossFixtureRoute.new(run_id, seed), RewardResolver.new(), Profile.production_rules(legacy), profile)
 
 func _milestones_and_profile(check: Callable) -> void:
 	var profile = Profile.new(Loader.load_setup().setup.catalog)
-	var subject = _boss_run(profile)
+	var subject = _boss_run(profile, true)
 	check.call(win(subject) != null, "RC-027: actual Shadeling victory reaches explicit boss milestone policy.")
 	var records: Array = subject.snapshot().reward_records
-	check.call(records.size() == 2 and records[1].kind == "definition_unlock" and records[1].resolution == "exhausted" and records[1].claims.size() == 1, "RC-027: all current definitions unlocked produces an explicit once-only exhausted milestone record.")
+	check.call(records.size() == 2 and records[1].kind == "definition_unlock" and records[1].resolution == "exhausted" and records[1].claims.size() == 1, "RC-027 legacy: all four historical definitions unlocked produces an explicit once-only exhausted milestone record.")
 	check.call(subject.snapshot().owned_cards.size() == 8 and subject.snapshot().gold == 0 and profile.snapshot().unlocked_definition_ids.size() == 4 and subject.route_snapshot().status == "pending_choices", "RC-027: exhausted milestone gives no compensation and keeps the run-rune choice required.")
 	var run_offer: Dictionary = subject.pending_reward()
 	check.call(subject.skip_reward(run_offer.identity).ok and subject.route_snapshot().status == "route_ready", "RC-027: exhausted milestone plus explicit run Skip completes only this fixture boss visit.")
 	profile = Profile.new(Loader.load_setup().setup.catalog, ["spark"])
 	for index in 3:
-		subject = _boss_run(profile)
+		subject = _boss_run(profile, true)
 		check.call(win(subject) != null, "RC-027: explicit narrowed-profile fixture earns another real boss victory.")
 		run_offer = subject.pending_reward()
 		check.call(run_offer.eligible_ids == profile.snapshot().unlocked_definition_ids and run_offer.offered_ids.all(func(id): return id in profile.snapshot().unlocked_definition_ids), "RC-027: profile eligibility includes acquired definitions in run rewards while starter remains unchanged.")
@@ -180,12 +182,12 @@ func _milestones_and_profile(check: Callable) -> void:
 		check.call(claim.ok and claim.claim.component == "definition_unlock" and claim.claim.unlocked_definition_id == unlock.offered_ids[0] and subject.snapshot().owned_cards == before.owned_cards and subject.snapshot().next_uid == before.next_uid, "RC-027: definition acquisition commits without granting stored or run-owned copies or consuming UID.")
 		var after: Dictionary = subject.snapshot()
 		check.call(not subject.choose_reward(unlock.identity, unlock.offered_ids[0]).ok and subject.snapshot() == after, "RC-027: repeated permanent acquisition cannot duplicate unlocks or mutate settled claims.")
-		var fresh = _boss_run(profile)
+		var fresh = _boss_run(profile, true)
 		check.call(fresh.snapshot().profile.unlocked_definition_ids.size() == index + 2 and fresh.snapshot().owned_cards.size() == 8, "RC-027: shared session profile survives New Run with unchanged starter, separate ownership.")
 		var detached: Dictionary = fresh.snapshot()
 		detached.profile.unlocked_definition_ids.clear()
 		check.call(profile.snapshot().unlocked_definition_ids.size() == index + 2, "RC-027: profile presentation snapshots cannot mutate authoritative unlocks.")
-	subject = _boss_run(profile)
+	subject = _boss_run(profile, true)
 	win(subject)
 	check.call(subject.snapshot().reward_records[1].resolution == "exhausted" and subject.snapshot().gold == 0, "RC-027: repeated milestone after all unlocks is exhausted without duplicate award or compensation.")
 

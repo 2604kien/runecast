@@ -1,0 +1,11 @@
+{
+  "id": "bell_keeper",
+  "ruleset": "rc007_production_v1",
+  "enemy_id": "bell_keeper",
+  "board_id": "board_belfry",
+  "loadout_id": "starter",
+  "title": "BELFRY CIRCUIT",
+  "help_text": "Build from Begin and End each turn. Bell Keeper changes its repeating attacks after a surviving turn at 40 health or less; the announced retaliation still resolves first.",
+  "opening_log": "Bell Keeper guards the summit. Its announced attack is 8.",
+  "seed": 42
+}

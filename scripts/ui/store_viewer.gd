@@ -99,7 +99,10 @@ func present(record: Dictionary, catalog: Dictionary) -> void:
 				var data := CollectionData.definition_card(catalog, definition_id)
 				if data.is_empty(): continue
 				icon_name = str(data.icon)
-				summary = InstanceEffects.effect_summary(catalog[definition_id])
+				var definition: Dictionary = InstanceEffects.resolve(catalog, {"id": definition_id, "upgrade_rank": 0}).get("definition", {})
+				summary = InstanceEffects.effect_summary(definition)
+				if definition.get("effect") == "draw": summary = "Draw up to %d" % int(definition.value)
+				elif definition.get("effect") == "conjure": summary = "%d temporary Free Spark%s" % [int(definition.value), "s" if int(definition.value) != 1 else ""]
 			else:
 				var relic: Dictionary = RelicPolicy.definitions().get(definition_id, {})
 				icon_name = _relic_icon(str(relic.get("hook", "")))

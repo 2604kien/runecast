@@ -15,6 +15,7 @@ const ShopPolicy = preload("res://scripts/core/shop_policy.gd")
 const ServicePolicy = preload("res://scripts/core/service_policy.gd")
 const StorePolicy = preload("res://scripts/core/store_policy.gd")
 const ContentLoader = preload("res://scripts/core/content_loader.gd")
+const CataloguePolicy = preload("res://scripts/core/catalogue_policy.gd")
 const TRANSACTION_FIELDS := ["_run_id", "_status", "_seed", "_setup", "_owned_cards", "_player_hp", "_player_max_hp", "_gold", "_relics", "_next_uid", "_rng_states", "_entry_checkpoint", "_completed_encounters", "_error", "_route_mode", "_candidate_sequence", "_battle_generation", "_active_battle", "_pending_result", "_battle_choices", "_reward_policy", "_reward_rules", "_reward_records", "_prepared", "_shop_records", "_service_records", "_health_boundary", "_battle_health_records", "_terminal", "_store"]
 var _run_id := ""
 var _status := "ready"
@@ -65,6 +66,7 @@ func _init(validated_setup: Dictionary = {}, seed: int = 42, route_mode: bool = 
 	_route_mode = route_mode
 	_resolver = resolver if resolver != null else EncounterResolver.new()
 	_setup = validated_setup.duplicate(true)
+	_store = StorePolicy.empty_state(CataloguePolicy.is_legacy(_setup.catalog))
 	_reward_rules = reward_rules.duplicate(true)
 	_profile = profile if profile != null else ProgressionState.new(_setup.get("catalog", {}))
 	_reward_rng.seed = seed ^ 0x52435257
@@ -190,7 +192,7 @@ func prepare_route_battle(token: Dictionary) -> Dictionary:
 	var preview := _route.preview_entry(token)
 	if not preview.ok: return preview
 	_preparing = true
-	var resolved: Dictionary = _resolver.resolve(preview.node, _entry_data())
+	var resolved: Dictionary = _resolve_encounter(preview.node, _entry_data())
 	_preparing = false
 	if not resolved.get("ok", false): return resolved
 	if not _route.preview_entry(token).ok or _status != "route_ready": return _rejected("The route changed during encounter preparation.")
@@ -546,12 +548,20 @@ func _select_reward_rule(choice_id: String, encounter_id: String = "", role: Str
 	return {"ok": true, "rule": rule, "policy_id": _reward_rules.policy_id}
 
 func _valid_reward_definition(id: String) -> bool:
-	if id == "free_spark" or not _setup.catalog.has(id): return false
+	if not id in CataloguePolicy.registered_ids(_setup.catalog) or not _setup.catalog.has(id): return false
 	var definition: Dictionary = _setup.catalog[id].duplicate(true)
 	if definition.get("temporary", false): return false
 	var errors: Array = []
 	preload("res://scripts/core/content_loader.gd")._validate_rune(definition, "reward", errors, _setup.get("production", {}))
 	return errors.is_empty()
+
+func _milestone_ids(encounter_id: String, role: String) -> Array:
+	# An explicit reward policy owns its complete milestone universe. Historical
+	# fixture and production policies retain four IDs even in a newer loader.
+	for rule in _reward_rules.get("rules", []):
+		if rule.get("choice_id") == "encounter_rewards" and rule.get("encounter_id") == encounter_id and rule.get("encounter_role") == role:
+			return rule.get("eligible_ids", []).duplicate()
+	return []
 
 func _create_reward_records() -> void:
 	# Called only after terminal transfer committed next_uid, HP and battle RNG.
@@ -591,7 +601,7 @@ func _create_unlock_record(identity: Dictionary) -> void:
 		"allow_skip": false, "gold_amount": 0, "gold_claimed": true, "claims": [], "error": "Permanent acquisition requires a session profile and an explicit milestone policy."}
 	if selected.ok and selected.rule.get("permanent_unlock", false) and _profile != null:
 		var locked: Array = []
-		for id in _setup.catalog:
+		for id in _milestone_ids(str(_pending_result.get("encounter_id", "")), str(_pending_result.get("role", ""))):
 			if _valid_reward_definition(id) and ProgressionState.validate_unlock(_profile, id): locked.append(id)
 		locked.sort()
 		record.status = "pending"
@@ -795,7 +805,7 @@ static func restore_save(data: Dictionary, validated_setup: Dictionary, profile:
 	var structure := _validate_save_structure(data, context.get("allow_test_fixtures", false) == true)
 	if not structure.is_empty(): return {"ok": false, "error": structure}
 	var fixture: bool = context.get("allow_test_fixtures", false) == true
-	var rules: Dictionary = context.get("reward_rules", {}) if fixture else ProgressionState.production_rules()
+	var rules: Dictionary = context.get("reward_rules", {}) if fixture else ProgressionState.production_rules(data.policy_id == ProgressionState.POLICY_ID)
 	if data.policy_id != rules.get("policy_id", ""):
 		# A standalone retained fixture has no reward policy or route.
 		if not (not data.route_mode and data.policy_id.is_empty()): return {"ok": false, "error": "Saved reward policy is unavailable or incompatible with this application."}
@@ -809,7 +819,7 @@ static func restore_save(data: Dictionary, validated_setup: Dictionary, profile:
 	candidate._run_id = data.run_id
 	candidate._status = data.status
 	candidate._terminal = data.terminal.duplicate(true) if data.version >= 5 else {}
-	candidate._store = data.store.duplicate(true) if data.version >= 6 else StorePolicy.empty_state()
+	candidate._store = data.store.duplicate(true) if data.version >= 6 else StorePolicy.empty_state(true)
 	# Abandonment retains its exact validated checkpoint rather than pretending
 	# an unfinished room completed or converting live damage into saved history.
 	if data.status == "abandoned":
@@ -829,6 +839,11 @@ static func restore_save(data: Dictionary, validated_setup: Dictionary, profile:
 	var selected := candidate._restore_content(data, validated_setup, context if fixture else {})
 	if not selected.ok: return selected
 	candidate._setup = selected.setup
+	# The trusted complete catalogue and registered policy generation agree;
+	# a saved policy marker cannot widen old eligibility or narrow current rules.
+	var legacy_catalog := CataloguePolicy.is_legacy(candidate._setup.catalog)
+	if candidate._store.version != (1 if legacy_catalog else StorePolicy.VERSION): return {"ok": false, "error": "Saved Store policy differs from its retained catalogue generation."}
+	if not fixture and data.route_mode and data.policy_id != (ProgressionState.POLICY_ID if legacy_catalog else ProgressionState.REWARD_POLICY_ID): return {"ok": false, "error": "Saved reward policy differs from its retained catalogue generation."}
 	for field in ["owned_cards", "player_hp", "player_max_hp", "gold", "relics", "next_uid", "rng_states", "entry_checkpoint", "completed_encounters", "candidate_sequence", "battle_generation", "active_battle", "pending_result", "battle_choices", "reward_policy"]:
 		var value: Variant = data[field]
 		candidate.set("_" + field, value.duplicate(true) if value is Array or value is Dictionary else value)
@@ -877,8 +892,15 @@ static func restore_save(data: Dictionary, validated_setup: Dictionary, profile:
 	if not error.is_empty(): return {"ok": false, "error": error}
 	if data.version == 5 and candidate._terminal.get("outcome") == "abandoned":
 		candidate._terminal.identity = candidate._abandonment_token(candidate._terminal.boundary_status)
+	# Planned v1 routes retain their exact original graph until every historical
+	# record and (where present) abandonment fingerprint has validated. Terminal
+	# graphs remain byte-for-byte historical; unfinished routes only fill trusted
+	# references/availability, without regenerating identities, edges or RNG.
+	var route_migrated := false
+	if not fixture and candidate._route != null and candidate._terminal.is_empty():
+		route_migrated = candidate._route.migrate_planned_content()
 	candidate._refresh_result_rewards()
-	return {"ok": true, "error": "", "run": candidate, "migrated": data.version < SAVE_VERSION}
+	return {"ok": true, "error": "", "run": candidate, "migrated": data.version < SAVE_VERSION or route_migrated}
 
 func _validate_terminal(source_version: int = SAVE_VERSION) -> String:
 	if _terminal.get("outcome") == "abandoned":
@@ -963,7 +985,7 @@ static func _validate_save_structure(data: Dictionary, fixture: bool = false) ->
 	for choice in data.battle_choices:
 		if not choice is String or choice.is_empty() or data.battle_choices.count(choice) != 1: return "Saved battle choices are invalid."
 	for encounter in data.completed_encounters:
-		if not encounter is String or (not fixture and not EncounterResolver.SOURCES.has(encounter)): return "Saved completion references unavailable content."
+		if not encounter is String or (not fixture and not EncounterResolver.production_id(encounter)): return "Saved completion references unavailable content."
 	return ""
 
 func _restore_content(data: Dictionary, base_setup: Dictionary, context: Dictionary) -> Dictionary:
@@ -972,22 +994,42 @@ func _restore_content(data: Dictionary, base_setup: Dictionary, context: Diction
 	var fixture: bool = context.get("allow_test_fixtures", false)
 	if fixture:
 		for setup in context.get("setups", {}).values(): candidates.append(setup.duplicate(true))
-	elif ref.encounter_id != "training_shadeling": return _rejected("Saved encounter is not registered for production loading.")
+	elif not EncounterResolver.production_id(ref.encounter_id): return _rejected("Saved encounter is not registered for production loading.")
 	if not ref.board_id in RouteState.BOARD_IDS: return _rejected("Saved board identity is unavailable.")
 	var entry := {"version": 1, "run_id": data.run_id, "encounter_id": ref.encounter_id, "seed": data.seed,
 		"player_hp": maxi(1, data.player_hp), "player_max_hp": data.player_max_hp,
 		"owned_cards": data.owned_cards, "next_uid": data.next_uid, "rng_states": data.rng_states, "relics": data.relics}
 	if _route != null:
-		for node in _route._graph.nodes:
-			if node.encounter_id == ref.encounter_id and node.board_id == ref.board_id:
-				var resolved: Dictionary = _resolver.resolve(node, entry)
-				if resolved.get("ok", false): candidates.append(resolved.setup)
+		# The retained configuration belongs to the most recent battle visit,
+		# including after rewards/services. Another valid tuple elsewhere in the
+		# graph cannot substitute its board/configuration into this checkpoint.
+		var last_battle: Dictionary = {}
+		for visit in _route._visits:
+			var node: Dictionary = _route._nodes[visit.node_id]
+			if node.room_id in ["room_normal", "room_elite", "room_guardian"]: last_battle = node
+		if not last_battle.is_empty():
+			if last_battle.encounter_id != ref.encounter_id or last_battle.board_id != ref.board_id: return _rejected("Saved content differs from the most recent battle visit.")
+			var resolved: Dictionary = _resolver.resolve(last_battle, entry)
+			if not fixture: candidates.clear()
+			if resolved.get("ok", false): candidates.append(resolved.setup)
+	# Only the complete frozen predecessor catalogue is another trusted candidate.
+	# Reconstruct locally before comparing the original hash; never rewrite it.
+	var current_candidates := candidates.duplicate(true)
+	for setup in current_candidates: candidates.append(CataloguePolicy.legacy_setup(setup))
 	for setup in candidates:
 		if setup.get("encounter", {}).get("id") == ref.encounter_id and setup.encounter.get("board_id") == ref.board_id and content_signature(setup) == ref.signature:
-			if setup.get("catalog") != base_setup.get("catalog"): return _rejected("Saved encounter catalogue is incompatible.")
+			if setup.get("catalog") != base_setup.get("catalog") and not CataloguePolicy.is_legacy(setup.catalog): return _rejected("Saved encounter catalogue is incompatible.")
 			setup.owned_cards = data.owned_cards.map(func(card): return card.id)
 			return {"ok": true, "error": "", "setup": setup.duplicate(true)}
 	return _rejected("Saved encounter configuration no longer matches registered content; progress was preserved.")
+
+func _resolve_encounter(node: Dictionary, entry: Dictionary) -> Dictionary:
+	var resolved: Dictionary = _resolver.resolve(node, entry)
+	if resolved.get("ok", false) and CataloguePolicy.is_legacy(_setup.get("catalog", {})):
+		resolved.setup = CataloguePolicy.legacy_setup(resolved.setup)
+		var error := Combat.validate_run_entry(resolved.setup, resolved.get("entry", entry))
+		if not error.is_empty(): return _rejected(error)
+	return resolved
 
 func _validate_restored_state(fixture: bool, legacy: bool = false) -> String:
 	var allowed := ["route_ready", "room_active", "pending_choices", "replay_pending", "result_pending", "tower_completed", "defeated"] if _route_mode else ["ready", "replay_pending", "encounter_won", "defeated"]
@@ -1022,7 +1064,7 @@ func _validate_restored_state(fixture: bool, legacy: bool = false) -> String:
 		if _route_mode:
 			var node: Dictionary = _route._nodes[_active_battle.node_id]
 			if node.encounter_id != _setup.encounter.id or node.board_id != _setup.encounter.board_id or node.enemy_id != _setup.encounter.enemy_id or node.encounter_role != _setup.encounter.get("encounter_role", ""): return "Saved battle configuration differs from its selected route node."
-			var resolved: Dictionary = _resolver.resolve(node, _entry_checkpoint)
+			var resolved: Dictionary = _resolve_encounter(node, _entry_checkpoint)
 			if not resolved.get("ok", false) or resolved.get("pending_choices", []) != _battle_choices or str(resolved.get("reward_policy", "")) != _reward_policy: return "Saved battle choice policy differs from its registered encounter."
 		if not _pending_result.is_empty(): return "An unresolved battle cannot also have a committed result."
 	else:
@@ -1042,7 +1084,7 @@ func _validate_restored_state(fixture: bool, legacy: bool = false) -> String:
 			if fixture and not str(visited_node.encounter_id).is_empty() and not EncounterResolver.SOURCES.has(visited_node.encounter_id):
 				var validation_entry := _entry_data()
 				validation_entry.player_hp = maxi(1, _player_hp)
-				var registered: Dictionary = _resolver.resolve(visited_node, validation_entry)
+				var registered: Dictionary = _resolve_encounter(visited_node, validation_entry)
 				if not registered.get("ok", false): return "Saved fixture encounter has no validated registration."
 				var encounter: Dictionary = registered.get("setup", {}).get("encounter", {})
 				if encounter.get("id") != visited_node.encounter_id or encounter.get("enemy_id") != visited_node.enemy_id or encounter.get("board_id") != visited_node.board_id or encounter.get("encounter_role") != visited_node.encounter_role or registered.get("setup", {}).get("catalog") != _setup.catalog:
@@ -1052,9 +1094,16 @@ func _validate_restored_state(fixture: bool, legacy: bool = false) -> String:
 				if not legacy and node.room_id in ["room_shop", "room_event", "room_recovery"]:
 					if not (visit.pending_choices + visit.completed_choices).is_empty() or visit.outcome == "defeat": return "Saved shop has an unsupported outcome or choices."
 					continue
-				if node.encounter_id != "training_shadeling" or node.enemy_id != "shadeling" or node.encounter_role != "boss": return "Saved visited room requires content that is not available in this production version."
+				# Historical empty-ID graphs could never commit a normal, elite or
+				# guardian battle. Validate that old limitation before hydration.
+				if RouteState.is_legacy_planned_graph(_route._graph) and node.encounter_id != "training_shadeling": return "Historical planned route contains an unauthored battle visit."
+				if not EncounterResolver.supported_node(node): return "Saved visited room does not match a registered production encounter."
 				var expected: Array = []
-				if visit.outcome == "completed": expected = ["encounter_rewards", "permanent_unlock"]
+				if visit.outcome == "completed":
+					var selected := _select_reward_rule("encounter_rewards", node.encounter_id, node.encounter_role)
+					if not selected.ok: return "Saved victory has no exact encounter reward policy."
+					expected = ["encounter_rewards"]
+					if selected.rule.get("permanent_unlock", false): expected.append("permanent_unlock")
 				var actual: Array = visit.pending_choices + visit.completed_choices
 				actual.sort()
 				expected.sort()
@@ -1079,6 +1128,8 @@ func _validate_pending_result() -> String:
 	var outcome := "defeat" if visit.outcome == "defeat" else "victory" if visit.outcome == "completed" else ""
 	if _pending_result.get("outcome") != outcome or outcome.is_empty(): return "Saved result disagrees with its route outcome."
 	if _pending_result.get("encounter_id") != _setup.encounter.id or _route._nodes[visit.node_id].encounter_id != _setup.encounter.id: return "Saved result encounter differs from its selected room."
+	var node: Dictionary = _route._nodes[visit.node_id]
+	if node.board_id != _setup.encounter.board_id or node.enemy_id != _setup.encounter.enemy_id or node.encounter_role != _setup.encounter.get("encounter_role", ""): return "Saved result configuration differs from its selected room."
 	# Terminal presentation retains the raw combat boundary. Later acquisition
 	# hooks have their own chronological health receipts rather than rewriting it.
 	var raw_health: Dictionary = _battle_health_records.get(_shop_key(_shop_identity(identity)), {})
@@ -1150,7 +1201,7 @@ func _validate_saved_rewards(_fixture: bool, legacy: bool = false) -> String:
 					for id in raw.eligible_ids:
 						if _valid_reward_definition(id) and not id in expected_eligible and (_profile == null or id in unlocked_at_entry): expected_eligible.append(id)
 		else:
-			for id in ProgressionState.INITIAL_IDS:
+			for id in _milestone_ids(str(node.encounter_id), str(node.encounter_role)):
 				if _valid_reward_definition(id) and not id in unlocked_at_entry: expected_eligible.append(id)
 		expected_eligible.sort()
 		if record.eligible_ids != expected_eligible: return "Saved reward eligibility disagrees with the profile at its committed milestone."
@@ -1217,7 +1268,7 @@ func _shop_key(identity: Dictionary) -> String:
 
 func _shop_eligible(unlocked: Array) -> Array:
 	var eligible: Array = []
-	for id in ShopPolicy.INITIAL_IDS:
+	for id in CataloguePolicy.registered_ids(_setup.catalog):
 		if id in unlocked and _valid_reward_definition(id): eligible.append(id)
 	eligible.sort()
 	return eligible
@@ -1236,7 +1287,7 @@ func prepare_route_shop(token: Dictionary) -> Dictionary:
 	var slots: Array = []
 	for id in ShopPolicy.offerings(eligible, rng):
 		slots.append({"slot_id": "rune-%d" % (slots.size() + 1), "definition_id": id, "price": ShopPolicy.RUNE_PRICE, "sold": false, "granted_uid": -1})
-	var record := {"version": 2, "identity": identity, "policy_id": ShopPolicy.POLICY_ID, "eligibility_version": ShopPolicy.ELIGIBILITY_VERSION,
+	var record := {"version": 2, "identity": identity, "policy_id": ShopPolicy.POLICY_ID, "eligibility_version": CataloguePolicy.eligibility_version(_setup.catalog),
 		"eligible_ids": eligible, "slots": slots, "removal": {"price": ShopPolicy.REMOVAL_PRICE, "used": false, "removed_card": {}},
 		"transactions": [], "status": "active", "rng_before": _shop_rng.state, "rng_after": rng.state, "entry_next_uid": _next_uid,
 		"relic_offering": _relic_offering(identity, "shop", _relics, 1), "upgrade": {"price": ShopPolicy.UPGRADE_PRICE, "used": false, "card": {}}}
@@ -1822,7 +1873,7 @@ func _validate_shop_history() -> String:
 		var modern: bool = record.get("version") is int and record.version == 2
 		if record.size() != (14 if modern else 12): return "Saved shop record structure is invalid."
 		if modern and (not record.get("relic_offering") is Dictionary or not record.get("upgrade") is Dictionary): return "Saved shop item offerings or upgrade allowance are malformed."
-		if record.get("identity") != identity or not record.get("version") is int or record.version != (2 if modern else 1) or not record.get("policy_id") is String or record.policy_id != (ShopPolicy.POLICY_ID if modern else ShopPolicy.LEGACY_POLICY_ID) or not record.get("eligibility_version") is int or record.eligibility_version != ShopPolicy.ELIGIBILITY_VERSION: return "Saved shop identity or policy is invalid."
+		if record.get("identity") != identity or not record.get("version") is int or record.version != (2 if modern else 1) or not record.get("policy_id") is String or record.policy_id != (ShopPolicy.POLICY_ID if modern else ShopPolicy.LEGACY_POLICY_ID) or not record.get("eligibility_version") is int or record.eligibility_version != CataloguePolicy.eligibility_version(_setup.catalog): return "Saved shop identity or policy is invalid."
 		for field in ["rng_before", "rng_after", "entry_next_uid"]:
 			if not record.get(field) is int: return "Saved shop counters must use exact integers."
 		for field in ["eligible_ids", "slots", "transactions"]:

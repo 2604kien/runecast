@@ -46,7 +46,11 @@ func _init(validated_setup: Dictionary, seed_override: Variant = null, run_entry
 	# Loading/validation belong to the caller. Keep a private restart template and
 	# separate active copies, so input edits and gameplay cannot rewrite setup.
 	_setup = validated_setup.duplicate(true)
-	assert(seed_override == null or (seed_override is int and seed_override >= 0 and seed_override <= 2147483647), "A seed override must be an integer in [0, 2147483647].")
+	# Standalone content overrides retain their bounded schema. Saved runs have
+	# always accepted nonnegative int64 seeds and supply all three exact streams.
+	# Permit that established contract only with a fully validated matching entry.
+	var valid_run_seed: bool = not run_entry.is_empty() and seed_override == run_entry.get("seed") and validate_run_entry(_setup, run_entry).is_empty()
+	assert(seed_override == null or (seed_override is int and seed_override >= 0 and (seed_override <= 2147483647 or valid_run_seed)), "A standalone seed override must be in [0, 2147483647]; wider seeds require a validated run entry.")
 	if seed_override != null:
 		_setup.encounter.seed = seed_override
 		if _setup.has("experiment"):

@@ -1,10 +1,10 @@
 class_name RuneRouteState
 extends RefCounted
 ## Run-owned route boundary, independent of Combat and presentation.
-## Planned content references are not loadable encounters. Room adapters must
-## explicitly accept an entry before a visit can be committed.
+## Room adapters explicitly accept registered content before committing a visit.
 
 const VERSION := "rc025_route_v1"
+const EncounterResolver = preload("res://scripts/core/encounter_resolver.gd")
 const SAVE_VERSION := 1
 const PATH_LENGTH := 9
 const ROOM_IDS := ["room_normal", "room_elite", "room_event", "room_shop", "room_recovery", "room_guardian"]
@@ -82,13 +82,15 @@ static func _node(id: String, depth: int, lane: int, family: String, reference: 
 	var enemy := reference if ENEMY_NAMES.has(reference) else ""
 	var event := reference if EVENT_NAMES.has(reference) else ""
 	var display: String = str(ENEMY_NAMES.get(enemy, EVENT_NAMES.get(event, family.capitalize())))
+	if encounter.is_empty() and not enemy.is_empty(): encounter = enemy
 	return {"id": id, "depth": depth, "lane": lane, "room_id": "room_" + family, "room_type": family,
 		"room_reference": event, "enemy_id": enemy, "board_id": board, "encounter_id": encounter,
 		"encounter_role": role if not role.is_empty() else family if not enemy.is_empty() else "",
-		"title": display, "display_name": display, "next_ids": [], "content_pending": encounter != "training_shadeling"}
+		"title": display, "display_name": display, "next_ids": [], "content_pending": false}
 
-static func validate_graph(graph: Dictionary) -> Dictionary:
+static func validate_graph(graph: Dictionary, legacy_planned: bool = false) -> Dictionary:
 	var errors: Array = []
+	if legacy_planned and not is_legacy_planned_graph(graph): errors.append("The route does not match the complete historical planned-content shape.")
 	if graph.get("version") != VERSION: errors.append("Unknown route schema version.")
 	if not graph.get("seed") is int or int(graph.get("seed", -1)) < 0: errors.append("Invalid route seed.")
 	if not graph.get("route_id") is String or str(graph.get("route_id", "")).is_empty(): errors.append("Missing route identity.")
@@ -130,7 +132,12 @@ static func validate_graph(graph: Dictionary) -> Dictionary:
 			elif family == "room_guardian":
 				guardians += 1
 				if role != "guardian" or enemy != "bell_keeper": errors.append("The guardian must be distinct from Shadeling.")
-			if role != "boss" and not encounter.is_empty(): errors.append("An unauthored encounter definition cannot be invented.")
+			if legacy_planned:
+				if role != "boss" and not encounter.is_empty(): errors.append("Historical planned encounters must retain their original empty IDs.")
+				var projected: Dictionary = node.duplicate(true)
+				if role != "boss": projected.encounter_id = enemy
+				if not EncounterResolver.supported_node(projected): errors.append("Historical encounter actor, role or board is unsupported.")
+			elif not EncounterResolver.supported_node(node): errors.append("Encounter, actor, role and board must match a trusted production registration.")
 			if not str(node.get("room_reference", "")).is_empty(): errors.append("Battle rooms cannot reference an event.")
 		else:
 			if not enemy.is_empty() or not role.is_empty() or not encounter.is_empty() or not str(node.get("board_id", "")).is_empty(): errors.append("Service rooms cannot claim an encounter.")
@@ -181,6 +188,29 @@ static func validate_graph(graph: Dictionary) -> Dictionary:
 			errors.append("Every path must visit nine rooms, include the boss and recovery, and end at the guardian.")
 	if reached.size() != nodes.size(): errors.append("Unreachable authored node.")
 	return {"ok": errors.is_empty(), "errors": errors}
+
+# Compatibility is a complete historical graph shape, never permission to mix
+# authored encounters with empty IDs. History and terminal signatures are checked
+# before RunState calls migrate_planned_content(); the graph is never regenerated.
+static func is_legacy_planned_graph(graph: Dictionary) -> bool:
+	if not graph.get("nodes") is Array or graph.nodes.is_empty(): return false
+	var planned := 0
+	for node in graph.nodes:
+		if not node is Dictionary: return false
+		if node.get("encounter_role") == "boss":
+			if node.get("encounter_id") != "training_shadeling" or node.get("content_pending") != false: return false
+		elif node.get("room_id") in ["room_normal", "room_elite", "room_guardian"]:
+			if node.get("encounter_id") != "" or node.get("content_pending") != true: return false
+			planned += 1
+		elif node.get("content_pending") != true: return false
+	return planned > 0
+
+func migrate_planned_content() -> bool:
+	if not is_legacy_planned_graph(_graph): return false
+	for node in _graph.nodes:
+		if node.encounter_role in ["normal", "elite", "guardian"]: node.encounter_id = node.enemy_id
+		node.content_pending = false
+	return true
 
 static func _paths(nodes: Dictionary, entries: Array) -> Array:
 	var queue: Array = []
@@ -388,7 +418,7 @@ static func restore_save(data: Dictionary, expected_run_id: String, context: Dic
 			for field in ["id", "room_id", "room_type", "room_reference", "enemy_id", "board_id", "encounter_id", "encounter_role", "title", "display_name"]:
 				if not node.get(field) is String: return {"ok": false, "error": "Saved production route node %s is malformed." % field}
 			if not node.get("content_pending") is bool: return {"ok": false, "error": "Saved production route content availability is malformed."}
-		checked = validate_graph(graph)
+		checked = validate_graph(graph, is_legacy_planned_graph(graph))
 	if not checked.get("ok", false): return {"ok": false, "error": "Saved route graph is incompatible: " + "; ".join(checked.get("errors", []))}
 	if not context.get("allow_test_fixtures", false) and graph.route_id != "%s-%d" % [VERSION, graph.seed]: return {"ok": false, "error": "Saved production route identity disagrees with its version and seed."}
 	if not graph.get("path_length") is int: return {"ok": false, "error": "Saved route path length must use an exact integer."}

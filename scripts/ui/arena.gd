@@ -4,6 +4,7 @@ extends Control
 const Ui = preload("res://scenes/ui/theme/components.gd")
 const CRYPT = preload("res://assets/environments/crypt/environment.tscn")
 const SHADELING = preload("res://assets/enemies/shadeling/character.tscn")
+const TEMPORARY_ACTOR = preload("res://scripts/ui/temporary_enemy_actor.gd")
 const CROP := Rect2(0, 60, 841, 450)
 const FOOT := Vector2(446, 368)
 const POSE_ENVELOPE := Rect2(272, 56, 348, 336)
@@ -45,6 +46,8 @@ var reference_bleed := 0.0
 var art_clip: Control
 var environment: Node2D
 var actor: Node2D
+var shadeling_actor: Node2D
+var temporary_actor: Node2D
 var role_label: Label
 var name_label: Label
 var intent_label: Label
@@ -83,6 +86,12 @@ func _ready() -> void:
 	actor.z_index = 21
 	art_clip.add_child(actor)
 	actor.show_pose(&"neutral")
+	shadeling_actor = actor
+	temporary_actor = TEMPORARY_ACTOR.new()
+	temporary_actor.name = "TemporaryEnemy"
+	temporary_actor.z_index = 21
+	art_clip.add_child(temporary_actor)
+	temporary_actor.visible = false
 	intent_icon = Ui.combat_icon("attack", Vector2.ZERO)
 	intent_icon.name = "IntentIcon"
 	intent_icon.z_index = 22
@@ -170,7 +179,13 @@ func _sync_values() -> void:
 	if art_clip == null:
 		return
 	art_clip.visible = not compact
-	actor.visible = not compact and enemy_id == "shadeling"
+	shadeling_actor.visible = not compact and enemy_id == "shadeling"
+	temporary_actor.visible = not compact and enemy_id in TEMPORARY_ACTOR.IDS
+	if temporary_actor.visible:
+		temporary_actor.configure(enemy_id)
+		actor = temporary_actor
+	else:
+		actor = shadeling_actor
 	role_label.text = "BOSS" if enemy_id == "shadeling" and not reference_art else ""
 	role_label.visible = not role_label.text.is_empty()
 	name_label.text = enemy_name

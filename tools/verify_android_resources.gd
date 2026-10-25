@@ -29,6 +29,11 @@ func _run() -> void:
 		check(not FileAccess.file_exists(path) and not FileAccess.file_exists(path + ".remap") and not FileAccess.file_exists(path + "c"), "RC-032 fixtures and predecessor specimens remain excluded: " + path)
 	for path in ["res://tests/fixtures/rc033/enemies.json", "res://tests/fixtures/rc033/encounter.json", "res://tests/fixtures/rc033/loadouts.json", "res://tests/helpers/rc033_fixture.gd", "res://tests/rc033_manual.gd", "res://tests/rc033_ui_runner.gd"]:
 		check(not FileAccess.file_exists(path) and not FileAccess.file_exists(path + ".remap") and not FileAccess.file_exists(path + "c"), "RC-033 framework fixtures and QA remain excluded: " + path)
+	for path in ["res://tests/fixtures/rc034/play-topologies.json", "res://tests/fixtures/rc034/presentation-victories.json", "res://tests/helpers/rc034_player.gd", "res://tests/helpers/rc034_journey.gd", "res://tests/rc034_shell_runner.gd", "res://tests/rc034_adversarial_runner.gd", "res://output/qa/rc-034/content/results.json"]:
+		check(not FileAccess.file_exists(path) and not FileAccess.file_exists(path + ".remap") and not FileAccess.file_exists(path + "c"), "RC-034 legal verification helpers, topology search data and QA remain excluded: " + path)
+	for path in ["res://tests/fixtures/rc035/origins.json", "res://tests/fixtures/rc035/runes-before.json", "res://tests/rc035_catalogue_runner.gd", "res://tests/rc035_ui_runner.gd", "res://output/qa/rc-035/resources/resource-audit.json"]:
+		check(not FileAccess.file_exists(path) and not FileAccess.file_exists(path + ".remap") and not FileAccess.file_exists(path + "c"), "RC-035 predecessors, funded fixtures and QA remain excluded: " + path)
+	_verify_complete_catalogue()
 	var catalogue = load("res://scripts/audio/audio_catalogue.gd")
 	check(catalogue != null, "Shipped GDScript audio metadata loads without documentation")
 	if catalogue == null:
@@ -82,6 +87,7 @@ func _run() -> void:
 	check(load("res://scripts/core/store_policy.gd") is GDScript, "Between-room Store transaction policy is packaged")
 	check(load("res://scripts/ui/store_viewer.gd") is GDScript, "Between-room Store presentation is packaged")
 	check(load("res://scripts/ui/run_review.gd") is GDScript, "Final results and run-details presentation are packaged")
+	check(load("res://scripts/ui/temporary_enemy_actor.gd") is GDScript, "Bounded temporary enemy actor is packaged")
 	check(load("res://scripts/core/local_save.gd") is GDScript, "Versioned durable save transaction owner is packaged")
 	check(load("res://scripts/core/shop_policy.gd") is GDScript, "Registered shop policy is packaged separately from Combat configuration")
 	check(load("res://scripts/core/instance_effects.gd") is GDScript, "Shared validated per-instance upgrade resolver is packaged")
@@ -156,11 +162,17 @@ func _run() -> void:
 	application.request_node_entry(entry_node)
 	check(application.confirmation.visible, "Packed Map offers separate room entry confirmation")
 	application.confirm_node_entry()
-	check(application.run_state.snapshot() == route_snapshot and application.combat_scene == null, "Packed unsupported room reports pending without consuming route state")
-	application.close_map()
+	await process_frame
+	check(application.combat_scene != null and application.run_state.route_snapshot().visit_count == 1, "Packed ordinary route enters its registered production normal encounter")
+	var route_entry_snapshot: Dictionary = application.combat_scene.controller.snapshot() if application.combat_scene != null else {}
+	var route_entry_resources: Dictionary = application.run_state._entry_data()
+	application.request_home()
+	application.confirm_home()
+	await process_frame
 	application.continue_run()
-	check(application.map_screen.visible and application.run_state.snapshot() == route_snapshot, "Packed Continue reopens the same deterministic route")
-	application.close_map()
+	await process_frame
+	check(application.combat_scene != null and application.combat_scene.controller.snapshot() == route_entry_snapshot and application.run_state._entry_data() == route_entry_resources and application.run_state.route_snapshot().visit_count == 1, "Packed Continue replays the committed production entry without new visits or resources")
+	var route_save: Dictionary = application.run_state.export_save()
 	application.queue_free()
 	await process_frame
 	application = application_pack.instantiate()
@@ -168,10 +180,13 @@ func _run() -> void:
 	application.save_path = "user://export-shell-probe-save.json"
 	root.add_child(application)
 	await process_frame
-	check(application.run_state != null and application.run_state.snapshot() == route_snapshot, "Packaged save owner restores the exact persisted route and profile in a new shell")
+	check(application.run_state != null and application.run_state.export_save() == route_save, "Packaged save owner restores the exact persisted route and profile in a new shell")
 	application.continue_run()
-	check(application.map_screen != null and application.map_screen.visible, "Packaged persisted Continue opens the restored Map")
-	application.close_map()
+	await process_frame
+	check(application.combat_scene != null and application.combat_scene.controller.snapshot() == route_entry_snapshot, "Packaged persisted Continue reconstructs the exact production enemy entry")
+	application.request_home()
+	application.confirm_home()
+	await process_frame
 	# This decode probe, excluded from production exports, injects the explicit
 	# standalone encounter to retain RC-024 checkpoint/audio lifetime coverage.
 	var run_script = load("res://scripts/core/run_state.gd")
@@ -182,8 +197,14 @@ func _run() -> void:
 	application.persistence_context = application.run_state.restore_context_for_tests()
 	var owned_entry: Dictionary = application.run_state._entry_data()
 	for selection in [
-		{"encounter_id": "training_shadeling", "enemy_id": "shadeling", "encounter_role": "boss", "board_id": "board_gallery"},
-		{"encounter_id": "rc007_entry_probe_next", "enemy_id": "dev_calibration_wisp", "encounter_role": "development", "board_id": "board_ossuary"}
+		{"encounter_id": "training_shadeling", "enemy_id": "shadeling", "encounter_role": "boss", "board_id": "board_training"},
+		{"encounter_id": "rc007_entry_probe_next", "enemy_id": "dev_calibration_wisp", "encounter_role": "development", "board_id": "board_ossuary"},
+		{"encounter_id": "wickling", "enemy_id": "wickling", "encounter_role": "normal", "board_id": "board_gallery"},
+		{"encounter_id": "wickling", "enemy_id": "wickling", "encounter_role": "normal", "board_id": "board_ossuary"},
+		{"encounter_id": "stone_sentinel", "enemy_id": "stone_sentinel", "encounter_role": "normal", "board_id": "board_gallery"},
+		{"encounter_id": "stone_sentinel", "enemy_id": "stone_sentinel", "encounter_role": "normal", "board_id": "board_ossuary"},
+		{"encounter_id": "chain_warden", "enemy_id": "chain_warden", "encounter_role": "elite", "board_id": "board_ossuary"},
+		{"encounter_id": "bell_keeper", "enemy_id": "bell_keeper", "encounter_role": "guardian", "board_id": "board_belfry"}
 	]:
 		var resolved: Dictionary = resolver.resolve(selection, owned_entry)
 		check(resolved.get("ok", false), "Packed resolver loads one supported encounter: " + selection.encounter_id)
@@ -195,6 +216,12 @@ func _run() -> void:
 				check(battle.encounter.enemy_id == selection.enemy_id and battle.encounter.board_id == selection.board_id and battle.encounter.encounter_role == selection.encounter_role, "Packed encounter preserves selected enemy, board and role")
 				check(candidate.combat.run_handoff().owned_cards == owned_entry.owned_cards and battle.player_hp == 30 and battle.encounter.player_max_health == 30, "Packed selected loadout keeps authoritative run health and original permanent instances")
 			check(resolved.pending_choices == ["encounter_rewards"], "Packed production resolver retains required choices without granting rewards")
+			if selection.encounter_id == "bell_keeper":
+				check(resolved.setup.encounter.phase_two == {"health_threshold": 40, "intents": [12, 16, 20]}, "Packed Bell Keeper loads its authored one-threshold phase definition")
+			if selection.encounter_role != "development":
+				var policy_rules: Dictionary = load("res://scripts/core/progression_state.gd").production_rules()
+				var matching: Array = policy_rules.rules.filter(func(rule): return rule.encounter_id == selection.encounter_id and rule.encounter_role == selection.encounter_role)
+				check(matching.size() == 1 and matching[0].gold == 0 and matching[0].allow_skip, "Packed production encounter has one exact zero-Gold run-copy reward policy")
 	check(application.run_state._entry_data() == owned_entry, "Packed encounter preparation leaves the committed run entry unchanged")
 	var entered: Dictionary = application.run_state.enter_battle()
 	check(entered.ok, "Isolated standalone battle fixture enters through the shipped model")
@@ -233,6 +260,45 @@ func _run() -> void:
 	await create_timer(0.2).timeout
 	# Let this coroutine release its local resource references before shutdown.
 	call_deferred("_finish")
+
+func _verify_complete_catalogue() -> void:
+	var loader = load("res://scripts/core/content_loader.gd")
+	var effects = load("res://scripts/core/instance_effects.gd")
+	var progression = load("res://scripts/core/progression_state.gd")
+	var run_script = load("res://scripts/core/run_state.gd")
+	var loaded: Dictionary = loader.load_setup()
+	check(loaded.ok, "Packed RC-035 catalogue validates through the production loader")
+	if not loaded.ok: return
+	var expected := {
+		"spark": ["damage", 6, 2], "shield": ["shield", 5, 1],
+		"focus": ["draw", 2, 1], "conjure": ["conjure", 1, 0],
+		"ember": ["damage", 3, 1], "flare": ["damage", 10, 3],
+		"barrier": ["shield", 9, 2], "bulwark": ["shield", 13, 3],
+		"deep_focus": ["draw", 4, 2], "twin_conjure": ["conjure", 2, 1],
+		"cinder_guard": ["damage_shield", {"damage": 4, "shield": 3}, 2],
+		"ward_spark": ["damage_shield", {"damage": 2, "shield": 2}, 1],
+		"free_spark": ["damage", 6, 0]}
+	var catalog: Dictionary = loaded.setup.catalog
+	check(catalog.size() == 13, "Packed runtime exposes exactly twelve ownable plus one generated definition")
+	for id in expected:
+		var resolved: Dictionary = effects.resolve(catalog, {"id": id, "uid": 0, "upgrade_rank": 0})
+		check(resolved.ok, "Packed shared instance resolver recognizes " + id)
+		if resolved.ok:
+			var definition: Dictionary = resolved.definition
+			check([definition.effect, definition.value, definition.cost] == expected[id] and definition.temporary == (id == "free_spark"), "Packed effective values, cost and lifetime: " + id)
+	check(effects.contracts().size() == 8, "Packed catalogue reuses exactly eight upgrade contracts")
+	for id in effects.contracts():
+		check(effects.upgrade_preview(catalog, {"id": id, "uid": 0, "upgrade_rank": 0}).ok, "Packed base activates its existing upgrade contract: " + id)
+	var initial = progression.new(catalog)
+	check(initial.snapshot().unlocked_definition_ids.size() == 4, "Packed New Run profile initially unlocks only the original four")
+	var ids: Array = expected.keys()
+	ids.erase("free_spark")
+	# Explicit decoder-only profile; no gameplay save or production resources are changed.
+	var unlocked = progression.new(catalog, ids)
+	var run = run_script.new(loaded.setup, 42, true, Callable(), null, progression.production_rules(), unlocked)
+	var stock: Dictionary = run.store_snapshot()
+	check(stock.runes.size() == 12 and stock.relics.size() == 6, "Packed Store supports all twelve explicitly unlocked definitions and six relics")
+	check(stock.runes.all(func(item): return item.cost == 45) and stock.relics.all(func(item): return item.cost == 90), "Expanded packed Store retains 45/90 prices")
 
 func _playing_loops(node: Node) -> int:
 	var count := 0

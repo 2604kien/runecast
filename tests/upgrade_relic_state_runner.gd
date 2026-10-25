@@ -169,7 +169,10 @@ func _pools() -> void:
 		var owned := all.slice(0, count)
 		var offer: Dictionary = a._relic_offering(identity_a, "service", owned, 2)
 		check(offer.offered_ids.size() == mini(2, 6 - count) and offer.offered_ids.all(func(id): return not id in owned) and (offer.offered_ids.size() < 2 or offer.offered_ids[0] != offer.offered_ids[1]), "Relic pool size %d yields distinct eligible unowned offerings without compensation." % (6 - count))
-	check(not Effects.eligible(setup.catalog, {"id": "free_spark", "uid": 99, "upgrade_rank": 0}) and not Effects.eligible(setup.catalog, {"id": "ember", "uid": 100, "upgrade_rank": 0}), "Temporary and missing production bases cannot appear as upgrade targets.")
+	check(not Effects.eligible(setup.catalog, {"id": "free_spark", "uid": 99, "upgrade_rank": 0}) and Effects.eligible(setup.catalog, {"id": "ember", "uid": 100, "upgrade_rank": 0}), "Generated Free Spark is ineligible; the registered RC-035 Ember activates its existing upgrade.")
+	var legacy_catalog: Dictionary = setup.catalog.duplicate(true)
+	legacy_catalog.erase("ember")
+	check(not Effects.eligible(legacy_catalog, {"id": "ember", "uid": 100, "upgrade_rank": 0}), "Legacy catalogues with no Ember still reject its upgrade contract.")
 	check(Policy.choices(Policy.definition("room_recovery"), 10, 34, 0, Relics.recovery_amount(["relic_menders_token"], 0))[0].hp_delta == 14, "Uncapped Mender recovery is fourteen HP.")
 
 func _reliquary() -> void:

@@ -53,9 +53,12 @@ func _win(game) -> bool:
 
 func _selection(check: Callable) -> void:
 	var run := Run.new(Loader.load_setup().setup, 42, true)
+	# The real normal roster is now registered. An unregistered substitution
+	# retains the original unavailable-content/no-consumption boundary coverage.
+	run._route._nodes.d1a.encounter_id = "unregistered_rc026_probe"
 	var before: Dictionary = run.snapshot()
 	var unavailable: Dictionary = run.prepare_route_battle(run.request_room_entry("d1a").token)
-	check.call(not unavailable.ok and "not available" in unavailable.error and run.snapshot() == before, "RC-026: unavailable production normal is explanatory and consumes no visit or run state.")
+	check.call(not unavailable.ok and "not available" in unavailable.error and run.snapshot() == before, "RC-026/034: unregistered production encounter is explanatory and consumes no visit or run state.")
 	var boss: Dictionary = run.inspect_node("d6")
 	check.call(boss.enemy_id == "shadeling" and boss.encounter_role == "boss" and boss.depth == 6 and not boss.content_pending, "RC-026: Shadeling remains the supported depth-six boss; guardian stays separate.")
 	var entry: Dictionary = run._entry_data()

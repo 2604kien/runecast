@@ -197,7 +197,8 @@ func _run_stage(loaded: Dictionary) -> void:
 				if key == "version": continue
 				if key in ["shop_policy_id", "service_policy_id"]: continue
 				var legacy_shape = preload("res://tests/helpers/legacy_card_shape.gd")
-				check(legacy_shape.strip_new_defaults(subject.export_save()[key]) == legacy_shape.strip_new_defaults(loaded.payload.run[key]), "Migration preserves predecessor " + key + " with explicit rank-zero defaults.")
+				var expected: Variant = preload("res://tests/helpers/legacy_route_shape.gd").expected_hydration(loaded.payload.run[key]) if key == "route" else loaded.payload.run[key]
+				check(legacy_shape.strip_new_defaults(subject.export_save()[key]) == legacy_shape.strip_new_defaults(expected), "Migration preserves predecessor " + key + " with explicit rank-zero defaults and only registered planned-route ID/availability hydration.")
 			check(subject.export_save().version == Run.SAVE_VERSION, "Predecessor reconstructs the current versioned extension.")
 		"migration_fail":
 			store.failure_point = "replace"

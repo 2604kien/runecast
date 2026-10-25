@@ -1,4 +1,8 @@
 [
   {"id": "shadeling", "name": "Shadeling", "max_health": 32, "intents": [8, 12, 6]},
-  {"id": "dev_calibration_wisp", "name": "Calibration Wisp", "max_health": 45, "intents": [3, 7, 5]}
+  {"id": "dev_calibration_wisp", "name": "Calibration Wisp", "max_health": 45, "intents": [3, 7, 5]},
+  {"id": "wickling", "name": "Wickling", "max_health": 26, "intents": [6, 6, 10]},
+  {"id": "stone_sentinel", "name": "Stone Sentinel", "max_health": 42, "intents": [5, 13, 5]},
+  {"id": "chain_warden", "name": "Chain Warden", "max_health": 58, "intents": [8, 8, 18]},
+  {"id": "bell_keeper", "name": "Bell Keeper", "max_health": 80, "intents": [8, 12, 16], "phase_two": {"health_threshold": 40, "intents": [12, 16, 20]}}
 ]

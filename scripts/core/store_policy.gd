@@ -3,16 +3,17 @@ extends RefCounted
 
 # Menu supplies are a fixed, run-only catalogue. Route shops keep their own
 # stock, allowances and lower prices; this policy consumes no random stream.
-const VERSION := 1
-const POLICY_ID := "rc032_store_v1"
+const VERSION := 2
+const POLICY_ID := "rc035_store_v2"
+const LEGACY_POLICY_ID := "rc032_store_v1"
 const RUNE_PRICE := 45
 const RELIC_PRICE := 90
 
-static func empty_state() -> Dictionary:
-	return {"version": VERSION, "policy_id": POLICY_ID, "transactions": []}
+static func empty_state(legacy: bool = false) -> Dictionary:
+	return {"version": 1 if legacy else VERSION, "policy_id": LEGACY_POLICY_ID if legacy else POLICY_ID, "transactions": []}
 
 static func validate_structure(value: Variant) -> String:
-	if not value is Dictionary or value.size() != 3 or not value.get("version") is int or value.version != VERSION or not value.get("policy_id") is String or value.policy_id != POLICY_ID or not value.get("transactions") is Array or value.transactions.size() > 2:
+	if not value is Dictionary or value.size() != 3 or not value.get("version") is int or not value.version in [1, VERSION] or not value.get("policy_id") is String or value.policy_id != (LEGACY_POLICY_ID if value.version == 1 else POLICY_ID) or not value.get("transactions") is Array or value.transactions.size() > 2:
 		return "Saved Store policy or allowance is malformed."
 	var kinds := {}
 	for receipt in value.transactions:

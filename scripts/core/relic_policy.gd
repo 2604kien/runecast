@@ -11,7 +11,7 @@ const DEFINITIONS := {
 	"relic_ward_seal": {"id": "relic_ward_seal", "name": "Ward Seal", "hook": "final_shield", "value": 2, "description": "Add 2 shield once after End aggregation when the cast already grants shield. No benefit on Pass."},
 	"relic_opening_tome": {"id": "relic_opening_tome", "name": "Opening Tome", "hook": "opening_draw", "value": 1, "description": "Draw one extra owned card after the normal opening draw of each battle."},
 	"relic_copper_coil": {"id": "relic_copper_coil", "name": "Copper Coil", "hook": "opening_energy", "value": 1, "description": "Gain 1 energy on the first turn of each battle. Later turns use normal energy."},
-	"relic_menders_token": {"id": "relic_menders_token", "name": "Mender's Token", "hook": "recovery", "value": 4, "description": "Recovery rooms restore 4 extra HP, capped at maximum HP. Blood Tithe is unchanged."},
+	"relic_menders_token": {"id": "relic_menders_token", "name": "Mender's Token", "hook": "recovery", "value": 4, "description": "Recovery rooms restore 4 extra HP, capped at maximum HP. No Combat or Blood Tithe effect."},
 	"relic_heart_stone": {"id": "relic_heart_stone", "name": "Heart Stone", "hook": "acquisition_health", "value": 4, "description": "On acquisition outside combat, gain 4 maximum HP and 4 current HP once."}
 }
 

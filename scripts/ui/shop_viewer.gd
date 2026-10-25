@@ -243,6 +243,9 @@ func inspect_slot(slot_id: String) -> void:
 	_begin_modal("item", str(_catalog.get(slot.definition_id, {}).get("name", "Rune")))
 	_selected_slot = slot_id
 	_add_card(_modal_body, str(slot.definition_id))
+	var detail := CollectionData.definition_card(_catalog, str(slot.definition_id))
+	if detail.get("inspection", "") != detail.get("description", ""):
+		_modal_body.add_child(Ui.label(str(detail.inspection), "body", 16))
 	_modal_body.add_child(Ui.label("Sold" if slot.get("sold", false) else "%d Gold" % slot.price, "body", 18))
 	modal_action.text = "Buy · %d Gold" % slot.price
 	modal_action.visible = not slot.get("sold", false)

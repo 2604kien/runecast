@@ -8,6 +8,7 @@ var _event: Dictionary = {}
 var _before: Dictionary = {}
 var _progress := 0.0
 var _reduced := false
+var _contact_fraction := -1.0
 var _cast_lights: Dictionary = {}
 var _technique_card: WeakRef
 var _technique_scale := Vector2.ONE
@@ -22,11 +23,12 @@ func _process(delta: float) -> void:
 	tick.emit(delta)
 	queue_redraw()
 
-func sample_event(event: Dictionary, before: Dictionary, progress: float, reduced: bool) -> void:
+func sample_event(event: Dictionary, before: Dictionary, progress: float, reduced: bool, contact_fraction := -1.0) -> void:
 	_event = event
 	_before = before
 	_progress = progress
 	_reduced = reduced
+	_contact_fraction = contact_fraction
 	_update_slot_lights()
 	_sample_technique_card()
 	set_process(true)
@@ -123,7 +125,11 @@ func _draw() -> void:
 		"shield":
 			if int(_event.amount) > 0: _stat_label(view.stat_values.health, style.shield_color, view, "+%d shield" % _event.amount)
 		"retaliation":
-			if _progress >= 0.5 or _reduced:
+			# Registered actors share their explicit presentation contact with
+			# audio. Retain the old visual-only timing for excluded/unbound
+			# fixtures; that fallback never invents actor metadata or a cue.
+			var text_contact := _contact_fraction if _contact_fraction >= 0.0 else (0.0 if _reduced else 0.5)
+			if _progress >= text_contact:
 				var label := "%d blocked" % _event.blocked if int(_event.applied) == 0 else "−%d HP" % _event.applied
 				if int(_event.blocked) > 0 and int(_event.applied) > 0: label = "%d blocked · %s" % [_event.blocked, label]
 				_stat_label(view.stat_values.health, style.shield_color if int(_event.applied) == 0 else style.damage_color, view, label)

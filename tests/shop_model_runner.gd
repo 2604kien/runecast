@@ -240,7 +240,8 @@ func _migrations() -> void:
 		for key in loaded.payload.run:
 			if key == "version": continue
 			var legacy_shape = preload("res://tests/helpers/legacy_card_shape.gd")
-			check(legacy_shape.strip_new_defaults(migrated[key]) == legacy_shape.strip_new_defaults(loaded.payload.run[key]), "Migration preserves legacy " + key + " with explicit unupgraded instance defaults.")
+			var expected: Variant = preload("res://tests/helpers/legacy_route_shape.gd").expected_hydration(loaded.payload.run[key]) if key == "route" else loaded.payload.run[key]
+			check(legacy_shape.strip_new_defaults(migrated[key]) == legacy_shape.strip_new_defaults(expected), "Migration preserves legacy " + key + " with explicit unupgraded defaults and only registered planned-route ID/availability hydration.")
 		var payload := {"profile": loaded.payload.profile, "run": migrated}
 		store.failure_point = "replace"
 		var failed: Dictionary = store.commit(payload, loaded.revision)

@@ -1092,7 +1092,7 @@ func _store_purchase_requested(identity: Dictionary, kind: String, definition_id
 	var benefit := str(selected.get("description", ""))
 	if kind == "rune":
 		var card := preload("res://scripts/ui/collection_data.gd").definition_card(_collection_catalog(), definition_id)
-		benefit = "%s\nEnergy: %d\n\nOne rank-zero copy for later battles. Run only." % [str(card.get("description", benefit)), int(card.get("cost", 0))]
+		benefit = "%s\nEnergy: %d\n\nOne rank-zero copy for later battles. Run only." % [str(card.get("inspection", card.get("description", benefit))), int(card.get("cost", 0))]
 	else:
 		benefit += "\n\nUnique relic · run only."
 	store_screen.set_blocked(true)
@@ -1247,7 +1247,7 @@ func _reward_display_record(record: Dictionary) -> Dictionary:
 	var unlock: bool = record.get("kind") == "definition_unlock"
 	match str(record.get("resolution", "pending")):
 		"chosen": lines.append("Rune claimed: %s · new owned UID %d." % [str(record.get("chosen_id", "")).capitalize(), record.get("granted_uid", -1)])
-		"unlocked": lines.append("Definition unlocked: %s. Future reward/shop eligibility; starter unchanged." % str(record.get("chosen_id", "")).capitalize())
+		"unlocked": lines.append("Definition unlocked: %s. Future rewards, shops and Store entries; starter unchanged." % str(record.get("chosen_id", "")).capitalize())
 		"exhausted": lines.append("No new implemented definition remains to unlock. No permanent award or compensation.")
 		"skipped": lines.append("Rune choice skipped. No card was granted.")
 		_: lines.append("Unlock one new definition." if unlock else "Choose one rune for this run, or Skip.")

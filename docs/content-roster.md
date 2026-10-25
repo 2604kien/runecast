@@ -1,5 +1,39 @@
 # Rune Cast first-release content roster
 
+## October 25, 2026 — RC-035 current catalogue
+
+The runtime catalogue now contains **twelve ownable definitions plus one generated definition**. This section supersedes the earlier statements below that the additional bases are missing or that all implemented permanent milestones are exhausted. Spark, Shield, Focus and Conjure are initially unlocked; the eight added definitions are initially locked. The unchanged starter has two of each original definition. An accepted Shadeling or guardian definition unlock persists across runs, adds no owned copy, and enables future eligible reward/shop/Store offerings. Generated Free Spark is excluded from ownership, saves, upgrades and every acquisition pool.
+
+| ID / name | Effect | Energy | Rank-one effect |
+| --- | --- | --- | --- |
+| `spark` / Spark | 6 damage | 2 | 8 damage |
+| `shield` / Shield | 5 shield | 1 | 7 shield |
+| `focus` / Focus | Draw up to 2 | 1 | Draw up to 3 |
+| `conjure` / Conjure Spark | Create 1 temporary Free Spark | 0 | Create 2 |
+| `ember` / Ember | 3 damage | 1 | 4 damage |
+| `flare` / Flare | 10 damage | 3 | 13 damage |
+| `barrier` / Barrier | 9 shield | 2 | 11 shield |
+| `bulwark` / Bulwark | 13 shield | 3 | None |
+| `deep_focus` / Deep Focus | Draw up to 4 | 2 | None |
+| `twin_conjure` / Twin Conjure | Create 2 temporary Free Sparks | 1 | None |
+| `cinder_guard` / Cinder Guard | 4 damage AND 3 shield | 2 | 6 damage AND 4 shield |
+| `ward_spark` / Ward Spark | 2 damage AND 2 shield | 1 | None |
+| `free_spark` / Free Spark — generated only | 6 damage; expires after Cast/Pass | 0 | None |
+
+Effect runes keep straight ports. Mixed contributions propagate through Split/Join with one physical rune payment. Techniques activate immediately through the guarded command path. The existing six unique relic contracts remain authoritative: Ember Lens +2 positive final damage, Ward Seal +2 positive final shield (neither bonus on Pass), Opening Tome one extra owned opening draw, Copper Coil +1 first-turn energy, Mender's Token +4 capped recovery-only healing, and Heart Stone +4 current/max HP once on acquisition outside Combat. All relic ownership lasts for the run.
+
+Existing runs retain their complete historical catalogue and policies until they end; **New Run** enables expanded registration without automatically unlocking the added definitions. Retained offers and exhausted receipts never reroll or reopen. The Store remains 45 Gold per rune, 90 per relic and one purchase per category per run. Battle Gold stays zero; fixture funding does not demonstrate affordability. [Compatibility, reproduction and evidence](rc-035-verification.md).
+
+Family glyphs remain temporary presentation for Ember/Flare (damage), Barrier/Bulwark (shield), Deep Focus (draw), Twin Conjure (conjure) and Cinder Guard/Ward Spark (mixed). All eight dedicated rune mappings and six dedicated relic icons remain **RC-041** work; final integration remains **RC-042**. No new image/audio assets are claimed. RC-036 retains final economy and balance; RC-023 human/device acceptance remains open.
+
+## October 25, 2026 — RC-034 production encounters
+
+Ordinary New Run now registers Wickling (26 HP; 6/6/10), Stone Sentinel (42; 5/13/5), Chain Warden (58; 8/8/18), preserved Shadeling (32; 8/12/6), and Bell Keeper (80; 8/12/16, threshold 40 then 12/16/20). Both normals support Gallery/Ossuary, elite Ossuary, depth-six Shadeling Training with explicit boss role, and depth-nine guardian Belfry. Shared board generation/resources remain unchanged. [Contract, compatibility, walkthroughs and verification](rc-034-verification.md).
+
+Every exact registered victory offers up to three eligible implemented rune definitions, Choose a fresh run copy or Skip, with explicitly zero battle Gold. Shadeling/guardian also resolve the accepted permanent-definition milestone, currently exhausted in an ordinary profile. Elite relic rewards and final income remain RC-036. Older 15/30-Gold room proposals and affordability arithmetic below are historical, not enabled defaults. The separate 45/90-Gold Store cannot be funded by this zero-battle-income route; Tithe can fund some route-shop services at an HP cost.
+
+All five enemies have legal ordinary-starter victories; normal seed 1 completes the tower. The recorded 64 elite attempts do not demonstrate a full win. Values remain provisional and unchanged. New enemies use intentional code-native temporary tokens; RC-037–040/042 retain packs/final integration. Dodge remains deferred with no gameplay effect. Technical delivery does not waive RC-023 human/device acceptance or complete RC-035/036. The RC-033 paragraph below records the earlier framework-only state.
+
 **October 25 RC-033 framework:** deterministic scalar patterns and one optional threshold/second sequence are implemented; [schema, exact announced-attack timing and excluded fixture](rc-033-verification.md). The fixture uses the provisional 80 HP, 8/12/16, threshold ≤40, then 12/16/20 values without registering Bell Keeper or authoring production encounters. RC-034 still owns final definitions, tuning, board assignments and pools; RC-037–040 retain character packs. Shadeling remains the distinct map boss with 32 HP and 8/12/6, stable IDs and retained historical/production fixtures. Its dodge-like hit pose adds no dodge mechanic.
 
 **Current Store acceptance, October 25:** the owner accepted and authorized the retained Store contract. Its current rune catalogue is precisely Spark, Shield, Focus and Conjure Spark, filtered by permanent unlock eligibility; it also lists the six existing relics. RC-035 must explicitly register future definitions compatibly with profile/purchase history. Existing route shops, UID upgrades, relic effects and free permanent definition awards remain unchanged. [Exact accepted contract](decisions.md#october-25-2026--store-defaults-accepted-and-production-enablement-authorized).

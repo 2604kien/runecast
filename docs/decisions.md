@@ -1,5 +1,21 @@
 # Rune Cast decisions
 
+## October 25, 2026 — RC-035 bounded catalogue expansion
+
+The owner's RC-035 request authorizes exactly twelve ownable rune/technique definitions plus generated temporary Free Spark, using the existing eight per-instance upgrade contracts and six unique run-only relic hooks. Spark, Shield, Focus and Conjure remain initially unlocked; the eight-card starter, original values/ports, production encounters and zero battle Gold remain unchanged. The eight added definitions start locked. Shadeling and guardian milestones offer a still-locked supported definition; choosing it persists eligibility without giving a run copy or changing the starter. Eligible future rewards, route shops and the separate Store may then offer copies.
+
+**Compatibility boundary: New Run.** A retained run finishes with its original complete trusted catalogue and versioned eligibility policies. Historical configurations, signatures, offers, exhausted milestones, stock, receipts, prices, allowances and RNG keep their original interpretation. No old milestone is reopened. Newly created runs use the expanded registration while preserving profile unlocks. Historical catalogue candidates come from local trusted definitions, never executable saved data or arbitrary subsets. Profile validation remains compatible with either retained run catalogue. Durable changes continue to use clone → validate/save → publish, retaining the same candidate for Retry and durable progress for restart.
+
+The separate Store keeps its fixed unlocked catalogue, six relics, 45/90 run-Gold prices, one rune and one relic purchase total per run, fresh rank-zero rune UIDs and unique relic ownership across sources. Route-shop prices/services remain separate. No perks, consumables, equipment, crafting, unlock purchases, statuses, healing runes or energy-generating runes are authorized. Dedicated art remains RC-041/042; economy/income/elite relic rewards remain RC-036. RC-023 remains the prerequisite for full human/device acceptance. [Technical handoff and actual verification](rc-035-verification.md).
+
+## October 25, 2026 — RC-034 production encounter scope
+
+The owner's RC-034 request supplies Wickling 26 HP / 6–6–10, Stone Sentinel 42 / 5–13–5, Chain Warden 58 / 8–8–18 and Bell Keeper 80 / 8–12–16, with guardian threshold 40 then 12–16–20. Preserve Shadeling 32 / 8–12–6, the ordinary starter/resources/rules and seeded nine-visit structure. Both normals use Gallery/Ossuary, elite Ossuary, depth-six boss Training and separate final guardian Belfry. These are verification baselines, not proven final balance.
+
+Every exact registered victory uses the accepted October 22 rune-copy contract; Shadeling/guardian also resolve the permanent-definition milestone. All battle Gold is explicitly zero. Final income and elite relic integration remain RC-036; old 15/30-Gold proposals and excluded 250-Gold fixture funding are not defaults. Placeholder tokens are temporary presentation, not character-pack delivery. Dodge remains deferred with no evasion/negation. Genuine older route/history/signatures must validate before filling planned references; no regeneration or arbitrary saved paths.
+
+Independent implementation and desktop verification may proceed while **RC-023 remains a prerequisite for full acceptance**. No deferred mobile builds/signing, new packs/music, extra phases or mechanics are required. [Technical delivery, ordinary victories, elite failures and limits](rc-034-verification.md).
+
 ## October 25, 2026 — RC-033 bounded enemy intent framework
 
 The owner's RC-033 request authorizes deterministic repeating scalar attacks and one optional HP threshold leading to one second repeating sequence. Current-turn announced retaliation stays fixed when Cast damage crosses the threshold, resolves using that Cast's shield, and is followed by normal cleanup. If both survive, phase two starts at its first attack on the next playable turn; lethal enemy/player outcomes suppress transition. State belongs to the battle, with immutable configuration, detached inspection/events and no RNG for cycling. Existing no-phase configuration signatures and run v6/profile v1/local-envelope persistence remain intact.

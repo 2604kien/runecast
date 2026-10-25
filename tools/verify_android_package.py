@@ -24,6 +24,8 @@ PRODUCTION_DATA = (
     "runes.json", "enemies.json", "production_boards.json",
     "production_loadouts.json", "production_rules.json", "production_encounter.json",
     "production_next_encounter.json", "production_transition_encounter.json",
+    "production_wickling_encounter.json", "production_stone_sentinel_encounter.json",
+    "production_chain_warden_encounter.json", "production_bell_keeper_encounter.json",
 )
 ATTRIBUTION = ("assets/fonts/ATTRIBUTION.txt", "assets/fonts/ui/OFL.NotoSerif.txt")
 LIVE_REFERENCE = (
@@ -49,6 +51,7 @@ APPLICATION_RUNTIME = (
     "scripts/ui/application_shell.gd",
     "scripts/ui/reward_viewer.gd",
     "scripts/ui/run_review.gd",
+    "scripts/ui/temporary_enemy_actor.gd",
     "scripts/core/store_policy.gd",
     "scripts/ui/store_viewer.gd",
     "scripts/ui/shop_viewer.gd",
@@ -60,6 +63,7 @@ APPLICATION_RUNTIME = (
     "scripts/core/shop_policy.gd",
     "scripts/core/service_policy.gd",
     "scripts/core/instance_effects.gd",
+    "scripts/core/catalogue_policy.gd",
     "scripts/core/relic_policy.gd",
     "scripts/core/progression_state.gd",
     "scripts/core/route_state.gd",

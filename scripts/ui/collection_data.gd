@@ -70,6 +70,7 @@ static func instance_card(catalog: Dictionary, instance: Dictionary) -> Dictiona
 	return {"id": str(instance.get("id", instance.get("rune_id", ""))), "uid": int(instance.get("uid", -1)), "upgrade_rank": int(instance.get("upgrade_rank", 0)), "name": InspectionData.display_name(rune), "cost": int(rune.cost), "icon": icon,
 		"kind": "technique" if rune.get("type") == "technique" else str(rune.get("effect", "mixed")),
 		"type": str(rune.get("type", "rune")), "description": InspectionData._effect({"catalog": catalog}, rune),
+		"inspection": InspectionData.detail_effect({"catalog": catalog}, rune),
 		"temporary": bool(rune.get("temporary", false)), "compact": true, "compact_height": 176}
 
 static func upgrade_text(catalog: Dictionary, instance: Dictionary) -> String:

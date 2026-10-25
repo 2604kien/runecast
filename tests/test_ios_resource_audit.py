@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
 import struct
@@ -83,6 +84,28 @@ class ActualPackPolicyTests(unittest.TestCase):
     def test_actual_export_passes(self):
         self.assertEqual(self.failures(self.resources), [])
 
+    def test_missing_rc034_encounter_is_rejected(self):
+        for enemy in ("wickling", "stone_sentinel", "chain_warden", "bell_keeper"):
+            path = f"data/production_{enemy}_encounter.json"
+            with self.subTest(enemy=enemy):
+                resources = self.resources.copy()
+                resources.pop(path, None)
+                self.assertTrue(any(check.get("path") == path
+                                    for check in self.failures(resources)))
+
+    def test_catalogue_missing_definition_or_changed_lifetime_is_rejected(self):
+        original = json.loads(self.resources["data/runes.json"])
+        for rune_id in ("ember", "flare", "barrier", "bulwark", "deep_focus",
+                        "twin_conjure", "cinder_guard", "ward_spark"):
+            with self.subTest(missing=rune_id):
+                resources = self.resources.copy()
+                resources["data/runes.json"] = json.dumps([item for item in original if item["id"] != rune_id]).encode()
+                self.assertTrue(any("exactly twelve" in check["description"] for check in self.failures(resources)))
+        altered = [dict(item, temporary=False) if item["id"] == "free_spark" else item for item in original]
+        resources = self.resources.copy()
+        resources["data/runes.json"] = json.dumps(altered).encode()
+        self.assertTrue(any(check.get("definition_id") == "free_spark" for check in self.failures(resources)))
+
     def test_missing_imported_audio_rejected_despite_workspace_source(self):
         resources = self.resources.copy()
         sample = next(name for name in resources if name.endswith(".sample"))
@@ -112,8 +135,10 @@ class ActualPackPolicyTests(unittest.TestCase):
             "scripts/core/shop_policy.gd", "scripts/ui/shop_viewer.gd",
             "scripts/core/service_policy.gd", "scripts/ui/service_viewer.gd",
             "scripts/core/instance_effects.gd", "scripts/core/relic_policy.gd",
+            "scripts/core/catalogue_policy.gd",
             "scripts/core/encounter_resolver.gd",
             "scripts/core/progression_state.gd",
+            "scripts/ui/temporary_enemy_actor.gd",
             "scripts/ui/reward_viewer.gd", "scripts/ui/collection_viewer.gd",
             "scripts/ui/collection_data.gd",
             "scripts/ui/route_map_canvas.gd", "scripts/ui/route_map_symbol.gd",

@@ -1,5 +1,7 @@
 # RC-025 — Branching routes and the Map
 
+**October 25 RC-034 integration:** ordinary New Run now binds all real production enemies, including both normal/board alternatives, depth-six Shadeling and separate final Bell Keeper. Exact registration rejects mismatches before entry. Genuine older all-planned routes validate original history/signatures before narrow reference hydration; graph/visit identities, edges, choices and RNG remain. Terminal old graphs remain untouched. [Current route behavior, compatibility and real playthroughs](rc-034-verification.md). The original structural/missing-content evidence below remains historical.
+
 **October 23 persistence update:** [RC-028](rc-028-verification.md) now persists the authoritative raw graph, visit history, choice locks and random state. The snapshots described below remain presentation APIs, not restoration formats. Original structural evidence is retained.
 
 **October 21 superseding integration:** [RC-026](rc-026-verification.md) adds real handlers for supported validated encounters, transactional scene entry and visit-scoped result/replay ownership. Missing production opening enemies and service rooms remain explanatory and non-mutating. Two genuine Wisp victories are demonstrated only in its excluded, reward-free integration fixture. The original structural evidence below is retained.

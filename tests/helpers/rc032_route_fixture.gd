@@ -16,6 +16,7 @@ const FIXTURE_SOURCES := {
 class FixtureRoute extends Route:
 	func _init(run_id: String, seed: int) -> void:
 		super(run_id, seed)
+		preload("res://tests/helpers/legacy_route_shape.gd").retain(self)
 		_graph.route_id = "rc032_full_route_fixture-%d" % seed
 		_graph.display_name = "RC-032 development fixture"
 		for node in _graph.nodes:
